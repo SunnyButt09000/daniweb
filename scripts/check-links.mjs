@@ -3,7 +3,7 @@ import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const dist = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
+const dist = process.env.VX_OUT || join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 const files = [];
 const walk = (d) => readdirSync(d).forEach((f) => { const p = join(d, f); statSync(p).isDirectory() ? walk(p) : p.endsWith('.html') && files.push(p); });
 walk(dist);

@@ -3,7 +3,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { products, categories, colours } from './src/content/products.mjs';
@@ -14,7 +14,8 @@ import { documentShell } from './lib/layout.mjs';
 import * as P from './lib/pages.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
-const out = join(root, 'dist');
+// VX_OUT lets a second build run side by side (e.g. previews) without touching ./dist
+const out = process.env.VX_OUT ? resolve(process.env.VX_OUT) : join(root, 'dist');
 const site = JSON.parse(readFileSync(join(root, 'src/data/site.json'), 'utf8'));
 site.url = site.url.replace(/\/$/, '');
 
@@ -22,7 +23,7 @@ const data = { products, categories, colours, repairs, services, faqs: faqGroups
 
 // cache-busting version from asset contents
 const hash = createHash('sha1');
-for (const f of ['css/main.css', 'js/main.js', 'js/draw.js', 'js/forms.js', 'js/faq.js', 'js/assistant.js']) {
+for (const f of ['css/main.css', 'css/assistant.css', 'js/main.js', 'js/draw.js', 'js/forms.js', 'js/faq.js', 'js/assistant.js']) {
   hash.update(readFileSync(join(root, 'src/assets', f)));
 }
 hash.update(JSON.stringify(site));
