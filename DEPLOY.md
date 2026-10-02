@@ -76,6 +76,16 @@ Aapke screenshot ke mutabiq abhi nameservers `atlas.dns-parking.com` aur `hyperi
    | Build output directory | `dist` |
 4. **Save and Deploy**. 1–2 minute mein website `https://veltrix.pages.dev` par live ho jayegi. Ise khol kar check karein.
 
+### Step 4 (doosra raasta) — GitHub ke baghair, zip upload kar ke
+
+Agar GitHub connect nahi ho raha to website ka tayyar zip (`veltrix-website.zip`) seedha upload kar sakte hain:
+1. Cloudflare → **Workers & Pages** → **Create** → **Pages** → **Upload assets** (Direct Upload).
+2. Project name `veltrix` → **Create project** → zip file drag & drop karein → **Deploy site**.
+3. Phir Step 5 se aage barhein.
+
+Note: Is tareeqe mein har update ke baad naya zip upload karna parta hai. Git wala tareeqa automatic hai, isliye baad mein GitHub connect kar ke naya Pages project Git ke saath bana lena behtar hai (Direct Upload project baad mein Git par switch nahi hota).
+Zip khud banane ke liye: `node build.mjs` chala kar `dist` folder ka andar ka saara content zip karein.
+
 ## Step 5 — Domain ko website se jorna
 
 1. Pages project → **Custom domains** → **Set up a custom domain** → `veltrixwindowsdoor.co.uk` → Continue → **Activate domain**.
