@@ -12,6 +12,8 @@ export const products = [
   /* ---------------- WINDOWS ---------------- */
   {
     slug: 'casement-windows',
+    tag: "Most popular",
+    chips: ["Side-hung", "Top-hung", "Fixed"],
     category: 'windows',
     name: 'Casement windows',
     short: 'The UK’s most fitted window. Side-hung, top-hung and fixed lights in any layout.',
@@ -38,6 +40,8 @@ export const products = [
   },
   {
     slug: 'flush-casement-windows',
+    tag: "Period look",
+    chips: ["Timber look", "Heritage colours"],
     category: 'windows',
     name: 'Flush casement windows',
     short: 'Sashes that sit flush in the frame for the look of traditional timber joinery.',
@@ -64,6 +68,8 @@ export const products = [
   },
   {
     slug: 'tilt-and-turn-windows',
+    tag: "Flats & upper floors",
+    chips: ["Tilt", "Turn inward"],
     category: 'windows',
     name: 'Tilt & turn windows',
     short: 'Tilts in at the top for secure ventilation, swings fully inward for cleaning and escape.',
@@ -90,6 +96,8 @@ export const products = [
   },
   {
     slug: 'sash-windows',
+    tag: "Victorian & Georgian",
+    chips: ["Vertical slider", "Tilt-in clean"],
     category: 'windows',
     name: 'Sash windows',
     short: 'Vertical sliders that keep the proportions of a Victorian or Georgian box sash.',
@@ -116,6 +124,8 @@ export const products = [
   },
   {
     slug: 'bay-and-bow-windows',
+    tag: "Front rooms",
+    chips: ["3\u20135 facets", "Bay poles"],
     category: 'windows',
     name: 'Bay & bow windows',
     short: 'Three, four or five facets that bring in light from several directions.',
@@ -142,6 +152,8 @@ export const products = [
   },
   {
     slug: 'sliding-windows',
+    tag: "Tight spaces",
+    chips: ["No projection", "2\u20133 panes"],
     category: 'windows',
     name: 'Horizontal sliding windows',
     short: 'Side-to-side sliders that never project inside or out.',
@@ -166,6 +178,8 @@ export const products = [
   },
   {
     slug: 'shaped-and-feature-windows',
+    tag: "Bespoke",
+    chips: ["Arches", "Apex", "Circles"],
     category: 'windows',
     name: 'Shaped & feature windows',
     short: 'Arches, gable apexes, circles and large fixed picture windows.',
@@ -192,6 +206,8 @@ export const products = [
   /* ---------------- DOORS ---------------- */
   {
     slug: 'upvc-doors',
+    tag: "Great value",
+    chips: ["Multipoint lock", "Anti-snap"],
     category: 'doors',
     name: 'uPVC front & back doors',
     short: 'Reinforced uPVC entrance doors with multipoint locks and anti-snap cylinders.',
@@ -217,6 +233,8 @@ export const products = [
   },
   {
     slug: 'composite-doors',
+    tag: "Premium front door",
+    chips: ["Insulated core", "PAS 24 options"],
     category: 'doors',
     name: 'Composite doors',
     short: 'Insulated core and a timber-look GRP skin — the premium front door.',
@@ -243,6 +261,8 @@ export const products = [
   },
   {
     slug: 'french-doors',
+    tag: "Garden access",
+    chips: ["Opens fully", "Shoot bolts"],
     category: 'doors',
     name: 'French doors',
     short: 'A pair of glazed doors that open fully to the garden.',
@@ -267,6 +287,8 @@ export const products = [
   },
   {
     slug: 'patio-doors',
+    tag: "Wide openings",
+    chips: ["2\u20134 panels", "Anti-lift"],
     category: 'doors',
     name: 'Sliding patio doors',
     short: 'Large glass panels gliding on tandem rollers — no swing space needed.',
@@ -292,6 +314,8 @@ export const products = [
   },
   {
     slug: 'bifold-doors',
+    tag: "Whole-wall opening",
+    chips: ["Traffic door", "Low threshold"],
     category: 'doors',
     name: 'Bi-fold doors',
     short: 'Panels fold and stack to one side to open a whole wall to the garden.',
@@ -317,6 +341,8 @@ export const products = [
   },
   {
     slug: 'stable-doors',
+    tag: "Kitchens & cottages",
+    chips: ["Split leaves", "Full locking"],
     category: 'doors',
     name: 'Stable doors',
     short: 'Split top and bottom leaves — fresh air in, children and pets kept in.',

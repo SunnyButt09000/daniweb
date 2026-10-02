@@ -4,7 +4,8 @@ Marketing website for **Veltrix Windows & Doors** (veltrixwindowsdoor.co.uk): uP
 
 - **48 static pages**: home, 7 window and 6 door product pages, 8 repair categories, 4 services, quote builder, booking, contact, FAQ, 6 guides, guarantee, about, privacy, cookies, terms, accessibility and 404.
 - **Website assistant (chatbot)**: answers from the site’s own content, guides visitors through quote and repair requests, and hands over to WhatsApp. It runs fully in the browser, so there is no API key and no cost.
-- **WhatsApp quotes**: the quote builder (sizes in mm, total area in m²), the booking form and the contact form all compose a tidy message and open WhatsApp. Email is offered as an alternative.
+- **Visual quote configurator**: the visitor picks a window or door and types the width and height on the dimension lines of a live drawing. The drawing follows the size, colour, glass and hinge side. They add each item to a numbered schedule (W1, D1…), which they can edit, duplicate or remove, then send it to WhatsApp as a professional message with a reference number. A PNG quote sheet with every drawing can be saved and attached.
+- **WhatsApp booking and contact**: the booking and contact forms also compose a tidy message and open WhatsApp. Email is offered as an alternative.
 - **SEO**: unique titles and descriptions, canonical URLs, Open Graph image, JSON-LD (LocalBusiness, Service, FAQPage, Article, BreadcrumbList), `sitemap.xml` and `robots.txt`.
 - **Fast and private**: no frameworks, self-hosted fonts, no tracking cookies, security headers via `_headers`.
 - **Checked**: valid HTML (html-validate), no broken internal links, axe-core accessibility checks (WCAG 2.2 AA rules), and no horizontal scroll at 390px wide.

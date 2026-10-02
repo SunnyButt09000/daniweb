@@ -22,7 +22,7 @@ const data = { products, categories, colours, repairs, services, faqs: faqGroups
 
 // cache-busting version from asset contents
 const hash = createHash('sha1');
-for (const f of ['css/main.css', 'js/main.js', 'js/forms.js', 'js/faq.js', 'js/assistant.js']) {
+for (const f of ['css/main.css', 'js/main.js', 'js/draw.js', 'js/forms.js', 'js/faq.js', 'js/assistant.js']) {
   hash.update(readFileSync(join(root, 'src/assets', f)));
 }
 hash.update(JSON.stringify(site));

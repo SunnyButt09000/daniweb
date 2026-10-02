@@ -172,4 +172,80 @@
       out.textContent = ok == null ? 'Please enter a postcode.' : ok ? `Yes — we cover ${v.toUpperCase()}.` : `${v.toUpperCase()} may be outside our usual area — message us and we’ll check.`;
     })
   );
+
+  /* ---------- motion: header, top bar, timelines, reveals, drawings ---------- */
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hdr = document.querySelector('.site-header');
+  const onScrollHdr = () => hdr?.classList.toggle('is-scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', onScrollHdr, { passive: true });
+  onScrollHdr();
+
+  const tb = document.querySelector('.topbar');
+  if (tb) {
+    const msgs = ['.topbar__wa', '.topbar__msg', '.topbar__hours'].map((s) => tb.querySelector(s)).filter(Boolean);
+    const mqm = window.matchMedia('(max-width: 760px)');
+    let n = 0;
+    let timer;
+    const show = () => msgs.forEach((x, j) => { x.classList.toggle('is-active', j === n); x.setAttribute('aria-hidden', String(j !== n)); });
+    const start = () => {
+      clearInterval(timer);
+      if (!mqm.matches || reduce) { tb.classList.remove('rot'); msgs.forEach((x) => { x.classList.remove('is-active'); x.removeAttribute('aria-hidden'); }); return; }
+      tb.classList.add('rot');
+      show();
+      timer = setInterval(() => { n = (n + 1) % msgs.length; show(); }, 4200);
+    };
+    start();
+    mqm.addEventListener?.('change', start);
+  }
+
+  const io = 'IntersectionObserver' in window && !reduce
+    ? new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-in');
+        e.target.dispatchEvent(new CustomEvent('vx:in'));
+        io.unobserve(e.target);
+      }), { rootMargin: '0px 0px -10% 0px', threshold: 0.1 })
+    : null;
+
+  document.querySelectorAll('.process').forEach((ol) => {
+    const lis = [...ol.children];
+    lis.forEach((li, i) => li.style.setProperty('--i', i));
+    if (!ol.classList.contains('process--dark')) ol.style.setProperty('--cols', lis.length <= 4 ? lis.length : 3);
+    if (io) { ol.classList.add('anim'); io.observe(ol); }
+  });
+
+  if (io) {
+    const vh = window.innerHeight;
+    document.querySelectorAll('main .sec-head, .pgrid, .rgrid, .sgrid, .ggrid, .fgrid, .swatches, main .faq, .diag, .specs, .repband__list, .gcards, .tgrid, .cta-band__in, .crosslink, .qlist').forEach((el) => {
+      if (el.closest('.process') || el.getBoundingClientRect().top < vh * 0.92) return;
+      el.classList.add('anim-up');
+      io.observe(el);
+    });
+  }
+
+  function drawIn(svg, delay = 0, dur = 1500) {
+    if (reduce || !svg || !svg.animate) return;
+    const strokes = svg.querySelectorAll('.d-frame, .d-sash, .d-line, .d-outline, .d-cill, .d-roof, .d-ground, .d-profile, .d-chamber, .d-steel, .d-glass-sec');
+    strokes.forEach((el, i) => {
+      let L = 0;
+      try { L = el.getTotalLength(); } catch { return; }
+      if (!L || !isFinite(L)) return;
+      el.style.strokeDasharray = `${L} ${L}`;
+      el.animate(
+        [{ strokeDashoffset: L, fillOpacity: 0 }, { strokeDashoffset: 0, fillOpacity: 0, offset: 0.72 }, { strokeDashoffset: 0, fillOpacity: 1 }],
+        { duration: dur, delay: delay + Math.min(i * 14, 520), easing: 'cubic-bezier(.45,0,.2,1)', fill: 'backwards' }
+      );
+    });
+    svg.querySelectorAll('.d-glass, .d-wall, .d-glint, .d-handle, .d-gasket, .d-spacer, .d-gap, .d-obscure').forEach((el) =>
+      el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, delay: delay + dur * 0.75, fill: 'backwards' })
+    );
+  }
+  drawIn(document.querySelector('.hero .diagram--facade'), 250, 1600);
+  const sect = document.querySelector('.diagram--section');
+  if (sect && io) {
+    if (sect.getBoundingClientRect().top > window.innerHeight) {
+      sect.addEventListener('vx:in', () => drawIn(sect, 0, 1300), { once: true });
+      io.observe(sect);
+    }
+  }
 })();
