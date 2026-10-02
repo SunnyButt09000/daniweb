@@ -1,0 +1,8 @@
+# Alternative host. Cloudflare Pages is the recommended host (see DEPLOY.md);
+# this file lets the same repo deploy on Netlify without extra settings.
+[build]
+  command = "node build.mjs"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"

@@ -1,0 +1,75 @@
+{
+  "_readme": "Business details used across the whole website. Edit values here, commit, and the site rebuilds automatically. Leave a value empty (\"\") to hide it. See README.md for the full launch checklist.",
+
+  "brand": {
+    "name": "Veltrix Windows & Doors",
+    "short": "Veltrix",
+    "tagline": "uPVC windows and doors, made to measure and fitted properly.",
+    "description": "Veltrix Windows & Doors supplies, installs and repairs uPVC windows and doors — casement, flush sash, tilt & turn, sash, bay, French, patio, bi-fold and composite doors — with free surveys and written quotes."
+  },
+
+  "url": "https://veltrixwindowsdoor.co.uk",
+  "locale": "en_GB",
+  "currency": "GBP",
+
+  "contact": {
+    "phoneDisplay": "07411 496356",
+    "phoneInternational": "+447411496356",
+    "whatsapp": "447411496356",
+    "email": "info@veltrixwindowsdoor.co.uk",
+    "address": {
+      "street": "",
+      "locality": "",
+      "region": "",
+      "postcode": "",
+      "country": "United Kingdom"
+    },
+    "showMap": false
+  },
+
+  "areaServed": "",
+  "serviceAreas": [],
+  "postcodePrefixes": [],
+
+  "hours": [
+    { "days": "Monday – Friday", "short": "Mon–Fri", "dow": [1, 2, 3, 4, 5], "open": "08:00", "close": "18:00" },
+    { "days": "Saturday", "short": "Sat", "dow": [6], "open": "09:00", "close": "16:00" },
+    { "days": "Sunday", "short": "Sun", "dow": [0], "open": "", "close": "" }
+  ],
+
+  "guarantee": {
+    "installationYears": 10,
+    "repairMonths": 12,
+    "insuranceBacked": true
+  },
+
+  "company": {
+    "legalName": "",
+    "companyNumber": "",
+    "vatNumber": "",
+    "registeredOffice": "",
+    "icoNumber": ""
+  },
+
+  "accreditations": [],
+
+  "stats": [],
+
+  "testimonials": [],
+
+  "social": {
+    "facebook": "",
+    "instagram": "",
+    "tiktok": "",
+    "googleReviews": ""
+  },
+
+  "forms": {
+    "_readme": "Optional. Paste a Formspree / Web3Forms / Basin endpoint URL to receive every quote and booking by email as well as WhatsApp.",
+    "endpoint": ""
+  },
+
+  "legal": {
+    "policiesUpdated": "2 October 2026"
+  }
+}
