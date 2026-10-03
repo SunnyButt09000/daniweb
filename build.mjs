@@ -70,11 +70,19 @@ for (const page of pages) {
 }
 
 /* ---------- assistant knowledge base ---------- */
-const strip = (s) => s.replace(/<[^>]+>/g, '');
+// Plain text only: the assistant renders every string with textContent, never as HTML.
+// Everything here comes from site.json and src/content, so the assistant never states a fact
+// the website doesn't. Keep the file small (it loads when the chat opens): lists are trimmed.
+const strip = (s) => String(s ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+const list = (a, n = 99) => (Array.isArray(a) ? a : []).map((x) => strip(Array.isArray(x) ? x[0] : x)).filter(Boolean).slice(0, n);
+const words = (a) => [...new Set(list(a).map((x) => x.toLowerCase()))];
+const setOnly = (o) => Object.fromEntries(Object.entries(o || {}).filter(([k, v]) => !k.startsWith('_') && typeof v === 'string' && v.trim()).map(([k, v]) => [k, strip(v)]));
 const kb = {
+  v: 2,
   business: {
     name: site.brand.name,
     short: site.brand.short,
+    about: strip(site.brand.description),
     phone: site.contact.phoneDisplay,
     phoneIntl: site.contact.phoneInternational,
     whatsapp: site.contact.whatsapp,
@@ -85,15 +93,42 @@ const kb = {
     postcodePrefixes: site.postcodePrefixes,
     address: [site.contact.address.street, site.contact.address.locality, site.contact.address.postcode].filter(Boolean).join(', '),
     guarantee: site.guarantee,
+    // only what is actually filled in; empty means "don't claim it"
+    accreditations: (site.accreditations || []).map((a) => strip(typeof a === 'string' ? a : a?.name)).filter(Boolean),
+    company: setOnly(site.company),
   },
-  faqs: allFaqs.map((f) => ({ q: f.q, a: f.a, k: f.k || [], group: f.group })),
-  repairs: repairs.map((r) => ({ name: r.name, url: `/repairs/${r.slug}/`, short: r.short, k: r.keywords, fix: r.fix.slice(0, 3), visit: r.visit })),
-  products: products.map((p) => ({ name: p.name, url: `/${p.category}/${p.slug}/`, short: p.short, cat: p.category, k: [p.name.toLowerCase(), p.slug.replace(/-/g, ' '), ...p.slug.split('-').filter((w) => w.length > 3)] })),
-  services: services.map((s) => ({ name: s.name, url: `/services/${s.slug}/`, short: s.short })),
-  guides: guides.map((g) => ({ title: g.title, url: `/guides/${g.slug}/`, summary: strip(g.summary) })),
+  faqs: allFaqs.map((f) => ({ q: strip(f.q), a: strip(f.a), k: f.k || [], group: f.group })),
+  repairs: repairs.map((r) => ({
+    name: r.name,
+    slug: r.slug,
+    url: `/repairs/${r.slug}/`,
+    short: strip(r.short),
+    k: r.keywords || [],
+    symptoms: list(r.symptoms, 2),
+    fix: list(r.fix, 3),
+    visit: strip(r.visit),
+    tip: list(r.tips, 1)[0] || '',
+  })),
+  products: products.map((p) => ({
+    name: p.name,
+    slug: p.slug,
+    url: `/${p.category}/${p.slug}/`,
+    short: strip(p.short),
+    cat: p.category,
+    tag: strip(p.tag),
+    k: [...new Set([p.name.toLowerCase(), p.slug.replace(/-/g, ' '), ...p.slug.split('-').filter((w) => w.length > 3), ...words(p.chips)])],
+    goodFor: list(p.goodFor, 3),
+    options: list(p.options, 5),
+  })),
+  services: services.map((s) => ({ name: s.name, slug: s.slug, url: `/services/${s.slug}/`, short: strip(s.short), steps: list(s.steps, 6) })),
+  guides: guides.map((g) => ({ title: strip(g.title), slug: g.slug, url: `/guides/${g.slug}/`, summary: strip(g.summary) })),
+  colours: (colours || []).map((c) => ({ name: strip(c.name), hex: /^#[0-9a-f]{6}$/i.test(c.hex) ? c.hex : '' })),
+  categories: Object.fromEntries(Object.entries(categories || {}).map(([k, c]) => [k, { name: strip(c.name), lead: strip(c.lead) }])),
 };
 mkdirSync(join(out, 'assets/data'), { recursive: true });
-writeFileSync(join(out, 'assets/data/kb.json'), JSON.stringify(kb));
+const kbJson = JSON.stringify(kb);
+writeFileSync(join(out, 'assets/data/kb.json'), kbJson);
+if (kbJson.length > 64000) console.warn(`Note: assistant kb.json is ${Math.round(kbJson.length / 1024)} KB; trim FAQ keywords to keep the chat quick to open.`);
 
 /* ---------- SEO & host files ---------- */
 const today = new Date().toISOString().slice(0, 10);

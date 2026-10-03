@@ -5,10 +5,24 @@
   document.documentElement.classList.add('js');
 
   /* ---------- navigation ---------- */
+  // Desktop: mega menu panels with hover intent, click/tap/keyboard toggles, arrow-key movement.
+  // ≤1060px: the same markup becomes an accordion inside the slide-down drawer.
   const burger = document.querySelector('.burger');
   const nav = document.getElementById('nav');
   const mq = window.matchMedia('(max-width: 1060px)');
   const subs = [...document.querySelectorAll('.nav__item.has-sub')];
+  const OPEN_DELAY = 90; // pointer must rest this long before a closed menu opens
+  const SWITCH_DELAY = 120; // a little longer when another panel is already open (diagonal moves)
+  const CLOSE_DELAY = 260; // grace period for the pointer to come back
+  let openItem = null;
+  let openTimer = 0;
+  let closeTimer = 0;
+  let swapTimer = 0;
+  let pointerType = 'mouse';
+
+  const linkOf = (item) => item.querySelector('.nav__link');
+  const panelOf = (item) => item.querySelector('.sub');
+  const focusablesOf = (item) => [...panelOf(item).querySelectorAll('a[href], button:not([disabled])')];
 
   const setNav = (open) => {
     if (!burger || !nav) return;
@@ -17,57 +31,166 @@
     nav.classList.toggle('is-open', open);
     document.body.classList.toggle('nav-open', open);
   };
+
+  // Point the little notch at the trigger. Panels are right-aligned in CSS, so this is cosmetic.
+  const placeCaret = (item) => {
+    const panel = panelOf(item);
+    if (mq.matches || !panel.offsetParent) return panel.classList.remove('has-caret');
+    // layout offsets, not getBoundingClientRect: the panel is mid-transform while it opens
+    const left = panel.offsetParent.getBoundingClientRect().left + panel.offsetLeft;
+    const lr = linkOf(item).getBoundingClientRect();
+    const x = Math.round(lr.left + lr.width / 2 - 8 - left);
+    panel.style.setProperty('--caret-x', `${x}px`);
+    panel.classList.toggle('has-caret', x > 24 && x < panel.offsetWidth - 24);
+  };
+
   const setSub = (item, open) => {
     item.classList.toggle('is-open', open);
-    item.querySelector('.nav__link')?.setAttribute('aria-expanded', String(open));
+    linkOf(item).setAttribute('aria-expanded', String(open));
+    if (open) {
+      openItem = item;
+      placeCaret(item);
+    } else if (openItem === item) {
+      openItem = null;
+      // don’t leave focus stranded inside a panel that is now hidden
+      if (panelOf(item).contains(document.activeElement)) linkOf(item).focus({ preventScroll: true });
+    }
   };
-  const closeSubs = (except) => subs.forEach((i) => i !== except && setSub(i, false));
+  const closeSubs = (except) => subs.forEach((i) => i !== except && i.classList.contains('is-open') && setSub(i, false));
+  const openSub = (item) => {
+    clearTimeout(openTimer);
+    clearTimeout(closeTimer);
+    if (openItem === item) return;
+    // Going straight from one open panel to the next: swap instantly instead of replaying the fade.
+    const swap = !!openItem && !mq.matches;
+    clearTimeout(swapTimer);
+    nav?.classList.toggle('is-swap', swap);
+    closeSubs(item);
+    setSub(item, true);
+    if (swap) swapTimer = setTimeout(() => nav?.classList.remove('is-swap'), 60);
+  };
+  const toggleSub = (item) => (item.classList.contains('is-open') ? setSub(item, false) : openSub(item));
 
-  burger?.addEventListener('click', () => setNav(burger.getAttribute('aria-expanded') !== 'true'));
+  // Move focus to the nearest item in a direction, using on-screen positions so the
+  // two-column grid behaves as it looks (down goes down the column, right crosses over).
+  // Items in the same row/column win; otherwise anything within a 45° cone.
+  const moveFocus = (from, list, dir) => {
+    const r = from.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const vertical = dir === 'down' || dir === 'up';
+    let best = null;
+    let bestScore = Infinity;
+    for (const el of list) {
+      if (el === from) continue;
+      const b = el.getBoundingClientRect();
+      if (!b.width) continue;
+      const dx = b.left + b.width / 2 - cx;
+      const dy = b.top + b.height / 2 - cy;
+      const along = { down: dy, up: -dy, right: dx, left: -dx }[dir];
+      const across = vertical ? Math.abs(dx) : Math.abs(dy);
+      if (along <= 4) continue;
+      const aligned = vertical
+        ? Math.min(r.right, b.right) - Math.max(r.left, b.left) > 0
+        : Math.min(r.bottom, b.bottom) - Math.max(r.top, b.top) > 0;
+      const score = aligned ? along : across <= along ? 1e4 + along + across * 2 : Infinity;
+      if (score < bestScore) { bestScore = score; best = el; }
+    }
+    return best;
+  };
+
+  burger?.addEventListener('click', (e) => {
+    const open = burger.getAttribute('aria-expanded') !== 'true';
+    setNav(open);
+    // keyboard users: the drawer sits before the burger in the DOM, so take focus into it
+    if (open && e.detail === 0) requestAnimationFrame(() => nav?.querySelector('.nav__link')?.focus());
+  });
 
   subs.forEach((item) => {
-    const link = item.querySelector('.nav__link');
-    let timer;
-    item.addEventListener('mouseenter', () => {
-      if (mq.matches) return;
-      clearTimeout(timer);
-      closeSubs(item);
-      setSub(item, true);
+    const link = linkOf(item);
+    const panel = panelOf(item);
+
+    item.addEventListener('pointerenter', (e) => {
+      if (mq.matches || e.pointerType !== 'mouse') return;
+      clearTimeout(openTimer);
+      if (openItem === item) return clearTimeout(closeTimer);
+      openTimer = setTimeout(() => openSub(item), openItem ? SWITCH_DELAY : OPEN_DELAY);
     });
-    item.addEventListener('mouseleave', () => {
-      if (mq.matches) return;
-      timer = setTimeout(() => setSub(item, false), 140);
+    item.addEventListener('pointerleave', (e) => {
+      if (mq.matches || e.pointerType !== 'mouse') return;
+      clearTimeout(openTimer);
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(() => {
+        if (openItem && !openItem.matches(':hover')) closeSubs();
+      }, CLOSE_DELAY);
     });
+
+    link.addEventListener('pointerdown', (e) => { pointerType = e.pointerType || 'mouse'; });
     link.addEventListener('click', (e) => {
-      // Mobile: accordion. Desktop touch/keyboard: first activation opens, second follows the link.
-      if (mq.matches || !item.classList.contains('is-open')) {
+      const viaKeyboard = e.detail === 0;
+      if (mq.matches) {
+        // drawer accordion: one section open at a time
         e.preventDefault();
         const open = !item.classList.contains('is-open');
         closeSubs(item);
         setSub(item, open);
+        return;
       }
+      // Desktop mouse: hover has normally opened the panel already, so a click follows the link.
+      if (!viaKeyboard && pointerType === 'mouse' && item.classList.contains('is-open')) return;
+      e.preventDefault();
+      if (!viaKeyboard && pointerType === 'mouse') return openSub(item);
+      toggleSub(item); // touch, pen and keyboard: toggle
     });
+
     link.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown') {
+      if (e.key === ' ' || e.key === 'Spacebar') {
         e.preventDefault();
-        setSub(item, true);
-        item.querySelector('.sub a')?.focus();
+        if (mq.matches) { const open = !item.classList.contains('is-open'); closeSubs(item); setSub(item, open); }
+        else toggleSub(item);
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (mq.matches) { closeSubs(item); setSub(item, true); } else openSub(item);
+        const items = [...panel.querySelectorAll('.sub__list a')];
+        const target = e.key === 'ArrowDown' ? items[0] : items[items.length - 1];
+        // wait a frame so the panel is visible (and focusable) before moving focus
+        requestAnimationFrame(() => target?.focus());
       }
     });
+
+    panel.addEventListener('keydown', (e) => {
+      const list = focusablesOf(item);
+      const i = list.indexOf(document.activeElement);
+      if (i < 0) return;
+      const dir = { ArrowDown: 'down', ArrowUp: 'up', ArrowLeft: 'left', ArrowRight: 'right' }[e.key];
+      let next = null;
+      if (dir) {
+        next = moveFocus(list[i], list, dir);
+        if (!next && dir === 'up') next = link; // off the top: back to the trigger, panel stays open
+      } else if (e.key === 'Home') next = list[0];
+      else if (e.key === 'End') next = list[list.length - 1];
+      else return;
+      e.preventDefault();
+      next?.focus();
+    });
+
     item.addEventListener('focusout', (e) => {
-      if (!mq.matches && !item.contains(e.relatedTarget)) setSub(item, false);
+      if (mq.matches || item.contains(e.relatedTarget) || item.matches(':hover')) return;
+      if (item.classList.contains('is-open')) setSub(item, false);
     });
   });
 
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav__item.has-sub') && !mq.matches) closeSubs();
+    if (!mq.matches && openItem && !openItem.contains(e.target)) closeSubs();
   });
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
-    const openItem = subs.find((i) => i.classList.contains('is-open'));
     if (openItem) {
-      setSub(openItem, false);
-      openItem.querySelector('.nav__link')?.focus();
+      const item = openItem;
+      const hadFocus = item.contains(document.activeElement);
+      setSub(item, false);
+      // return focus to the trigger, but never pull it away from something else (e.g. a form field)
+      if (hadFocus) linkOf(item).focus();
     } else if (nav?.classList.contains('is-open')) {
       setNav(false);
       burger.focus();
@@ -77,6 +200,7 @@
     setNav(false);
     closeSubs();
   });
+  window.addEventListener('resize', () => { if (openItem && !mq.matches) placeCaret(openItem); }, { passive: true });
   nav?.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if (a && mq.matches && !a.classList.contains('nav__link')) setNav(false);
