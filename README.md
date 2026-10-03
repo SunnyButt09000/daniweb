@@ -72,7 +72,7 @@ All of these live in `src/data/site.json`:
 
 ## Models and layouts
 
-Every product page has a **Models & layouts** section: the standard UK layouts or door designs for that product (82 in total), each with a drawing, a code such as `CW-05`, a short description, what it suits, a typical size and a **Quote this layout** button. The button opens the quote builder with that product and model already chosen. In the quote builder the customer can also pick a model from a list, choose "as drawn" or "opposite hand", and the model code and name go into the schedule, the WhatsApp message and the PDF.
+Every product page has a **Models & layouts** section: the standard UK layouts or door designs for that product (98 in total), each with a drawing, a code such as `CW-05`, a short description, what it suits, a typical size and a **Quote this layout** button. The button opens the quote builder with that product and model already chosen. In the quote builder the customer can also pick a model from a list, choose "as drawn" or "opposite hand", and the model code and name go into the schedule, the WhatsApp message and the PDF.
 
 All of it comes from one file, `src/content/models.mjs`:
 

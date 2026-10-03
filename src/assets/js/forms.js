@@ -187,7 +187,7 @@
     const read = () => ({
       id: editing || uid(), type: el.type.value, w: el.w.value.trim(), h: el.h.value.trim(), room: el.room.value.trim(),
       qty: clampQty(el.qty.value), hinge: el.hinge.value, glaze: el.glaze.value, glass: el.glass.value, vents: el.vents.value,
-      colour: colourVal(), note: el.note.value.trim(), model: el.model?.value || '',
+      colour: colourVal(), note: el.note.value.trim(), model: getModel(),
     });
     const write = (it) => {
       el.type.value = it.type; el.w.value = it.w || ''; el.h.value = it.h || ''; el.room.value = it.room || '';
@@ -198,15 +198,47 @@
       syncType(it.model || '');
     };
 
-    // fill the model list for the chosen product, keeping the current choice when it still applies
+    // model picker: a strip of small drawings, one radio button each
+    const getModel = () => el.model?.querySelector('input:checked')?.value || '';
+    function setModel(code, { scroll = false } = {}) {
+      const inp = [...(el.model?.querySelectorAll('input') || [])].find((x) => x.value === code) || el.model?.querySelector('input');
+      if (!inp) return;
+      inp.checked = true;
+      if (scroll) {
+        const tile = inp.closest('.mtile');
+        el.model.scrollTo({ left: Math.max(0, tile.offsetLeft - el.model.offsetLeft - 8), behavior: 'auto' });
+      }
+    }
+    function tile(value, title, code, svg, popular) {
+      const lab = document.createElement('label');
+      lab.className = 'mtile';
+      const inp = document.createElement('input');
+      inp.type = 'radio';
+      inp.name = 'cfg-model';
+      inp.value = value;
+      const fig = document.createElement('span');
+      fig.className = 'mtile__fig';
+      fig.innerHTML = svg;
+      fig.firstElementChild?.setAttribute('aria-hidden', 'true');
+      const c = document.createElement('span');
+      c.className = 'mtile__code';
+      c.textContent = code;
+      if (popular) { const p = document.createElement('span'); p.className = 'mtile__pop'; p.textContent = 'Popular'; c.append(p); }
+      const n = document.createElement('span');
+      n.className = 'mtile__name';
+      n.textContent = title;
+      lab.append(inp, fig, c, n);
+      return lab;
+    }
+    // fill the picker for the chosen product, keeping the current choice when it still applies
     function syncModels(keep) {
       if (!el.model) return;
       const t = el.type.value;
       const list = MODELS[t] || [];
-      const cur = keep ?? el.model.value;
-      el.model.replaceChildren(new Option(list.length ? 'Standard layout (we’ll advise)' : 'Standard', ''));
-      list.forEach((m) => el.model.add(new Option(`${m.c} · ${m.n}${m.p ? ' (popular)' : ''}`, m.c)));
-      el.model.value = list.some((m) => m.c === cur) ? cur : '';
+      const cur = keep ?? getModel();
+      const thumb = (o) => D.svg(t, { box: 58, idPrefix: 'mt', colour: 'White', glass: 'Clear', ...o }).svg;
+      el.model.replaceChildren(tile('', 'Standard: we’ll advise', 'Auto', thumb({})), ...list.map((m) => tile(m.c, m.n, m.c, thumb({ w: m.s[0], h: m.s[1], layout: m.l }), m.p)));
+      setModel(list.some((m) => m.c === cur) ? cur : '', { scroll: true });
       el.modelF.hidden = !list.length;
       el.modelL.textContent = /^(upvc|composite|stable)-doors$/.test(t) ? 'Model / design' : 'Model / layout';
       if (el.modelLink) el.modelLink.href = MODEL_URLS[t] || '/';
@@ -217,7 +249,7 @@
     }
     function syncModel() {
       const t = el.type.value;
-      const m = modelOf({ type: t, model: el.model?.value });
+      const m = modelOf({ type: t, model: getModel() });
       const def = m ? m.s : D.DEFAULTS[t] || D.DEFAULTS.other;
       el.w.placeholder = def[0];
       el.h.placeholder = def[1];
@@ -386,7 +418,7 @@
     });
 
     cfg.addEventListener('input', renderDrawing);
-    cfg.addEventListener('change', (e) => (e.target === el.type ? syncType() : e.target === el.model ? (syncModel(), say('')) : renderDrawing()));
+    cfg.addEventListener('change', (e) => (e.target === el.type ? syncType() : e.target.name === 'cfg-model' ? (syncModel(), say('')) : renderDrawing()));
     cfg.querySelectorAll('[data-step]').forEach((b) => b.addEventListener('click', () => { el.qty.value = clampQty(Number(el.qty.value) + Number(b.dataset.step)); }));
     [el.w, el.h].forEach((inp) => inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addOrSave(); } }));
     let rt;

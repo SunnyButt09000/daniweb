@@ -355,7 +355,7 @@
 
     // ---------- doors ----------
     // door designs: half · half-georgian · glazed · glazed-georgian · slot · squares3 · arch · stripes ·
-    // panel2 · panel4 · solid · cottage (plus the automatic 'upvc' and 'composite' looks)
+    // panel2 · panel4 · solid · cottage · sq2 · arch2 · arch4 (plus the automatic 'upvc' and 'composite' looks)
     function doorLeaf(x, y, w, h, side, style, furn = handleCol) {
       b += rect(x, y, w, h, frameCol, sw);
       const m = Math.max(ring * 1.4, w * 0.12);
@@ -388,6 +388,29 @@
           b += `<path d="M${r(gx)} ${r(y + m + ah)} V${r(y + m + rs)} A${r(rr)} ${r(rr)} 0 0 1 ${r(gx + gw)} ${r(y + m + rs)} V${r(y + m + ah)} Z" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>`;
           b += panel(gx, y + m + ah + h * 0.06, gw / 2 - 3, h * 0.48) + panel(gx + gw / 2 + 3, y + m + ah + h * 0.06, gw / 2 - 3, h * 0.48);
           b += letter(0.5);
+          break;
+        }
+        case 'sq2': { // two panel, two square lights
+          const q = Math.min(gw * 0.4, h * 0.15);
+          b += glass(gx + gw * 0.25 - q / 2, y + h * 0.1, q, q) + glass(gx + gw * 0.75 - q / 2, y + h * 0.1, q, q);
+          b += panel(gx, y + h * 0.42, gw / 2 - 3, h * 0.58 - m) + panel(gx + gw / 2 + 3, y + h * 0.42, gw / 2 - 3, h * 0.58 - m);
+          b += letter(0.34);
+          break;
+        }
+        case 'arch2': { // two panel, two arched lights
+          const aw = gw / 2 - 4, ah = h * 0.3, rs = Math.min(aw / 2, ah * 0.5), rr = (aw * aw / 4 + rs * rs) / (2 * rs);
+          for (const ax of [gx, gx + gw / 2 + 4]) b += `<path d="M${r(ax)} ${r(y + m + ah)} V${r(y + m + rs)} A${r(rr)} ${r(rr)} 0 0 1 ${r(ax + aw)} ${r(y + m + rs)} V${r(y + m + ah)} Z" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>`;
+          b += panel(gx, y + m + ah + h * 0.06, gw / 2 - 3, h - 2 * m - ah - h * 0.06) + panel(gx + gw / 2 + 3, y + m + ah + h * 0.06, gw / 2 - 3, h - 2 * m - ah - h * 0.06);
+          b += letter(0.5);
+          break;
+        }
+        case 'arch4': { // four panel, one arch
+          const ah = h * 0.26, rs = Math.min(gw / 2, ah * 0.6), rr = (gw * gw / 4 + rs * rs) / (2 * rs);
+          b += `<path d="M${r(gx)} ${r(y + m + ah)} V${r(y + m + rs)} A${r(rr)} ${r(rr)} 0 0 1 ${r(gx + gw)} ${r(y + m + rs)} V${r(y + m + ah)} Z" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>`;
+          const py = y + m + ah + h * 0.05, ph = (h - 2 * m - ah - h * 0.05 - 6) / 2;
+          b += panel(gx, py, gw / 2 - 3, ph * 0.7) + panel(gx + gw / 2 + 3, py, gw / 2 - 3, ph * 0.7);
+          b += panel(gx, py + ph * 0.7 + 6, gw / 2 - 3, ph * 1.3) + panel(gx + gw / 2 + 3, py + ph * 0.7 + 6, gw / 2 - 3, ph * 1.3);
+          b += letter((py + ph * 0.7 + 1 - y) / h);
           break;
         }
         case 'stripes':
@@ -432,18 +455,31 @@
       b += `<rect x="${r(hx - 2)}" y="${r(y + h * 0.47)}" width="4" height="${r(Math.max(12, h * 0.1))}" rx="2" fill="${furn}"/>`;
     }
 
-    function door(style, furn) {
+    // a door design with an optional door set: "slot+side1" (one side panel), "+side2" (two), "+top" (top light)
+    function door(spec, furn) {
       b += frame(0, 0, fw, fh);
-      const sideLight = W > 1250;
-      const leafW = sideLight ? (fw - 2 * t) * clamp(920 / W, 0.4, 0.8) : fw - 2 * t;
+      const tok = String(spec).split('+');
+      const style = tok[0];
+      const isSet = tok.length > 1;
+      const nSide = isSet ? (tok.includes('side2') ? 2 : tok.includes('side1') ? 1 : 0) : W > 1250 ? 1 : 0;
+      const topH = tok.includes('top') ? (fh - t * 1.4) * 0.16 : 0;
+      const y0 = t + topH, hh = fh - t * 1.4 - topH;
+      if (topH) {
+        b += rect(t, t, fw - 2 * t, topH - t * 0.3, frameCol, sw * 0.8);
+        b += glass(t + ring, t + ring, fw - 2 * t - 2 * ring, topH - t * 0.3 - 2 * ring);
+      }
+      const leafW = nSide ? (fw - 2 * t) * clamp(920 / W, 0.4, nSide === 2 ? 0.7 : 0.8) : fw - 2 * t;
+      const sideW = nSide ? (fw - 2 * t - leafW) / nSide : 0;
       const side = right ? 'right' : 'left';
-      const lx = sideLight && !right ? t : sideLight ? fw - t - leafW : t;
-      doorLeaf(lx, t, leafW, fh - t * 1.4, side, style, furn);
-      if (sideLight) {
-        const sx = right ? t : t + leafW;
-        const sw2 = fw - 2 * t - leafW;
-        b += rect(sx, t, sw2, fh - t * 1.4, frameCol, sw * 0.8);
-        b += glass(sx + ring, t + ring, sw2 - 2 * ring, fh - t * 1.4 - 2 * ring);
+      // one side panel sits on the handle side; two sit either side
+      const leftPanel = nSide === 2 || (nSide === 1 && right);
+      const lx = t + (leftPanel ? sideW : 0);
+      doorLeaf(lx, y0, leafW, hh, side, style, furn);
+      for (const sx of [leftPanel ? t : null, nSide === 2 || (nSide === 1 && !right) ? lx + leafW : null]) {
+        if (sx == null) continue;
+        b += rect(sx, y0, sideW, hh, frameCol, sw * 0.8);
+        b += glass(sx + ring, y0 + ring, sideW - 2 * ring, hh * 0.7 - ring);
+        b += rect(sx + ring, y0 + hh * 0.7 + ring * 0.5, sideW - 2 * ring, hh * 0.3 - ring * 1.5, 'none', sw * 0.6);
       }
       b += `<path d="M0 ${r(fh)} H${r(fw)}" stroke="${INK}" stroke-width="${sw * 2}"/>`;
     }

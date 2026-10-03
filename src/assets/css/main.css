@@ -1253,6 +1253,24 @@ a.ccard:hover { background: var(--white); }
 }
 @media (prefers-reduced-motion: reduce) { .mcard, .mcard__cta .ico { transition: none; } .mcard:hover { transform: none; } }
 /* quote builder: model / layout picker */
-#cfg-model-f > label { font-size: 0.8125rem; font-weight: 600; color: var(--ink); }
+/* model picker: a scrolling strip of small drawings (radio buttons) */
+.mpick-f { border: 0; margin: 0; padding: 0; min-width: 0; }
+.mpick-f legend { padding: 0; margin-bottom: 8px; font-size: 0.8125rem; font-weight: 600; color: var(--ink); }
+.mpick { display: flex; gap: 8px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding: 3px 3px 10px; margin: 0 -3px; scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+.mpick::-webkit-scrollbar { height: 6px; }
+.mpick::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
+.mtile { position: relative; flex: 0 0 112px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 3px; padding: 8px 8px 9px; background: var(--white); border: 1px solid var(--line-strong); border-radius: 6px; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .2s cubic-bezier(.2,.8,.2,1); }
+.mtile input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.mtile__fig { height: 66px; display: grid; place-items: center; margin-bottom: 3px; border-radius: 3px; background: #f7f8f6; }
+.mtile__fig svg { display: block; width: auto; height: auto; max-width: 88px; max-height: 58px; }
+.mtile__code { display: flex; flex-wrap: wrap; align-items: center; gap: 3px 5px; white-space: nowrap; font: 500 0.6875rem/1.2 var(--f-mono); letter-spacing: 0.05em; color: var(--slate); }
+.mtile__pop { padding: 1px 4px; border-radius: 2px; background: var(--brass); color: var(--ink); font-size: 0.5625rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.mtile__name { font-size: 0.75rem; line-height: 1.3; color: var(--ink); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.mtile:has(input:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: var(--card); }
+.mtile:has(input:checked)::after { content: ''; position: absolute; top: 6px; right: 6px; width: 16px; height: 16px; border-radius: 50%; background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 10px no-repeat; }
+.mtile:has(input:focus-visible) { outline: 3px solid var(--brass); outline-offset: 2px; }
+@media (hover: hover) { .mtile:hover { border-color: var(--slate); transform: translateY(-1px); } }
+@media (max-width: 600px) { .mtile { flex-basis: 100px; } .mtile__fig { height: 58px; } .mtile__fig svg { max-width: 78px; max-height: 50px; } }
+@media (prefers-reduced-motion: reduce) { .mtile { transition: none; } }
 .cfg__models { align-self: flex-start; font-size: 0.8125rem; font-weight: 600; color: var(--brass-ink); text-decoration: underline; text-underline-offset: 3px; }
 .cfg__models:hover { color: var(--ink); }

@@ -21,7 +21,10 @@
 // Sliding window and patio door: panels left to right, S sliding · F fixed, e.g. "F|S|S|F"
 // Shaped: arch · segment · gable · rake · triangle · circle · octagon
 // uPVC, composite and stable doors: half · half-georgian · glazed · glazed-georgian · slot · squares3 ·
-//   arch · stripes · panel2 · panel4 · solid · cottage
+//   arch (2 panel 1 arch) · arch2 (2 panel 2 arch) · arch4 (4 panel 1 arch) · sq2 (2 panel 2 square) ·
+//   stripes · panel2 · panel4 · solid · cottage
+//   uPVC and composite doors can add a door set: "+side1" (one side panel), "+side2" (two), "+top" (top light),
+//   e.g. "slot+side1+top"
 // French doors: pair · pair+1 (one side panel) · pair+2 (two side panels) · pair+top · pair+2+top · georgian
 // Bi-fold: panels folding left-right, e.g. "3-0" (three to the left) or "2-2"
 
@@ -38,6 +41,8 @@ export const models = {
     { code: 'CW-09', name: 'Three-pane: side-hung, fixed and top-hung', layout: 'L|F|T*1/F*2', size: [1800, 1200], desc: 'A side-hung opener, a fixed centre and a top-hung vent over a fixed light.', bestFor: 'Living rooms that need an escape opener' },
     { code: 'CW-10', name: 'Three-pane with fixed top lights', layout: 'F*1/L*3|F*1/F*3|F*1/R*3', size: [1800, 1350], desc: 'Fixed top lights across the window, with side-hung openers below at each end.', bestFor: '1930s houses and tall openings' },
     { code: 'CW-11', name: 'Four-pane: openers at both ends', layout: 'L|F|F|R', size: [2400, 1200], desc: 'Two fixed centre lights with a side-hung opener at each end.', bestFor: 'Wide living-room openings' },
+    { code: 'CW-12', name: 'Two-pane: pair of side-hung sashes', layout: 'L|R', size: [1200, 1050], desc: 'Two openers hinged at the outer edges, sometimes called a French casement.', bestFor: 'Bedrooms needing a wide clear opening' },
+    { code: 'CW-13', name: 'Three-pane: top-hung vents over fixed', layout: 'T*1/F*2|T*1/F*2|T*1/F*2', size: [1800, 1200], desc: 'Three fixed lights, each with a top-hung vent above.', bestFor: 'Kitchens and rooms over a path' },
   ],
 
   'flush-casement-windows': [
@@ -100,17 +105,31 @@ export const models = {
     { code: 'UD-06', name: 'Solid two-panel', layout: 'panel2', size: [920, 2090], desc: 'No glass, with two tall panels.', bestFor: 'Side and utility doors' },
     { code: 'UD-07', name: 'Three square lights', layout: 'squares3', size: [920, 2090], desc: 'Three small square glass panels in a line, with a panel below.', bestFor: 'Front doors on modern homes' },
     { code: 'UD-08', name: 'Cottage door', layout: 'cottage', size: [920, 2090], desc: 'A small glazed top with vertical boarding below.', bestFor: 'Cottages and rural homes' },
+    { code: 'UD-09', name: '2 panel, 2 square', layout: 'sq2', size: [920, 2090], desc: 'Two small square glass panels at the top, with two raised panels below.', bestFor: 'Front doors on 1930s and modern homes' },
+    { code: 'UD-10', name: '2 panel, 2 arch', layout: 'arch2', size: [920, 2090], desc: 'Two arched glass panels at the top, with two raised panels below.', bestFor: 'Victorian and traditional homes' },
+    { code: 'UD-11', name: '4 panel, 1 arch', layout: 'arch4', size: [920, 2090], desc: 'One arched glass panel above four raised panels.', bestFor: 'Traditional front doors' },
+    { code: 'UD-12', name: 'Door with one side panel', layout: 'half+side1', size: [1300, 2090], desc: 'A half-glazed door with a glazed side panel on the handle side.', bestFor: 'Dark hallways that need more light' },
+    { code: 'UD-13', name: 'Door with two side panels', layout: 'half+side2', size: [1700, 2090], desc: 'A half-glazed door with a glazed side panel either side.', bestFor: 'Wide entrances and porches' },
+    { code: 'UD-14', name: 'Door with top light', layout: 'half+top', size: [920, 2400], desc: 'A half-glazed door under a fixed glazed top light.', bestFor: 'Tall openings and older houses' },
   ],
 
   'composite-doors': [
     { code: 'CD-01', name: 'Vertical slot glazed', layout: 'slot', size: [920, 2090], desc: 'A tall, narrow strip of glass to one side.', bestFor: 'Modern front doors', popular: true },
     { code: 'CD-02', name: 'Half-glazed', layout: 'half', size: [920, 2090], desc: 'Glass in the top half and a panel below.', bestFor: 'Front and back doors' },
-    { code: 'CD-03', name: 'Arched top light', layout: 'arch', size: [920, 2090], desc: 'An arched glass panel above two raised panels.', bestFor: 'Victorian and Edwardian homes', popular: true },
+    { code: 'CD-03', name: '2 panel, 1 arch', layout: 'arch', size: [920, 2090], desc: 'An arched glass panel above two raised panels.', bestFor: 'Victorian and Edwardian homes', popular: true },
     { code: 'CD-04', name: 'Three square lights', layout: 'squares3', size: [920, 2090], desc: 'Three small square glass panels in a line, with a panel below.', bestFor: '1930s and modern homes' },
     { code: 'CD-05', name: 'Contemporary stripes', layout: 'stripes', size: [920, 2090], desc: 'Horizontal glass slots across the door.', bestFor: 'New builds and modern refurbishments' },
     { code: 'CD-06', name: 'Solid contemporary', layout: 'solid', size: [920, 2090], desc: 'A flat, unglazed door with a long bar handle option.', bestFor: 'Minimal modern frontages' },
     { code: 'CD-07', name: 'Traditional four-panel', layout: 'panel4', size: [920, 2090], desc: 'No glass, with four raised panels like painted timber.', bestFor: 'Period homes that want privacy' },
     { code: 'CD-08', name: 'Cottage', layout: 'cottage', size: [920, 2090], desc: 'A small glazed top with vertical boarding below.', bestFor: 'Cottages and country homes' },
+    { code: 'CD-09', name: '2 panel, 2 square', layout: 'sq2', size: [920, 2090], desc: 'Two small square glass panels at the top, with two raised panels below.', bestFor: '1930s and modern homes' },
+    { code: 'CD-10', name: '2 panel, 2 arch', layout: 'arch2', size: [920, 2090], desc: 'Two arched glass panels at the top, with two raised panels below.', bestFor: 'Victorian and Edwardian homes' },
+    { code: 'CD-11', name: '4 panel, 1 arch', layout: 'arch4', size: [920, 2090], desc: 'One arched glass panel above four raised panels.', bestFor: 'Traditional front doors' },
+    { code: 'CD-12', name: 'Fully glazed back door', layout: 'glazed', size: [920, 2090], desc: 'Mostly glass, with a short panel at the bottom.', bestFor: 'Kitchen and garden doors' },
+    { code: 'CD-13', name: 'Half-glazed with Georgian bars', layout: 'half-georgian', size: [920, 2090], desc: 'Glass in the top half divided by bars, with a panel below.', bestFor: 'Back doors on period-style homes' },
+    { code: 'CD-14', name: 'Front door with one side panel', layout: 'slot+side1', size: [1350, 2090], desc: 'A composite door with a glazed side panel on the handle side.', bestFor: 'Hallways that need more light' },
+    { code: 'CD-15', name: 'Front door with two side panels', layout: 'slot+side2', size: [1800, 2090], desc: 'A composite door with a glazed side panel either side.', bestFor: 'Wide entrances and porches' },
+    { code: 'CD-16', name: 'Front door with top light', layout: 'arch+top', size: [920, 2400], desc: 'A composite door under a fixed glazed top light.', bestFor: 'Tall openings in older houses' },
   ],
 
   'french-doors': [
