@@ -4,7 +4,7 @@ Marketing website for **Veltrix Windows & Doors** (veltrixwindowsdoor.co.uk): uP
 
 - **48 static pages**: home, 7 window and 6 door product pages, 8 repair categories, 4 services, quote builder, booking, contact, FAQ, 6 guides, guarantee, about, privacy, cookies, terms, accessibility and 404.
 - **Website assistant (chatbot)**: a small window character in the corner says “Hello, I’m here to help” and opens the chat. It answers from the site’s own content, guides visitors through quote and repair requests, and hands over to WhatsApp. It runs fully in the browser, so there is no API key and no cost.
-- **Visual quote configurator**: the visitor picks a window or door and types the width and height on the dimension lines of a live drawing. The drawing follows the size, colour, glass and hinge side. They add each item to a numbered schedule (W1, D1…), which they can edit, duplicate or remove, then press **Send for quote**, add their details and send. The schedule goes to WhatsApp as a short message with a reference number, plus a **PDF quote request with one page per item** (drawing, sizes and options) and the customer’s details.
+- **Visual quote configurator**: the visitor picks a window or door and types the width and height on the dimension lines of a live drawing. The drawing follows the size, colour, glass and hinge side. They add each item to a numbered schedule (W1, D1…), which they can edit, duplicate or remove, then press **Send for quote**, add their details and send. The schedule goes to WhatsApp as a short message with a reference number, plus a **PDF quote request with one page per item** (drawing, sizes and options) and the customer’s details. With the optional Google Drive upload (`scripts/google-drive/Code.gs`, DEPLOY.md step 8) the PDF goes to the business’s Drive, with an email copy, and the WhatsApp message carries a link to it, so the customer only presses Send. PDFs are removed from Drive automatically after 30 days.
 - **WhatsApp booking and contact**: the booking and contact forms also compose a tidy message and open WhatsApp. Email is offered as an alternative.
 - **SEO, set up for Google’s 2026 search and AI answers**: see [SEO](#seo) below.
 - **Fast and private**: no frameworks, self-hosted fonts, no tracking cookies, security headers via `_headers`.
@@ -17,6 +17,7 @@ Marketing website for **Veltrix Windows & Doors** (veltrixwindowsdoor.co.uk): uP
 ```
 src/data/site.json        ← business details: phone, WhatsApp, email, hours, areas, guarantees, company info
 src/data/lastmod.json     ← last-modified date per page, updated by the build (commit it)
+scripts/google-drive/     ← Google Apps Script that receives quote PDFs (paste into script.google.com)
 src/content/products.mjs  ← windows & doors (each entry becomes a page)
 src/content/repairs.mjs   ← repair categories and services
 src/content/faqs.mjs      ← FAQs (also the chatbot’s knowledge)

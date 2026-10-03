@@ -128,6 +128,33 @@ Ye kaam sirf aap apne accounts se kar sakte hain, aur ranking par sab se zyada a
 
 > `src/data/lastmod.json` build khud update karta hai: jis page ka content badle us ki date aaj ki ho jati hai. Is file ko commit karte rahein.
 
+## Step 8 — Quote PDF seedha WhatsApp link mein (Google Drive)
+
+Is ke baad customer "Send for quote" dabata hai to website PDF ko **aap ki Google Drive** mein save karti hai aur WhatsApp ka message **PDF ke link ke saath** tayyar khulta hai. Customer ko sirf **Send** dabana hai, kuch attach nahi karna.
+- Har PDF aap ki Drive ke folder **"Website quote requests"** mein jati hai, aur ek copy PDF ke saath aap ke **Gmail** par aati hai.
+- Link sirf aap ke Google account se khulta hai (file private hai).
+- **30 din baad PDF khud Drive se delete** ho jati hai (bin mein jati hai, Google bin ko 30 din baad khud khali kar deta hai). Gmail wali copy aap ke inbox mein rehti hai.
+- Agar kabhi upload na ho sake (internet slow ho waghera), to website khud purana tareeqa chala deti hai: PDF customer ke phone mein save hoti hai aur wo attach kar ke bhejta hai.
+- Bilkul free. Card ki zaroorat nahi.
+
+**Setup (takreeban 10 minute, sirf ek dafa):**
+1. Usi Gmail se jahan quotes chahiye, https://script.google.com kholein → **New project**. Upar naam par click kar ke naam rakhein: `Veltrix quote upload`.
+2. Editor mein jo code pehle se likha hai, sab delete karein. GitHub par is repo ki file `scripts/google-drive/Code.gs` kholein → poora text copy → editor mein paste → **Save** (💾 ya Ctrl+S).
+3. Upar function wale dropdown mein **`setup`** chunein → **Run**.
+   Google permission mangega: **Review permissions** → apna account → "Google hasn't verified this app" aaye to **Advanced** → **Go to Veltrix quote upload (unsafe)** → **Allow**. (Ye aap ki apni script hai, is liye ye warning aati hai.)
+   Is se Drive mein folder ban jata hai aur roz raat ~3 baje purani PDFs delete karne wala timer lag jata hai.
+4. Upar right par **Deploy** → **New deployment** → ⚙️ (Select type) → **Web app**:
+   - Description: `v1`
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+   → **Deploy** → **Web app URL** copy karein (aakhir mein `/exec` hota hai).
+5. Wo URL browser mein kholein. `{"ok":true,"service":"quote upload",...}` likha aaye to sab theek hai.
+6. GitHub par `src/data/site.json` kholein → `quoteUpload` → `"endpoint": ""` ke quotes ke andar URL paste karein → **Commit changes**. (Ya URL mujhe bhej dein, main laga deta hoon. Ye URL password nahi hai, website ke code mein waise bhi nazar aata hai.)
+7. 2 minute baad website par ek test quote bhejein: WhatsApp message mein PDF ka link aana chahiye, Drive folder mein file aur Gmail mein copy.
+
+**Settings** (script ke bilkul upar): `KEEP_DAYS = 30` (kitne din baad delete), `EMAIL_COPY = true` (Gmail copy band karni ho to `false`). Agar `KEEP_DAYS` badlein to `site.json` mein `quoteUpload.keepDays` bhi wahi likhein, taake privacy policy sahi rahe.
+Script badalne ke baad: **Deploy → Manage deployments → ✏️ → Version: New version → Deploy** (URL wahi rehta hai).
+
 ---
 
 ## Website update kaise karein

@@ -18,6 +18,12 @@ const root = dirname(fileURLToPath(import.meta.url));
 const out = process.env.VX_OUT ? resolve(process.env.VX_OUT) : join(root, 'dist');
 const site = JSON.parse(readFileSync(join(root, 'src/data/site.json'), 'utf8'));
 site.url = site.url.replace(/\/$/, '');
+// quote PDF upload (Google Apps Script web app): only accept a real Apps Script /exec URL
+site.quoteUpload = site.quoteUpload || {};
+const qu = String(site.quoteUpload.endpoint || '').trim();
+site.quoteUpload.endpoint = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(qu) ? qu : '';
+if (qu && !site.quoteUpload.endpoint) console.warn('Note: quoteUpload.endpoint in site.json is not a Google Apps Script /exec URL, so it is ignored.');
+site.quoteUpload.keepDays = Number(site.quoteUpload.keepDays) || 30;
 
 const data = { products, categories, colours, repairs, services, faqs: faqGroups, allFaqs, guides };
 
@@ -231,7 +237,7 @@ writeFileSync(
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'${site.forms.endpoint ? ' ' + new URL(site.forms.endpoint).origin : ''}; frame-src https://www.google.com https://maps.google.com; form-action 'self' https://wa.me mailto:; base-uri 'self'; frame-ancestors 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'${site.forms.endpoint ? ' ' + new URL(site.forms.endpoint).origin : ''}${site.quoteUpload.endpoint ? ' https://script.google.com https://script.googleusercontent.com' : ''}; frame-src https://www.google.com https://maps.google.com; form-action 'self' https://wa.me mailto:; base-uri 'self'; frame-ancestors 'self'
 
 /assets/css/*
   Cache-Control: public, max-age=31536000, immutable

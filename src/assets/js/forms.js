@@ -450,7 +450,7 @@
     }
 
     /* ---------- short WhatsApp / email message (the full schedule goes in the PDF) ---------- */
-    function shortMessage(form) {
+    function shortMessage(form, link = '') {
       const refs = refsOf(items);
       const units = items.reduce((a, it) => a + clampQty(it.qty), 0);
       return [
@@ -462,7 +462,7 @@
         `*${items.length} item${items.length === 1 ? '' : 's'} · ${units} unit${units === 1 ? '' : 's'}*`,
         ...items.map((it, i) => `${refs[i]} ${nameOf(it.type)}${it.room ? ` (${it.room})` : ''} · ${it.w && it.h ? `${it.w}×${it.h} mm` : 'size TBC'} · ×${clampQty(it.qty)}`),
         '',
-        `📎 Full schedule with drawings: ${pdfName()} (attached).`,
+        link ? `📄 Full schedule with drawings (PDF): ${link}` : `📎 Full schedule with drawings: ${pdfName()} (attached).`,
       ].join('\n');
     }
     const pdfName = () => `${VX.brand || 'Quote'}-quote-${ref}.pdf`;
@@ -687,6 +687,37 @@
       a.click();
       setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 8000);
     }
+    // Upload the PDF to the business's Google Drive (Apps Script web app, see scripts/google-drive).
+    // Returns the Drive link, or '' so the caller falls back to saving the PDF on the device.
+    async function uploadPdf(blob, form) {
+      if (!VX.drive || !blob) return '';
+      const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = setTimeout(() => ctrl?.abort(), 45000);
+      try {
+        const b64 = await new Promise((res, rej) => {
+          const r = new FileReader();
+          r.onload = () => res(String(r.result).split(',')[1] || '');
+          r.onerror = rej;
+          r.readAsDataURL(blob);
+        });
+        // text/plain keeps this a "simple" request, which Apps Script accepts from another site
+        const resp = await fetch(VX.drive, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ ref, pdf: b64, summary: compose(form).replace(/\*/g, '') }),
+          signal: ctrl?.signal,
+        });
+        const j = await resp.json();
+        const url = j && j.ok ? String(j.url || '') : '';
+        return /^https:\/\/drive\.google\.com\/[\w\-/?=&.%]+$/.test(url) ? url : '';
+      } catch {
+        return '';
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    let lastLink = '';
+
     async function preparePdf() {
       const label = el.sheet?.querySelector('span');
       const old = label?.textContent;
@@ -700,23 +731,37 @@
         if (el.sheet) el.sheet.disabled = false;
       }
     }
-    function showSendBox(via, form) {
+    function showSendBox(via, form, link = '') {
       if (!sendBox) return;
       const isWa = via !== 'email';
-      const href = isWa ? `https://wa.me/${VX.wa}?text=${encodeURIComponent(shortMessage(form))}` : `mailto:${VX.email}?subject=${encodeURIComponent(`Quote request ${ref} — ${val(form, 'name')}`)}&body=${encodeURIComponent(shortMessage(form).replace(/\*/g, ''))}`;
-      sendBox.querySelector('[data-sb-file]').textContent = pdfName();
+      const msg = shortMessage(form, link);
+      const href = isWa ? `https://wa.me/${VX.wa}?text=${encodeURIComponent(msg)}` : `mailto:${VX.email}?subject=${encodeURIComponent(`Quote request ${ref} — ${val(form, 'name')}`)}&body=${encodeURIComponent(msg.replace(/\*/g, ''))}`;
+      const one = sendBox.querySelector('[data-sb-one]');
+      sendBox.querySelector('[data-sb-title]').textContent = link ? 'Your quote is ready to send' : 'Your quote PDF is ready';
+      if (link) {
+        one.textContent = 'Your PDF is with us. The link to it is already in your message.';
+      } else {
+        const code = document.createElement('code');
+        code.textContent = pdfName();
+        const b = document.createElement('strong');
+        b.textContent = 'Saved:';
+        one.replaceChildren(b, ' ', code);
+      }
+      sendBox.querySelector('[data-sb-again]').textContent = link ? 'Save a copy' : 'Save again';
       sendBox.querySelector('[data-sb-pages]').textContent = `${items.length + 1} pages · one page per item`;
       const open = sendBox.querySelector('[data-sb-open]');
       open.href = href;
       open.querySelector('span').textContent = isWa ? 'Open WhatsApp chat' : 'Open my email';
       open.className = `btn btn--lg ${isWa ? 'btn--wa' : 'btn--primary'}`;
       if (isWa) { open.target = '_blank'; open.rel = 'noopener'; } else { open.removeAttribute('target'); }
-      sendBox.querySelector('[data-sb-how]').textContent = isWa
-        ? 'In the WhatsApp chat, tap 📎 (or +) → Document, choose the PDF from Downloads, then press Send.'
-        : 'In your email, attach the PDF from Downloads, then press Send.';
+      sendBox.querySelector('[data-sb-how]').textContent = link
+        ? (isWa ? 'Tap “Open WhatsApp chat” below, then press Send. Nothing to attach.' : 'Tap “Open my email” below, then press Send. Nothing to attach.')
+        : isWa
+          ? 'In the WhatsApp chat, tap 📎 (or +) → Document, choose the PDF from Downloads, then press Send.'
+          : 'In your email, attach the PDF from Downloads, then press Send.';
       const share = sendBox.querySelector('[data-sb-share]');
       const file = typeof File === 'function' && lastPdf ? new File([lastPdf], pdfName(), { type: 'application/pdf' }) : null;
-      share.hidden = !(isWa && file && navigator.canShare?.({ files: [file] }));
+      share.hidden = !!link || !(isWa && file && navigator.canShare?.({ files: [file] }));
       share.onclick = () => navigator.share({ files: [file], title: `Quote request ${ref}`, text: shortMessage(form) }).catch(() => {});
       sendBox.querySelector('[data-sb-again]').onclick = () => lastPdf && downloadBlob(lastPdf, pdfName());
       sendBox.hidden = false;
@@ -739,15 +784,28 @@
       if (!ensureItems()) { showMsg(quoteForm, 'Please add at least one window or door to your schedule.'); return; }
       showMsg(quoteForm, '');
       postCopy('Quote request', quoteForm, compose(quoteForm));
+      const btns = [...quoteForm.querySelectorAll('[data-send]')];
+      const pressed = btns.find((b) => b.dataset.send === via)?.querySelector('span');
+      const label = pressed?.textContent;
+      btns.forEach((b) => (b.disabled = true));
       try {
         const blob = await preparePdf();
-        downloadBlob(blob, pdfName());
-        showSendBox(via, quoteForm);
+        let link = '';
+        if (VX.drive) {
+          if (pressed) pressed.textContent = 'Sending your PDF…';
+          link = await uploadPdf(blob, quoteForm);
+        }
+        lastLink = link;
+        if (!link) downloadBlob(blob, pdfName());
+        showSendBox(via, quoteForm, link);
       } catch {
         // PDF could not be made on this device: fall back to the full text schedule
         if (via === 'email') openEmail(`Quote request ${ref} — ${val(quoteForm, 'name')}`, compose(quoteForm));
         else openWhatsApp(compose(quoteForm));
         showMsg(quoteForm, `WhatsApp should open with request ${ref} and your full list. Press send there.`, true);
+      } finally {
+        btns.forEach((b) => (b.disabled = false));
+        if (pressed && label) pressed.textContent = label;
       }
     });
 
@@ -761,7 +819,7 @@
       }
     });
     VX.quotePdf = pdfBlob;
-    VX.quoteShort = () => shortMessage(quoteForm);
+    VX.quoteShort = () => shortMessage(quoteForm, lastLink);
     VX.quoteFull = () => compose(quoteForm);
   }
 

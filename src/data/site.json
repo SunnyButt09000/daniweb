@@ -71,6 +71,12 @@
     "provider": ""
   },
 
+  "quoteUpload": {
+    "_readme": "Optional. Paste the Google Apps Script web app URL (ends in /exec) from DEPLOY.md step 8. Quote PDFs are then saved to your Google Drive and the WhatsApp message carries a link to the PDF, so the customer only presses Send. Leave empty to keep the old way (the customer saves the PDF and attaches it).",
+    "endpoint": "",
+    "keepDays": 30
+  },
+
   "legal": {
     "policiesUpdated": "3 October 2026"
   }
