@@ -28,7 +28,7 @@ html.vxa-locked, html.vxa-locked body { overflow: hidden; }
 .vxa-nudge__x { flex: none; width: 36px; height: 36px; margin: 6px 6px 0 0; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--slate); cursor: pointer; }
 .vxa-nudge__x svg { width: 16px; height: 16px; }
 
-@media (max-width: 760px) { .vxa-launch, .vxa-nudge { display: none !important; } }
+@media (max-width: 760px) { .vxa-launch { display: none !important; } .vxa-nudge { right: 12px; left: auto; bottom: calc(76px + env(safe-area-inset-bottom, 0px)); width: min(300px, calc(100vw - 24px)); } .vxa-nudge::after { right: 34px; } }
 
 /* ---------- panel ---------- */
 .vxa { position: fixed; right: 24px; bottom: 24px; z-index: 80; width: min(408px, calc(100vw - 48px)); height: min(680px, calc(100vh - 48px)); height: min(680px, calc(100dvh - 48px)); display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 14px; box-shadow: 0 2px 6px rgba(27,32,36,.08), 0 30px 70px -20px rgba(27,32,36,.5); overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(14px) scale(.98); transform-origin: bottom right; transition: opacity .2s ease, transform .26s var(--vxa-ease), visibility 0s linear .26s; }
@@ -175,3 +175,19 @@ html.vxa-locked, html.vxa-locked body { overflow: hidden; }
   .vxa__typing span { animation: none; opacity: .6; }
 }
 @media print { .vxa, .vxa-launch, .vxa-nudge { display: none !important; } }
+
+/* window character: launcher avatar, greeting bubble, one-time wave */
+.vxa-launch__av { overflow: visible; }
+.vxa-launch__av .vxm { width: 40px; height: 40px; margin-top: -4px; }
+.vxa-nudge__av { width: 56px; height: 56px; background: transparent; margin: -18px 0 0 -6px; }
+.vxa-nudge__av svg.vxm { width: 56px; height: 56px; }
+.vxm-arm, .vxm-body { transform-box: view-box; }
+.vxm-arm { transform-origin: 15px 36px; }
+.vxm-body { transform-origin: 32px 58px; }
+@media (prefers-reduced-motion: no-preference) {
+  .is-waving .vxm-arm { animation: vxmWave 1.9s ease-in-out 1; }
+  .is-waving .vxm-body { animation: vxmHop 1.9s ease-in-out 1; }
+  .vxa-launch:hover .vxm-arm { animation: vxmWave 1.2s ease-in-out 1; }
+}
+@keyframes vxmWave { 0%, 100% { transform: rotate(0); } 12% { transform: rotate(-30deg); } 26% { transform: rotate(12deg); } 40% { transform: rotate(-30deg); } 54% { transform: rotate(12deg); } 68% { transform: rotate(-24deg); } 82% { transform: rotate(6deg); } }
+@keyframes vxmHop { 0%, 100% { transform: none; } 10% { transform: translateY(-3px); } 22% { transform: none; } 34% { transform: translateY(-2px); } 46% { transform: none; } }

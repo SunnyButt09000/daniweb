@@ -130,6 +130,7 @@
       note: $('cfg-note-in'), fig: $('cfg-fig'), draw: $('cfg-draw'), add: $('cfg-add'), cancel: $('cfg-cancel'), msg: $('cfg-msg'),
       ref: $('cfg-ref'), mode: $('cfg-mode'), colourName: $('cfg-colour-name'), list: $('ql-items'), empty: $('ql-empty'),
       count: $('ql-count'), units: $('qs-units'), area: $('qs-area'), sheet: $('qb-sheet'),
+      next: $('ql-next'), nextSum: $('ql-next-sum'), cont: $('ql-continue'), dToggle: $('qd-toggle'), dBody: $('qd-body'), dSec: $('quote-details'), dHint: $('qd-hint'),
     };
     const SINGULAR = {
       'casement-windows': 'Casement window', 'flush-casement-windows': 'Flush casement window', 'tilt-and-turn-windows': 'Tilt & turn window',
@@ -275,6 +276,10 @@
         el.list.append(li);
       });
       el.empty.hidden = items.length > 0;
+      if (el.next) {
+        el.next.hidden = items.length === 0;
+        el.nextSum.textContent = `${items.length} item${items.length === 1 ? '' : 's'} · ${units} unit${units === 1 ? '' : 's'}${area ? ` · ${area.toFixed(2)} m²` : ''}`;
+      }
       el.count.textContent = `${items.length} item${items.length === 1 ? '' : 's'}`;
       el.units.textContent = units;
       el.area.textContent = area ? `${area.toFixed(2)} m²` : '—';
@@ -361,6 +366,41 @@
     syncType();
     renderList();
 
+    /* ---------- step 2: job and contact details (opens after "Send for quote") ---------- */
+    const smooth = () => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
+    function setDetails(open, { scroll = false } = {}) {
+      if (!el.dSec) return;
+      el.dSec.classList.toggle('is-collapsed', !open);
+      el.dToggle.setAttribute('aria-expanded', String(open));
+      el.dBody.inert = !open;
+      if (open) {
+        const h = el.dBody.scrollHeight;
+        el.dBody.style.maxHeight = `${h}px`;
+        setTimeout(() => { if (!el.dSec.classList.contains('is-collapsed')) el.dBody.style.maxHeight = 'none'; }, 650);
+        if (scroll) {
+          el.dSec.scrollIntoView({ behavior: smooth(), block: 'start' });
+          setTimeout(() => quoteForm.elements.name?.focus({ preventScroll: true }), 700);
+        }
+      } else {
+        el.dBody.style.maxHeight = `${el.dBody.scrollHeight}px`;
+        requestAnimationFrame(() => { el.dBody.style.maxHeight = '0px'; });
+      }
+    }
+    if (el.dSec) {
+      // collapsed until the visitor has a list and chooses to continue
+      el.dSec.classList.add('is-collapsed');
+      el.dBody.style.maxHeight = '0px';
+      el.dBody.inert = true;
+      el.dToggle.setAttribute('aria-expanded', 'false');
+      el.dToggle.addEventListener('click', () => {
+        const open = el.dSec.classList.contains('is-collapsed');
+        if (open && !items.length) { say('Add at least one window or door to your list first.', true); cfg.scrollIntoView({ behavior: smooth(), block: 'start' }); return; }
+        setDetails(open, { scroll: open });
+      });
+      el.cont?.addEventListener('click', () => setDetails(true, { scroll: true }));
+      window.addEventListener('resize', () => { if (!el.dSec.classList.contains('is-collapsed')) el.dBody.style.maxHeight = 'none'; });
+    }
+
     /* ---------- message ---------- */
     const today = () => new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     function compose(form) {
@@ -387,7 +427,20 @@
       });
       if (val(form, 'message')) lines.push('', '*Notes*', val(form, 'message'));
       lines.push('', '_Sizes are customer measurements, to be confirmed at survey._', 'Quote sheet and photos to follow in this chat.');
-      return lines.join('\n');
+      const full = lines.join('\n');
+      if (encodeURIComponent(full).length <= 7000) return full;
+      // very long schedules: one line per item so every item still fits in a single WhatsApp message
+      const head = lines.slice(0, lines.findIndex((l) => l.startsWith('*Schedule')) + 1);
+      const rows = items.map((it, i) => {
+        const bits = [
+          `${it.w || it.h ? `${it.w || '?'}×${it.h || '?'} mm` : 'size TBC'} ×${clampQty(it.qty)}`,
+          it.glaze, it.colour, `${it.glass} glass`, openingLabel(it),
+          D.KIND[it.type] === 'W' ? `vents ${it.vents.toLowerCase()}` : '',
+          it.note ? `note: ${it.note}` : '',
+        ].filter(Boolean);
+        return `${refs[i]} ${nameOf(it.type)}${it.room ? ` (${it.room})` : ''}: ${bits.join(' · ')}`;
+      });
+      return [...head, ...rows, ...(val(form, 'message') ? ['', '*Notes*', val(form, 'message')] : []), '', '_Sizes are customer measurements, to be confirmed at survey._', 'Quote sheet with drawings and photos to follow in this chat.'].join('\n');
     }
 
     function ensureItems() {
@@ -396,173 +449,320 @@
       return false;
     }
 
-    wire(quoteForm, {
-      kind: 'Quote request',
-      subject: (f) => `Quote request ${ref} — ${val(f, 'name')} (${fmtPostcode(val(f, 'postcode'))})`,
-      compose,
-      before: () => (ensureItems() ? '' : 'Please add at least one window or door to your schedule.'),
-      after: (via) =>
-        via === 'email'
-          ? `Your email app should open with request ${ref} ready — press send there to deliver it.`
-          : `WhatsApp should open with request ${ref} ready — press send in WhatsApp. Then tap “Save quote sheet” and attach it, with photos, in the same chat.`,
-    });
-
-    /* ---------- quote sheet (PNG) ---------- */
-    async function sheetBlob() {
-      const fonts = ['700 32px Archivo', '600 22px Archivo', '400 16px "IBM Plex Sans"', '600 16px "IBM Plex Sans"', '500 12px "IBM Plex Mono"'];
-      await Promise.all(fonts.map((f) => document.fonts?.load(f).catch(() => null)));
+    /* ---------- short WhatsApp / email message (the full schedule goes in the PDF) ---------- */
+    function shortMessage(form) {
       const refs = refsOf(items);
+      const units = items.reduce((a, it) => a + clampQty(it.qty), 0);
+      return [
+        `*Quote request ${ref} · ${VX.name || ''}*`,
+        '',
+        ...contactLines(form),
+        `Property: ${val(form, 'property')} · Start: ${val(form, 'timeframe')}`,
+        '',
+        `*${items.length} item${items.length === 1 ? '' : 's'} · ${units} unit${units === 1 ? '' : 's'}*`,
+        ...items.map((it, i) => `${refs[i]} ${nameOf(it.type)}${it.room ? ` (${it.room})` : ''} · ${it.w && it.h ? `${it.w}×${it.h} mm` : 'size TBC'} · ×${clampQty(it.qty)}`),
+        '',
+        `📎 Full schedule with drawings: ${pdfName()} (attached).`,
+      ].join('\n');
+    }
+    const pdfName = () => `${VX.brand || 'Quote'}-quote-${ref}.pdf`;
+
+    /* ---------- PDF: cover page + one page per item ---------- */
+    const COLOUR_HEX = { White: '#f5f5f2', Cream: '#ede6cf', 'Agate grey': '#b4b2aa', 'Anthracite grey': '#3a4044', Black: '#232426', 'Chartwell green': '#8fa592', 'Golden oak': '#a8692d', Rosewood: '#5b2a22' };
+    async function pdfBlob() {
+      const fonts = ['700 34px Archivo', '600 26px Archivo', '400 18px "IBM Plex Sans"', '600 18px "IBM Plex Sans"', 'italic 400 18px "IBM Plex Sans"', '500 14px "IBM Plex Mono"'];
+      await Promise.all(fonts.map((f) => document.fonts?.load(f).catch(() => null)));
       const f = quoteForm;
-      const Wd = 1080, S = 2, M = 48;
-      const rowH = 268;
-      const meas = document.createElement('canvas').getContext('2d');
-      const wrap = (ctx, text, maxW) => {
-        const words = String(text).split(/\s+/);
-        const out = [];
-        let line = '';
-        words.forEach((w) => {
-          const t = line ? `${line} ${w}` : w;
-          if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t;
-        });
+      const refs = refsOf(items);
+      const PW = 1240, PH = 1754, M = 80; // A4 at 150 dpi
+      const INK = '#1b2024', SLATE = '#586166', MUTED = '#7a8287', BRASS = '#b98a45', LINE = '#d5d9d6', PAPER = '#f4f5f3';
+      const units = items.reduce((a, it) => a + clampQty(it.qty), 0);
+      const total = items.reduce((a, it) => a + areaOf(it), 0);
+      const pages = items.length + 1;
+      const cust = [['Name', val(f, 'name') || '—'], ['Phone', val(f, 'phone') || '—'], ['Email', val(f, 'email') || '—'], ['Postcode', val(f, 'postcode') ? fmtPostcode(val(f, 'postcode')) : '—'], ['Property', val(f, 'property')], ['Start', val(f, 'timeframe')]];
+
+      const newPage = () => {
+        const cv = document.createElement('canvas');
+        cv.width = PW; cv.height = PH;
+        const c = cv.getContext('2d');
+        c.fillStyle = '#fff'; c.fillRect(0, 0, PW, PH);
+        return { cv, c };
+      };
+      const T = (c, t, x, y, font, color = INK, align = 'left', maxW) => {
+        c.font = font; c.fillStyle = color; c.textAlign = align;
+        let s = String(t);
+        if (maxW) while (s.length > 3 && c.measureText(s).width > maxW) s = s.slice(0, -2);
+        c.fillText(s === String(t) ? s : `${s.trimEnd()}…`, x, y);
+      };
+      const wrap = (c, text, maxW) => {
+        const out = []; let line = '';
+        String(text).split(/\s+/).forEach((w) => { const t = line ? `${line} ${w}` : w; if (c.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; });
         if (line) out.push(line);
         return out;
       };
-      meas.font = '400 16px "IBM Plex Sans"';
-      const notes = val(f, 'message') ? wrap(meas, val(f, 'message'), Wd - 2 * M) : [];
-      const headH = 150, custH = 200, schedHeadH = 70;
-      const footH = 150 + (notes.length ? 40 + notes.length * 24 : 0);
-      const Ht = headH + custH + schedHeadH + items.length * rowH + footH;
-      const cv = document.createElement('canvas');
-      cv.width = Wd * S;
-      cv.height = Ht * S;
-      const c = cv.getContext('2d');
-      c.scale(S, S);
-      const INK = '#1b2024', SLATE = '#586166', MUTED = '#7a8287', BRASS = '#b98a45', LINE = '#d5d9d6', PAPER = '#f4f5f3';
-      const text = (t, x, y, font, color = INK, align = 'left') => { c.font = font; c.fillStyle = color; c.textAlign = align; c.fillText(t, x, y); };
-      c.fillStyle = '#fff'; c.fillRect(0, 0, Wd, Ht);
-      // header
-      c.fillStyle = INK; c.fillRect(0, 0, Wd, headH);
-      c.strokeStyle = '#f1f2f0'; c.lineWidth = 4; c.strokeRect(M + 2, 50, 46, 46);
-      c.lineWidth = 3; c.beginPath(); c.moveTo(M + 25, 52); c.lineTo(M + 25, 94); c.moveTo(M + 4, 66); c.lineTo(M + 46, 66); c.stroke();
-      c.fillStyle = BRASS; c.fillRect(M + 29, 70, 14, 21);
-      text((VX.brand || '').toUpperCase(), M + 66, 80, '700 32px Archivo', '#f1f2f0');
-      text('WINDOWS & DOORS', M + 67, 102, '500 12px "IBM Plex Mono"', '#9aa1a5');
-      text('QUOTE REQUEST', Wd - M, 62, '500 13px "IBM Plex Mono"', BRASS, 'right');
-      text(ref, Wd - M, 94, '600 26px Archivo', '#f1f2f0', 'right');
-      text(today(), Wd - M, 120, '400 15px "IBM Plex Sans"', '#9aa1a5', 'right');
-      // customer
-      let y = headH + 44;
-      text('CUSTOMER', M, y, '500 12px "IBM Plex Mono"', BRASS);
-      const pairs = [['Name', val(f, 'name') || '—'], ['Phone', val(f, 'phone') || '—'], ['Email', val(f, 'email') || '—'], ['Postcode', val(f, 'postcode') ? fmtPostcode(val(f, 'postcode')) : '—'], ['Property', val(f, 'property')], ['Start', val(f, 'timeframe')]];
-      pairs.forEach(([k, v], i) => {
-        const col = i % 3, row = Math.floor(i / 3);
-        const x = M + col * ((Wd - 2 * M) / 3), yy = y + 36 + row * 62;
-        text(k.toUpperCase(), x, yy, '500 11px "IBM Plex Mono"', MUTED);
-        c.font = '600 17px "IBM Plex Sans"';
-        let vv = v;
-        while (c.measureText(vv).width > (Wd - 2 * M) / 3 - 16 && vv.length > 4) vv = vv.slice(0, -2);
-        text(vv === v ? v : vv + '…', x, yy + 24, '600 17px "IBM Plex Sans"', INK);
-      });
-      y = headH + custH;
-      c.fillStyle = LINE; c.fillRect(M, y - 10, Wd - 2 * M, 1);
-      // schedule head
-      const units = items.reduce((a, it) => a + clampQty(it.qty), 0);
-      const area = items.reduce((a, it) => a + areaOf(it), 0);
-      text('SCHEDULE', M, y + 30, '500 12px "IBM Plex Mono"', BRASS);
-      text(`${items.length} items · ${units} units${area ? ` · ${area.toFixed(2)} m²` : ''}`, Wd - M, y + 30, '600 16px "IBM Plex Sans"', INK, 'right');
-      y += schedHeadH;
-      // items
-      for (let i = 0; i < items.length; i++) {
-        const it = items[i];
-        const y0 = y + i * rowH;
-        c.fillStyle = i % 2 ? '#fff' : PAPER; c.fillRect(M, y0, Wd - 2 * M, rowH - 12);
-        const d = D.svg(it.type, { w: it.w, h: it.h, hinge: it.hinge || 'left', colour: it.colour, glass: it.glass, box: 160 });
+      const header = (c, n) => {
+        c.fillStyle = INK; c.fillRect(0, 0, PW, 170);
+        c.strokeStyle = '#f1f2f0'; c.lineWidth = 5; c.strokeRect(M + 2, 52, 60, 60);
+        c.lineWidth = 4; c.beginPath(); c.moveTo(M + 32, 55); c.lineTo(M + 32, 109); c.moveTo(M + 5, 74); c.lineTo(M + 59, 74); c.stroke();
+        c.fillStyle = BRASS; c.fillRect(M + 37, 79, 18, 27);
+        T(c, (VX.brand || '').toUpperCase(), M + 84, 92, '700 40px Archivo', '#f1f2f0');
+        T(c, 'WINDOWS & DOORS', M + 86, 118, '500 14px "IBM Plex Mono"', '#9aa1a5');
+        T(c, 'QUOTE REQUEST', PW - M, 70, '500 15px "IBM Plex Mono"', BRASS, 'right');
+        T(c, ref, PW - M, 106, '600 30px Archivo', '#f1f2f0', 'right');
+        T(c, `${today()} · page ${n} of ${pages}`, PW - M, 136, '400 17px "IBM Plex Sans"', '#9aa1a5', 'right');
+      };
+      const footer = (c) => {
+        c.fillStyle = LINE; c.fillRect(M, PH - 110, PW - 2 * M, 1);
+        T(c, 'Sizes are customer measurements and will be confirmed at a free survey. This is a request for a quotation, not a price.', M, PH - 76, '400 16px "IBM Plex Sans"', SLATE);
+        T(c, `${(VX.url || '').replace(/^https?:\/\//, '')} · WhatsApp ${VX.phoneDisplay || ''}`, M, PH - 46, '600 17px "IBM Plex Sans"', INK);
+        T(c, 'Drawings viewed from outside · dashed lines meet at the hinge side', PW - M, PH - 46, '400 15px "IBM Plex Sans"', MUTED, 'right');
+      };
+      const custBlock = (c, y, compact) => {
+        T(c, 'CUSTOMER', M, y, '500 15px "IBM Plex Mono"', BRASS);
+        cust.forEach(([k, v], i) => {
+          const col = i % 3, row = Math.floor(i / 3), cw = (PW - 2 * M) / 3;
+          const x = M + col * cw, yy = y + 40 + row * (compact ? 58 : 72);
+          T(c, k.toUpperCase(), x, yy, '500 13px "IBM Plex Mono"', MUTED);
+          T(c, v, x, yy + 28, `600 ${compact ? 19 : 21}px "IBM Plex Sans"`, INK, 'left', cw - 20);
+        });
+      };
+      const svgImage = async (it, box) => {
+        const d = D.svg(it.type, { w: it.w, h: it.h, hinge: it.hinge || 'left', colour: it.colour, glass: it.glass, box });
         const img = new Image();
         img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(d.svg);
-        try { await img.decode(); } catch { /* skip drawing */ }
-        const bx = M + 28, by = y0 + 52, bw = 190, bh = 170;
-        const sc = Math.min(bw / d.fw, bh / d.fh, 1);
-        const dw = d.fw * sc, dh = d.fh * sc;
-        const ix = bx + (bw - dw) / 2, iy = by + (bh - dh) / 2;
-        if (img.complete && img.naturalWidth) c.drawImage(img, ix, iy, dw, dh);
-        // dimension lines
-        c.strokeStyle = SLATE; c.lineWidth = 1;
-        c.beginPath(); c.moveTo(ix, iy - 16); c.lineTo(ix + dw, iy - 16); c.moveTo(ix, iy - 22); c.lineTo(ix, iy - 10); c.moveTo(ix + dw, iy - 22); c.lineTo(ix + dw, iy - 10);
-        c.moveTo(ix + dw + 16, iy); c.lineTo(ix + dw + 16, iy + dh); c.moveTo(ix + dw + 10, iy); c.lineTo(ix + dw + 22, iy); c.moveTo(ix + dw + 10, iy + dh); c.lineTo(ix + dw + 22, iy + dh); c.stroke();
-        c.font = '500 12px "IBM Plex Mono"';
-        const wt = it.w ? `${it.w}` : 'W?';
-        const tw = c.measureText(wt).width + 10;
-        c.fillStyle = i % 2 ? '#fff' : PAPER; c.fillRect(ix + dw / 2 - tw / 2, iy - 24, tw, 16);
-        text(wt, ix + dw / 2, iy - 12, '500 12px "IBM Plex Mono"', INK, 'center');
-        c.save(); c.translate(ix + dw + 16, iy + dh / 2); c.rotate(-Math.PI / 2);
-        const ht = it.h ? `${it.h}` : 'H?';
-        const th = c.measureText(ht).width + 10;
-        c.fillStyle = i % 2 ? '#fff' : PAPER; c.fillRect(-th / 2, -8, th, 16);
-        text(ht, 0, 4, '500 12px "IBM Plex Mono"', INK, 'center');
-        c.restore();
-        // details
-        const tx = M + 280;
-        c.fillStyle = INK; c.fillRect(tx, y0 + 30, 48, 26);
-        text(refs[i], tx + 24, y0 + 49, '600 15px Archivo', '#f1f2f0', 'center');
-        text(nameOf(it.type), tx + 62, y0 + 51, '600 22px Archivo', INK);
-        if (it.room) text(it.room, Wd - M - 24, y0 + 50, '400 15px "IBM Plex Sans"', SLATE, 'right');
+        try { await img.decode(); } catch { return null; }
+        return { img, d };
+      };
+      const jpeg = (cv) => new Promise((res) => cv.toBlob(async (b) => res({ bytes: new Uint8Array(await b.arrayBuffer()), w: cv.width, h: cv.height }), 'image/jpeg', 0.88));
+      const out = [];
+
+      // page 1: customer + schedule overview
+      {
+        const { cv, c } = newPage();
+        header(c, 1);
+        custBlock(c, 230, false);
+        let y = 430;
+        c.fillStyle = LINE; c.fillRect(M, y - 30, PW - 2 * M, 1);
+        T(c, 'SCHEDULE', M, y, '500 15px "IBM Plex Mono"', BRASS);
+        T(c, `${items.length} item${items.length === 1 ? '' : 's'} · ${units} unit${units === 1 ? '' : 's'}${total ? ` · ${total.toFixed(2)} m²` : ''}`, PW - M, y, '600 19px "IBM Plex Sans"', INK, 'right');
+        y += 30;
+        const cols = [[M, 'REF'], [M + 90, 'PRODUCT'], [M + 450, 'ROOM'], [M + 700, 'SIZE (W × H)'], [M + 950, 'QTY'], [M + 1010, 'PAGE']];
+        c.fillStyle = PAPER; c.fillRect(M, y, PW - 2 * M, 44);
+        cols.forEach(([x, t]) => T(c, t, x + 10, y + 28, '500 13px "IBM Plex Mono"', SLATE));
+        y += 44;
+        const maxRows = Math.floor((PH - 170 - y - (val(f, 'message') ? 160 : 40)) / 40);
+        items.slice(0, maxRows).forEach((it, i) => {
+          if (i % 2) { c.fillStyle = '#fafbfa'; c.fillRect(M, y, PW - 2 * M, 40); }
+          T(c, refs[i], M + 10, y + 27, '600 17px "IBM Plex Sans"', INK);
+          T(c, nameOf(it.type), M + 100, y + 27, '400 17px "IBM Plex Sans"', INK, 'left', 340);
+          T(c, it.room || '—', M + 460, y + 27, '400 17px "IBM Plex Sans"', SLATE, 'left', 230);
+          T(c, it.w || it.h ? `${it.w || '?'} × ${it.h || '?'} mm` : 'to be confirmed', M + 710, y + 27, '400 17px "IBM Plex Sans"', INK);
+          T(c, String(clampQty(it.qty)), M + 960, y + 27, '400 17px "IBM Plex Sans"', INK);
+          T(c, String(i + 2), M + 1020, y + 27, '400 17px "IBM Plex Sans"', SLATE);
+          y += 40;
+        });
+        if (items.length > maxRows) { T(c, `+ ${items.length - maxRows} more items — see the following pages`, M + 10, y + 30, 'italic 400 17px "IBM Plex Sans"', SLATE); y += 50; }
+        if (val(f, 'message')) {
+          y += 40;
+          T(c, 'NOTES FROM THE CUSTOMER', M, y, '500 15px "IBM Plex Mono"', BRASS);
+          c.font = '400 18px "IBM Plex Sans"';
+          wrap(c, val(f, 'message'), PW - 2 * M).slice(0, 4).forEach((l, j) => T(c, l, M, y + 36 + j * 28, '400 18px "IBM Plex Sans"', INK));
+        }
+        footer(c);
+        out.push(await jpeg(cv));
+      }
+
+      // one page per item
+      for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        const { cv, c } = newPage();
+        header(c, i + 2);
+        // compact customer strip so every page stands alone
+        c.fillStyle = PAPER; c.fillRect(M, 196, PW - 2 * M, 56);
+        T(c, `${val(f, 'name') || '—'} · ${val(f, 'phone') || '—'} · ${val(f, 'postcode') ? fmtPostcode(val(f, 'postcode')) : '—'}`, M + 20, 232, '600 18px "IBM Plex Sans"', INK, 'left', PW - 2 * M - 220);
+        T(c, `Item ${i + 1} of ${items.length}`, PW - M - 20, 232, '500 15px "IBM Plex Mono"', SLATE, 'right');
+        // title
+        c.fillStyle = INK; c.fillRect(M, 296, 92, 48);
+        T(c, refs[i], M + 46, 330, '600 26px Archivo', '#f1f2f0', 'center');
+        T(c, nameOf(it.type), M + 114, 332, '600 34px Archivo', INK, 'left', PW - 2 * M - 120);
+        if (it.room) T(c, it.room, M + 114, 368, '400 20px "IBM Plex Sans"', SLATE);
+        // drawing with dimension lines
+        const areaTop = 410, areaH = 660, areaW = PW - 2 * M;
+        c.fillStyle = '#fbfcfb'; c.fillRect(M, areaTop, areaW, areaH);
+        c.strokeStyle = 'rgba(27,32,36,.05)'; c.lineWidth = 1;
+        for (let gx = M; gx <= M + areaW; gx += 24) { c.beginPath(); c.moveTo(gx, areaTop); c.lineTo(gx, areaTop + areaH); c.stroke(); }
+        for (let gy = areaTop; gy <= areaTop + areaH; gy += 24) { c.beginPath(); c.moveTo(M, gy); c.lineTo(M + areaW, gy); c.stroke(); }
+        const pic = await svgImage(it, 420);
+        if (pic) {
+          const maxW = 620, maxH = 500;
+          const sc = Math.min(maxW / pic.d.fw, maxH / pic.d.fh, 1.6);
+          const dw = pic.d.fw * sc, dh = pic.d.fh * sc;
+          const ix = M + (areaW - dw) / 2 - 30, iy = areaTop + 100 + (maxH - dh) / 2;
+          c.drawImage(pic.img, ix, iy, dw, dh);
+          c.strokeStyle = SLATE; c.lineWidth = 1.5;
+          c.beginPath();
+          c.moveTo(ix, iy - 34); c.lineTo(ix + dw, iy - 34); c.moveTo(ix, iy - 44); c.lineTo(ix, iy - 24); c.moveTo(ix + dw, iy - 44); c.lineTo(ix + dw, iy - 24);
+          c.moveTo(ix + dw + 34, iy); c.lineTo(ix + dw + 34, iy + dh); c.moveTo(ix + dw + 24, iy); c.lineTo(ix + dw + 44, iy); c.moveTo(ix + dw + 24, iy + dh); c.lineTo(ix + dw + 44, iy + dh);
+          c.stroke();
+          const wl = it.w ? `${it.w} mm` : 'W to confirm';
+          c.font = '500 20px "IBM Plex Mono"';
+          const tw = c.measureText(wl).width + 20;
+          c.fillStyle = '#fbfcfb'; c.fillRect(ix + dw / 2 - tw / 2, iy - 48, tw, 28);
+          T(c, wl, ix + dw / 2, iy - 27, '500 20px "IBM Plex Mono"', INK, 'center');
+          c.save(); c.translate(ix + dw + 34, iy + dh / 2); c.rotate(-Math.PI / 2);
+          const hl = it.h ? `${it.h} mm` : 'H to confirm';
+          const th = c.measureText(hl).width + 20;
+          c.fillStyle = '#fbfcfb'; c.fillRect(-th / 2, -14, th, 28);
+          T(c, hl, 0, 7, '500 20px "IBM Plex Mono"', INK, 'center');
+          c.restore();
+        }
+        // details table
+        let y = areaTop + areaH + 50;
+        const opening = [openingLabel(it), D.KIND[it.type] === 'W' ? `Trickle vents: ${it.vents.toLowerCase()}` : ''].filter(Boolean).join(' · ');
         const rows = [
-          ['Size', sizeText(it)], ['Quantity', String(clampQty(it.qty))], ['Glazing', `${it.glaze} · ${it.glass} glass`], ['Colour', it.colour],
-          ...(openingLabel(it) || D.KIND[it.type] === 'W' ? [['Opening', [openingLabel(it), D.KIND[it.type] === 'W' ? `Trickle vents: ${it.vents.toLowerCase()}` : ''].filter(Boolean).join(' · ')]] : []),
+          ['Size', sizeText(it)],
+          ['Quantity', String(clampQty(it.qty))],
+          ...(areaOf(it) ? [['Area', `${areaOf(it).toFixed(2)} m² (all units)`]] : []),
+          ['Glazing', it.glaze],
+          ['Glass', it.glass],
+          ['Colour', it.colour],
+          ...(opening ? [['Opening', opening]] : []),
+          ...(it.note ? [['Note', it.note]] : []),
         ];
         rows.forEach(([k, v], j) => {
-          text(k.toUpperCase(), tx, y0 + 90 + j * 27, '500 11px "IBM Plex Mono"', MUTED);
-          text(v, tx + 110, y0 + 90 + j * 27, '400 16px "IBM Plex Sans"', INK);
+          if (j % 2 === 0) { c.fillStyle = PAPER; c.fillRect(M, y - 30, PW - 2 * M, 46); }
+          T(c, k.toUpperCase(), M + 16, y, '500 15px "IBM Plex Mono"', MUTED);
+          if (k === 'Colour' && COLOUR_HEX[v]) {
+            c.fillStyle = COLOUR_HEX[v]; c.fillRect(M + 260, y - 20, 24, 24);
+            c.strokeStyle = 'rgba(0,0,0,.25)'; c.lineWidth = 1; c.strokeRect(M + 260, y - 20, 24, 24);
+            T(c, v, M + 296, y, '400 20px "IBM Plex Sans"', INK);
+          } else T(c, v, M + 260, y, k === 'Note' ? 'italic 400 20px "IBM Plex Sans"' : '400 20px "IBM Plex Sans"', INK, 'left', PW - 2 * M - 280);
+          y += 46;
         });
-        if (it.note) {
-          c.font = 'italic 400 15px "IBM Plex Sans"';
-          const nl = wrap(c, `Note: ${it.note}`, Wd - M - 24 - tx).slice(0, 2);
-          nl.forEach((l, j) => text(l, tx, y0 + 90 + rows.length * 27 + 6 + j * 21, 'italic 400 15px "IBM Plex Sans"', SLATE));
-        }
+        footer(c);
+        out.push(await jpeg(cv));
       }
-      // footer
-      y += items.length * rowH + 10;
-      if (notes.length) {
-        text('NOTES', M, y + 20, '500 12px "IBM Plex Mono"', BRASS);
-        notes.forEach((l, j) => text(l, M, y + 48 + j * 24, '400 16px "IBM Plex Sans"', INK));
-        y += 40 + notes.length * 24;
-      }
-      c.fillStyle = LINE; c.fillRect(M, y + 20, Wd - 2 * M, 1);
-      text('Sizes are customer measurements and will be confirmed at a free survey. This is a request for a quotation, not a price.', M, y + 52, '400 14px "IBM Plex Sans"', SLATE);
-      text(`${(VX.url || '').replace(/^https?:\/\//, '')} · WhatsApp ${VX.phoneDisplay || ''}`, M, y + 82, '600 15px "IBM Plex Sans"', INK);
-      text('Drawings viewed from outside · dashed lines meet at the hinge side', Wd - M, y + 82, '400 13px "IBM Plex Sans"', MUTED, 'right');
-      return new Promise((res) => cv.toBlob(res, 'image/png'));
+      return makePdf(out, `Quote request ${ref}`);
     }
+
+    // minimal PDF writer: each page is one full-page JPEG image
+    function makePdf(pages, title) {
+      const enc = new TextEncoder();
+      const parts = [];
+      let len = 0;
+      const offs = [];
+      const push = (d) => { const b = typeof d === 'string' ? enc.encode(d) : d; parts.push(b); len += b.length; };
+      const W = 595.28, H = 841.89;
+      const n = pages.length;
+      const obj = (id, fn) => { offs[id] = len; push(`${id} 0 obj\n`); fn(); push('\nendobj\n'); };
+      push('%PDF-1.4\n');
+      push(new Uint8Array([37, 226, 227, 207, 211, 10]));
+      const info = 3 + n * 3;
+      obj(1, () => push('<< /Type /Catalog /Pages 2 0 R >>'));
+      obj(2, () => push(`<< /Type /Pages /Count ${n} /Kids [${pages.map((_, i) => `${3 + i * 3} 0 R`).join(' ')}] >>`));
+      pages.forEach((pg, i) => {
+        const pid = 3 + i * 3, cid = pid + 1, iid = pid + 2;
+        obj(pid, () => push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /XObject << /Im${i} ${iid} 0 R >> >> /Contents ${cid} 0 R >>`));
+        const content = `q ${W} 0 0 ${H} 0 0 cm /Im${i} Do Q`;
+        obj(cid, () => push(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`));
+        obj(iid, () => { push(`<< /Type /XObject /Subtype /Image /Width ${pg.w} /Height ${pg.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${pg.bytes.length} >>\nstream\n`); push(pg.bytes); push('\nendstream'); });
+      });
+      const safe = String(title).replace(/[()\\\r\n]/g, ' ');
+      obj(info, () => push(`<< /Title (${safe}) /Creator (${String(VX.name || '').replace(/[()\\]/g, ' ')} website) >>`));
+      const xref = len;
+      push(`xref\n0 ${info + 1}\n0000000000 65535 f \n`);
+      for (let id = 1; id <= info; id++) push(`${String(offs[id]).padStart(10, '0')} 00000 n \n`);
+      push(`trailer\n<< /Size ${info + 1} /Root 1 0 R /Info ${info} 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+      return new Blob(parts, { type: 'application/pdf' });
+    }
+
+    /* ---------- sending: build the PDF, save it, then open WhatsApp or email ---------- */
+    let lastPdf = null;
+    const sendBox = $('qb-sendbox');
+    function downloadBlob(blob, name) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      document.body.append(a);
+      a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 8000);
+    }
+    async function preparePdf() {
+      const label = el.sheet?.querySelector('span');
+      const old = label?.textContent;
+      if (label) label.textContent = 'Preparing PDF…';
+      if (el.sheet) el.sheet.disabled = true;
+      try {
+        lastPdf = await pdfBlob();
+        return lastPdf;
+      } finally {
+        if (label) label.textContent = old;
+        if (el.sheet) el.sheet.disabled = false;
+      }
+    }
+    function showSendBox(via, form) {
+      if (!sendBox) return;
+      const isWa = via !== 'email';
+      const href = isWa ? `https://wa.me/${VX.wa}?text=${encodeURIComponent(shortMessage(form))}` : `mailto:${VX.email}?subject=${encodeURIComponent(`Quote request ${ref} — ${val(form, 'name')}`)}&body=${encodeURIComponent(shortMessage(form).replace(/\*/g, ''))}`;
+      sendBox.querySelector('[data-sb-file]').textContent = pdfName();
+      sendBox.querySelector('[data-sb-pages]').textContent = `${items.length + 1} pages · one page per item`;
+      const open = sendBox.querySelector('[data-sb-open]');
+      open.href = href;
+      open.querySelector('span').textContent = isWa ? 'Open WhatsApp chat' : 'Open my email';
+      open.className = `btn btn--lg ${isWa ? 'btn--wa' : 'btn--primary'}`;
+      if (isWa) { open.target = '_blank'; open.rel = 'noopener'; } else { open.removeAttribute('target'); }
+      sendBox.querySelector('[data-sb-how]').textContent = isWa
+        ? 'In the WhatsApp chat, tap 📎 (or +) → Document, choose the PDF from Downloads, then press Send.'
+        : 'In your email, attach the PDF from Downloads, then press Send.';
+      const share = sendBox.querySelector('[data-sb-share]');
+      const file = typeof File === 'function' && lastPdf ? new File([lastPdf], pdfName(), { type: 'application/pdf' }) : null;
+      share.hidden = !(isWa && file && navigator.canShare?.({ files: [file] }));
+      share.onclick = () => navigator.share({ files: [file], title: `Quote request ${ref}`, text: shortMessage(form) }).catch(() => {});
+      sendBox.querySelector('[data-sb-again]').onclick = () => lastPdf && downloadBlob(lastPdf, pdfName());
+      sendBox.hidden = false;
+      sendBox.scrollIntoView({ behavior: smooth(), block: 'center' });
+      open.focus({ preventScroll: true });
+    }
+
+    let via = 'whatsapp';
+    quoteForm.querySelectorAll('[data-send]').forEach((b) => b.addEventListener('click', () => (via = b.dataset.send)));
+    quoteForm.addEventListener('input', (e) => { const x = e.target.closest('.is-invalid'); if (x) x.classList.remove('is-invalid'); });
+    quoteForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (e.submitter?.dataset.send) via = e.submitter.dataset.send;
+      const errors = validate(quoteForm);
+      if (errors.length) {
+        showMsg(quoteForm, errors.length === 1 ? errors[0].msg : `Please check the ${errors.length} highlighted fields.`);
+        errors[0].el.focus();
+        return;
+      }
+      if (!ensureItems()) { showMsg(quoteForm, 'Please add at least one window or door to your schedule.'); return; }
+      showMsg(quoteForm, '');
+      postCopy('Quote request', quoteForm, compose(quoteForm));
+      try {
+        const blob = await preparePdf();
+        downloadBlob(blob, pdfName());
+        showSendBox(via, quoteForm);
+      } catch {
+        // PDF could not be made on this device: fall back to the full text schedule
+        if (via === 'email') openEmail(`Quote request ${ref} — ${val(quoteForm, 'name')}`, compose(quoteForm));
+        else openWhatsApp(compose(quoteForm));
+        showMsg(quoteForm, `WhatsApp should open with request ${ref} and your full list. Press send there.`, true);
+      }
+    });
 
     el.sheet?.addEventListener('click', async () => {
       if (!ensureItems()) { showMsg(quoteForm, 'Please add at least one window or door to your schedule first.'); return; }
-      const label = el.sheet.querySelector('span');
-      const old = label.textContent;
-      label.textContent = 'Preparing…';
-      el.sheet.disabled = true;
       try {
-        const blob = await sheetBlob();
-        const name = `${VX.brand || 'Quote'}-quote-${ref}.png`;
-        const file = typeof File === 'function' ? new File([blob], name, { type: 'image/png' }) : null;
-        if (file && navigator.canShare?.({ files: [file] }) && matchMedia('(pointer: coarse)').matches) {
-          await navigator.share({ files: [file], title: `Quote request ${ref}` }).catch(() => {});
-        } else {
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = name;
-          document.body.append(a);
-          a.click();
-          setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
-        }
-        showMsg(quoteForm, `Quote sheet ${ref} saved. Attach it in your WhatsApp chat with us.`, true);
+        downloadBlob(await preparePdf(), pdfName());
+        showMsg(quoteForm, `${pdfName()} saved.`, true);
       } catch {
-        showMsg(quoteForm, 'Sorry, the quote sheet could not be created on this device. Your WhatsApp message still contains every detail.');
-      } finally {
-        label.textContent = old;
-        el.sheet.disabled = false;
+        showMsg(quoteForm, 'Sorry, the PDF could not be created on this device. Your WhatsApp message will still contain every detail.');
       }
     });
-    VX.quoteSheet = sheetBlob;
+    VX.quotePdf = pdfBlob;
+    VX.quoteShort = () => shortMessage(quoteForm);
+    VX.quoteFull = () => compose(quoteForm);
   }
 
   /* =====================================================

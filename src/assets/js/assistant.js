@@ -1229,6 +1229,8 @@
      ===================================================================== */
   const SVG = {
     mark: '<svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="29" height="29" fill="none" stroke="currentColor" stroke-width="3"/><path d="M16 3v26M3 13h26" stroke="currentColor" stroke-width="2.5"/><rect x="18.5" y="15.5" width="9.5" height="11.5" fill="#b98a45"/></svg>',
+    // friendly window character used on the launcher and the greeting bubble; the left arm waves
+    mascot: '<svg class="vxm" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><ellipse cx="33" cy="60" rx="15" ry="2.6" fill="#1b2024" opacity=".14"/><g class="vxm-body"><rect x="21" y="52" width="5" height="6" rx="1.5" fill="#2b3237"/><rect x="38" y="52" width="5" height="6" rx="1.5" fill="#2b3237"/><g class="vxm-arm"><path d="M15 36 Q9 32 7 24" fill="none" stroke="#383e42" stroke-width="4" stroke-linecap="round"/><circle cx="7" cy="22" r="4.2" fill="#b98a45"/></g><path d="M49 36 Q54 40 54 46" fill="none" stroke="#383e42" stroke-width="4" stroke-linecap="round"/><circle cx="54" cy="47.5" r="3.6" fill="#b98a45"/><rect x="13" y="10" width="38" height="44" rx="7" fill="#383e42"/><rect x="18" y="15" width="28" height="34" rx="3.5" fill="#dfeaec"/><path d="M20 19 L26 17 M20 23 L29 18" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".9"/><circle cx="27" cy="30" r="2.8" fill="#1b2024"/><circle cx="37" cy="30" r="2.8" fill="#1b2024"/><circle cx="28" cy="29" r=".9" fill="#fff"/><circle cx="38" cy="29" r=".9" fill="#fff"/><circle cx="23.5" cy="35.5" r="2" fill="#b98a45" opacity=".45"/><circle cx="40.5" cy="35.5" r="2" fill="#b98a45" opacity=".45"/><path d="M27.5 37 Q32 41.5 36.5 37" fill="none" stroke="#1b2024" stroke-width="2" stroke-linecap="round"/><rect x="47.5" y="27" width="2.2" height="9" rx="1.1" fill="#b98a45"/></g></svg>',
     close: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg>',
     reset: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>',
     send: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>',
@@ -1264,7 +1266,7 @@
   launch.setAttribute('aria-expanded', 'false');
   if (compact) launch.setAttribute('aria-label', 'Questions? Ask us');
   const launchAv = el('span', 'vxa-launch__av');
-  launchAv.innerHTML = SVG.mark;
+  launchAv.innerHTML = SVG.mascot;
   const launchDot = el('span', 'vxa-dot');
   launchAv.append(launchDot);
   launch.append(launchAv, el('span', 'vxa-launch__txt', 'Questions? Ask us'));
@@ -1275,9 +1277,9 @@
   const nudgeBody = el('button', 'vxa-nudge__body');
   nudgeBody.type = 'button';
   const nudgeText = el('span', 'vxa-nudge__text');
-  nudgeText.append(el('strong', null, 'Hello. Can I help?'), el('span', null, 'Ask about prices, repairs or booking a survey.'));
+  nudgeText.append(el('strong', null, 'Hello! I’m here to help.'), el('span', null, 'Ask me about prices, repairs or booking a free survey.'));
   const nudgeAv = el('span', 'vxa-nudge__av');
-  nudgeAv.innerHTML = SVG.mark;
+  nudgeAv.innerHTML = SVG.mascot;
   nudgeBody.append(nudgeAv, nudgeText);
   const nudgeX = el('button', 'vxa-nudge__x');
   nudgeX.type = 'button';
@@ -1877,15 +1879,17 @@
     if (compact || state.nudged || state.msgs.length) return;
     nudgeTimer = setTimeout(() => {
       const ae = document.activeElement;
-      if (isOpen || mqMobile.matches || document.hidden || state.nudged || state.msgs.length || document.body.classList.contains('nav-open')) return;
+      if (isOpen || document.hidden || state.nudged || state.msgs.length || document.body.classList.contains('nav-open')) return;
       if (ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)) return;
       state.nudged = 1;
       save();
       refreshStatus();
       nudge.hidden = false;
       requestAnimationFrame(() => nudge.classList.add('is-in'));
-      nudgeTimer = setTimeout(() => hideNudge(), 30000);
-    }, 8000);
+      // wave once, on the bubble and on the launcher
+      if (!reduced()) [nudge, launch].forEach((n) => { n.classList.add('is-waving'); setTimeout(() => n.classList.remove('is-waving'), 2200); });
+      nudgeTimer = setTimeout(() => hideNudge(), mqMobile.matches ? 9000 : 15000);
+    }, 2500);
   }
   nudgeBody.addEventListener('click', () => open());
   nudgeX.addEventListener('click', () => { hideNudge(); launch.focus({ preventScroll: true }); });
