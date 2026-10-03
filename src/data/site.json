@@ -65,11 +65,12 @@
   },
 
   "forms": {
-    "_readme": "Optional. Paste a Formspree / Web3Forms / Basin endpoint URL to receive every quote and booking by email as well as WhatsApp.",
-    "endpoint": ""
+    "_readme": "Optional. Paste a Formspree or Basin form endpoint URL to receive a copy of every quote and booking by email as well as WhatsApp. Put the provider name in provider (shown in the privacy policy). Send a test enquiry afterwards to confirm the email arrives.",
+    "endpoint": "",
+    "provider": ""
   },
 
   "legal": {
-    "policiesUpdated": "2 October 2026"
+    "policiesUpdated": "3 October 2026"
   }
 }

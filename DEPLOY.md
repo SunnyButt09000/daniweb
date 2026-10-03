@@ -27,6 +27,8 @@ Kyun Cloudflare?
 | `accreditations` | Khali | Sirf tab likhein jab aap waqai registered hon, jaise `[{"name": "FENSA Approved Installer", "url": "https://www.fensa.org.uk"}]` |
 | `testimonials` | Khali | Sirf asli customers ke reviews likhein (format README mein hai) |
 
+> ⚠️ UK qanoon ke mutabiq website par trader ka **naam aur asal (geographic) address** dena zaroori hai. `site.json` mein `company.legalName` aur `contact.address` (ya `company.registeredOffice`) zaroor bharein.
+
 > ⚠️ Website par jhooti claims (fake reviews, FENSA bina registration ke, ghalat guarantee) UK mein **Consumer Protection** ke qanoon ke khilaf hain. Isliye ye fields khali chhori gayi hain.
 
 ---
@@ -101,7 +103,11 @@ Zip khud banane ke liye: `node build.mjs` chala kar `dist` folder ka andar ka sa
 4. "Add records and enable" dabayein (MX records khud lag jate hain).
 
 Ab website par customer jo email bhejenge woh seedha aapke Gmail mein aayegi.
-(Gmail se info@ ke naam se reply karne ke liye Gmail → Settings → Accounts → "Send mail as" use kar sakte hain.)
+
+**Email ki security (zaroori):**
+- Cloudflare → DNS → **Add record** → Type `TXT`, Name `_dmarc`, Content: `v=DMARC1; p=none; rua=mailto:info@veltrixwindowsdoor.co.uk`. Do hafte baad, jab sab theek chal raha ho, `p=none` ko `p=quarantine` kar dein. Is se koi aur aapke domain ke naam se jaali email nahi bhej sakega.
+- Agar Gmail se **info@ ke naam se reply** karna ho (Gmail → Settings → Accounts → *Send mail as*): SMTP server `smtp.gmail.com`, port 587, Google **App Password** use karein (asal password nahi). Phir Cloudflare DNS mein jo SPF `TXT` record hai (`v=spf1 ...`) us mein `include:_spf.google.com` add karein, warna aapki emails spam mein ja sakti hain.
+- Agar koi DNS record ab kisi service ke liye use nahi ho raha (purani hosting, purana CNAME), usse delete kar dein. Latakte hue records se domain takeover ka khatra hota hai.
 
 ## Step 7 — Google par aana (bohot zaroori)
 
@@ -126,5 +132,5 @@ Agar Cloudflare par build fail ho jaye to **Deployments** mein log dekhein. Aksa
 
 - Customer quote builder, booking ya contact form bharta hai → **WhatsApp khulta hai aur poora message tayyar hota hai** → customer send dabata hai → message aapke WhatsApp par.
 - Chatbot bhi quote/repair ki details le kar WhatsApp par bhejta hai.
-- **Optional:** Har form ki copy email par bhi chahiye to https://web3forms.com ya https://formspree.io par free account banayein, endpoint URL `site.json` → `forms.endpoint` mein daal dein.
+- **Optional:** Har form ki copy email par bhi chahiye to https://formspree.io (ya https://usebasin.com) par free account banayein. Form endpoint URL `site.json` → `forms.endpoint` mein, aur provider ka naam (jaise `Formspree`) `forms.provider` mein daalein. Ye naam privacy policy mein khud aa jayega. Phir ek test enquiry bhej kar check karein ke email aa rahi hai.
 - **Tip:** WhatsApp Business app use karein, aur us mein "Away message" aur "Quick replies" set kar lein.

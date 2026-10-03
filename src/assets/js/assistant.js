@@ -42,7 +42,13 @@
   const WA_BASE = WA ? `https://wa.me/${WA}` : '';
   const TEL_URL = TEL ? `tel:${TEL}` : '';
   const MAIL_URL = EMAIL ? `mailto:${EMAIL}` : '';
-  const waUrl = (text) => (!WA_BASE ? '/contact/' : text ? `${WA_BASE}?text=${encodeURIComponent(text)}` : WA_BASE);
+  // keep prefilled WhatsApp links under the safe length, shortening the visitor's text if needed
+  const waText = (text) => {
+    let t = String(text);
+    while (t.length > 1 && encodeURIComponent(t).length > 2300) t = t.slice(0, Math.max(1, t.length - 20));
+    return t === String(text) ? t : `${t.trimEnd()}…`;
+  };
+  const waUrl = (text) => (!WA_BASE ? '/contact/' : text ? `${WA_BASE}?text=${encodeURIComponent(waText(text))}` : WA_BASE);
   const hi = (rest = '') => `Hi ${BRAND}, ${rest}`.trim();
 
   // The only links the assistant will ever render.
@@ -789,6 +795,21 @@
 
   function urgent(type, q) {
     const st = status();
+    if (type === 'danger') {
+      const b = [
+        H('If anyone is in danger, call 999'),
+        UL([
+          'Call 999 if someone is hurt, trapped or in danger, or if a crime is happening now.',
+          'To report a break-in after it has happened, call the police on 101.',
+          'For an injury that is not an emergency, call NHS 111.',
+          'Keep everyone away from broken glass, and don’t climb through a damaged window or door.',
+        ]),
+        P('Once everyone is safe, we can make the window or door secure and repair it.'),
+        ACT(bCall(), bWa(hi('I need an urgent repair after an incident. Photo attached. My postcode is '), 'WhatsApp a photo')),
+      ];
+      if (st && !st.open) b.push(NOTE(`${st.text}. If the property can’t be made secure before then, an emergency glazier or locksmith is the safer option.`));
+      return { k: 'urgent', b, c: [C('Broken glass', 'My glass is broken'), C('Door won’t lock', 'My door won’t lock')] };
+    }
     if (type === 'general') {
       const f = faqBy(/how quickly/i);
       const b = [H('Urgent repairs'), P('Making the property safe comes first. If glass is broken, or a door or window won’t lock, call us and say it’s urgent.'), P('For anything else, send a photo on WhatsApp and we’ll offer the earliest appointment we have.'), ACT(bCall(), bWa(hi('I have an urgent repair. Photo attached. My postcode is '), 'WhatsApp a photo'))];
@@ -804,6 +825,7 @@
       b.push(H('Broken glass: make it safe first'));
       b.push(UL([
         'Keep children and pets away, and don’t pull loose glass out with bare hands.',
+        'If glass or a frame could fall, keep everyone away from the area inside and below it, and don’t try to remove it from a height.',
         'If the pane is cracked but still in place, run strong tape across it.',
         'If the opening is exposed or the property isn’t secure, cover it from inside with board or heavy polythene.',
       ]));
@@ -814,7 +836,7 @@
       b.push(UL([
         'Don’t force the key or handle. Forcing it can snap the gearbox or the cylinder.',
         'If a key has snapped in the lock, leave the broken piece where it is.',
-        'Check whether another door or window can be opened safely.',
+        'Check whether another door or window can be opened safely. If someone vulnerable is shut inside or in danger, call 999.',
       ]));
       b.push(P('Call us now, or send a photo of the lock and handle on WhatsApp.'));
       wa = hi('I can’t open my door. Photo of the lock attached. My postcode is ');
@@ -947,6 +969,11 @@
   const CATEGORY_RX = /^(i want |want |need )?(new |upvc |replacement |double glazing |double glazed )?(windows?|doors?)( install(ed)?| fitted| fit| want| please)?$|^install (new )?(windows?|doors?)$|\bwhat (windows?|doors?) (do you|can you)\b|\b(windows?|doors?) do you (do|offer|sell|have|fit|supply)\b|\b(types?|kinds?|range|styles?) of (windows?|doors?)\b/;
 
   function urgentType(q) {
+    // danger to people comes before anything about windows and doors
+    if (/\b(break(ing)? in(to)?|broke in(to)?|broken in(to)?|intruders?|someone (is )?(inside|trying to get in|in (my|the|our) (house|home|flat))|bleeding|cut (myself|my \w+|his \w+|her \w+)|injur(ed|y|ies)|hurt (myself|himself|herself|themselves)|(is|got|been|am|are) hurt)\b/.test(q) || /\bfire\b(?! (escape|door|doors|exit|rated|safety|resistant|regulations?))|\bsmoke\b(?! (glass|grey|tint))/.test(q) || /\b(child|baby|kid|toddler|someone|elderly|dog|pet)\b.*\b(locked|stuck|trapped) (in|inside)\b/.test(q)) return 'danger';
+    if (/\b(fall(ing|en)? out|fell out|loose|hanging|coming (out|off|away))\b/.test(q) && /\b(glass|pane|glazing|sealed unit)\b/.test(q) && !/\b(bead|beads|handle|hinge|seal|seals|gasket)\b/.test(q)) return 'glass';
+    if (/\b(fall(ing|en)?|fell|coming (out|off|away))\b/.test(q) && /\b(window|frame|sash)\b/.test(q) && /\b(out|off|away|down|from)\b/.test(q) && !/\b(handle|hinge|stay|slam|slams|shut)\b/.test(q)) return 'glass';
+    if (/\bcrack(ed)?\b/.test(q) && /\b(safe|dangerous|unsafe)\b/.test(q)) return 'glass';
     if (/\b(locked out|lock(ed)? (myself|ourselves|us|me) out|cant get (in|into|back in)|stuck outside|key (is |has |has got |got )?(snapped|broken|broke|stuck|jammed) in|snapped key|broken key in|key wont come out)\b/.test(q)) return 'lockout';
     if (/\b(break in|broken into|burglar\w*|burgled|forced (entry|open|in|the door)|kicked in|tried to break in|attempted break in)\b/.test(q)) return 'secure';
     if (/\b(broken|smashed|shattered|smash|shatter|broke|hole in)\b/.test(q) && /\b(glass|pane|panes|glazing|sealed unit)\b/.test(q) && !/\b(handle|hinge|hinges|lock|locks|mechanism|seal|seals|stay|restrictor|blind|key|price|cost|how much)\b/.test(q)) return 'glass';

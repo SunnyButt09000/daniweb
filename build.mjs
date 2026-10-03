@@ -27,6 +27,7 @@ for (const f of ['css/main.css', 'css/assistant.css', 'js/main.js', 'js/draw.js'
   hash.update(readFileSync(join(root, 'src/assets', f)));
 }
 hash.update(JSON.stringify(site));
+for (const f of ['products.mjs', 'repairs.mjs', 'faqs.mjs', 'guides.mjs']) hash.update(readFileSync(join(root, 'src/content', f)));
 const assetV = hash.digest('hex').slice(0, 10);
 
 rmSync(out, { recursive: true, force: true });
@@ -172,13 +173,25 @@ writeFileSync(
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'${site.forms.endpoint ? ' ' + new URL(site.forms.endpoint).origin : ''}; frame-src https://www.google.com https://maps.google.com; form-action 'self' https://wa.me mailto:; base-uri 'self'; frame-ancestors 'self'
 
-/assets/*
+/assets/css/*
   Cache-Control: public, max-age=31536000, immutable
+
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/fonts/*
+  Cache-Control: public, max-age=2592000
+
+/assets/img/*
+  Cache-Control: public, max-age=604800
 
 /assets/data/*
   Cache-Control: public, max-age=300
 `
 );
 
+if (!site.company.legalName || !(site.company.registeredOffice || (site.contact.address.street && site.contact.address.postcode))) {
+  console.warn('Note: add your trading/legal name and a geographic address in src/data/site.json (company / contact.address) before launch. UK law requires traders to show them.');
+}
 console.log(`Built ${pages.length} pages → dist/ (assets v${assetV})`);
 if (!existsSync(join(root, 'src/assets/img/og-image.png'))) console.warn('Note: og-image.png missing — run `npm run images`.');

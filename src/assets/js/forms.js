@@ -60,14 +60,17 @@
   }
   function postCopy(kind, form, text) {
     if (!VX.endpoint) return;
-    const fd = Object.fromEntries(new FormData(form).entries());
+    // send only filled-in fields; the consent tick itself is not personal data the provider needs
+    const fd = Object.fromEntries([...new FormData(form).entries()].filter(([k, v]) => k !== 'consent' && String(v).trim() !== ''));
     try {
       fetch(VX.endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ _subject: `${VX.brand} website — ${kind}`, form: kind, ...fd, summary: text }),
         keepalive: true,
-      }).catch(() => {});
+      })
+        .then((r) => { if (!r.ok) console.warn('Form copy was not accepted by the form service:', r.status); })
+        .catch((e) => console.warn('Form copy could not be sent:', e));
     } catch { /* ignore */ }
   }
 
@@ -572,10 +575,15 @@
       const t = bookForm.querySelector('[name="type"]:checked')?.value;
       bookForm.querySelectorAll('[data-show-for]').forEach((el) => (el.hidden = el.dataset.showFor !== t));
     };
-    const t = params.get('type');
-    if (t && bookForm.querySelector(`[name="type"][value="${t}"]`)) bookForm.querySelector(`[name="type"][value="${t}"]`).checked = true;
-    const r = params.get('repair');
-    if (r && bookForm.elements.repair) bookForm.elements.repair.value = r;
+    // prefill from the link, matching exact values only (never build selectors from the URL)
+    try {
+      const t = params.get('type');
+      const radio = t && [...bookForm.querySelectorAll('[name="type"]')].find((x) => x.value === t);
+      if (radio) radio.checked = true;
+      const r = params.get('repair');
+      const sel = bookForm.elements.repair;
+      if (r && sel && [...sel.options].some((o) => o.value === r)) sel.value = r;
+    } catch { /* ignore a bad link */ }
     bookForm.addEventListener('change', sync);
     sync();
 
