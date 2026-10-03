@@ -130,7 +130,7 @@
       note: $('cfg-note-in'), fig: $('cfg-fig'), draw: $('cfg-draw'), add: $('cfg-add'), cancel: $('cfg-cancel'), msg: $('cfg-msg'),
       ref: $('cfg-ref'), mode: $('cfg-mode'), colourName: $('cfg-colour-name'), list: $('ql-items'), empty: $('ql-empty'),
       count: $('ql-count'), units: $('qs-units'), area: $('qs-area'), sheet: $('qb-sheet'),
-      model: $('cfg-model'), modelF: $('cfg-model-f'), modelL: $('cfg-model-l'), modelLink: $('cfg-model-link'),
+      pattern: $('cfg-pattern'), model: $('cfg-model'), modelF: $('cfg-model-f'), modelL: $('cfg-model-l'), modelLink: $('cfg-model-link'),
       next: $('ql-next'), nextSum: $('ql-next-sum'), cont: $('ql-continue'), dToggle: $('qd-toggle'), dBody: $('qd-body'), dSec: $('quote-details'), dHint: $('qd-hint'),
     };
     const SINGULAR = {
@@ -144,11 +144,13 @@
     let MODELS = {}, MODEL_URLS = {};
     try { const j = JSON.parse($('vx-models')?.textContent || '{}'); MODELS = j.models || {}; MODEL_URLS = j.urls || {}; } catch { /* builder still works without models */ }
     const modelOf = (it) => (it && it.model ? (MODELS[it.type] || []).find((m) => m.c === it.model) || null : null);
+    const PATTERNS = { georgian: 'Georgian bars', diamond: 'Diamond lead', square: 'Square lead' };
+    const patternText = (it) => PATTERNS[it.pattern] || '';
     const modelText = (it) => { const m = modelOf(it); return m ? `${m.c} · ${m.n}` : ''; };
     // drawing options for an item: its model's layout, and the model's typical size until a size is typed
     const drawOpts = (it, extra = {}) => {
       const m = modelOf(it);
-      return { w: it.w || (m ? m.s[0] : ''), h: it.h || (m ? m.s[1] : ''), hinge: it.hinge || 'left', colour: it.colour, glass: it.glass, layout: m ? m.l : '', ...extra };
+      return { w: it.w || (m ? m.s[0] : ''), h: it.h || (m ? m.s[1] : ''), hinge: it.hinge || 'left', colour: it.colour, glass: it.glass, pattern: PATTERNS[it.pattern] ? it.pattern : '', layout: m ? m.l : '', ...extra };
     };
     const nameOf = (slug) => SINGULAR[slug] || [...el.type.options].find((o) => o.value === slug)?.textContent || slug;
     const clampQty = (v) => Math.min(50, Math.max(1, parseInt(v, 10) || 1));
@@ -187,12 +189,13 @@
     const read = () => ({
       id: editing || uid(), type: el.type.value, w: el.w.value.trim(), h: el.h.value.trim(), room: el.room.value.trim(),
       qty: clampQty(el.qty.value), hinge: el.hinge.value, glaze: el.glaze.value, glass: el.glass.value, vents: el.vents.value,
-      colour: colourVal(), note: el.note.value.trim(), model: getModel(),
+      colour: colourVal(), note: el.note.value.trim(), model: getModel(), pattern: el.pattern?.value || '',
     });
     const write = (it) => {
       el.type.value = it.type; el.w.value = it.w || ''; el.h.value = it.h || ''; el.room.value = it.room || '';
       el.qty.value = clampQty(it.qty); el.hinge.value = it.hinge ?? 'left'; el.glaze.value = it.glaze; el.glass.value = it.glass;
       el.vents.value = it.vents || 'As existing'; el.note.value = it.note || '';
+      if (el.pattern) el.pattern.value = PATTERNS[it.pattern] ? it.pattern : '';
       const c = cfg.querySelector(`[name="cfg-colour"][value="${CSS.escape(it.colour || 'White')}"]`);
       if (c) c.checked = true;
       syncType(it.model || '');
@@ -318,7 +321,7 @@
         meta.textContent = [modelText(it), it.room, it.w || it.h ? sizeText(it) : 'Size to be confirmed', `Qty ${clampQty(it.qty)}`].filter(Boolean).join(' · ');
         const chips = document.createElement('ul');
         chips.className = 'qli__chips';
-        [it.glaze, it.colour, `${it.glass} glass`, openingLabel(it), D.KIND[it.type] === 'W' ? `Vents: ${it.vents}` : ''].filter(Boolean).forEach((c) => {
+        [it.glaze, it.colour, `${it.glass} glass`, patternText(it), openingLabel(it), D.KIND[it.type] === 'W' ? `Vents: ${it.vents}` : ''].filter(Boolean).forEach((c) => {
           const x = document.createElement('li');
           x.textContent = c;
           chips.append(x);
@@ -485,7 +488,7 @@
         lines.push('', `*${refs[i]} · ${nameOf(it.type)}*${it.room ? ` (${it.room})` : ''}`);
         if (modelOf(it)) lines.push(`Model: ${modelText(it)}`);
         lines.push(`Size: ${sizeText(it)} · Qty ${clampQty(it.qty)}`);
-        lines.push([it.glaze, it.colour, `${it.glass} glass`].join(' · '));
+        lines.push([it.glaze, it.colour, `${it.glass} glass`, patternText(it)].filter(Boolean).join(' · '));
         const extra = [openingLabel(it), D.KIND[it.type] === 'W' ? `Trickle vents: ${it.vents.toLowerCase()}` : ''].filter(Boolean).join(' · ');
         if (extra) lines.push(extra);
         if (it.note) lines.push(`Note: ${it.note}`);
@@ -499,7 +502,7 @@
       const rows = items.map((it, i) => {
         const bits = [
           `${it.w || it.h ? `${it.w || '?'}×${it.h || '?'} mm` : 'size TBC'} ×${clampQty(it.qty)}`,
-          it.glaze, it.colour, `${it.glass} glass`, openingLabel(it),
+          it.glaze, it.colour, `${it.glass} glass`, patternText(it), openingLabel(it),
           D.KIND[it.type] === 'W' ? `vents ${it.vents.toLowerCase()}` : '',
           it.note ? `note: ${it.note}` : '',
         ].filter(Boolean);
@@ -690,7 +693,7 @@
           ['Quantity', String(clampQty(it.qty))],
           ...(areaOf(it) ? [['Area', `${areaOf(it).toFixed(2)} m² (all units)`]] : []),
           ['Glazing', it.glaze],
-          ['Glass', it.glass],
+          ['Glass', patternText(it) ? `${it.glass} · ${patternText(it)}` : it.glass],
           ['Colour', it.colour],
           ...(opening ? [['Opening', opening]] : []),
           ...(it.note ? [['Note', it.note]] : []),

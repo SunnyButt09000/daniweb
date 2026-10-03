@@ -72,13 +72,15 @@ All of these live in `src/data/site.json`:
 
 ## Models and layouts
 
-Every product page has a **Models & layouts** section: the standard UK layouts or door designs for that product (98 in total), each with a drawing, a code such as `CW-05`, a short description, what it suits, a typical size and a **Quote this layout** button. The button opens the quote builder with that product and model already chosen. In the quote builder the customer can also pick a model from a list, choose "as drawn" or "opposite hand", and the model code and name go into the schedule, the WhatsApp message and the PDF.
+Every product page has a **Models & layouts** section: the standard UK layouts or door designs for that product (169 in total), each with a drawing, a code such as `CW-05`, a short description, what it suits, a typical size and a **Quote this layout** button. The button opens the quote builder with that product and model already chosen. In the quote builder the customer can also pick a model from a list, choose "as drawn" or "opposite hand", and the model code and name go into the schedule, the WhatsApp message and the PDF.
 
 All of it comes from one file, `src/content/models.mjs`:
 
 - **Add a model:** copy an entry in the right product list, give it a new unique code (two letters, a dash, two digits) and edit the name, description, `bestFor`, `size` and `layout`.
 - **Remove or reorder:** delete or move entries. The order in the file is the order on the website.
 - **Popular tag:** `popular: true`. Keep it to one or two per product.
+- **Groups:** a line like `{ group: 'Modern and contemporary designs' }` starts a group with that heading on the product page.
+- **Glass designs:** Georgian bars, diamond lead and square lead are a separate choice in the quote builder, so they work with every model.
 - **Drawing:** `layout` describes the drawing in a short code. The legend is at the top of the file. Examples: `L|T*1/F*2` is a side-hung opener beside a top-hung vent over a fixed light; `6/6` is a six-over-six sash; `3-1` is a four-panel bi-fold with three panels folding one way.
 
 The build checks every model (unique codes, sensible sizes, a valid layout code) and stops with a clear message if something is wrong, so a typo never reaches the live site. The drawings on product pages are made at build time by the same engine the quote builder uses (`src/assets/js/draw.js`, run in Node by `lib/draw-node.mjs`), so they always match.

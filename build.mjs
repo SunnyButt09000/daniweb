@@ -10,8 +10,8 @@ import { products, categories, colours } from './src/content/products.mjs';
 import { repairs, services } from './src/content/repairs.mjs';
 import { faqGroups, allFaqs } from './src/content/faqs.mjs';
 import { guides } from './src/content/guides.mjs';
-import { models } from './src/content/models.mjs';
-import { checkModels } from './lib/draw-node.mjs';
+import { models as rawModels } from './src/content/models.mjs';
+import { checkModels, normalizeModels } from './lib/draw-node.mjs';
 import { documentShell } from './lib/layout.mjs';
 import * as P from './lib/pages.mjs';
 
@@ -27,6 +27,7 @@ site.quoteUpload.endpoint = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/
 if (qu && !site.quoteUpload.endpoint) console.warn('Note: quoteUpload.endpoint in site.json is not a Google Apps Script /exec URL, so it is ignored.');
 site.quoteUpload.keepDays = Number(site.quoteUpload.keepDays) || 30;
 
+const models = normalizeModels(rawModels);
 const modelErrors = checkModels(models, products);
 if (modelErrors.length) {
   console.error(modelErrors.join('\n'));

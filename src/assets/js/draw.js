@@ -68,7 +68,29 @@
       const s = Math.min(w, h) * 0.28;
       return `<path d="M${r(x + w * 0.14)} ${r(y + h * 0.14 + s)} L${r(x + w * 0.14 + s)} ${r(y + h * 0.14)} M${r(x + w * 0.14)} ${r(y + h * 0.14 + s * 1.45)} L${r(x + w * 0.14 + s * 1.45)} ${r(y + h * 0.14)}" stroke="#fff" stroke-width="${sw * 1.1}" stroke-linecap="round" opacity=".9" fill="none"/>`;
     };
-    const glass = (x, y, w, h) => rect(x, y, w, h, glassFill, sw * 0.7) + glint(x, y, w, h);
+    // glass design laid over every pane: georgian bars, diamond lead or square lead
+    const PAT = /^(georgian|diamond|square)$/.test(o.pattern || '') ? o.pattern : '';
+    let clipN = 0;
+    const pattern = (x, y, w, h) => {
+      if (w < 12 || h < 12) return '';
+      let d = '';
+      if (PAT === 'georgian') {
+        const c = Math.max(1, Math.round(w / 34)), rw = Math.max(1, Math.round(h / 34));
+        for (let i = 1; i < c; i++) d += `M${r(x + (w * i) / c)} ${r(y)} V${r(y + h)} `;
+        for (let j = 1; j < rw; j++) d += `M${r(x)} ${r(y + (h * j) / rw)} H${r(x + w)} `;
+        return d ? `<path d="${d}" stroke="${frameCol}" stroke-width="${r(Math.max(2, t * 0.4))}"/><path d="${d}" stroke="${INK}" stroke-width="${sw * 0.35}" opacity=".5"/>` : '';
+      }
+      const s = PAT === 'diamond' ? 11 : 9;
+      if (PAT === 'square') {
+        for (let i = s; i < w; i += s) d += `M${r(x + i)} ${r(y)} V${r(y + h)} `;
+        for (let j = s * 1.3; j < h; j += s * 1.3) d += `M${r(x)} ${r(y + j)} H${r(x + w)} `;
+      } else {
+        for (let k = -h; k < w; k += s) d += `M${r(x + k)} ${r(y)} L${r(x + k + h * 0.7)} ${r(y + h)} M${r(x + k + h * 0.7)} ${r(y)} L${r(x + k)} ${r(y + h)} `;
+      }
+      const cid = `${id}c${++clipN}`;
+      return `<clipPath id="${cid}"><rect x="${r(x)}" y="${r(y)}" width="${r(w)}" height="${r(h)}"/></clipPath><path d="${d}" fill="none" stroke="#4f565b" stroke-width="${r(sw * 0.55)}" opacity=".7" clip-path="url(#${cid})"/>`;
+    };
+    const glass = (x, y, w, h) => rect(x, y, w, h, glassFill, sw * 0.7) + (PAT ? pattern(x, y, w, h) : glint(x, y, w, h));
     // an opening or fixed light: profile ring + glass
     const light = (x, y, w, h, ring) => rect(x, y, w, h, frameCol, sw) + glass(x + ring, y + ring, w - 2 * ring, h - 2 * ring);
     const hingeMark = (x, y, w, h, side, dash = '6 4') => {
@@ -354,101 +376,204 @@
     }
 
     // ---------- doors ----------
-    // door designs: half · half-georgian · glazed · glazed-georgian · slot · squares3 · arch · stripes ·
-    // panel2 · panel4 · solid · cottage · sq2 · arch2 · arch4 (plus the automatic 'upvc' and 'composite' looks)
+    // Door designs (layout code → look). Glazing is drawn with the chosen glass design (o.pattern).
+    // Half-glazed family: half · dual (two lights) · with a base of flat (default), -2p two panels, -mp moulded
+    //   panel or -groove boards, e.g. "dual-groove". Also: half-georgian · glazed · glazed-georgian · full ·
+    //   full-mid · flat · flat-mid · groove (boarded) · cottage · cottage-half · long · long-o
+    // Panel doors: panel2 · panel4 · panel6 · sq1 · sq2 · sq4p · sq4x2 · sq2arch · angle2 · arch · arch2 · arch4 ·
+    //   sunburst2 · sunburst4 · grill · p3sq · edw2 · geo5 · vic · oval
+    // Modern: slot · midsq · midsq-o · twin · sq1s · squares3 · sq3o · mid3 · sq4c · sq4o · curve5 · diamond1 ·
+    //   diamond3 · circle · stripes · solid · sq3c (three squares on a plain door)
     function doorLeaf(x, y, w, h, side, style, furn = handleCol) {
       b += rect(x, y, w, h, frameCol, sw);
       const m = Math.max(ring * 1.4, w * 0.12);
       const line = dark ? 'rgba(255,255,255,.2)' : 'rgba(0,0,0,.16)';
+      const gx = x + m, gw = w - 2 * m, top = y + m, inH = h - 2 * m;
       const panel = (px, py, pw, ph) => rect(px, py, pw, ph, 'none', sw * 0.6) + `<rect x="${r(px + 3)}" y="${r(py + 3)}" width="${r(Math.max(pw - 6, 0))}" height="${r(Math.max(ph - 6, 0))}" fill="none" stroke="${line}" stroke-width="${sw}"/>`;
+      const pair = (py, ph) => panel(gx, py, gw / 2 - 3, ph) + panel(gx + gw / 2 + 3, py, gw / 2 - 3, ph);
+      const grooves = (px, py, pw, ph, n = 5) => {
+        let d = '';
+        for (let i = 1; i < n; i++) d += `M${r(px + (pw * i) / n)} ${r(py)} V${r(py + ph)} `;
+        return `<path d="${d}" stroke="${line}" stroke-width="${sw}"/>`;
+      };
+      // lower part of a half-glazed door, from py down to the bottom rail
+      const base = (kind, py) => {
+        const ph = y + h - m - py;
+        if (kind === '2p') return pair(py, ph);
+        if (kind === 'mp') return rect(gx, py, gw, ph, 'none', sw * 0.6) + panel(gx + gw * 0.14, py + ph * 0.14, gw * 0.72, ph * 0.72);
+        if (kind === 'groove') return rect(gx, py, gw, ph, 'none', sw * 0.6) + grooves(gx, py, gw, ph);
+        return rect(gx, py, gw, ph, 'none', sw * 0.6);
+      };
       const letter = (fy) => `<rect x="${r(x + w / 2 - w * 0.17)}" y="${r(y + h * fy)}" width="${r(w * 0.34)}" height="${r(Math.max(4, h * 0.022))}" rx="1" fill="${furn}"/>`;
-      const gx = x + m, gw = w - 2 * m;
-      switch (style) {
-        case 'composite': case 'slot': {
-          const sx = side === 'left' ? x + w * 0.58 : x + w * 0.28;
-          b += glass(sx, y + h * 0.1, w * 0.14, h * 0.62);
-          b += `<path d="M${r(x + m)} ${r(y + m)} V${r(y + h - m)} M${r(x + w - m)} ${r(y + m)} V${r(y + h - m)}" stroke="${line}" stroke-width="${sw}"/>`;
-          b += letter(0.8);
+      const archD = (ax, ay, aw, ah, rs) => { const rr = (aw * aw / 4 + rs * rs) / (2 * rs); return `M${r(ax)} ${r(ay + ah)} V${r(ay + rs)} A${r(rr)} ${r(rr)} 0 0 1 ${r(ax + aw)} ${r(ay + rs)} V${r(ay + ah)} Z`; };
+      const archGlass = (ax, ay, aw, ah, rs) => `<path d="${archD(ax, ay, aw, ah, rs)}" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>`;
+      const fan = (fy, fh2) => { // semicircular fanlight with radial bars, across the top
+        const rr = Math.min(gw / 2, fh2), cx = x + w / 2, cy = y + h * fy + rr;
+        let d = `M${r(cx - rr)} ${r(cy)} A${r(rr)} ${r(rr)} 0 0 1 ${r(cx + rr)} ${r(cy)} Z`;
+        let bars2 = '';
+        for (const a of [30, 60, 90, 120, 150]) { const rad = (a * Math.PI) / 180; bars2 += `M${r(cx)} ${r(cy)} L${r(cx - rr * Math.cos(rad))} ${r(cy - rr * Math.sin(rad))} `; }
+        return { svg: `<path d="${d}" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/><path d="${bars2}" stroke="${frameCol}" stroke-width="${r(Math.max(1.6, t * 0.3))}"/>`, bottom: cy };
+      };
+      const sq = (cx, cy, s) => glass(cx - s / 2, cy - s / 2, s, s);
+      const diamond = (cx, cy, s) => `<path d="M${r(cx)} ${r(cy - s)} L${r(cx + s * 0.75)} ${r(cy)} L${r(cx)} ${r(cy + s)} L${r(cx - s * 0.75)} ${r(cy)} Z" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>`;
+      // x position on the lock side (offset designs) or the centre
+      const lockX = (frac) => (side === 'left' ? x + w * (1 - frac) : x + w * frac);
+      const q = Math.min(gw * 0.36, h * 0.075);
+      const [kind, baseKind] = (() => { const mm = /^(half|dual)(?:-(2p|mp|groove))?$/.exec(style); return mm ? [mm[1], mm[2] || 'flat'] : [style, '']; })();
+      switch (kind) {
+        case 'half': case 'dual': case 'upvc': {
+          const gh = h * 0.42;
+          if (kind === 'dual') b += glass(gx, top, gw / 2 - 3, gh) + glass(gx + gw / 2 + 3, top, gw / 2 - 3, gh);
+          else b += glass(gx, top, gw, gh);
+          b += base(baseKind || 'flat', y + h * 0.5);
+          b += letter(0.465);
           break;
         }
+        case 'half-georgian':
+          b += glass(gx, top, gw, h * 0.42) + bars(gx, top, gw, h * 0.42, 6);
+          b += base('flat', y + h * 0.5) + letter(0.465);
+          break;
         case 'glazed': case 'glazed-georgian':
           b += glass(x + m * 0.75, y + m * 0.75, w - m * 1.5, h * 0.72 - m * 0.75);
           if (style === 'glazed-georgian') b += bars(x + m * 0.75, y + m * 0.75, w - m * 1.5, h * 0.72 - m * 0.75, 6);
           b += panel(x + m * 0.75, y + h * 0.76, w - m * 1.5, h * 0.24 - m * 0.75);
           break;
-        case 'squares3': {
-          const q = Math.min(gw * 0.42, h * 0.11);
-          for (let i = 0; i < 3; i++) b += glass(x + w / 2 - q / 2, y + h * 0.12 + i * (q + h * 0.04), q, q);
-          b += panel(gx, y + h * 0.62, gw, h * 0.3);
-          b += letter(0.56);
+        case 'full': b += glass(gx, top, gw, inH); break;
+        case 'full-mid': b += glass(gx, top, gw, inH * 0.5 - 3) + glass(gx, top + inH * 0.5 + 3, gw, inH * 0.5 - 3); break;
+        case 'flat': b += rect(gx, top, gw, inH, 'none', sw * 0.6) + letter(0.6); break;
+        case 'flat-mid': b += rect(gx, top, gw, inH * 0.5 - 3, 'none', sw * 0.6) + rect(gx, top + inH * 0.5 + 3, gw, inH * 0.5 - 3, 'none', sw * 0.6) + letter(0.6); break;
+        case 'groove': b += rect(gx, top, gw, inH, 'none', sw * 0.6) + grooves(gx, top, gw, inH, 6) + letter(0.62); break;
+        case 'cottage': {
+          const th = h * 0.2;
+          b += glass(gx, top, gw, th) + bars(gx, top, gw, th, 3);
+          b += rect(gx, top + th + h * 0.04, gw, inH - th - h * 0.04, 'none', sw * 0.6) + grooves(gx, top + th + h * 0.04, gw, inH - th - h * 0.04);
+          b += letter(0.58);
           break;
         }
-        case 'arch': {
-          const ah = h * 0.3, rs = Math.min(gw / 2, ah * 0.6), rr = (gw * gw / 4 + rs * rs) / (2 * rs);
-          b += `<path d="M${r(gx)} ${r(y + m + ah)} V${r(y + m + rs)} A${r(rr)} ${r(rr)} 0 0 1 ${r(gx + gw)} ${r(y + m + rs)} V${r(y + m + ah)} Z" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>`;
-          b += panel(gx, y + m + ah + h * 0.06, gw / 2 - 3, h * 0.48) + panel(gx + gw / 2 + 3, y + m + ah + h * 0.06, gw / 2 - 3, h * 0.48);
-          b += letter(0.5);
+        case 'cottage-half':
+          b += grooves(gx, top, gw, inH, 6) + glass(gx + gw * 0.08, top + h * 0.04, gw * 0.84, h * 0.36) + letter(0.6);
+          break;
+        case 'long': case 'long-o': {
+          b += grooves(gx, top, gw, inH, 6);
+          const sx = kind === 'long' ? x + w / 2 - w * 0.06 : lockX(0.3) - w * 0.06;
+          b += glass(sx, y + h * 0.08, w * 0.12, h * 0.8);
           break;
         }
-        case 'sq2': { // two panel, two square lights
-          const q = Math.min(gw * 0.4, h * 0.15);
-          b += glass(gx + gw * 0.25 - q / 2, y + h * 0.1, q, q) + glass(gx + gw * 0.75 - q / 2, y + h * 0.1, q, q);
-          b += panel(gx, y + h * 0.42, gw / 2 - 3, h * 0.58 - m) + panel(gx + gw / 2 + 3, y + h * 0.42, gw / 2 - 3, h * 0.58 - m);
-          b += letter(0.34);
+        case 'composite': case 'slot': {
+          b += glass(lockX(0.3) - w * 0.07, y + h * 0.1, w * 0.14, h * 0.62);
+          b += `<path d="M${r(x + m)} ${r(top)} V${r(y + h - m)} M${r(x + w - m)} ${r(top)} V${r(y + h - m)}" stroke="${line}" stroke-width="${sw}"/>`;
+          b += letter(0.8);
           break;
         }
-        case 'arch2': { // two panel, two arched lights
-          const aw = gw / 2 - 4, ah = h * 0.3, rs = Math.min(aw / 2, ah * 0.5), rr = (aw * aw / 4 + rs * rs) / (2 * rs);
-          for (const ax of [gx, gx + gw / 2 + 4]) b += `<path d="M${r(ax)} ${r(y + m + ah)} V${r(y + m + rs)} A${r(rr)} ${r(rr)} 0 0 1 ${r(ax + aw)} ${r(y + m + rs)} V${r(y + m + ah)} Z" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>`;
-          b += panel(gx, y + m + ah + h * 0.06, gw / 2 - 3, h - 2 * m - ah - h * 0.06) + panel(gx + gw / 2 + 3, y + m + ah + h * 0.06, gw / 2 - 3, h - 2 * m - ah - h * 0.06);
-          b += letter(0.5);
+        case 'midsq': case 'midsq-o':
+          b += glass((kind === 'midsq' ? x + w / 2 : lockX(0.3)) - w * 0.08, y + h * 0.18, w * 0.16, h * 0.4) + letter(0.72);
+          break;
+        case 'twin':
+          b += glass(x + w / 2 - w * 0.08, y + h * 0.1, w * 0.16, h * 0.3) + glass(x + w / 2 - w * 0.08, y + h * 0.5, w * 0.16, h * 0.3) + letter(0.44);
+          break;
+        case 'sq1s': b += glass(x + w / 2 - w * 0.14, y + h * 0.14, w * 0.28, h * 0.3) + letter(0.66); break;
+        case 'squares3': case 'sq3c': case 'sq3o': case 'mid3': case 'sq4c': case 'sq4o': {
+          const n = kind.startsWith('sq4') ? 4 : 3;
+          const cx = kind === 'sq3o' || kind === 'sq4o' ? lockX(0.3) : x + w / 2;
+          const start = kind === 'mid3' ? h * 0.3 : h * 0.12;
+          for (let i = 0; i < n; i++) b += sq(cx, y + start + q / 2 + i * (q + h * 0.035), q);
+          if (kind === 'squares3') b += panel(gx, y + h * 0.62, gw, h * 0.3);
+          b += letter(kind === 'squares3' ? 0.56 : 0.76);
           break;
         }
-        case 'arch4': { // four panel, one arch
-          const ah = h * 0.26, rs = Math.min(gw / 2, ah * 0.6), rr = (gw * gw / 4 + rs * rs) / (2 * rs);
-          b += `<path d="M${r(gx)} ${r(y + m + ah)} V${r(y + m + rs)} A${r(rr)} ${r(rr)} 0 0 1 ${r(gx + gw)} ${r(y + m + rs)} V${r(y + m + ah)} Z" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>`;
-          const py = y + m + ah + h * 0.05, ph = (h - 2 * m - ah - h * 0.05 - 6) / 2;
-          b += panel(gx, py, gw / 2 - 3, ph * 0.7) + panel(gx + gw / 2 + 3, py, gw / 2 - 3, ph * 0.7);
-          b += panel(gx, py + ph * 0.7 + 6, gw / 2 - 3, ph * 1.3) + panel(gx + gw / 2 + 3, py + ph * 0.7 + 6, gw / 2 - 3, ph * 1.3);
-          b += letter((py + ph * 0.7 + 1 - y) / h);
+        case 'curve5':
+          for (let i = 0; i < 5; i++) { const a = (-0.5 + i / 4) * 1.1; b += sq(x + w / 2 + Math.sin(a) * w * 0.18, y + h * 0.14 + i * (q + h * 0.03), q * 0.85); }
+          b += letter(0.78);
+          break;
+        case 'diamond1': b += diamond(x + w / 2, y + h * 0.26, q * 0.9) + letter(0.62); break;
+        case 'diamond3': for (let i = 0; i < 3; i++) b += diamond(x + w / 2, y + h * (0.16 + i * 0.15), q * 0.85); b += letter(0.72); break;
+        case 'circle': {
+          const rr = Math.min(gw * 0.36, h * 0.1);
+          b += `<circle cx="${r(x + w / 2)}" cy="${r(y + h * 0.22)}" r="${r(rr)}" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>` + letter(0.62);
           break;
         }
         case 'stripes':
           for (let i = 0; i < 4; i++) b += glass(gx + gw * 0.12, y + h * (0.14 + i * 0.13), gw * 0.76, h * 0.035);
           b += letter(0.78);
           break;
-        case 'panel2':
-          b += panel(gx, y + m, gw, h * 0.4) + panel(gx, y + h * 0.5, gw, h * 0.5 - m);
-          b += letter(0.45);
-          break;
-        case 'panel4':
-          b += panel(gx, y + m, gw / 2 - 3, h * 0.4) + panel(gx + gw / 2 + 3, y + m, gw / 2 - 3, h * 0.4);
-          b += panel(gx, y + h * 0.5, gw / 2 - 3, h * 0.5 - m) + panel(gx + gw / 2 + 3, y + h * 0.5, gw / 2 - 3, h * 0.5 - m);
-          b += letter(0.455);
-          break;
         case 'solid':
-          b += `<path d="M${r(x + w * 0.32)} ${r(y + m)} V${r(y + h - m)}" stroke="${line}" stroke-width="${sw * 1.4}"/>`;
-          b += letter(0.62);
+          b += `<path d="M${r(x + w * 0.32)} ${r(top)} V${r(y + h - m)}" stroke="${line}" stroke-width="${sw * 1.4}"/>` + letter(0.62);
           break;
-        case 'cottage': {
-          const th = h * 0.2;
-          b += glass(gx, y + m, gw, th);
-          b += bars(gx, y + m, gw, th, 3);
-          let d = '';
-          for (let i = 1; i < 5; i++) d += `M${r(gx + (gw * i) / 5)} ${r(y + m + th + h * 0.04)} V${r(y + h - m)} `;
-          b += rect(gx, y + m + th + h * 0.04, gw, h - 2 * m - th - h * 0.04, 'none', sw * 0.6) + `<path d="${d}" stroke="${line}" stroke-width="${sw}"/>`;
-          b += letter(0.58);
+        case 'panel2': b += panel(gx, top, gw, h * 0.4) + panel(gx, y + h * 0.5, gw, h * 0.5 - m) + letter(0.45); break;
+        case 'panel4': b += pair(top, h * 0.4) + pair(y + h * 0.5, h * 0.5 - m) + letter(0.455); break;
+        case 'panel6': b += pair(top, h * 0.14) + pair(top + h * 0.17, h * 0.24) + pair(y + h * 0.53, h * 0.47 - m) + letter(0.49); break;
+        case 'sq1': b += glass(gx, top, gw, h * 0.38) + pair(y + h * 0.5, h * 0.5 - m) + letter(0.455); break;
+        case 'sq2': b += glass(gx, top, gw / 2 - 3, h * 0.38) + glass(gx + gw / 2 + 3, top, gw / 2 - 3, h * 0.38) + pair(y + h * 0.5, h * 0.5 - m) + letter(0.455); break;
+        case 'sq4p': { // four panel, two square lights at the top
+          const s2 = Math.min(gw * 0.4, h * 0.11);
+          b += sq(gx + gw * 0.25, top + s2 / 2 + h * 0.01, s2) + sq(gx + gw * 0.75, top + s2 / 2 + h * 0.01, s2);
+          b += pair(top + s2 + h * 0.04, h * 0.38 - s2) + pair(y + h * 0.5, h * 0.5 - m) + letter(0.455);
           break;
         }
-        case 'half-georgian':
-          b += glass(gx, y + m, gw, h * 0.42) + bars(gx, y + m, gw, h * 0.42, 6);
-          b += panel(gx, y + h * 0.5, gw, h * 0.5 - m);
-          b += letter(0.56);
+        case 'sq4x2': { // two panel, four square: two small lights over two tall lights
+          const s2 = Math.min(gw * 0.4, h * 0.1);
+          b += sq(gx + gw * 0.25, top + s2 / 2, s2) + sq(gx + gw * 0.75, top + s2 / 2, s2);
+          b += glass(gx, top + s2 + h * 0.03, gw / 2 - 3, h * 0.38 - s2 - h * 0.03) + glass(gx + gw / 2 + 3, top + s2 + h * 0.03, gw / 2 - 3, h * 0.38 - s2 - h * 0.03);
+          b += pair(y + h * 0.5, h * 0.5 - m) + letter(0.455);
           break;
-        default: // 'upvc' / 'half'
-          b += glass(gx, y + m, gw, h * 0.42);
-          b += panel(gx, y + h * 0.5, gw, h * 0.5 - m);
-          b += letter(0.56);
+        }
+        case 'sq2arch': case 'geo5': {
+          const f = fan(m / h, gw * 0.42);
+          b += f.svg;
+          const gy = f.bottom + h * 0.02, gh2 = y + h * 0.45 - gy;
+          b += glass(gx, gy, gw / 2 - 3, gh2) + glass(gx + gw / 2 + 3, gy, gw / 2 - 3, gh2);
+          b += kind === 'geo5' ? glass(gx, y + h * 0.52, gw / 2 - 3, h * 0.48 - m) + glass(gx + gw / 2 + 3, y + h * 0.52, gw / 2 - 3, h * 0.48 - m) : pair(y + h * 0.52, h * 0.48 - m);
+          b += letter(0.475);
+          break;
+        }
+        case 'edw2': {
+          const s2 = h * 0.12;
+          b += glass(gx, top, gw / 2 - 3, s2) + glass(gx + gw / 2 + 3, top, gw / 2 - 3, s2);
+          b += pair(top + s2 + h * 0.03, h * 0.38 - s2 - h * 0.03) + pair(y + h * 0.52, h * 0.48 - m) + letter(0.475);
+          break;
+        }
+        case 'angle2': {
+          const aw = gw / 2 - 3, gh2 = h * 0.38, c = aw * 0.3;
+          for (const ax of [gx, gx + gw / 2 + 3]) b += `<path d="M${r(ax)} ${r(top + c)} L${r(ax + c)} ${r(top)} H${r(ax + aw - c)} L${r(ax + aw)} ${r(top + c)} V${r(top + gh2)} H${r(ax)} Z" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>`;
+          b += pair(y + h * 0.5, h * 0.5 - m) + letter(0.455);
+          break;
+        }
+        case 'arch':
+          b += archGlass(gx, top, gw, h * 0.32, Math.min(gw / 2, h * 0.18)) + pair(top + h * 0.38, h * 0.56 - m) + letter(0.5);
+          break;
+        case 'arch2': {
+          const aw = gw / 2 - 4, ah = h * 0.32;
+          for (const ax of [gx, gx + gw / 2 + 4]) b += archGlass(ax, top, aw, ah, Math.min(aw / 2, ah * 0.5));
+          b += pair(top + ah + h * 0.06, inH - ah - h * 0.06) + letter(0.5);
+          break;
+        }
+        case 'arch4': case 'sunburst4': {
+          const f = fan(m / h, gw * 0.4);
+          b += kind === 'sunburst4' ? f.svg : archGlass(gx, top, gw, gw * 0.4, gw * 0.4);
+          const py = f.bottom + h * 0.03;
+          b += pair(py, y + h * 0.46 - py) + pair(y + h * 0.52, h * 0.48 - m) + letter(0.475);
+          break;
+        }
+        case 'sunburst2': case 'grill': {
+          const gh2 = h * 0.38;
+          if (kind === 'grill') b += glass(gx, top, gw, gh2) + bars(gx, top, gw, gh2, 9);
+          else b += archGlass(gx, top, gw, gh2, Math.min(gw / 2, gh2 * 0.45)) + bars(gx, top + gw * 0.3, gw, gh2 - gw * 0.3, 6);
+          b += pair(y + h * 0.5, h * 0.5 - m) + letter(0.455);
+          break;
+        }
+        case 'p3sq': {
+          const th = h * 0.13;
+          b += glass(gx, top, gw, th) + rect(gx, top + th + h * 0.03, gw, inH - th - h * 0.03, 'none', sw * 0.6) + grooves(gx, top + th + h * 0.03, gw, inH - th - h * 0.03) + letter(0.55);
+          break;
+        }
+        case 'vic':
+          b += archGlass(gx + gw * 0.1, top, gw * 0.8, h * 0.5, gw * 0.4) + base('mp', y + h * 0.62) + letter(0.58);
+          break;
+        case 'oval':
+          b += `<ellipse cx="${r(x + w / 2)}" cy="${r(y + h * 0.27)}" rx="${r(gw * 0.36)}" ry="${r(h * 0.17)}" fill="${glassFill}" stroke="${INK}" stroke-width="${sw * 0.7}"/>` + pair(y + h * 0.52, h * 0.48 - m) + letter(0.475);
+          break;
+        default:
+          b += glass(gx, top, gw, h * 0.42) + base('flat', y + h * 0.5) + letter(0.465);
       }
       b += hingeMark(x, y, w, h, side);
       const hx = side === 'left' ? x + w - m * 0.45 : x + m * 0.45;
@@ -555,8 +680,12 @@
       b += `<path d="M0 ${r(fh)} H${r(fw)}" stroke="${INK}" stroke-width="${sw * 2}"/>`;
     }
 
-    // stable door designs: half (glazed top) · solid · cottage · half-georgian
-    function stable(spec) {
+    // stable door designs: half (glazed top) · solid · cottage · half-georgian; the bottom leaf of a glazed
+    // design can be -2p (two panels), -mp (moulded panel) or -groove (boards), e.g. "half-groove"
+    function stable(specIn) {
+      const mm = /^(half)-(2p|mp|groove)$/.exec(specIn || '');
+      const spec = mm ? 'half' : specIn;
+      const lower = mm ? mm[2] : '';
       b += frame(0, 0, fw, fh);
       const side = right ? 'right' : 'left';
       const x = t, y = t, w = fw - 2 * t, h = fh - t * 1.4, split = h * 0.48;
@@ -570,6 +699,14 @@
         if (spec === 'cottage') b += bars(x + m, y + m, w - 2 * m, split - 2 * m, 2);
       }
       b += rect(x, y + split + 1, w, h - split - 1, frameCol, sw) + rect(x + m, y + split + m, w - 2 * m, h - split - 2 * m, 'none', sw * 0.6);
+      const bx = x + m, by = y + split + m, bw = w - 2 * m, bh = h - split - 2 * m;
+      if (lower === '2p') b += rect(bx + bw * 0.08, by + bh * 0.1, bw * 0.38, bh * 0.8, 'none', sw * 0.6) + rect(bx + bw * 0.54, by + bh * 0.1, bw * 0.38, bh * 0.8, 'none', sw * 0.6);
+      if (lower === 'mp') b += rect(bx + bw * 0.16, by + bh * 0.14, bw * 0.68, bh * 0.72, 'none', sw * 0.6) + rect(bx + bw * 0.26, by + bh * 0.24, bw * 0.48, bh * 0.52, 'none', sw * 0.4);
+      if (lower === 'groove') {
+        let d = '';
+        for (let i = 1; i < 5; i++) d += `M${r(bx + (bw * i) / 5)} ${r(by)} V${r(by + bh)} `;
+        b += `<path d="${d}" stroke="${line}" stroke-width="${sw}"/>`;
+      }
       if (spec === 'cottage') {
         let d = '';
         for (let i = 1; i < 4; i++) d += `M${r(x + m + ((w - 2 * m) * i) / 4)} ${r(y + split + m)} V${r(y + h - m)} `;

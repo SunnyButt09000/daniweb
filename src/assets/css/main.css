@@ -1237,6 +1237,9 @@ a.ccard:hover { background: var(--white); }
   .mcard__cta:hover .ico { transform: translateX(3px); }
 }
 .mgrid__note { margin-top: 18px; }
+.mgroup { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 10px; margin: 18px 0 2px; padding-bottom: 8px; border-bottom: 1px solid var(--line-strong); font: 650 1.0625rem/1.2 var(--f-display); font-stretch: 104%; color: var(--ink); }
+.mgroup:first-child { margin-top: 0; }
+.mgroup span { font: 500 0.75rem/1 var(--f-mono); color: var(--slate); }
 .prod__models { margin-top: 18px; }
 .pcard__chips .pcard__n { background: var(--ink); color: var(--paper); }
 @media (max-width: 600px) {
