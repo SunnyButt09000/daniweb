@@ -401,8 +401,8 @@ ul, ol { margin: 0; padding: 0; }
 .d-gasket { fill: var(--ink); }
 
 /* ---------- hero ---------- */
-.hero { padding-block: clamp(40px, 6vw, 88px) clamp(48px, 7vw, 104px); border-bottom: 1px solid var(--line); }
-.hero__grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
+.hero { padding-block: clamp(32px, 4.5vw, 64px) clamp(48px, 6vw, 88px); border-bottom: 1px solid var(--line); }
+.hero__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); gap: clamp(32px, 4vw, 56px); align-items: center; }
 .hero__lead { font-size: clamp(1.0625rem, 1.4vw, 1.25rem); color: var(--slate); max-width: 54ch; margin-top: 24px; }
 .hero__actions, .phero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .hero__actions .btn, .phero__actions .btn { --btn-h: 56px; --btn-px: 26px; --btn-fs: 1rem; }
@@ -928,6 +928,14 @@ a.ccard:hover { background: var(--white); }
 .hero__art::before { content: ''; position: absolute; inset: -12% -8% -6% -14%; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 45% 42%, rgba(255,255,255,.55), rgba(255,255,255,0) 66%); }
 .hero__art { isolation: isolate; }
 .hf-face { fill: var(--card); }
+/* let the house use the page margin on the right so it can be drawn larger */
+.hero__art { --bleed: min(110px, calc(max(0px, (100vw - 1280px) / 2) + var(--gut) - 12px)); }
+.hero__art .diagram--facade { display: block; width: calc(100% + var(--bleed)); max-width: none; }
+@media (max-width: 960px) {
+  .hero__art { --bleed: 0px; max-width: 720px; }
+  .hero__art .diagram--facade { width: calc(100% + 2 * var(--gut)); margin-inline: calc(-1 * var(--gut)); }
+}
+@media (max-width: 600px) { .hero .diagram--facade .d-call { display: none; } }
 .hf-side { fill: #dcdfdb; stroke: rgba(27,32,36,.55); stroke-width: .8; stroke-linejoin: round; }
 .hf-side--under { fill: #c9cdc9; }
 .hf-shadow { fill: #1b2024; opacity: .16; }

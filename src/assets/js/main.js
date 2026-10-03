@@ -364,7 +364,16 @@
       el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, delay: delay + dur * 0.75, fill: 'backwards' })
     );
   }
-  drawIn(document.querySelector('.hero .diagram--facade'), 250, 1600);
+  // on phones the side labels are too small to read: hide them and crop to the house
+  const facade = document.querySelector('.hero .diagram--facade');
+  if (facade && facade.dataset.vbNarrow) {
+    const wide = facade.getAttribute('viewBox');
+    const mqNarrow = window.matchMedia('(max-width: 600px)');
+    const fit = () => facade.setAttribute('viewBox', mqNarrow.matches ? facade.dataset.vbNarrow : wide);
+    fit();
+    mqNarrow.addEventListener?.('change', fit);
+  }
+  drawIn(facade, 250, 1600);
   const sect = document.querySelector('.diagram--section');
   if (sect && io) {
     if (sect.getBoundingClientRect().top > window.innerHeight) {
