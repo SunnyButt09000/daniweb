@@ -21,8 +21,8 @@ Kyun Cloudflare?
 | `phoneDisplay` / `phoneInternational` / `whatsapp` | 07411 496356 (+44) | Agar business ka WhatsApp number koi aur hai to teeno jagah badal dein. `whatsapp` mein sirf digits likhein, `+` ke baghair (jaise `447411496356`) |
 | `email` | info@veltrixwindowsdoor.co.uk | Step 5 mein ise free activate karenge |
 | `address`, `areaServed`, `serviceAreas`, `postcodePrefixes` | Khali | Apna shehar/area likhein (jaise `"areaServed": "Birmingham & the West Midlands"`, `"postcodePrefixes": ["B", "WS", "WV"]`). Is se Google par local ranking behtar hogi |
-| `hours` | Har din 7am–8pm (service hours) | Apne asal timings likhein |
-| `chatHours` | Har din 7am–midnight (WhatsApp & chat) | Jab tak WhatsApp par jawab dete hain. Midnight ke liye `24:00` |
+| `hours` | Har din 7am–11:59pm (service hours) | Apne asal timings likhein (24-hour, jaise `23:59`) |
+| `chatHours` | Har din 7am–11:59pm (WhatsApp & chat) | Jab tak WhatsApp par jawab dete hain |
 | `guarantee` | 10 saal installation, 12 mahine repair, insurance-backed | **Sirf wahi likhein jo aap waqai dete hain** |
 | `company` | Khali | Agar Ltd company hai to naam, company number, VAT number, ICO number likhein |
 | `accreditations` | Khali | Sirf tab likhein jab aap waqai registered hon, jaise `[{"name": "FENSA Approved Installer", "url": "https://www.fensa.org.uk"}]` |
