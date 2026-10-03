@@ -1,0 +1,11 @@
+// Cloudflare Workers (static assets) config. The build writes the site to ./dist;
+// Cloudflare serves it as-is, using dist/_headers for security and cache headers.
+{
+  "name": "daniweb",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
