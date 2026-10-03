@@ -130,6 +130,7 @@
       note: $('cfg-note-in'), fig: $('cfg-fig'), draw: $('cfg-draw'), add: $('cfg-add'), cancel: $('cfg-cancel'), msg: $('cfg-msg'),
       ref: $('cfg-ref'), mode: $('cfg-mode'), colourName: $('cfg-colour-name'), list: $('ql-items'), empty: $('ql-empty'),
       count: $('ql-count'), units: $('qs-units'), area: $('qs-area'), sheet: $('qb-sheet'),
+      model: $('cfg-model'), modelF: $('cfg-model-f'), modelL: $('cfg-model-l'), modelLink: $('cfg-model-link'),
       next: $('ql-next'), nextSum: $('ql-next-sum'), cont: $('ql-continue'), dToggle: $('qd-toggle'), dBody: $('qd-body'), dSec: $('quote-details'), dHint: $('qd-hint'),
     };
     const SINGULAR = {
@@ -138,6 +139,16 @@
       'shaped-and-feature-windows': 'Shaped / feature window', 'upvc-doors': 'uPVC door', 'composite-doors': 'Composite door',
       'french-doors': 'French doors (pair)', 'patio-doors': 'Sliding patio door', 'bifold-doors': 'Bi-fold door', 'stable-doors': 'Stable door',
       'sealed-unit': 'Replacement glass / sealed unit', other: 'Other / not sure',
+    };
+    // standard models per product (src/content/models.mjs, embedded in the page)
+    let MODELS = {}, MODEL_URLS = {};
+    try { const j = JSON.parse($('vx-models')?.textContent || '{}'); MODELS = j.models || {}; MODEL_URLS = j.urls || {}; } catch { /* builder still works without models */ }
+    const modelOf = (it) => (it && it.model ? (MODELS[it.type] || []).find((m) => m.c === it.model) || null : null);
+    const modelText = (it) => { const m = modelOf(it); return m ? `${m.c} · ${m.n}` : ''; };
+    // drawing options for an item: its model's layout, and the model's typical size until a size is typed
+    const drawOpts = (it, extra = {}) => {
+      const m = modelOf(it);
+      return { w: it.w || (m ? m.s[0] : ''), h: it.h || (m ? m.s[1] : ''), hinge: it.hinge || 'left', colour: it.colour, glass: it.glass, layout: m ? m.l : '', ...extra };
     };
     const nameOf = (slug) => SINGULAR[slug] || [...el.type.options].find((o) => o.value === slug)?.textContent || slug;
     const clampQty = (v) => Math.min(50, Math.max(1, parseInt(v, 10) || 1));
@@ -161,6 +172,7 @@
       });
     };
     const openingLabel = (it) => {
+      if (modelOf(it)) return !it.hinge ? 'Opening as existing' : it.hinge === 'right' ? 'Opposite hand to drawing' : 'Handed as drawn';
       if (!D.HINGED.has(it.type)) return '';
       if (!it.hinge) return 'Opening as existing';
       const s = it.hinge === 'right' ? 'right' : 'left';
@@ -175,7 +187,7 @@
     const read = () => ({
       id: editing || uid(), type: el.type.value, w: el.w.value.trim(), h: el.h.value.trim(), room: el.room.value.trim(),
       qty: clampQty(el.qty.value), hinge: el.hinge.value, glaze: el.glaze.value, glass: el.glass.value, vents: el.vents.value,
-      colour: colourVal(), note: el.note.value.trim(),
+      colour: colourVal(), note: el.note.value.trim(), model: el.model?.value || '',
     });
     const write = (it) => {
       el.type.value = it.type; el.w.value = it.w || ''; el.h.value = it.h || ''; el.room.value = it.room || '';
@@ -183,18 +195,37 @@
       el.vents.value = it.vents || 'As existing'; el.note.value = it.note || '';
       const c = cfg.querySelector(`[name="cfg-colour"][value="${CSS.escape(it.colour || 'White')}"]`);
       if (c) c.checked = true;
-      syncType();
+      syncType(it.model || '');
     };
 
-    function syncType() {
+    // fill the model list for the chosen product, keeping the current choice when it still applies
+    function syncModels(keep) {
+      if (!el.model) return;
       const t = el.type.value;
-      const def = D.DEFAULTS[t] || D.DEFAULTS.other;
+      const list = MODELS[t] || [];
+      const cur = keep ?? el.model.value;
+      el.model.replaceChildren(new Option(list.length ? 'Standard layout (we’ll advise)' : 'Standard', ''));
+      list.forEach((m) => el.model.add(new Option(`${m.c} · ${m.n}${m.p ? ' (popular)' : ''}`, m.c)));
+      el.model.value = list.some((m) => m.c === cur) ? cur : '';
+      el.modelF.hidden = !list.length;
+      el.modelL.textContent = /^(upvc|composite|stable)-doors$/.test(t) ? 'Model / design' : 'Model / layout';
+      if (el.modelLink) el.modelLink.href = MODEL_URLS[t] || '/';
+    }
+    function syncType(keepModel) {
+      syncModels(keepModel);
+      syncModel();
+    }
+    function syncModel() {
+      const t = el.type.value;
+      const m = modelOf({ type: t, model: el.model?.value });
+      const def = m ? m.s : D.DEFAULTS[t] || D.DEFAULTS.other;
       el.w.placeholder = def[0];
       el.h.placeholder = def[1];
-      const hinged = D.HINGED.has(t);
+      const hinged = D.HINGED.has(t) || !!m;
       el.hingeF.hidden = !hinged;
       const opts = el.hinge.options;
-      if (D.SLIDING.has(t)) { el.hingeL.textContent = 'Sliding panel'; opts[0].text = 'On the left'; opts[1].text = 'On the right'; }
+      if (m) { el.hingeL.textContent = 'Handing'; opts[0].text = 'As drawn'; opts[1].text = 'Opposite hand (mirrored)'; }
+      else if (D.SLIDING.has(t)) { el.hingeL.textContent = 'Sliding panel'; opts[0].text = 'On the left'; opts[1].text = 'On the right'; }
       else if (t === 'bifold-doors') { el.hingeL.textContent = 'Traffic door'; opts[0].text = 'On the left'; opts[1].text = 'On the right'; }
       else { el.hingeL.textContent = 'Opening side'; opts[0].text = 'Hinged left'; opts[1].text = 'Hinged right'; }
       el.vents.closest('.f').hidden = !(D.KIND[t] === 'W');
@@ -205,7 +236,7 @@
       const it = read();
       const stageW = el.draw.parentElement.clientWidth || 360;
       const box = Math.round(Math.max(150, Math.min(360, stageW - 120)));
-      const d = D.svg(it.type, { w: it.w, h: it.h, hinge: it.hinge || 'left', colour: it.colour, glass: it.glass, box, label: `${nameOf(it.type)} drawing` });
+      const d = D.svg(it.type, drawOpts(it, { box, label: `${nameOf(it.type)}${modelOf(it) ? `, ${modelOf(it).n}` : ''} drawing` }));
       el.fig.innerHTML = d.svg;
       el.draw.style.setProperty('--fw', `${d.fw}px`);
       el.draw.style.setProperty('--fh', `${d.fh}px`);
@@ -242,7 +273,7 @@
         li.className = 'qli' + (it.id === editing ? ' is-editing' : '') + (it.id === flashId ? ' is-new' : '');
         const fig = document.createElement('div');
         fig.className = 'qli__fig';
-        fig.innerHTML = D.svg(it.type, { w: it.w, h: it.h, hinge: it.hinge || 'left', colour: it.colour, glass: it.glass, box: 92, label: `${refs[i]} drawing` }).svg;
+        fig.innerHTML = D.svg(it.type, drawOpts(it, { box: 92, label: `${refs[i]} drawing` })).svg;
         const body = document.createElement('div');
         body.className = 'qli__body';
         const h = document.createElement('p');
@@ -252,7 +283,7 @@
         h.lastChild.textContent = nameOf(it.type);
         const meta = document.createElement('p');
         meta.className = 'qli__meta';
-        meta.textContent = [it.room, it.w || it.h ? sizeText(it) : 'Size to be confirmed', `Qty ${clampQty(it.qty)}`].filter(Boolean).join(' · ');
+        meta.textContent = [modelText(it), it.room, it.w || it.h ? sizeText(it) : 'Size to be confirmed', `Qty ${clampQty(it.qty)}`].filter(Boolean).join(' · ');
         const chips = document.createElement('ul');
         chips.className = 'qli__chips';
         [it.glaze, it.colour, `${it.glass} glass`, openingLabel(it), D.KIND[it.type] === 'W' ? `Vents: ${it.vents}` : ''].filter(Boolean).forEach((c) => {
@@ -355,7 +386,7 @@
     });
 
     cfg.addEventListener('input', renderDrawing);
-    cfg.addEventListener('change', (e) => (e.target === el.type ? syncType() : renderDrawing()));
+    cfg.addEventListener('change', (e) => (e.target === el.type ? syncType() : e.target === el.model ? (syncModel(), say('')) : renderDrawing()));
     cfg.querySelectorAll('[data-step]').forEach((b) => b.addEventListener('click', () => { el.qty.value = clampQty(Number(el.qty.value) + Number(b.dataset.step)); }));
     [el.w, el.h].forEach((inp) => inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addOrSave(); } }));
     let rt;
@@ -363,7 +394,8 @@
 
     const pre = params.get('item');
     if (pre && [...el.type.options].some((o) => o.value === pre)) el.type.value = pre;
-    syncType();
+    const preModel = params.get('model');
+    syncType(preModel && (MODELS[el.type.value] || []).some((m) => m.c === preModel) ? preModel : '');
     renderList();
 
     /* ---------- step 2: job and contact details (opens after "Send for quote") ---------- */
@@ -419,6 +451,7 @@
       ];
       items.forEach((it, i) => {
         lines.push('', `*${refs[i]} · ${nameOf(it.type)}*${it.room ? ` (${it.room})` : ''}`);
+        if (modelOf(it)) lines.push(`Model: ${modelText(it)}`);
         lines.push(`Size: ${sizeText(it)} · Qty ${clampQty(it.qty)}`);
         lines.push([it.glaze, it.colour, `${it.glass} glass`].join(' · '));
         const extra = [openingLabel(it), D.KIND[it.type] === 'W' ? `Trickle vents: ${it.vents.toLowerCase()}` : ''].filter(Boolean).join(' · ');
@@ -438,7 +471,7 @@
           D.KIND[it.type] === 'W' ? `vents ${it.vents.toLowerCase()}` : '',
           it.note ? `note: ${it.note}` : '',
         ].filter(Boolean);
-        return `${refs[i]} ${nameOf(it.type)}${it.room ? ` (${it.room})` : ''}: ${bits.join(' · ')}`;
+        return `${refs[i]} ${nameOf(it.type)}${modelOf(it) ? ` ${modelOf(it).c}` : ''}${it.room ? ` (${it.room})` : ''}: ${bits.join(' · ')}`;
       });
       return [...head, ...rows, ...(val(form, 'message') ? ['', '*Notes*', val(form, 'message')] : []), '', '_Sizes are customer measurements, to be confirmed at survey._', 'Quote sheet with drawings and photos to follow in this chat.'].join('\n');
     }
@@ -460,7 +493,7 @@
         `Property: ${val(form, 'property')} · Start: ${val(form, 'timeframe')}`,
         '',
         `*${items.length} item${items.length === 1 ? '' : 's'} · ${units} unit${units === 1 ? '' : 's'}*`,
-        ...items.map((it, i) => `${refs[i]} ${nameOf(it.type)}${it.room ? ` (${it.room})` : ''} · ${it.w && it.h ? `${it.w}×${it.h} mm` : 'size TBC'} · ×${clampQty(it.qty)}`),
+        ...items.map((it, i) => `${refs[i]} ${nameOf(it.type)}${modelOf(it) ? ` ${modelOf(it).c}` : ''}${it.room ? ` (${it.room})` : ''} · ${it.w && it.h ? `${it.w}×${it.h} mm` : 'size TBC'} · ×${clampQty(it.qty)}`),
         '',
         link ? `📄 Full schedule with drawings (PDF): ${link}` : `📎 Full schedule with drawings: ${pdfName()} (attached).`,
       ].join('\n');
@@ -527,7 +560,7 @@
         });
       };
       const svgImage = async (it, box) => {
-        const d = D.svg(it.type, { w: it.w, h: it.h, hinge: it.hinge || 'left', colour: it.colour, glass: it.glass, box });
+        const d = D.svg(it.type, drawOpts(it, { box }));
         const img = new Image();
         img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(d.svg);
         try { await img.decode(); } catch { return null; }
@@ -554,7 +587,7 @@
         items.slice(0, maxRows).forEach((it, i) => {
           if (i % 2) { c.fillStyle = '#fafbfa'; c.fillRect(M, y, PW - 2 * M, 40); }
           T(c, refs[i], M + 10, y + 27, '600 17px "IBM Plex Sans"', INK);
-          T(c, nameOf(it.type), M + 100, y + 27, '400 17px "IBM Plex Sans"', INK, 'left', 340);
+          T(c, `${nameOf(it.type)}${modelOf(it) ? ` · ${modelOf(it).c}` : ''}`, M + 100, y + 27, '400 17px "IBM Plex Sans"', INK, 'left', 340);
           T(c, it.room || '—', M + 460, y + 27, '400 17px "IBM Plex Sans"', SLATE, 'left', 230);
           T(c, it.w || it.h ? `${it.w || '?'} × ${it.h || '?'} mm` : 'to be confirmed', M + 710, y + 27, '400 17px "IBM Plex Sans"', INK);
           T(c, String(clampQty(it.qty)), M + 960, y + 27, '400 17px "IBM Plex Sans"', INK);
@@ -620,6 +653,7 @@
         let y = areaTop + areaH + 50;
         const opening = [openingLabel(it), D.KIND[it.type] === 'W' ? `Trickle vents: ${it.vents.toLowerCase()}` : ''].filter(Boolean).join(' · ');
         const rows = [
+          ...(modelOf(it) ? [['Model', modelText(it)]] : []),
           ['Size', sizeText(it)],
           ['Quantity', String(clampQty(it.qty))],
           ...(areaOf(it) ? [['Area', `${areaOf(it).toFixed(2)} m² (all units)`]] : []),

@@ -163,6 +163,7 @@ Script badalne ke baad: **Deploy → Manage deployments → ✏️ → Version: 
 - Koi bhi file GitHub par edit kar ke **commit** karein → Cloudflare 1–2 minute mein khud website update kar dega.
 - Business details: `src/data/site.json`
 - Products ka text: `src/content/products.mjs`
+- Har product ke models aur layouts (drawings, codes, sizes): `src/content/models.mjs` (file ke upar likha hai kaise add/remove karna hai)
 - Repairs aur services: `src/content/repairs.mjs`
 - FAQs (chatbot bhi inhi se jawab deta hai): `src/content/faqs.mjs`
 - Guides/blog: `src/content/guides.mjs`

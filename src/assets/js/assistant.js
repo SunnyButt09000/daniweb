@@ -322,7 +322,7 @@
     };
     kb.faqs.forEach((f, i) => add('faq', i, f, f.q, f.k));
     kb.repairs.forEach((r, i) => add('repair', i, r, r.name, r.k, `${str(r.short)} ${arr(r.symptoms).join(' ')}`));
-    kb.products.forEach((p, i) => add('product', i, p, p.name, p.k, `${str(p.tag)} ${str(p.short)}`, `${arr(p.options).join(' ')} ${arr(p.goodFor).join(' ')}`));
+    kb.products.forEach((p, i) => add('product', i, p, p.name, p.k, `${str(p.tag)} ${str(p.short)}`, `${arr(p.options).join(' ')} ${arr(p.goodFor).join(' ')} ${arr(p.models).join(' ')}`));
     kb.services.forEach((s, i) => add('service', i, s, s.name, [s.name, ...arr(s.steps)], str(s.short)));
     kb.guides.forEach((g, i) => add('guide', i, g, g.title, [], str(g.summary)));
     const df = {};
@@ -907,6 +907,7 @@
         b.push(H(it.name), P(str(it.short)));
         if (arr(it.goodFor).length) b.push(P(B('Good for')), UL(arr(it.goodFor)));
         if (arr(it.options).length) b.push(P(B('Options include')), TAGS(arr(it.options)));
+        if (arr(it.models).length) b.push(P(B(`${arr(it.models).length} standard ${/door/i.test(str(it.name)) && !/french|patio|bi-?fold/i.test(str(it.name)) ? 'designs' : 'layouts'}, with drawings on the page`)), TAGS(arr(it.models).slice(0, 6)));
         b.push(ACT(bGo('Price this style', `/quote/?item=${it.slug}`), bAlt('See details', it.url)));
         const cmp = /composite|upvc-doors/.test(it.slug) ? C('uPVC or composite?', 'uPVC or composite door?')
           : /casement/.test(it.slug) ? C('Casement or flush?', 'Casement or flush casement?')

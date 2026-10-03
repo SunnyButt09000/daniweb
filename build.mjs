@@ -10,6 +10,8 @@ import { products, categories, colours } from './src/content/products.mjs';
 import { repairs, services } from './src/content/repairs.mjs';
 import { faqGroups, allFaqs } from './src/content/faqs.mjs';
 import { guides } from './src/content/guides.mjs';
+import { models } from './src/content/models.mjs';
+import { checkModels } from './lib/draw-node.mjs';
 import { documentShell } from './lib/layout.mjs';
 import * as P from './lib/pages.mjs';
 
@@ -25,7 +27,13 @@ site.quoteUpload.endpoint = /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/
 if (qu && !site.quoteUpload.endpoint) console.warn('Note: quoteUpload.endpoint in site.json is not a Google Apps Script /exec URL, so it is ignored.');
 site.quoteUpload.keepDays = Number(site.quoteUpload.keepDays) || 30;
 
-const data = { products, categories, colours, repairs, services, faqs: faqGroups, allFaqs, guides };
+const modelErrors = checkModels(models, products);
+if (modelErrors.length) {
+  console.error(modelErrors.join('\n'));
+  throw new Error(`${modelErrors.length} problem(s) in src/content/models.mjs`);
+}
+for (const p of products) p.modelCount = models[p.slug]?.length || 0;
+const data = { products, categories, colours, repairs, services, faqs: faqGroups, allFaqs, guides, models };
 
 // cache-busting version from asset contents
 const hash = createHash('sha1');
@@ -33,7 +41,7 @@ for (const f of ['css/main.css', 'css/assistant.css', 'js/main.js', 'js/draw.js'
   hash.update(readFileSync(join(root, 'src/assets', f)));
 }
 hash.update(JSON.stringify(site));
-for (const f of ['products.mjs', 'repairs.mjs', 'faqs.mjs', 'guides.mjs']) hash.update(readFileSync(join(root, 'src/content', f)));
+for (const f of ['products.mjs', 'repairs.mjs', 'faqs.mjs', 'guides.mjs', 'models.mjs']) hash.update(readFileSync(join(root, 'src/content', f)));
 const assetV = hash.digest('hex').slice(0, 10);
 
 rmSync(out, { recursive: true, force: true });
@@ -142,6 +150,7 @@ const kb = {
     k: [...new Set([p.name.toLowerCase(), p.slug.replace(/-/g, ' '), ...p.slug.split('-').filter((w) => w.length > 3), ...words(p.chips)])],
     goodFor: list(p.goodFor, 3),
     options: list(p.options, 5),
+    models: (models[p.slug] || []).map((m) => m.name),
   })),
   services: services.map((s) => ({ name: s.name, slug: s.slug, url: `/services/${s.slug}/`, short: strip(s.short), steps: list(s.steps, 6) })),
   guides: guides.map((g) => ({ title: strip(g.title), slug: g.slug, url: `/guides/${g.slug}/`, summary: strip(g.summary) })),
@@ -184,10 +193,10 @@ writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /asse
     `- Quotes: free survey and itemised written quote. Online quote builder: ${u('/quote/')}`,
     '',
     '## Windows',
-    ...products.filter((p) => p.category === 'windows').map((p) => `- [${p.name}](${u(`/windows/${p.slug}/`)}): ${strip(p.short)}`),
+    ...products.filter((p) => p.category === 'windows').map((p) => `- [${p.name}](${u(`/windows/${p.slug}/`)}): ${strip(p.short)}${models[p.slug]?.length ? ` Standard layouts: ${models[p.slug].map((m) => m.name).join('; ')}.` : ''}`),
     '',
     '## Doors',
-    ...products.filter((p) => p.category === 'doors').map((p) => `- [${p.name}](${u(`/doors/${p.slug}/`)}): ${strip(p.short)}`),
+    ...products.filter((p) => p.category === 'doors').map((p) => `- [${p.name}](${u(`/doors/${p.slug}/`)}): ${strip(p.short)}${models[p.slug]?.length ? ` Standard designs and layouts: ${models[p.slug].map((m) => m.name).join('; ')}.` : ''}`),
     '',
     '## Repairs',
     ...repairs.map((r) => `- [${r.name}](${u(`/repairs/${r.slug}/`)}): ${strip(r.short)}`),
