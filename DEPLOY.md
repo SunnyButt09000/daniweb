@@ -115,6 +115,19 @@ Ab website par customer jo email bhejenge woh seedha aapke Gmail mein aayegi.
 2. **Google Business Profile:** https://business.google.com → business add karein (category: *Window installation service* / *Door supplier*), website link dein, photos daalein, reviews mangwayein. Local customers zyada tar yahin se aate hain.
 3. Google reviews ka link `site.json` → `social.googleReviews` mein daal dein.
 
+### Step 7b — SEO: Google aur AI search (2026)
+
+Website ke andar ka SEO ho chuka hai: har page ka title aur description, `robots` meta tag, ek connected schema (business, website, page, service, FAQ, article), har page ki asli "last updated" date sitemap mein, aur `llms.txt` (ChatGPT, Claude, Perplexity jaise AI assistants ke liye site ka khulasa). Google ki 2026 guidance ke mutabiq AI Overviews aur AI Mode ke liye koi alag file ya trick nahi chahiye: wahi cheezein kaam karti hain jo normal search mein, yani page index ho, saaf jawab ho, aur schema wahi kahe jo page par likha hai.
+
+Ye kaam sirf aap apne accounts se kar sakte hain, aur ranking par sab se zyada asar inhi ka hai:
+1. **Google Business Profile** (sab se zaroori, local search aur AI Overviews yahin se jawab uthate hain). Category, service area, hours, photos, aur har kaam ke baad customer se review mangwayein.
+2. **`site.json` mein asal maloomat:** `areaServed`, `serviceAreas` (shehar), `postcodePrefixes`, `address` ya `company.registeredOffice`, `company.legalName`. Area na likha ho to Google ko pata nahi chalta ke aap kahan kaam karte hain.
+3. **Bing Webmaster Tools:** https://www.bing.com/webmasters → "Import from Google Search Console". ChatGPT search aur Copilot Bing ka index use karte hain.
+4. **Cloudflare → domain → Security → Bots:** agar **"Block AI bots"** / "AI Crawl Control" mein AI crawlers block hain to unhein allow kar dein, warna ChatGPT/Perplexity aapki site nahi parh sakenge. (Googlebot is se affect nahi hota.) Saath mein **Caching → Configuration → Crawler Hints** ON kar dein, is se Bing ko naye pages jaldi pata chalte hain.
+5. **Asli reviews:** Google reviews ka link `site.json` → `social.googleReviews` mein daalein. Jhoote reviews kabhi na likhein.
+
+> `src/data/lastmod.json` build khud update karta hai: jis page ka content badle us ki date aaj ki ho jati hai. Is file ko commit karte rahein.
+
 ---
 
 ## Website update kaise karein

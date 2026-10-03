@@ -60,6 +60,21 @@ const pages = [
   P.notFound(site, data),
 ];
 
+// Real "last modified" dates: a page keeps its date until its content changes.
+// src/data/lastmod.json stores a fingerprint and date per page; commit it with your edits.
+const today = new Date().toISOString().slice(0, 10);
+const lmFile = join(root, 'src/data/lastmod.json');
+const lm = existsSync(lmFile) ? JSON.parse(readFileSync(lmFile, 'utf8')) : {};
+let lmChanged = false;
+for (const page of pages) {
+  if (page.noindex) continue;
+  const fp = createHash('sha1').update(`${page.title}\n${page.description}\n${page.body}`).digest('hex').slice(0, 12);
+  if (!lm[page.path] || lm[page.path].h !== fp) { lm[page.path] = { h: fp, d: today }; lmChanged = true; }
+  page.lastmod = page.article && page.article.modified > lm[page.path].d ? page.article.modified : lm[page.path].d;
+}
+for (const k of Object.keys(lm)) if (!pages.some((p) => p.path === k && !p.noindex)) { delete lm[k]; lmChanged = true; }
+if (lmChanged) writeFileSync(lmFile, JSON.stringify(Object.fromEntries(Object.entries(lm).sort()), null, 1) + '\n');
+
 const seen = new Set();
 for (const page of pages) {
   if (seen.has(page.path)) throw new Error(`Duplicate path ${page.path}`);
@@ -132,15 +147,60 @@ writeFileSync(join(out, 'assets/data/kb.json'), kbJson);
 if (kbJson.length > 64000) console.warn(`Note: assistant kb.json is ${Math.round(kbJson.length / 1024)} KB; trim FAQ keywords to keep the chat quick to open.`);
 
 /* ---------- SEO & host files ---------- */
-const today = new Date().toISOString().slice(0, 10);
-const urls = pages.filter((p) => !p.noindex).map((p) => p.path);
+const indexable = pages.filter((p) => !p.noindex);
 writeFileSync(
   join(out, 'sitemap.xml'),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
-    .map((u) => `  <url><loc>${site.url}${u}</loc><lastmod>${today}</lastmod><priority>${u === '/' ? '1.0' : u.split('/').length > 3 ? '0.7' : '0.8'}</priority></url>`)
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexable
+    .map((p) => `  <url><loc>${site.url}${p.path}</loc><lastmod>${p.lastmod}</lastmod></url>`)
     .join('\n')}\n</urlset>\n`
 );
-writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`);
+// Search engines and AI search crawlers are all welcome: the site is public information about the business.
+writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /assets/data/\n\nSitemap: ${site.url}/sitemap.xml\n`);
+
+// llms.txt: a plain summary of the site for AI assistants (Google does not use it; others do)
+{
+  const u = (p) => `${site.url}${p}`;
+  const area = site.serviceAreas.length ? site.serviceAreas.join(', ') : site.areaServed;
+  const hrs = site.hours.map((h) => `${h.days}: ${h.open ? `${h.open}–${h.close}` : 'closed'}`).join('; ');
+  const md = [
+    `# ${site.brand.name}`,
+    '',
+    `> ${strip(site.brand.description)}`,
+    '',
+    `- Phone and WhatsApp: ${site.contact.phoneDisplay} (${site.contact.phoneInternational})`,
+    `- Email: ${site.contact.email}`,
+    `- Opening hours: ${hrs}`,
+    area ? `- Area served: ${area}` : null,
+    `- Guarantees: ${site.guarantee.installationYears}-year installation guarantee, ${site.guarantee.repairMonths}-month guarantee on repairs`,
+    `- Quotes: free survey and itemised written quote. Online quote builder: ${u('/quote/')}`,
+    '',
+    '## Windows',
+    ...products.filter((p) => p.category === 'windows').map((p) => `- [${p.name}](${u(`/windows/${p.slug}/`)}): ${strip(p.short)}`),
+    '',
+    '## Doors',
+    ...products.filter((p) => p.category === 'doors').map((p) => `- [${p.name}](${u(`/doors/${p.slug}/`)}): ${strip(p.short)}`),
+    '',
+    '## Repairs',
+    ...repairs.map((r) => `- [${r.name}](${u(`/repairs/${r.slug}/`)}): ${strip(r.short)}`),
+    '',
+    '## Services',
+    ...services.map((x) => `- [${x.name}](${u(`/services/${x.slug}/`)}): ${strip(x.short)}`),
+    '',
+    '## Guides',
+    ...guides.map((g) => `- [${strip(g.title)}](${u(`/guides/${g.slug}/`)}): ${strip(g.summary)}`),
+    '',
+    '## Frequently asked questions',
+    ...allFaqs.map((f) => `### ${strip(f.q)}\n${strip(f.a)}\n`),
+    '## More',
+    `- [All FAQs](${u('/faq/')})`,
+    `- [Guarantees](${u('/guarantee/')})`,
+    `- [About](${u('/about/')})`,
+    `- [Contact](${u('/contact/')})`,
+    `- [Privacy policy](${u('/privacy/')})`,
+    '',
+  ].filter((l) => l !== null);
+  writeFileSync(join(out, 'llms.txt'), md.join('\n'));
+}
 writeFileSync(
   join(out, 'site.webmanifest'),
   JSON.stringify(

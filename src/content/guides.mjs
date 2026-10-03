@@ -126,6 +126,8 @@ export const guides = [
     tag: 'Repairs',
     body: `
 <p>If you can see condensation or a cloudy film <em>between</em> the two panes of glass, the sealed unit has failed. It is one of the most common double-glazing faults, and usually one of the simplest to put right.</p>
+<div class="callout"><strong>In short</strong>
+<ul><li>Moisture you cannot wipe off from either side means the seal on the glass unit has failed.</li><li>The lasting fix is a new sealed unit made to size and fitted into your existing frame.</li><li>Drill and dry may clear the view for a while, but it does not restore the seal or the gas.</li><li>Replace the whole window only if the frame, hinges or locks are failing too.</li></ul></div>
 <h2>First, check where the moisture is</h2>
 <ul><li>Condensation on the <strong>room side</strong> of the glass comes from humidity indoors. Wipe it off and improve ventilation.</li><li>Condensation on the <strong>outside</strong> of the glass on cold mornings is normal with efficient glass. It shows less heat is escaping through it.</li><li>Moisture <strong>between</strong> the panes that you cannot wipe off from either side means the unit has failed.</li></ul>
 <h2>Why sealed units fail</h2>
@@ -185,6 +187,8 @@ export const guides = [
     tag: 'Doors',
     body: `
 <p>Most people replacing a front door end up choosing between uPVC and composite. Both are good doors when they are properly specified and fitted. They differ in construction, weight, finish and price.</p>
+<div class="callout"><strong>In short</strong>
+<ul><li>Both can be secure and meet Building Regulations when properly specified and fitted.</li><li>uPVC costs less, is lighter and suits back, side and utility doors.</li><li>Composite is heavier and more solid, with a timber-grain finish and a wider colour range, at a higher price.</li><li>On either door, check for a multipoint lock and an anti-snap cylinder rated TS 007 3-star or SS 312 Diamond.</li></ul></div>
 <table class="compare"><thead><tr><td></td><th scope="col">uPVC door</th><th scope="col">Composite door</th></tr></thead><tbody>
 <tr><th scope="row">Construction</th><td>Steel-reinforced uPVC frame and door, with an insulated infill panel</td><td>Thick core of insulating foam or solid timber behind a GRP skin, in a uPVC or aluminium frame</td></tr>
 <tr><th scope="row">Feel</th><td>Lighter</td><td>Heavier, with a more solid close</td></tr>
