@@ -845,10 +845,11 @@
     bookForm.addEventListener('change', sync);
     sync();
 
-    // dates: from tomorrow, warn on Sundays
+    // dates: from tomorrow, warn if the day is one we don't work
     const tomorrow = new Date(Date.now() + 864e5);
     const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     const closedDays = (VX.hours || []).filter((h) => !h.open).flatMap((h) => h.dow);
+    const hintText = document.getElementById('date-hint')?.textContent || '';
     ['date', 'date2'].forEach((n) => {
       const el = bookForm.elements[n];
       if (!el) return;
@@ -860,7 +861,7 @@
           hint.textContent = 'We’re normally closed that day — please choose another date or add a note.';
           hint.style.color = 'var(--err)';
         } else {
-          hint.textContent = 'We’re closed on Sundays. Saturday appointments are limited.';
+          hint.textContent = hintText;
           hint.style.color = '';
         }
       });

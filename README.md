@@ -104,6 +104,6 @@ To give a guide a new date after editing it, add `updated: 'YYYY-MM-DD'` to it i
 
 `build.mjs` writes `dist/assets/data/kb.json` from the FAQs, repairs, products, services, guides and business details. `src/assets/js/assistant.js` matches a visitor’s question against it with keyword and phrase matching weighted by IDF. The matcher understands synonyms, small typos and a few Roman Urdu words (qeemat, khidki, darwaza).
 
-It also handles opening hours (in UK time), postcode coverage and contact details. Guided flows collect quote and repair details and open WhatsApp with the message already written. If it isn’t confident, it says so and offers WhatsApp instead of guessing.
+It also handles service hours and WhatsApp/chat reply hours (in UK time), postcode coverage and contact details. Guided flows collect quote and repair details and open WhatsApp with the message already written. If it isn’t confident, it says so and offers WhatsApp instead of guessing.
 
 To teach it something new, add a FAQ with good keywords (`k`) in `src/content/faqs.mjs`.

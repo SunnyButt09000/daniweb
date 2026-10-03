@@ -218,6 +218,7 @@
     return h * 60 + m;
   };
   const fmt = (t) => {
+    if (t === '24:00' || t === '00:00') return 'midnight';
     let [h, m] = t.split(':').map(Number);
     const ap = h >= 12 ? 'pm' : 'am';
     h = h % 12 || 12;
@@ -254,6 +255,16 @@
       return { open: false, text: `Closed now · opens ${when} at ${fmt(h.open)}` };
     }
     return { open: false, text: 'Closed now' };
+  };
+  // WhatsApp and chat replies (every day), which run later than the service hours
+  VX.chatStatus = function chatStatus() {
+    const c = VX.chatHours;
+    if (!c || !c.open || !c.close) return null;
+    const { mins } = ukNow();
+    const o = toMin(c.open);
+    const cl = toMin(c.close);
+    if (mins >= o && mins < cl) return { open: true, text: `Team replying now · until ${fmt(c.close)}` };
+    return { open: false, text: `Team back on WhatsApp at ${fmt(c.open)}` };
   };
   const st = VX.openStatus();
   document.querySelectorAll('[data-openstate]').forEach((el) => {

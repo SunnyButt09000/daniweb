@@ -452,6 +452,15 @@
   const status = () => {
     try { const s = typeof VX.openStatus === 'function' ? VX.openStatus() : null; return s && typeof s.text === 'string' ? s : null; } catch { return null; }
   };
+  // when the team answers WhatsApp and chat (later than the service hours)
+  const chatStatus = () => {
+    try { const s = typeof VX.chatStatus === 'function' ? VX.chatStatus() : null; return s && typeof s.text === 'string' ? s : null; } catch { return null; }
+  };
+  const chatHoursText = () => {
+    const c = KB?.business?.chatHours || VX.chatHours;
+    const t12 = typeof VX.fmtTime === 'function' ? VX.fmtTime : (x) => x;
+    return c && str(c.open) && str(c.close) ? `${t12(c.open)} to ${t12(c.close)}` : '';
+  };
   const joinAnd = (a) => (a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}`);
 
   /* =====================================================================
@@ -459,8 +468,11 @@
      ===================================================================== */
   function welcome() {
     const st = status();
+    const cs = chatStatus();
     const b = [P(`Hello. I’m the ${BRAND} assistant. I answer from the information on this website, so I can help with windows, doors, repairs and prices, or set up a quote or survey request for you.`)];
-    if (st && !st.open) b.push(NOTE(`${st.text}. You can still message the team on WhatsApp, and they’ll read it when they’re back.`));
+    if (cs && !cs.open) b.push(NOTE(`The team is offline right now and answers WhatsApp from ${chatHoursText().split(' to ')[0]}. You can still message them, and they’ll reply when they’re back.`));
+    else if (st && !st.open && cs?.open) b.push(NOTE(`Service hours have finished for today, but the team still replies on WhatsApp ${cs.text.replace(/^.*· /, '')}.`));
+    else if (st && !st.open && !cs) b.push(NOTE(`${st.text}. You can still message the team on WhatsApp, and they’ll read it when they’re back.`));
     b.push(P('What can I help with?'));
     return { k: 'welcome', b, c: MAIN() };
   }
@@ -501,10 +513,13 @@
     const t12 = typeof VX.fmtTime === 'function' ? VX.fmtTime : (x) => x;
     const src = arr(KB?.business?.hours).length ? KB.business.hours : arr(VX.hours);
     const rows = src.filter((h) => h && typeof h.days === 'string');
-    const b = [H('Opening hours')];
+    const b = [H('Service hours')];
     if (st) b.push(P(B(`${st.text}.`)));
     if (rows.length) b.push(UL(rows.map((h) => [B(`${h.days}: `), str(h.open) && str(h.close) ? `${t12(h.open)} to ${t12(h.close)}` : 'Closed'])));
-    b.push(P('Outside these hours, send a WhatsApp message and we’ll pick it up when we open. If you need a survey or fitting on a particular day, say so when you book.'));
+    b.push(P('Surveys, fittings and repair visits are booked within these hours.'));
+    const ch = chatHoursText();
+    if (ch) b.push(P([B('WhatsApp and chat: '), `the team replies from ${ch}, every day.`]));
+    b.push(P('Outside these times, send a WhatsApp message and we’ll reply when we’re back. If you need a visit on a particular day, say so when you book.'));
     return { k: 'hours', b, c: [CW('WhatsApp us', hi()), CA('Book a survey', 'flow:survey'), C('Contact details', 'How can I contact you?')] };
   }
 
@@ -1088,8 +1103,9 @@
   };
   const noun = (d) => (/glass/i.test(d.what || '') ? 'panes' : /door/i.test(d.what || '') && !/window/i.test(d.what || '') ? 'doors' : /window/i.test(d.what || '') && !/door/i.test(d.what || '') ? 'windows' : 'windows and doors');
   const whenOpts = () => {
-    const sat = arr(VX.hours).some((h) => h && arr(h.dow).includes(6) && h.open);
-    return ['Weekday morning', 'Weekday afternoon', sat && 'Saturday', 'Any time'].filter(Boolean);
+    const on = (d) => arr(VX.hours).some((h) => h && arr(h.dow).includes(d) && h.open);
+    const late = arr(VX.hours).some((h) => h && str(h.close) && h.close >= '19:00');
+    return ['Weekday morning', 'Weekday afternoon', late && 'Weekday evening', on(6) && 'Saturday', on(0) && 'Sunday', 'Any time'].filter(Boolean);
   };
   const POSTCODE_STEP = { key: 'postcode', type: 'postcode', ask: 'What’s the postcode of the property? It lets us check we cover your area.', opts: () => ['Skip'] };
   const NAME_STEP = { key: 'name', type: 'name', ask: 'Last one. What name should we use?', opts: () => ['Skip'] };
@@ -1756,7 +1772,8 @@
   let isOpen = false;
   let opener = null;
   function refreshStatus() {
-    const st = status();
+    // the chat header shows when the team answers messages, not the service hours
+    const st = chatStatus() || status();
     const open = !!st?.open;
     headDot.classList.toggle('is-open', open);
     statusLine.textContent = st ? st.text : 'Automated answers, any time';

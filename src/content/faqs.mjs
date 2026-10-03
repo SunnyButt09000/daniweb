@@ -153,7 +153,7 @@ export const faqGroups = [
       },
       {
         q: 'Do you work at weekends?',
-        a: 'Our current opening hours are shown on the contact page. If you need a survey or installation on a particular day, tell us when you book and we’ll let you know what’s available.',
+        a: 'Yes. Our service hours are 7am to 8pm, seven days a week, so surveys, fittings and repairs can be booked for a weekend or an evening. The team answers WhatsApp and chat messages from 7am to midnight, every day.',
         k: [
           'weekend', 'weekends', 'saturday', 'saturdays', 'sunday', 'sundays', 'evening', 'evenings', 'after work', 'opening hours', 'opening times',
           'working days', 'working hours', 'bank holiday', 'days you work', 'chutti', 'chutti wale din', 'itwar', 'hafta', 'sunday ko',

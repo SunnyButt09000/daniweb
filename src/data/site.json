@@ -33,10 +33,14 @@
   "postcodePrefixes": [],
 
   "hours": [
-    { "days": "Monday – Friday", "short": "Mon–Fri", "dow": [1, 2, 3, 4, 5], "open": "08:00", "close": "18:00" },
-    { "days": "Saturday", "short": "Sat", "dow": [6], "open": "09:00", "close": "16:00" },
-    { "days": "Sunday", "short": "Sun", "dow": [0], "open": "", "close": "" }
+    { "days": "Monday – Sunday", "short": "Every day", "dow": [0, 1, 2, 3, 4, 5, 6], "open": "07:00", "close": "20:00" }
   ],
+
+  "chatHours": {
+    "_readme": "When the team answers WhatsApp and website chat messages, every day. Use 24:00 for midnight.",
+    "open": "07:00",
+    "close": "24:00"
+  },
 
   "guarantee": {
     "installationYears": 10,

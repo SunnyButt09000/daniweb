@@ -110,6 +110,7 @@ const kb = {
     whatsapp: site.contact.whatsapp,
     email: site.contact.email,
     hours: site.hours,
+    chatHours: site.chatHours?.open ? { open: site.chatHours.open, close: site.chatHours.close } : null,
     areaServed: site.areaServed,
     serviceAreas: site.serviceAreas,
     postcodePrefixes: site.postcodePrefixes,
@@ -167,7 +168,8 @@ writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /asse
 {
   const u = (p) => `${site.url}${p}`;
   const area = site.serviceAreas.length ? site.serviceAreas.join(', ') : site.areaServed;
-  const hrs = site.hours.map((h) => `${h.days}: ${h.open ? `${h.open}–${h.close}` : 'closed'}`).join('; ');
+  const t12 = (t) => { if (t === '24:00' || t === '00:00') return 'midnight'; const [h, m] = t.split(':').map(Number); return `${h % 12 || 12}${m ? `:${String(m).padStart(2, '0')}` : ''}${h >= 12 ? 'pm' : 'am'}`; };
+  const hrs = site.hours.map((h) => `${h.days}: ${h.open ? `${t12(h.open)}–${t12(h.close)}` : 'closed'}`).join('; ');
   const md = [
     `# ${site.brand.name}`,
     '',
@@ -175,7 +177,8 @@ writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /asse
     '',
     `- Phone and WhatsApp: ${site.contact.phoneDisplay} (${site.contact.phoneInternational})`,
     `- Email: ${site.contact.email}`,
-    `- Opening hours: ${hrs}`,
+    `- Service hours: ${hrs}`,
+    site.chatHours?.open ? `- WhatsApp and chat replies: ${t12(site.chatHours.open)}–${t12(site.chatHours.close)}, every day` : null,
     area ? `- Area served: ${area}` : null,
     `- Guarantees: ${site.guarantee.installationYears}-year installation guarantee, ${site.guarantee.repairMonths}-month guarantee on repairs`,
     `- Quotes: free survey and itemised written quote. Online quote builder: ${u('/quote/')}`,
