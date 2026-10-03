@@ -1257,35 +1257,19 @@
     return a;
   };
 
-  // launcher
   const compact = /^\/(quote|book)\//.test(location.pathname);
+  // launcher: the window character on its own, with a small speech bubble above it
   const launch = el('button', `vxa-launch${compact ? ' vxa-launch--compact' : ''}`);
   launch.type = 'button';
   launch.setAttribute('aria-haspopup', 'dialog');
   launch.setAttribute('aria-controls', 'vxa-panel');
   launch.setAttribute('aria-expanded', 'false');
-  if (compact) launch.setAttribute('aria-label', 'Questions? Ask us');
+  launch.setAttribute('aria-label', 'Open chat. Hello, I’m here to help');
+  const launchSay = el('span', 'vxa-launch__say', 'Hello, I’m here to help');
+  launchSay.setAttribute('aria-hidden', 'true');
   const launchAv = el('span', 'vxa-launch__av');
   launchAv.innerHTML = SVG.mascot;
-  const launchDot = el('span', 'vxa-dot');
-  launchAv.append(launchDot);
-  launch.append(launchAv, el('span', 'vxa-launch__txt', 'Questions? Ask us'));
-
-  // greeting nudge
-  const nudge = el('div', 'vxa-nudge');
-  nudge.hidden = true;
-  const nudgeBody = el('button', 'vxa-nudge__body');
-  nudgeBody.type = 'button';
-  const nudgeText = el('span', 'vxa-nudge__text');
-  nudgeText.append(el('strong', null, 'Hello! I’m here to help.'), el('span', null, 'Ask me about prices, repairs or booking a free survey.'));
-  const nudgeAv = el('span', 'vxa-nudge__av');
-  nudgeAv.innerHTML = SVG.mascot;
-  nudgeBody.append(nudgeAv, nudgeText);
-  const nudgeX = el('button', 'vxa-nudge__x');
-  nudgeX.type = 'button';
-  nudgeX.setAttribute('aria-label', 'Dismiss');
-  nudgeX.innerHTML = SVG.close;
-  nudge.append(nudgeBody, nudgeX);
+  launch.append(launchSay, launchAv);
 
   // panel
   const panel = el('section', 'vxa');
@@ -1360,7 +1344,7 @@
   foot.append(human, footNote);
 
   panel.append(head, scroller, form, foot);
-  document.body.append(launch, nudge, panel);
+  document.body.append(launch, panel);
 
   /* ---------- rendering (textContent only) ---------- */
   function inl(parent, x) {
@@ -1766,9 +1750,8 @@
   function refreshStatus() {
     const st = status();
     const open = !!st?.open;
-    [launchDot, headDot].forEach((d) => d.classList.toggle('is-open', open));
+    headDot.classList.toggle('is-open', open);
     statusLine.textContent = st ? st.text : 'Automated answers, any time';
-    launch.title = st ? `Team: ${st.text}` : '';
   }
   const vv = window.visualViewport;
   function fitViewport() {
@@ -1785,7 +1768,6 @@
   let statusTimer;
   function open({ focus = true } = {}) {
     if (isOpen) { if (focus) input.focus({ preventScroll: true }); return; }
-    hideNudge(true);
     const ae = document.activeElement;
     opener = ae && ae !== document.body ? ae : null;
     isOpen = true;
@@ -1866,33 +1848,21 @@
   vv?.addEventListener('resize', fitViewport);
   vv?.addEventListener('scroll', fitViewport);
 
-  // one-time greeting bubble: desktop only, once per session, not on the quote or booking pages
-  let nudgeTimer;
-  function hideNudge(now) {
-    clearTimeout(nudgeTimer);
-    if (nudge.hidden) return;
-    if (now || reduced()) { nudge.hidden = true; nudge.classList.remove('is-in'); return; }
-    nudge.classList.remove('is-in');
-    setTimeout(() => (nudge.hidden = true), 220);
+  // greet once per visit: the character waves. On phones the bubble tucks away after a few seconds.
+  function hello() {
+    const first = !state.nudged && !state.msgs.length;
+    if (first) { state.nudged = 1; save(); }
+    if (mqMobile.matches && !first) launch.classList.add('is-quiet');
+    setTimeout(() => {
+      launch.classList.add('is-in');
+      if (!first) return;
+      if (!reduced()) {
+        launch.classList.add('is-waving');
+        setTimeout(() => launch.classList.remove('is-waving'), 2200);
+      }
+      if (mqMobile.matches) setTimeout(() => launch.classList.add('is-quiet'), 7000);
+    }, first ? 1200 : 0);
   }
-  function maybeNudge() {
-    if (compact || state.nudged || state.msgs.length) return;
-    nudgeTimer = setTimeout(() => {
-      const ae = document.activeElement;
-      if (isOpen || document.hidden || state.nudged || state.msgs.length || document.body.classList.contains('nav-open')) return;
-      if (ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)) return;
-      state.nudged = 1;
-      save();
-      refreshStatus();
-      nudge.hidden = false;
-      requestAnimationFrame(() => nudge.classList.add('is-in'));
-      // wave once, on the bubble and on the launcher
-      if (!reduced()) [nudge, launch].forEach((n) => { n.classList.add('is-waving'); setTimeout(() => n.classList.remove('is-waving'), 2200); });
-      nudgeTimer = setTimeout(() => hideNudge(), mqMobile.matches ? 9000 : 15000);
-    }, 2500);
-  }
-  nudgeBody.addEventListener('click', () => open());
-  nudgeX.addEventListener('click', () => { hideNudge(); launch.focus({ preventScroll: true }); });
 
   refreshStatus();
   if (state.reopen) {
@@ -1900,7 +1870,7 @@
     save();
     if (!mqMobile.matches && state.msgs.length) open({ focus: false });
   }
-  maybeNudge();
+  hello();
 
   // small API for the site and for testing
   VX.assistant = {

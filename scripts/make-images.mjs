@@ -18,7 +18,7 @@ mkdirSync(img, { recursive: true });
 const fav = readFileSync(join(root, 'src/static/favicon.svg'), 'utf8');
 const font = (f) => `data:font/woff2;base64,${readFileSync(join(root, 'src/assets/fonts', f)).toString('base64')}`;
 
-const { facadeDrawing } = await import('../lib/svg.mjs');
+const { heroHouse } = await import('../lib/svg.mjs');
 const css = readFileSync(join(root, 'src/assets/css/main.css'), 'utf8').replace(/url\('\.\.\/fonts\/([^']+)'\)/g, (_, f) => `url('${font(f)}')`);
 
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
@@ -55,10 +55,10 @@ body{margin:0;width:1200px;height:630px;overflow:hidden;background:var(--paper);
 .og h1 em{font-style:normal;color:var(--brass)}
 .og p{margin-top:22px;font-size:21px;color:#aab0b3}
 .og__url{margin-top:28px;font:500 15px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--brass)}
-.og__r{padding:40px 36px;background-image:linear-gradient(rgba(27,32,36,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(27,32,36,.05) 1px,transparent 1px);background-size:20px 20px;display:grid;place-items:center}
+.og__r{padding:40px 36px;background:radial-gradient(ellipse at 45% 40%,#fff,var(--paper) 70%);display:grid;place-items:center}
 </style></head><body><div class="og"><div class="og__l"><span class="logo">${fav.replace('<svg ', '<svg width="44" height="44" ')}<span class="logo__word"><span class="logo__name" style="font-size:28px">${site.brand.short}</span><span class="logo__sub" style="font-size:12px">Windows &amp; Doors</span></span></span>
 <h1>uPVC windows &amp; doors, <em>fitted properly.</em></h1><p>Supply · installation · repairs. Free survey and written quote.</p><span class="og__url">${site.url.replace(/^https?:\/\//, '')}</span></div>
-<div class="og__r">${facadeDrawing()}</div></div></body></html>`;
+<div class="og__r">${heroHouse()}</div></div></body></html>`;
 await shot(og, 1200, 630, join(img, 'og-image.png'));
 
 await browser.close();

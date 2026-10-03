@@ -391,8 +391,6 @@ ul, ol { margin: 0; padding: 0; }
 .d-call path { fill: none; stroke: var(--ink); stroke-width: 0.8; }
 .d-call text { font: 600 11px var(--f-mono); fill: var(--ink); letter-spacing: 0.06em; }
 .d-call .d-call-sub { font-weight: 400; fill: var(--slate); font-size: 10px; letter-spacing: 0.02em; }
-.d-titleblock rect { fill: var(--card); stroke: var(--ink); stroke-width: 0.8; }
-.d-titleblock text { font: 500 8.5px var(--f-mono); fill: var(--ink); letter-spacing: 0.1em; }
 .d-profile { fill: var(--white); stroke: var(--ink); stroke-width: 1.3; }
 .d-chamber { fill: #eceeea; stroke: var(--ink); stroke-width: 0.7; }
 .d-steel { fill: #9aa3a8; stroke: var(--ink); stroke-width: 0.7; }
@@ -920,18 +918,22 @@ a.ccard:hover { background: var(--white); }
   .hero .display .ln > span { animation: vxUp .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--d, 0) * 110ms + 80ms); }
   .hero .hero__lead, .hero .hero__actions, .hero .hero__ticks { animation: vxFadeUp .8s ease both; }
   .hero .hero__lead { animation-delay: .45s; } .hero .hero__actions { animation-delay: .58s; } .hero .hero__ticks { animation-delay: .7s; }
-  .hero .sheet { animation: vxFadeUp .9s .15s ease both; }
-  .hero .d-call, .hero .d-dim, .hero .d-titleblock, .hero .d-open { animation: vxFade .6s ease both; animation-delay: 1.7s; }
-  .hero .d-call:nth-of-type(2n) { animation-delay: 1.9s; }
+  .hero .house { animation: vxFade .8s .1s ease both; }
+  .hero .hh-face { animation: hhRise 1.2s .35s cubic-bezier(.2,.7,.2,1) both; }
+  .hero .hh-ext, .hero .hh-shade { animation: vxFade 1s .55s ease both; }
 }
 @keyframes vxFadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
-.hero__art .sheet { box-shadow: 0 30px 60px -40px rgba(27,32,36,.45); }
-.hero__badge { position: absolute; left: -22px; bottom: -26px; text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 12px 16px 12px 12px; background: var(--ink); color: var(--paper); border-radius: 6px; box-shadow: 0 16px 34px -18px rgba(27,32,36,.7); font-size: 0.875rem; line-height: 1.3; }
+@keyframes hhRise { from { transform: translate(14px, 11px); } to { transform: none; } }
+/* the house is a raised panel on the hero wall: no frame, just light and shadow */
+.hero__art::before { content: ''; position: absolute; inset: -12% -8% -6% -14%; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 45% 42%, rgba(255,255,255,.55), rgba(255,255,255,0) 66%); }
+.hero__art { isolation: isolate; }
+.house { display: block; width: 100%; height: auto; overflow: visible; }
+.hero__badge { position: absolute; left: -22px; bottom: -40px; text-decoration: none; display: flex; align-items: center; gap: 12px; padding: 12px 16px 12px 12px; background: var(--ink); color: var(--paper); border-radius: 6px; box-shadow: 0 16px 34px -18px rgba(27,32,36,.7); font-size: 0.875rem; line-height: 1.3; }
 .hero__badge strong { display: block; font-weight: 600; }
 .hero__badge span { color: #aab0b3; font-size: 0.8125rem; }
 .hero__badge .ico { width: 38px; height: 38px; padding: 9px; border-radius: 50%; background: var(--brass); color: var(--ink); }
 @media (prefers-reduced-motion: no-preference) { .hero__badge { animation: vxFadeUp .7s 1.2s ease both; } }
-@media (max-width: 960px) { .hero__badge { left: 12px; bottom: -24px; } }
+@media (max-width: 960px) { .hero__badge { position: relative; left: auto; bottom: auto; display: inline-flex; margin-top: 22px; } }
 .hero__badge:hover strong { text-decoration: underline; text-underline-offset: 3px; }
 
 /* reveal on scroll (only for content below the first screen) */
@@ -1091,7 +1093,7 @@ a.ccard:hover { background: var(--white); }
 .hbtn__ico { width: 46px; height: 46px; flex: none; display: grid; place-items: center; border-radius: 7px; transition: transform .22s; }
 .hbtn__txt { display: flex; flex-direction: column; gap: 4px; line-height: 1.15; min-width: 0; }
 .hbtn__txt strong { font: 650 1.0625rem/1.15 var(--f-display); font-stretch: 104%; letter-spacing: -0.005em; }
-.hbtn__txt small { font: 500 0.6875rem/1.2 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; }
+.hbtn__txt small { font: 500 0.8125rem/1.2 var(--f-body); white-space: nowrap; }
 .hbtn__go { margin-left: auto; padding-left: 4px; display: grid; place-items: center; transition: transform .25s cubic-bezier(.2,.8,.2,1); }
 .hbtn:focus-visible { outline: 3px solid var(--brass); outline-offset: 3px; }
 .hbtn:active { transform: translateY(0) scale(.99); }
@@ -1101,14 +1103,16 @@ a.ccard:hover { background: var(--white); }
 .hbtn--quote:hover { background: var(--anth); transform: translateY(-2px); box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 20px 34px -18px rgba(27,32,36,.9); }
 .hbtn--quote:hover .hbtn__go { transform: translateX(4px); }
 .hbtn--quote:hover .hbtn__ico { transform: rotate(-6deg); }
-.hbtn--wa { background: var(--white); color: var(--ink); border: 1px solid var(--line-strong); box-shadow: 0 10px 24px -20px rgba(27,32,36,.5); }
-.hbtn--wa .hbtn__ico { background: #e3f6ea; color: #128c4a; }
-.hbtn--wa small { color: var(--slate); letter-spacing: 0.04em; }
-.hbtn--wa .hbtn__go { color: var(--slate); }
-.hbtn--wa:hover { border-color: #128c4a; transform: translateY(-2px); box-shadow: 0 18px 30px -20px rgba(18,140,74,.55); }
-.hbtn--wa:hover .hbtn__ico { background: var(--wa); color: var(--wa-ink); }
-.hbtn--wa:hover .hbtn__go { transform: translate(3px, -3px); color: #128c4a; }
-@media (max-width: 480px) { .hero__actions .hbtn { flex: 1 1 100%; } }
+.hbtn--wa { background: #0f5132; color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 16px 30px -18px rgba(9,60,34,.9); }
+.hbtn--wa .hbtn__ico { background: #25d366; color: #fff; }
+.hbtn--wa .hbtn__ico .ico { filter: drop-shadow(0 1px 0 rgba(5,48,26,.35)); }
+.hbtn--wa small { color: #a9dcbd; font-variant-numeric: tabular-nums; }
+.hbtn--wa .hbtn__go { color: #a9dcbd; }
+.hbtn--wa:hover { background: #0b6b3e; transform: translateY(-2px); box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 20px 34px -18px rgba(9,60,34,.95); }
+.hbtn--wa:hover .hbtn__ico { transform: scale(1.06); }
+.hbtn--wa:hover .hbtn__go { transform: translate(3px, -3px); color: #fff; }
+.hero__actions .hbtn { flex: 1 1 0; min-width: 248px; max-width: 300px; }
+@media (max-width: 600px) { .hero__actions .hbtn { flex: 1 1 100%; max-width: none; min-width: 0; } }
 @media (prefers-reduced-motion: reduce) { .hbtn, .hbtn__go, .hbtn__ico { transition: none; } }
 
 /* ---------- quote: "Send for quote" bar and collapsible step 2 ---------- */

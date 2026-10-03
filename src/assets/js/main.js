@@ -364,7 +364,6 @@
       el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 700, delay: delay + dur * 0.75, fill: 'backwards' })
     );
   }
-  drawIn(document.querySelector('.hero .diagram--facade'), 250, 1600);
   const sect = document.querySelector('.diagram--section');
   if (sect && io) {
     if (sect.getBoundingClientRect().top > window.innerHeight) {
