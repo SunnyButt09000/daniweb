@@ -1270,6 +1270,14 @@
   const launchAv = el('span', 'vxa-launch__av');
   launchAv.innerHTML = SVG.mascot;
   launch.append(launchSay, launchAv);
+  // phones: the character lives in the bottom bar's "Ask us" tab instead of floating over the page
+  const barTab = document.querySelector('.actionbar [data-chat-open]');
+  if (barTab) {
+    const m = el('span', 'actionbar__vxm');
+    m.innerHTML = SVG.mascot;
+    const ico = barTab.querySelector('.ico');
+    if (ico) ico.replaceWith(m); else barTab.prepend(m);
+  }
 
   // panel
   const panel = el('section', 'vxa');
@@ -1848,7 +1856,7 @@
   vv?.addEventListener('resize', fitViewport);
   vv?.addEventListener('scroll', fitViewport);
 
-  // greet once per visit: the character waves. On phones the bubble tucks away after a few seconds.
+  // greet once per visit: the character waves. On phones the bubble tucks away after six seconds.
   function hello() {
     const first = !state.nudged && !state.msgs.length;
     if (first) { state.nudged = 1; save(); }
@@ -1857,10 +1865,10 @@
       launch.classList.add('is-in');
       if (!first) return;
       if (!reduced()) {
-        launch.classList.add('is-waving');
-        setTimeout(() => launch.classList.remove('is-waving'), 2200);
+        [launch, barTab].forEach((n) => n?.classList.add('is-waving'));
+        setTimeout(() => [launch, barTab].forEach((n) => n?.classList.remove('is-waving')), 2200);
       }
-      if (mqMobile.matches) setTimeout(() => launch.classList.add('is-quiet'), 7000);
+      if (mqMobile.matches) setTimeout(() => launch.classList.add('is-quiet'), 6000);
     }, first ? 1200 : 0);
   }
 

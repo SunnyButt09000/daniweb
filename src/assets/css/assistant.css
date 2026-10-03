@@ -20,10 +20,15 @@ html.vxa-locked, html.vxa-locked body { overflow: hidden; }
   .vxa-launch:hover .vxa-launch__av { transform: translateY(-3px); }
   .vxa-launch.is-quiet:hover .vxa-launch__say { opacity: 1; visibility: visible; transform: none; transition: opacity .2s ease, transform .25s var(--vxa-ease), visibility 0s; }
 }
+/* phones: the character sits in the "Ask us" tab of the bottom bar; only the bubble floats, pointing at it */
+.actionbar__vxm { position: relative; display: block; width: 20px; height: 20px; }
+.actionbar__vxm .vxm { position: absolute; left: 50%; bottom: -2px; width: 44px; height: 44px; margin-left: -22px; max-width: none; overflow: visible; }
 @media (max-width: 760px) {
-  .vxa-launch { right: 10px; bottom: calc(70px + env(safe-area-inset-bottom, 0px)); }
-  .vxa-launch__av, .vxa-launch--compact .vxa-launch__av { width: 60px; height: 60px; }
+  .vxa-launch { right: 8px; bottom: calc(74px + env(safe-area-inset-bottom, 0px)); }
+  .vxa-launch__av { display: none; }
   .vxa-launch__say { font-size: 0.8125rem; padding: 7px 11px; margin-right: 6px; }
+  .vxa-launch__say::after { right: 30px; }
+  .vxa-launch:not(.is-in), .vxa-launch.is-quiet, .vxa-launch--compact { visibility: hidden; pointer-events: none; }
 }
 
 /* ---------- panel ---------- */

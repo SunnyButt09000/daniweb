@@ -936,6 +936,17 @@ a.ccard:hover { background: var(--white); }
   .hero__art .diagram--facade { width: calc(100% + 2 * var(--gut)); margin-inline: calc(-1 * var(--gut)); }
 }
 @media (max-width: 600px) { .hero .diagram--facade .d-call { display: none; } }
+/* phones: keep the whole hero (heading, buttons, three ticks) on the first screen, and the house close below */
+@media (max-width: 600px) {
+  .hero { padding-block: 20px 36px; }
+  .hero__grid { row-gap: 18px; }
+  .hero__lead { margin-top: 16px; font-size: 1rem; line-height: 1.55; }
+  .hero__actions { margin-top: 22px; }
+  .hero__actions .hbtn { min-height: 58px; padding-block: 6px; }
+  .hero__ticks { margin-top: 20px; gap: 8px 22px; }
+}
+/* the button above already says "Draw your windows to size" */
+@media (max-width: 760px) { .hero__art .hero__badge { display: none; } }
 .hf-side { fill: #dcdfdb; stroke: rgba(27,32,36,.55); stroke-width: .8; stroke-linejoin: round; }
 .hf-side--under { fill: #c9cdc9; }
 .hf-shadow { fill: #1b2024; opacity: .16; }
