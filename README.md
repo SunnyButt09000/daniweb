@@ -3,19 +3,20 @@
 Marketing website for **Veltrix Windows & Doors** (veltrixwindowsdoor.co.uk): uPVC windows and doors supply, installation and repairs in the UK.
 
 - **48 static pages**: home, 7 window and 6 door product pages, 8 repair categories, 4 services, quote builder, booking, contact, FAQ, 6 guides, guarantee, about, privacy, cookies, terms, accessibility and 404.
-- **Website assistant (chatbot)**: answers from the site’s own content, guides visitors through quote and repair requests, and hands over to WhatsApp. It runs fully in the browser, so there is no API key and no cost.
-- **Visual quote configurator**: the visitor picks a window or door and types the width and height on the dimension lines of a live drawing. The drawing follows the size, colour, glass and hinge side. They add each item to a numbered schedule (W1, D1…), which they can edit, duplicate or remove, then send it to WhatsApp as a professional message with a reference number. A PNG quote sheet with every drawing can be saved and attached.
+- **Website assistant (chatbot)**: a small window character in the corner says “Hello, I’m here to help” and opens the chat. It answers from the site’s own content, guides visitors through quote and repair requests, and hands over to WhatsApp. It runs fully in the browser, so there is no API key and no cost.
+- **Visual quote configurator**: the visitor picks a window or door and types the width and height on the dimension lines of a live drawing. The drawing follows the size, colour, glass and hinge side. They add each item to a numbered schedule (W1, D1…), which they can edit, duplicate or remove, then press **Send for quote**, add their details and send. The schedule goes to WhatsApp as a short message with a reference number, plus a **PDF quote request with one page per item** (drawing, sizes and options) and the customer’s details.
 - **WhatsApp booking and contact**: the booking and contact forms also compose a tidy message and open WhatsApp. Email is offered as an alternative.
-- **SEO**: unique titles and descriptions, canonical URLs, Open Graph image, JSON-LD (LocalBusiness, Service, FAQPage, Article, BreadcrumbList), `sitemap.xml` and `robots.txt`.
+- **SEO, set up for Google’s 2026 search and AI answers**: see [SEO](#seo) below.
 - **Fast and private**: no frameworks, self-hosted fonts, no tracking cookies, security headers via `_headers`.
 - **Checked**: valid HTML (html-validate), no broken internal links, axe-core accessibility checks (WCAG 2.2 AA rules), and no horizontal scroll at 390px wide.
 
-👉 **To put the site live, follow [DEPLOY.md](DEPLOY.md)** (Hostinger domain + free Cloudflare Pages hosting, in Roman Urdu).
+👉 **Live at https://veltrixwindowsdoor.co.uk.** Hosting is free on Cloudflare (Workers static assets, `wrangler.jsonc`): every push to `claude/upvc-windows-doors-site-jj8slj` rebuilds and deploys the site in 1–2 minutes. Setup steps are in [DEPLOY.md](DEPLOY.md) (Roman Urdu).
 
 ## Project structure
 
 ```
 src/data/site.json        ← business details: phone, WhatsApp, email, hours, areas, guarantees, company info
+src/data/lastmod.json     ← last-modified date per page, updated by the build (commit it)
 src/content/products.mjs  ← windows & doors (each entry becomes a page)
 src/content/repairs.mjs   ← repair categories and services
 src/content/faqs.mjs      ← FAQs (also the chatbot’s knowledge)
@@ -66,6 +67,37 @@ All of these live in `src/data/site.json`:
 ```json
 "stats": [ { "value": "12 yrs", "label": "Fitting windows" }, { "value": "1,400+", "label": "Installations" } ]
 ```
+
+## SEO
+
+What Google said in 2026 shaped this setup. There were core updates in March and May 2026. AI Overviews and AI Mode now answer many searches directly. Google’s guidance is that these use the same signals as normal search, so no special file or trick is needed: the page must be indexable, answer the question clearly, and keep its structured data in line with what the page shows. FAQ rich results stopped showing in May 2026, but Google still reads FAQ markup to understand a page, so it stays.
+
+### Built into the site
+
+| What | Where |
+|---|---|
+| Titles of about 60 characters, a unique meta description and a canonical URL on every page | `lib/layout.mjs` (`pageTitle`), each page in `lib/pages.mjs` |
+| `robots` meta: `index, follow, max-image-preview:large, max-snippet:-1` (404 is `noindex`) | `lib/layout.mjs` |
+| **One connected JSON-LD `@graph` per page**: the business (`HomeAndConstructionBusiness` with hours, contact and an offer catalogue of every window, door and repair), `WebSite`, the typed web page (`WebPage`, `CollectionPage`, `AboutPage`, `ContactPage`), `BreadcrumbList`, and the page’s own `Service`, `FAQPage` or `Article`, all linked by `@id` | `schemaGraph()` in `lib/layout.mjs`, helpers at the top of `lib/pages.mjs` |
+| FAQ markup built from the Q&As that are visible on the page (home, products, repairs, FAQ page) | `faqSchema()` in `lib/pages.mjs` |
+| Answer-first content: product pages open with a plain definition, guides with a summary and an “In short” box | `src/content/*.mjs` |
+| Guides show the publish or updated date and the author (“By the Veltrix Windows & Doors team”), with matching `article:*` meta | `guide()` in `lib/pages.mjs` |
+| `sitemap.xml` with a real `lastmod` per page. A page keeps its date until its content changes. | `build.mjs`, `src/data/lastmod.json` |
+| `robots.txt` allows all crawlers, AI search crawlers included | `build.mjs` |
+| `llms.txt`: a plain summary of the business, pages and FAQs for AI assistants such as ChatGPT, Claude and Perplexity. Google does not use it. | `build.mjs` |
+| Open Graph image and tags for link previews on WhatsApp and social media | `lib/layout.mjs`, `scripts/make-images.mjs` |
+| Speed: static HTML, no frameworks, self-hosted fonts, long cache on assets | `build.mjs` (`_headers`) |
+
+To give a guide a new date after editing it, add `updated: 'YYYY-MM-DD'` to it in `src/content/guides.mjs`.
+
+### Off-site steps (these matter most for ranking)
+
+- [ ] **Google Business Profile**: the right category, service area, hours and photos, and ask every customer for a real review. Local results and AI Overviews draw on it heavily.
+- [ ] **Area and address in `site.json`** (`areaServed`, `serviceAreas`, `postcodePrefixes`, `address` or `company.registeredOffice`). While these are empty, nothing on the site tells Google where you work.
+- [ ] **Google Search Console**: verify the domain and submit `sitemap.xml`.
+- [ ] **Bing Webmaster Tools**: import from Search Console. ChatGPT search and Copilot use Bing’s index.
+- [ ] **Cloudflare → Security → Bots**: if AI crawlers are blocked, allow them so AI assistants can read the site. This does not affect Googlebot. Turn on **Crawler Hints** under Caching.
+- [ ] Put the Google reviews link in `social.googleReviews`. Never publish reviews that aren’t real: fake reviews are illegal in the UK.
 
 ## How the assistant works
 
