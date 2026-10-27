@@ -190,7 +190,7 @@ writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /asse
     `- Contact hours: ${hrs}. These are enquiry hours, not installation appointment availability.`,
     site.chatHours?.open ? `- WhatsApp and chat replies: ${t12(site.chatHours.open)}–${t12(site.chatHours.close)}, every day` : null,
     area ? `- Area served: ${area}` : '- Coverage: ask the team to check your postcode and job. No nationwide installation availability is confirmed. Any proposed partner installer and appointment must be confirmed before work is agreed.',
-    `- Guarantees: ${site.guarantee.installationYears}-year installation guarantee, ${site.guarantee.repairMonths}-month guarantee on repairs`,
+    `- Guarantees: ${site.guarantee.productYears}-year guarantee on new products, subject to written product terms. No insurance-backed guarantee policy currently in place. Installation and repair warranty terms are confirmed separately before agreement.`,
     `- Quotes: free survey and itemised written quote. Online quote builder: ${u('/quote/')}`,
     '',
     '## Windows',
