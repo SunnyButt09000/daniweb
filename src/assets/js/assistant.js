@@ -583,7 +583,7 @@
     const g = guideBy('building-regulations-for-replacement-windows');
     const b = [H('Accreditations and certificates')];
     if (list.length) b.push(P(`We’re registered with ${joinAnd(list)}.`));
-    else b.push(P(`I can’t confirm scheme memberships${/\binsur/.test(q) ? ' or insurance details' : ''} from here, so please ask the team directly.`));
+    else b.push(P(/\binsur/.test(q) ? 'There is currently no insurance-backed guarantee policy in place. Please ask the team to confirm any other insurance details relevant to your job.' : 'I can’t confirm scheme memberships from here, so please ask the team directly.'));
     b.push(P('In England and Wales, relevant replacement work can use an appropriately registered installer or the applicable building-control route. Scotland and Northern Ireland have separate systems, and straightforward replacements may be exempt from application while still needing to meet standards.'));
     b.push(P('Ask which route applies to your property, which documents are required, and whether any proposed partner installer holds the relevant registration. Keep the documents for your records.'));
     return {
@@ -596,17 +596,14 @@
   function guarantee() {
     const g = KB?.business?.guarantee && typeof KB.business.guarantee === 'object' ? KB.business.guarantee : {};
     const f = faqBy(/guarantee do i get/i);
-    const yrs = Number(g.installationYears) || 0;
-    const mths = Number(g.repairMonths) || 0;
-    const b = [H('Guarantees')];
-    const items = [];
-    if (yrs) items.push([B(`New windows and doors: ${yrs} years. `), `Covers defects in manufacture and workmanship from completion${g.insuranceBacked ? '. Insurance-backed protection applies only where a policy is issued for your installation, subject to its terms and exclusions; ask for the provider and cover details' : ''}.`]);
-    if (mths) items.push([B(`Repairs: ${mths} months. `), 'Covers the parts we supply and fit, and our workmanship on that repair.']);
-    if (items.length) b.push(UL(items));
+    const yrs = Number(g.productYears) || 0;
+    const b = [H('Product guarantee and aftercare')];
+    if (yrs) b.push(P([B(`New windows and doors: ${yrs}-year product guarantee.`), ' The components covered, exclusions, guarantor and claim procedure are set out in written terms before you agree to the work. This does not automatically include installation workmanship for the same period.']));
     else if (f) b.push(P(f.a));
-    b.push(P('Full terms are on your quotation and guarantee certificate. Your statutory rights are not affected.'));
-    b.push(CARD('Guarantees and aftercare', '/guarantee/', 'What’s covered and how to claim', 'Read the details'));
-    return { k: 'guarantee', b, c: [C('Something’s gone wrong', 'What if something goes wrong after fitting?'), CW('Report a problem', hi('I need help with something you fitted. My address is ')), CA('Get a quote', 'flow:quote')] };
+    b.push(P('Installation workmanship and any separate repair warranty must be confirmed in writing for your job.'));
+    b.push(P('There is currently no insurance-backed guarantee policy in place. Your statutory consumer rights remain unaffected.'));
+    b.push(CARD('Guarantees and aftercare', '/guarantee/', 'What to check before accepting your quotation', 'Read the details'));
+    return { k: 'guarantee', b, c: [C('Something’s gone wrong', 'What if something goes wrong after fitting?'), CW('Report a problem', hi('I need help with something you fitted. My job reference is ')), CA('Get a quote', 'flow:quote')] };
   }
 
   function payment(q) {
