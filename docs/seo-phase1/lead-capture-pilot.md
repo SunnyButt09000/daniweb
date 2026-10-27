@@ -12,6 +12,8 @@ Cloudflare's published free allowances are suitable for an early-stage low-volum
 - [Cloudflare Workers free limits](https://developers.cloudflare.com/workers/platform/limits/): 100,000 HTTP requests/day at date of research.
 - [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/): require server-side token verification; tokens are not to be trusted client-side.
 - [Cloudflare Email Service Workers API](https://developers.cloudflare.com/email-service/api/send-emails/workers-api/): the binding's `send()` returns an email message identifier on acceptance; acceptance is not proof the recipient opened or received it.
+- [Cloudflare Email Service pricing](https://developers.cloudflare.com/email-service/platform/pricing/): internal alerts to a **verified destination address** are free even on Workers Free. Arbitrary-recipient sending needs a paid plan, and is NOT needed for the Veltrix pilot. The From address must be eligible under a Cloudflare routing/Email Service domain.
+- [Sender and destination binding rules](https://developers.cloudflare.com/email-service/configuration/send-bindings/): keep the destination restricted to the verified business inbox.
 
 ## Files in this pilot
 
@@ -95,3 +97,7 @@ A pending status means only that email acceptance was not recorded; it does **no
 ## Important independent operational blockers
 
 Actual UK coverage/partner agreements, manufacturer warranty PDF and terms, customer communication policy, legal entity identification, rate-limiting under live load, test acceptance and verified mailbox are all owner actions. These are **not** inferred from competitor intelligence.
+
+## Pre-launch safety gate (new)
+
+The static website's `build.mjs` now runs `checkLeadReleaseConfig(site.forms, process.env)`. The existing disabled settings are safe. If someone edits `site.json` to turn on `/api/leads` before approval, the build fails unless `forms.provider` is `Cloudflare D1`, a valid-format public Turnstile site key is present, and the Cloudflare build environment explicitly has `VELTRIX_LEADS_LAUNCH_APPROVED=yes`. This is **not permission to activate**; it is a fail-closed control. The backend still requires private bindings, owner privacy approval, and an end-to-end test. The guard's regression tests run under `npm run check`. See [`CODEX-LEADS-CLOUDFLARE-HANDOFF.md`](./CODEX-LEADS-CLOUDFLARE-HANDOFF.md) for the complete Codex task.
