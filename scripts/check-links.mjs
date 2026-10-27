@@ -1,25 +1,38 @@
-// Checks every internal link and asset reference in dist/ resolves to a file.
+// Check local and same-origin links, asset references, and cross-page anchors.
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const dist = process.env.VX_OUT || join(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const dist = resolve(process.env.VX_OUT || join(root, 'dist'));
+const site = JSON.parse(readFileSync(join(root, 'src/data/site.json'), 'utf8'));
+const origin = new URL(site.url).origin;
 const files = [];
 const walk = (d) => readdirSync(d).forEach((f) => { const p = join(d, f); statSync(p).isDirectory() ? walk(p) : p.endsWith('.html') && files.push(p); });
 walk(dist);
-
+const idsFor = (html) => new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+const anchors = new Map(files.map((f) => [f, idsFor(readFileSync(f, 'utf8'))]));
 let bad = 0;
-for (const f of files) {
-  const html = readFileSync(f, 'utf8');
-  const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
-  for (const [, url] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-    if (url.startsWith('#')) { if (url.length > 1 && !ids.has(url.slice(1))) { bad++; console.log(`${f.replace(dist, '')}: missing anchor ${url}`); } continue; }
-    if (!url.startsWith('/') || url.startsWith('//')) continue;
-    const path = decodeURI(url.split(/[?#]/)[0]);
-    const target = join(dist, path);
-    const ok = path.endsWith('/') ? existsSync(join(target, 'index.html')) : existsSync(target);
-    if (!ok) { bad++; console.log(`${f.replace(dist, '')}: broken ${url}`); }
+for (const file of files) {
+  const html = readFileSync(file, 'utf8');
+  const route = '/' + relative(dist, file).replace(/\\/g, '/').replace(/index\.html$/, '');
+  for (const [, raw] of html.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
+    const value = raw.replace(/&amp;/g, '&');
+    let url;
+    try { url = new URL(value, origin + route); } catch { bad++; console.error(route + ': invalid URL ' + raw); continue; }
+    if (url.origin !== origin) continue;
+    let path, fragment;
+    try { path = decodeURIComponent(url.pathname); fragment = decodeURIComponent(url.hash.slice(1)); }
+    catch { bad++; console.error(route + ': invalid URL encoding ' + raw); continue; }
+    let target = resolve(dist, '.' + path);
+    const local = relative(dist, target);
+    if (local.startsWith('..')) { bad++; console.error(route + ': URL outside output ' + raw); continue; }
+    if (existsSync(target) && statSync(target).isDirectory()) target = join(target, 'index.html');
+    if (!existsSync(target)) { bad++; console.error(route + ': broken ' + raw); continue; }
+    if (fragment && target.endsWith('.html') && !anchors.get(target)?.has(fragment)) {
+      bad++; console.error(route + ': missing anchor ' + raw);
+    }
   }
 }
-console.log(`${files.length} pages checked, ${bad} problem(s).`);
-process.exit(bad ? 1 : 0);
+console.log(files.length + ' pages checked, ' + bad + ' problem(s).');
+process.exitCode = bad ? 1 : 0;

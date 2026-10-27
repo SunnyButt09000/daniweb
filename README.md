@@ -37,7 +37,7 @@ Node 18+ is required. There are no npm dependencies.
 ```bash
 node build.mjs            # build to dist/
 npm run dev               # build and serve at http://localhost:4321
-npm run check             # build and check every internal link
+npm run check             # build; check links, SEO output and schema regressions
 npm run images            # regenerate favicons and the social share image (needs Playwright)
 ```
 
@@ -48,7 +48,7 @@ All of these live in `src/data/site.json`:
 - [ ] **WhatsApp and phone number.** This is currently +44 7411 496356, taken from the domain registration. Change it if the business number is different.
 - [ ] **Email.** Set up `info@veltrixwindowsdoor.co.uk` with Cloudflare Email Routing (DEPLOY.md, step 6).
 - [ ] **Area served.** Fill in `areaServed`, `serviceAreas`, `postcodePrefixes` and, if you want it shown, `address`.
-- [ ] **Opening hours.**
+- [x] **Opening and enquiry hours.** Owner-confirmed: 7am–midnight, seven days a week (UK time). Store the end-of-day boundary as `24:00`; JSON-LD uses next-day `00:00`. The Google Business Profile reportedly says 24 hours and still needs separate owner reconciliation.
 - [ ] **Guarantee terms.** Defaults are 10 years on installations, insurance-backed, and 12 months on repairs. Change them to what you actually offer.
 - [ ] **Company details.** Add legal name, company number, VAT number and ICO registration if applicable. Most UK businesses that handle customer data must pay the ICO data protection fee.
 - [ ] **Accreditations.** Add FENSA, Certass and similar only if you are registered.
@@ -89,7 +89,7 @@ Names are generic UK trade descriptions. Only use a manufacturer's own model nam
 
 ## SEO
 
-What Google said in 2026 shaped this setup. There were core updates in March and May 2026. AI Overviews and AI Mode now answer many searches directly. Google’s guidance is that these use the same signals as normal search, so no special file or trick is needed: the page must be indexable, answer the question clearly, and keep its structured data in line with what the page shows. FAQ rich results stopped showing in May 2026, but Google still reads FAQ markup to understand a page, so it stays.
+This site uses the same foundations for SEO, generative engine optimisation (GEO) and answer engine optimisation (AEO): helpful visible content, descriptive titles, crawlable links and structured data that matches the page. [Google’s guidance on AI features](https://developers.google.com/search/docs/appearance/ai-features) does not require special AI markup or additional text files. Existing FAQs and llms.txt are retained; neither is a promise of search visibility. See the [SEO audit](docs/seo-audit.md) for findings, validation and owner confirmations.
 
 ### Built into the site
 
@@ -109,10 +109,10 @@ What Google said in 2026 shaped this setup. There were core updates in March and
 
 To give a guide a new date after editing it, add `updated: 'YYYY-MM-DD'` to it in `src/content/guides.mjs`.
 
-### Off-site steps (these matter most for ranking)
+### Off-site checks for the owner
 
 - [ ] **Google Business Profile**: the right category, service area, hours and photos, and ask every customer for a real review. Local results and AI Overviews draw on it heavily.
-- [ ] **Area and address in `site.json`** (`areaServed`, `serviceAreas`, `postcodePrefixes`, `address` or `company.registeredOffice`). While these are empty, nothing on the site tells Google where you work.
+- [ ] **Confirmed service area** in `site.json` (`areaServed`, `serviceAreas`, `postcodePrefixes`). Add only places actually served. Do not publish a private residential address; any public business address needs owner confirmation.
 - [ ] **Google Search Console**: verify the domain and submit `sitemap.xml`.
 - [ ] **Bing Webmaster Tools**: import from Search Console. ChatGPT search and Copilot use Bing’s index.
 - [ ] **Cloudflare → Security → Bots**: if AI crawlers are blocked, allow them so AI assistants can read the site. This does not affect Googlebot. Turn on **Crawler Hints** under Caching.

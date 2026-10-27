@@ -270,7 +270,7 @@ writeFileSync(
 );
 
 if (!site.company.legalName || !(site.company.registeredOffice || (site.contact.address.street && site.contact.address.postcode))) {
-  console.warn('Note: add your trading/legal name and a geographic address in src/data/site.json (company / contact.address) before launch. UK law requires traders to show them.');
+  console.warn('Owner review: confirm legal business details and any appropriate public business address. Do not publish a private residential address.');
 }
 console.log(`Built ${pages.length} pages → dist/ (assets v${assetV})`);
 if (!existsSync(join(root, 'src/assets/img/og-image.png'))) console.warn('Note: og-image.png missing — run `npm run images`.');

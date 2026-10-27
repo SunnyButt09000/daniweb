@@ -21,14 +21,14 @@ Kyun Cloudflare?
 | `phoneDisplay` / `phoneInternational` / `whatsapp` | 07411 496356 (+44) | Agar business ka WhatsApp number koi aur hai to teeno jagah badal dein. `whatsapp` mein sirf digits likhein, `+` ke baghair (jaise `447411496356`) |
 | `email` | info@veltrixwindowsdoor.co.uk | Step 5 mein ise free activate karenge |
 | `address`, `areaServed`, `serviceAreas`, `postcodePrefixes` | Khali | Apna shehar/area likhein (jaise `"areaServed": "Birmingham & the West Midlands"`, `"postcodePrefixes": ["B", "WS", "WV"]`). Is se Google par local ranking behtar hogi |
-| `hours` | Har din 7am–11:59pm (service hours) | Apne asal timings likhein (24-hour, jaise `23:59`) |
-| `chatHours` | Har din 7am–11:59pm (WhatsApp & chat) | Jab tak WhatsApp par jawab dete hain |
+| `hours` | Har din 7am–midnight (owner-confirmed service hours) | Din ke end ki midnight ke liye `24:00` rakhein; JSON-LD mein next-day `00:00` banta hai |
+| `chatHours` | Har din 7am–midnight (owner-confirmed enquiry hours) | WhatsApp aur chat ke jawab bhi inhi hours mein; close `24:00` |
 | `guarantee` | 10 saal installation, 12 mahine repair, insurance-backed | **Sirf wahi likhein jo aap waqai dete hain** |
 | `company` | Khali | Agar Ltd company hai to naam, company number, VAT number, ICO number likhein |
 | `accreditations` | Khali | Sirf tab likhein jab aap waqai registered hon, jaise `[{"name": "FENSA Approved Installer", "url": "https://www.fensa.org.uk"}]` |
 | `testimonials` | Khali | Sirf asli customers ke reviews likhein (format README mein hai) |
 
-> ⚠️ UK qanoon ke mutabiq website par trader ka **naam aur asal (geographic) address** dena zaroori hai. `site.json` mein `company.legalName` aur `contact.address` (ya `company.registeredOffice`) zaroor bharein.
+> Business identity aur legal details owner se confirm karein. Sirf owner-approved public business address publish karein; private residential address website, JSON-LD, chatbot ya llms.txt mein na daalein. Address khali ho to Google LocalBusiness rich-result eligibility assume na karein.
 
 > ⚠️ Website par jhooti claims (fake reviews, FENSA bina registration ke, ghalat guarantee) UK mein **Consumer Protection** ke qanoon ke khilaf hain. Isliye ye fields khali chhori gayi hain.
 
