@@ -26,6 +26,10 @@ function mockEnv({ storageFails = false, emailFails = false } = {}) {
     LEADS_DB: {
       prepare(sql) {
         return {
+          async all() {
+            if (storageFails) throw new Error('simulated D1 failure');
+            return { results: leads.filter(x => x.notify_state === 'pending') };
+          },
           bind(...args) {
             return {
               async run() {
