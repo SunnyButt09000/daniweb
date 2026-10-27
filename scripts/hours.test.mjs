@@ -69,7 +69,7 @@ test('generated pages, booking slots, assistant knowledge and llms.txt agree on 
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
     e.isDirectory() ? walk(join(dir, e.name)) : [join(dir, e.name)]);
   const htmlFiles = walk(dist).filter((path) => path.endsWith('.html'));
-  assert.equal(htmlFiles.length, 48);
+  assert.equal(htmlFiles.length, 50);
   for (const file of htmlFiles) {
     const html = readFileSync(file, 'utf8');
     assert.doesNotMatch(html, /23:59|11:59pm/, file);
