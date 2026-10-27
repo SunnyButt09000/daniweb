@@ -15,8 +15,8 @@ Cloudflare's published free allowances are suitable for an early-stage low-volum
 
 ## Files in this pilot
 
-- `src/server/leads.mjs` — separate Cloudflare Worker API on `POST /api/leads` only; no public browse/read endpoint.
-- `migrations/0001_leads.sql` — private D1 table for enquiry data.
+- `src/server/leads.mjs` — separate Cloudflare Worker API on `POST /api/leads` only; no public browse/read endpoint. Each request has a random client UUID; an unchanged retry returns the **same saved receipt** rather than inserting a duplicate lead.
+- `migrations/0001_leads.sql` — private D1 table for enquiry data, including unique `request_key`. This is a **new, undeployed schema**; if a real DB was created before this update, migrate carefully and do not reapply the create-only script as an alteration.
 - `wrangler.leads.example.jsonc` — separate worker route, D1 binding, verified email binding, daily 730-day cleanup. Template contains **no working database ID, sender or recipient**.
 - `src/assets/js/forms.js` — optional direct website submission, explicit receipt ID only when D1 confirms save; WhatsApp/email remain available.
 - `lib/pages.mjs` / `lib/layout.mjs` — Turnstile and direct button rendered only when configured.
@@ -56,6 +56,29 @@ Cloudflare's published free allowances are suitable for an early-stage low-volum
 6. Confirm read/write access to the private D1 dashboard for the actual team, and rehearse recovery if emails fail. `notify_state='pending'` must be checked operationally, not ignored.
 7. **Only after all prior steps work**, approve the separate static-site config change from empty endpoint to `"/api/leads"`, `provider: "Cloudflare D1"`, and the Turnstile public sitekey. This reveals the new direct-submit buttons and script. Rebuild/test preview before production merge.
 8. Test real delivery, spam filtering, response workflows and data deletion. Publish only with final owner approval.
+
+## Owner's safe daily enquiry reconciliation
+
+Once the pilot is actually live, use **Cloudflare dashboard's authenticated D1 console** (not public website URLs) and compare the database records against your business inbox. Useful queries:
+
+```sql
+-- Recent enquiry metadata (do not paste customer data into public issue trackers)
+SELECT id, created_at, kind, postcode, notify_state
+FROM leads
+ORDER BY created_at DESC
+LIMIT 25;
+
+-- Pending internal email notifications (read from private D1 only)
+SELECT id, created_at, kind, postcode
+FROM leads
+WHERE notify_state = 'pending'
+ORDER BY created_at ASC
+LIMIT 25;
+```
+
+A pending status means only that email acceptance was not recorded; it does **not** mean the lead itself was lost. Access the full private row only to contact the customer or meet lawful record requests. Daily email retry processes up to 20 rows; manual reconciliation is still mandatory. If an API response times out, a retry of the exact same form content uses the same random request key and reuses the existing receipt without sending a duplicate initial notification. Changing form content creates a new request key.
+
+**Before enabling production:** confirm D1 table has `request_key TEXT NOT NULL UNIQUE`, deployment routing and Turnstile secrets, email-service onboarding, customer privacy, actual inbox delivery and availability of authorised staff to follow up. No real leads are captured by this review-only branch.
 
 ## Smoke-test evidence required to call Phase 2 lead capture 'COMPLETE'
 
