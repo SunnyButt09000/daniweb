@@ -37,7 +37,7 @@ export const guides = [
 <h2>Common mistakes</h2>
 <ul><li>Measuring in centimetres or inches</li><li>Including the cill in the height</li><li>Measuring one side only. Old openings are rarely square.</li><li>Rounding measurements or subtracting fitting allowances. Record the readings in millimetres; the survey establishes the final manufacturing sizes.</li></ul>
 <h2>What to include when comparing quotes</h2>
-<p>Keep the same opening layout, colour on each side, glass and hardware on each quote. Note the room and floor, any side panels, and whether a cill or threshold is included. Different options can change the specification even when the outside measurements match. Compare <a href="/windows/">window styles</a> and <a href="/doors/">door types</a> before sending your schedule.</p>
+<p>Keep the same opening layout, colour on each side, glass and hardware on each quote. Note the room and floor, any side panels, and whether a cill or threshold is included. Different options can change the specification even when the outside measurements match. Compare <a href="/windows/">window styles</a> and <a href="/doors/">door types</a> before sending your schedule. See <a href="/guides/supply-only-vs-supply-and-fit-windows/">how to compare a supply-only price with a fitted quote</a>, or use our <a href="/guides/window-door-schedule-for-builders-and-renovators/">multi-opening schedule for renovations</a>.</p>
 <h2>Why we still survey</h2>
 <p>Openings are rarely square. Lintels and bays may carry load. The rules on escape, ventilation and safety glass all affect the final specification. A short survey at your home lets us confirm every size and detail before anything is made. The fixed price is then confirmed on your written quote.</p>
 <div class="callout">Ready to start? Open the <a href="/quote/">quote builder</a>, or see our <a href="/windows/">windows</a> and <a href="/doors/">doors</a> first.</div>`,
@@ -220,5 +220,70 @@ export const guides = [
 <h2>Energy and regulations</h2>
 <p>A replacement external door is controlled work under the Building Regulations in England. It needs a U-value of 1.4 W/m²K or better, or a Door Set Energy Rating (DSER) of band B or above. A door more than 60% glazed can meet DSER band C instead. Glass in a door, up to 1,500 mm above the floor, must be safety glass. Our <a href="/guides/building-regulations-for-replacement-windows/">Building Regulations guide</a> has the detail.</p>
 <div class="callout">Compare our <a href="/doors/upvc-doors/">uPVC doors</a> and <a href="/doors/composite-doors/">composite doors</a>, or <a href="/quote/">start a quote</a>. Got a door that drops or sticks? See <a href="/repairs/door-alignment/">door alignment repairs</a>.</div>`,
+  },
+  {
+    slug: 'supply-only-vs-supply-and-fit-windows',
+    title: 'Supply-only vs supply-and-fit windows: how to compare UK quotes',
+    metaDescription: 'Compare supply-only and fitted window quotes fairly: sizes, glazing, VAT, delivery, survey, old-frame removal, certification and manufacturer versus workmanship warranties.',
+    summary: 'A low online window price and a fitted quotation can cover completely different things. Use this checklist to compare the same job.',
+    date: '2026-10-27',
+    read: '5 min',
+    tag: 'Buying windows',
+    body: `
+<p>A supply-only price normally buys a particular window or door product; a supply-and-fit quotation may also cover surveying, delivery, labour, removal of old frames and the compliance paperwork. Comparing the headline figures without checking the specification can make the cheapest option look better than it is.</p>
+<div class="callout"><strong>Short answer:</strong> Compare the <em>total cost to get the same window safely installed and signed off</em>, not just the price of a bare frame. Ask for the same dimensions, opening arrangement, glazing, hardware, colour, VAT and delivery terms.</div>
+<h2>What is usually included?</h2>
+<table class="compare"><thead><tr><th scope="col">Item</th><th scope="col">Supply-only price</th><th scope="col">Supply-and-fit quote</th></tr></thead><tbody>
+<tr><th scope="row">Window/door product</th><td>Normally included to a chosen specification</td><td>Normally included if this is a full replacement quote</td></tr>
+<tr><th scope="row">Survey and final manufacturing measurements</th><td>Usually your responsibility</td><td>May be included; confirm availability and price</td></tr>
+<tr><th scope="row">Delivery and unloading</th><td>Check postcode, access, charges and damage procedure</td><td>Check whether delivery to site is included</td></tr>
+<tr><th scope="row">Fitting, seals, trims and making good</th><td>Not ordinarily included</td><td>Check scope and exclusions line by line</td></tr>
+<tr><th scope="row">Old frames and glass removal</th><td>Arrange separately</td><td>Check whether waste disposal is included</td></tr>
+<tr><th scope="row">Compliance and sign-off</th><td>Installation remains your responsibility</td><td>Ask who handles the scheme or building-control route</td></tr>
+<tr><th scope="row">Guarantee</th><td>Check the product manufacturer and written terms</td><td>Separate manufacturer product cover from fitting workmanship and any insurance policy</td></tr>
+</tbody></table>
+<p>These are comparison prompts, <strong>not promises about what every supplier or fitter includes</strong>. Some sellers offer optional fitting; some fitted quotes exclude making good or decoration. Read the written quotation.</p>
+<h2>Compare a genuinely equivalent specification</h2>
+<ul><li><strong>Opening and quantity:</strong> fixed, side-hung, top-hung, sash, tilt-and-turn, doors, sidelights and thresholds</li><li><strong>Sizes:</strong> width and height for each numbered opening, recorded in millimetres; final manufacture sizes must be checked professionally</li><li><strong>Frame:</strong> material, profile and inside/outside colours</li><li><strong>Glass:</strong> double or triple, toughened or laminated where required, obscure patterns and any acoustic requirement</li><li><strong>Hardware:</strong> locks, handles, hinges, ventilation and escape provision as relevant</li><li><strong>Price:</strong> VAT, delivery, access equipment, labour, old-window disposal, trim/making good and any certification fees</li></ul>
+<h2>What about VAT and advertised prices?</h2>
+<p>For consumers, price advertising must make compulsory costs and relevant VAT clear. Never assume a displayed supply-only price includes delivery, installation or add-ons. See <a href="https://www.asa.org.uk/advice-online/compulsory-costs-and-charges-vat.html" target="_blank" rel="noopener">ASA guidance on VAT in consumer prices</a> and <a href="https://www.gov.uk/marketing-advertising-law/describing-your-product" target="_blank" rel="noopener">UK guidance on accurate product descriptions</a>.</p>
+<h2>Who takes responsibility for the installation?</h2>
+<p>In England, certain replacement window and door jobs need to be notified through a registered Competent Person Scheme installer or the appropriate building-control process. Before agreeing to work, ask who actually fits, who is registered for that kind of job and who provides the certificate. Rules and routes differ in Wales, Scotland and Northern Ireland. See <a href="/guides/building-regulations-for-replacement-windows/">our regulations guide</a> and <a href="https://www.gov.uk/building-regulations-approval/use-a-competent-person-scheme" target="_blank" rel="noopener">government guidance on competent person schemes</a>.</p>
+<h2>Keep the product and workmanship guarantees separate</h2>
+<p>For Veltrix enquiries, the manufacturer is expected to provide a <strong>10-year guarantee on new products</strong>, subject to the selected product’s written terms; the manufacturer's specific identity and coverage need confirming on your quotation. This does not by itself promise 10 years of installation labour or repair cover. Veltrix has not arranged its own insurance-backed guarantee policy. Check the written product, fitting and any required partner insurance arrangements before agreeing to a job. Read our <a href="/guarantee/">guarantee information</a>.</p>
+<h2>How to ask Veltrix for a comparable quote</h2>
+<p>Use the <a href="/quote/">window and door quote builder</a> to list your openings as W1, W2, D1 and so on, with approximate sizes, layout, colours and glass. Send the schedule and postcode; the team can review the requested products and check whether installation is available for that particular job and location. A request does not confirm a supplier price, installer or appointment.</p>
+<div class="callout"><strong>Useful next step:</strong> <a href="/guides/how-to-measure-windows-for-a-quote/">Measure your openings safely</a> or, if you are planning several properties or a renovation, read <a href="/guides/window-door-schedule-for-builders-and-renovators/">our multi-opening schedule guide</a>.</div>`,
+  },
+  {
+    slug: 'window-door-schedule-for-builders-and-renovators',
+    title: 'Window and door schedule for builders, landlords and renovations',
+    metaDescription: 'Plan several replacement windows or doors in a renovation or property project: a practical opening schedule, essential dimensions, specifications, approval and quote checklist.',
+    summary: 'Number every opening, record the important details, and send one clear schedule instead of a chain of separate messages.',
+    date: '2026-10-27',
+    read: '5 min',
+    tag: 'Trade & renovation',
+    body: `
+<p>For a renovation, extension or rental-property project, it is easy to confuse rooms, opening sizes, colours and hardware when several windows or doors are being discussed. A simple <strong>window and door schedule</strong> gives the supplier and any installer a common starting point for checking the job.</p>
+<div class="callout"><strong>Start with a schedule, not an order.</strong> Dimensions taken before survey are approximate enquiry measurements, not approved manufacturing dimensions. Confirm actual product availability, final sizes, delivery, fitting and certification separately.</div>
+<h2>Make one row for each opening</h2>
+<table class="compare"><thead><tr><th scope="col">Ref</th><th scope="col">Location</th><th scope="col">Approx. width × height</th><th scope="col">Product and notes</th></tr></thead><tbody>
+<tr><th scope="row">W1</th><td>Kitchen</td><td>1200 × 1050 mm</td><td>Casement; top opener; ask about vents</td></tr>
+<tr><th scope="row">W2</th><td>Bedroom</td><td>1100 × 1200 mm</td><td>Casement; check escape opening</td></tr>
+<tr><th scope="row">D1</th><td>Rear entrance</td><td>900 × 2100 mm</td><td>External door; threshold/access and lock choice</td></tr>
+</tbody></table>
+<p><em>The dimensions above are fictional examples only, not available stock sizes, fitting allowances or quotations.</em></p>
+<h2>Record these details before contacting any supplier</h2>
+<ul><li><strong>Project:</strong> site postcode, renovation or replacement, likely access dates and whether rooms are occupied</li><li><strong>Each opening:</strong> unique ref (W1, W2, D1), room, floor, approximate width and height in mm, photos and rough opening style</li><li><strong>Appearance:</strong> uPVC or another material, outside and inside frame colours, pane divisions, handle and glass preference</li><li><strong>Practical constraints:</strong> restricted access, bay/window shape, ventilation, safety glazing, fire-escape function, heritage/listed status or leaseholder permission</li><li><strong>Service required:</strong> product-only pricing, a separate fitting quote or a repair assessment, <em>only where available for the postcode and job</em></li></ul>
+<p>For safe measuring, use our <a href="/guides/how-to-measure-windows-for-a-quote/">measuring guide</a>. Never climb a ladder or lean out to take a preliminary dimension; mark an unknown size for professional survey.</p>
+<h2>How to avoid delays or changed quotes</h2>
+<ol><li>Use the same opening references in every message and photograph.</li><li>Mark every measurement as preliminary until checked by a surveyor or supplier.</li><li>Separate product and fitting costs, VAT, delivery, waste disposal, access equipment, making good and certification.</li><li>Ask who is responsible for building-control notifications and evidence; the answer depends on the UK nation, the property and the installer.</li><li>Before ordering, confirm specifications, manufacturing dimensions, lead time, payment milestones and who handles damaged items or changes.</li><li>Keep a final approved schedule and written quotation for every property; do not reuse a previous property’s specification without checking it.</li></ol>
+<h2>One property or several?</h2>
+<p>If you manage multiple properties, create <strong>one schedule per address</strong> and an optional summary sheet for quantities. This helps avoid delivering a wrong-size unit to the wrong property. Do not send tenant contact information unless it is genuinely needed for an agreed visit and appropriate privacy information has been provided.</p>
+<h2>How guarantees and installer responsibilities should be recorded</h2>
+<p>Confirm the legal manufacturer and its written product guarantee for each line item. Also identify which business supplies, surveys and fits, the workmanship/repair warranty (if any), and the applicable certification or building-control route. Veltrix’s stated 10-year new-product cover is manufacturer-provided and not automatically a 10-year installation guarantee; no Veltrix insurance-backed guarantee policy is currently in place. See <a href="/guarantee/">product guarantee and aftercare</a> and <a href="/guides/building-regulations-for-replacement-windows/">the Building Regulations guide</a>.</p>
+<h2>Send a structured project enquiry</h2>
+<p>The <a href="/quote/">Veltrix quote builder</a> can help you prepare a numbered set of approximate windows and doors and a PDF for your own records. Enquiries can be reviewed for the requested specification and postcode; do not assume trade accounts, wholesale pricing, installation in every location, guaranteed stock or a booked survey. For letting and property-management needs, see <a href="/services/landlords-and-commercial/">landlords and commercial enquiries</a>.</p>
+<div class="callout"><strong>Compare before you commit:</strong> <a href="/guides/supply-only-vs-supply-and-fit-windows/">Read our supply-only versus fitted-quote checklist</a> so you can compare prices on the same scope.</div>`,
   },
 ];

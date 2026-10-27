@@ -50,7 +50,7 @@ test('UK regulations guide distinguishes nations and ventilation without existin
 test('all original routes remain and unverified locations are absent from public data', () => {
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(join(dir, e.name)) : [join(dir, e.name)]);
   const html = walk(dist).filter((p) => p.endsWith('.html'));
-  assert.equal(html.length, 48);
+  assert.equal(html.length, 50);
   const expected = JSON.parse(readFileSync(new URL('./fixtures/phase1-routes.json', import.meta.url), 'utf8'));
   const sitemap = read('sitemap.xml');
   assert.deepEqual([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => new URL(m[1]).pathname).sort(), expected);
@@ -64,4 +64,29 @@ test('all original routes remain and unverified locations are absent from public
     assert.deepEqual(kb.business.serviceAreas, []);
     assert.deepEqual(kb.business.postcodePrefixes, []);
   }
+});
+
+test('original buyer and renovation guides stay indexable and avoid unsupported sales claims', () => {
+  const one = read('guides/supply-only-vs-supply-and-fit-windows/index.html');
+  const two = read('guides/window-door-schedule-for-builders-and-renovators/index.html');
+  const index = read('guides/index.html');
+  const llms = read('llms.txt');
+  for (const [html, slug] of [
+    [one, 'supply-only-vs-supply-and-fit-windows'],
+    [two, 'window-door-schedule-for-builders-and-renovators'],
+  ]) {
+    assert.match(html, new RegExp('rel="canonical" href="https://veltrixwindowsdoor\\.co\\.uk/guides/' + slug + '/"'));
+    assert.ok(index.includes('/guides/' + slug + '/'));
+    assert.ok(llms.includes('/guides/' + slug + '/'));
+    assert.match(html, /manufacturer/i);
+    assert.match(html, /postcode/i);
+    assert.doesNotMatch(html, /guaranteed nationwide supply|guaranteed lowest price/i);
+  }
+  assert.match(one, /VAT/i);
+  assert.match(one, /certification/i);
+  assert.match(two, /W1/);
+  assert.match(two, /fictional examples only/);
+  assert.ok(one.includes('/guides/window-door-schedule-for-builders-and-renovators/'));
+  assert.ok(two.includes('/guides/supply-only-vs-supply-and-fit-windows/'));
+  assert.match(read('guides/how-to-measure-windows-for-a-quote/index.html'), /multi-opening schedule for renovations/);
 });
