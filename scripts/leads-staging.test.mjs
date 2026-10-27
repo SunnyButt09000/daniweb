@@ -20,6 +20,27 @@ test('staging data and assets require a private access credential', async () => 
     assert.equal(response.headers.get('cache-control'), 'no-store');
   }
 });
+test('login cookie authenticates homepage and contact assets, while omitted cookies never reach ASSETS', async () => {
+  const calls = [];
+  const assetsEnv = { ...env, ASSETS: { async fetch(received) {
+    calls.push(new URL(received.url).pathname);
+    return new Response('Private asset served', { headers: { 'content-type': 'text/plain' } });
+  } } };
+  const login = await staging.fetch(request('/staging-access', { method: 'POST', headers: { origin }, body: new URLSearchParams({ key }) }), assetsEnv);
+  assert.equal(login.status, 303);
+  const cookie = login.headers.get('set-cookie').split(';')[0];
+  for (const path of ['/', '/contact/']) {
+    const denied = await staging.fetch(request(path), assetsEnv);
+    assert.equal(denied.status, 404);
+    assert.equal(await denied.text(), 'Not found');
+    assert.equal(calls.length, path === '/' ? 0 : 1);
+    const response = await staging.fetch(request(path, { headers: { cookie } }), assetsEnv);
+    assert.equal(response.status, 200);
+    assert.equal(await response.text(), 'Private asset served');
+  }
+  assert.deepEqual(calls, ['/', '/contact/']);
+  assert.match(login.headers.get('set-cookie'), /SameSite=Strict/);
+});
 test('access form sets only a secure HttpOnly same-site cookie after same-origin verification', async () => {
   const init = { method: 'POST', headers: { origin, 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ key }) };
   const response = await staging.fetch(request('/staging-access', init), env);

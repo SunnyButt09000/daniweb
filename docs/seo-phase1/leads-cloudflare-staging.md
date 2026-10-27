@@ -2,6 +2,18 @@
 
 **27 October 2026 — PARTIAL; website production release not approved.** Tracks [Issue #7](https://github.com/SunnyButt09000/daniweb/issues/7) and the [technical handoff](CODEX-LEADS-CLOUDFLARE-HANDOFF.md). The owner authorised free isolated staging, then explicitly approved exactly five Email Routing DNS records and the exact business-address forwarding rule. Website deployment, website DNS/routes and live lead capture remain outside that approval.
 
+## Contact navigation follow-up: preserve the strict-cookie session
+
+The owner's successful login followed by `/contact/` showing `Not found` was reproduced in one Chrome session. The cookie was present, matched the private key, was unexpired and had Path `/`. Login returned 303 and its authenticated homepage returned 200. The website's own Contact link sent the cookie and returned 200, proving the contact asset exists.
+
+The private local instruction file still had a second link opening the protected contact page. That request had `Sec-Fetch-Site: cross-site`, and Chrome withheld the **SameSite=Strict** cookie. The response was the authentication gate's plain 404, before `ASSETS.fetch`; the cookie remained stored and unexpired. Reloading that failed file-initiated navigation also remained cross-site in this test. This matches the browser's [Strict cookie rules](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie#samesitesamesite-value), rather than a missing contact asset.
+
+The local helper now links only to the public login page. After login, the operator stays in the staging website tab and clicks the new **Open synthetic staging contact form** link in its private banner. That relative `/contact/` link navigates in the same tab and origin. Normal site Contact navigation works too. No cookie policy, expiry, secret comparison, Origin guard or Turnstile check was relaxed.
+
+The revised full journey was verified against the deployed staging Worker with native Chrome navigation, without injecting cookies or forcing authentication headers: **login 303 → homepage 200 → contact 200**. The contact request had `Sec-Fetch-Site: same-origin` and included the same session cookie; cookie expiry stayed unchanged, and the actual contact form rendered. A separate unauthenticated browser context still received the plain 404. A new regression test verifies that the login-issued cookie grants homepage/contact access to `ASSETS`, while requests omitting it never reach the binding. The updated complete suite passes **54/54**.
+
+This follow-up changed only the private helper, the isolated staging banner, tests and documentation. No DNS, production deployment, live lead configuration, credentials or paid services were changed. If a session later expires, use a fresh login; do not change the cookie to Lax/None to make file-page links work.
+
 ## Native Chrome login fix and PR #10 synchronisation
 
 The reported `Not found` login was reproduced with the correct privately stored key. The private operator page contains the complete matching 64-character value, and its copy handler passes the actual value rather than password-mask dots. A real clipboard write/read test confirmed the complete matching key without logging it; the previous clipboard was restored. A hidden copy fallback was added to the private helper and tested under simulated Clipboard API denial. No key rotation was necessary.
@@ -19,7 +31,7 @@ Only **GET `/staging-access`** now uses `Referrer-Policy: same-origin`. Other pr
 | Session cookie | Secure, HttpOnly, SameSite=Strict; correct private value; no value published |
 | Secret/copy | Complete matching key verified; not rotated; normal copy and hidden fallback tested |
 
-The feature branch incorporates production **`e4a7872` after PR #10**. The package-script conflict was resolved by retaining the staging suite and exactly one invocation of the shared asset-syntax test. `assistant.js` and `scripts/assets-syntax.test.mjs` match production, so the chatbot fix is no longer a separate PR #9 change. The current suite passes **53/53**, with 50 generated pages / 49 indexable URLs. Three new regression tests cover the login document policy and continued rejection of null/missing/foreign origins, incorrect keys and oversized forms. The policy regression failed before the fix and passed afterward.
+The feature branch incorporates production **`e4a7872` after PR #10**. The package-script conflict was resolved by retaining the staging suite and exactly one invocation of the shared asset-syntax test. `assistant.js` and `scripts/assets-syntax.test.mjs` match production, so the chatbot fix is no longer a separate PR #9 change. The current suite passes **54/54**, with 50 generated pages / 49 indexable URLs. Three login regression tests cover the document policy and continued rejection of null/missing/foreign origins, incorrect keys and oversized forms; a further test covers login-cookie access to homepage/contact assets. The policy regression failed before the fix and passed afterward.
 
 The updated private instructions were opened in ordinary Chrome for the owner. Successful login is verified with Chrome's real native form flow; a real human Turnstile-to-receipt submission remains a separate pending check.
 
@@ -58,7 +70,7 @@ Account IDs, database IDs, widget credentials, populated configuration and opera
 
 The repository was found outside `system32`, with a clean working tree. The feature branch is `codex/veltrix-leads-cloudflare-staging`. GitHub was fetched and authenticated Wrangler OAuth login completed using the normal interactive flow; `wrangler whoami` confirmed access privately.
 
-The initial production baseline was `e67995b8efcaf18da16126377d5b4d7e2bb2fbd4`: 48 generated pages, 47 indexable URLs and 38 passing tests. Another actor merged PR #8, adding two guides and one regression test, and later PR #10, publishing the shared chatbot syntax fix/test. The feature branch is synchronised with production `e4a7872`: 40 baseline tests. The current result is **50 generated pages / 49 indexable URLs / 53 passing tests**, including this PR's thirteen additional tests. No pages were added by this staging change.
+The initial production baseline was `e67995b8efcaf18da16126377d5b4d7e2bb2fbd4`: 48 generated pages, 47 indexable URLs and 38 passing tests. Another actor merged PR #8, adding two guides and one regression test, and later PR #10, publishing the shared chatbot syntax fix/test. The feature branch is synchronised with production `e4a7872`: 40 baseline tests. The current result is **50 generated pages / 49 indexable URLs / 54 passing tests**, including this PR's fourteen additional tests. No pages were added by this staging change.
 
 Authenticated before/after inspection confirmed unchanged production Worker settings/bindings, custom-domain associations and route list. Production deployments changed externally with PRs #8 and #10; this report does not claim the production artifact stayed unchanged throughout the campaign. This task deployed only the separate staging Worker. Its production-domain changes were limited to the previously approved email DNS records and exact Email Routing rule. The login fix made no DNS, route, production website deployment or live capture change.
 
@@ -75,6 +87,7 @@ Cloudflare documents [Routes and Custom Domains together](https://developers.clo
 - Supply an isolated staging template; remove the active production route from the general example. Neither example is a populated deployment configuration.
 - Retain the shared chatbot syntax fix and built-JavaScript test now published independently through PR #10. Their files match the latest production branch; the shared test runs once.
 - Fix the staging login document's referrer policy so native form POSTs preserve their real Origin. Do not accept null origins or change the key guard. Add regression coverage and verify the deployed native Chrome login/cookie/contact flow.
+- Keep protected contact navigation inside the authenticated staging website. Remove the cross-site protected link from the private local helper and add a relative contact link to the staging banner. Preserve SameSite=Strict.
 
 Receipt uniqueness is enforced by D1's unique request key and comparison with persisted contents. Concurrent notification attempts are claimed atomically. **Exactly-once inbox delivery is not guaranteed**: if the email service accepts a message and the subsequent D1 state write fails, a later retry can send again. The documented email API does not supply a provider idempotency key here. Reconcile pending records before manual re-sends. A returned `messageId` means service acceptance, not proof of inbox delivery.
 
@@ -84,7 +97,7 @@ Machine-readable summary: [leads-staging-results.json](leads-staging-results.jso
 
 | Test layer | Result and limit |
 | --- | --- |
-| `npm run check` | **53/53 pass**, 50 generated / 49 indexable; link and SEO checks clean. Covers origin/hostname/action checks, consent, token replay simulation, persistence failure, idempotency/conflicts, notification failure/retry, retention, bounds, leases, staging/login gates and published JavaScript syntax. |
+| `npm run check` | **54/54 pass**, 50 generated / 49 indexable; link and SEO checks clean. Covers origin/hostname/action checks, consent, token replay simulation, persistence failure, idempotency/conflicts, notification failure/retry, retention, bounds, leases, staging/login/asset gates and published JavaScript syntax. |
 | Actual SQLite | Both migrations exercised against SQLite, including concurrent cron/POST claims and expired-lease recovery. Turnstile and email are mocked in these tests. |
 | Wrangler configuration | Both committed examples bundle successfully with `wrangler deploy --dry-run --config …`. Private staging deployment succeeded. No production example was deployed. |
 | Real deployed negative requests | **10/10**: invalid real challenge 403, missing consent 422, malformed UUID 422, UUID suffix 422, wrong optional field type 422, non-synthetic payload 422, malformed JSON 400, UTF-8 byte overflow 413, wrong content type 415, authenticated manual retry 200. |
@@ -126,7 +139,7 @@ Use the existing authenticated Wrangler login. Never replace root `wrangler.json
 3. Confirm `name=veltrix-leads-staging`, `routes=[]`, `STAGING_ONLY=true`, exact staging `SITE_ORIGIN` and the correct D1 binding. Never use this wrapper for the production hostname.
 4. Store `STAGING_ACCESS_KEY` and `TURNSTILE_SECRET` with Wrangler secrets. Do not put either in `vars`, URLs, command-line arguments, screenshots or source control. Restrict local secret-file access and remove temporary copies after secure handover.
 5. Apply migrations **0001 and 0002** against the staging database with the private config. Validate with `wrangler deploy --dry-run --config <private-config>`, then deploy only that config if an authorised staging update is needed.
-6. Open `/staging-access`, enter the private access key, and use synthetic values only. Do not add global Authorization headers to a browser context: that could send the access key to third-party challenge requests. The same-origin session cookie is the browser access mechanism.
+6. Open `/staging-access`, enter the private access key, and use synthetic values only. After login, stay in that website tab and use its private-banner contact link or normal Contact navigation. Never launch a protected page from the local instruction file: Strict cookies are withheld on that cross-site navigation. Do not add global Authorization headers to a browser context: that could send the access key to third-party challenge requests. The same-origin session cookie is the browser access mechanism.
 7. For a retry, make an authenticated, same-origin POST to `/_staging/retry`. A 200 confirms handler invocation, **not** email success. Inspect D1 state using authenticated tooling and verify the actual destination inbox. No records are exposed through this endpoint.
 8. Retain only sanitised aggregate results. A current synthetic fixture with notification accepted is intentionally left for inspection; the old fixture was deleted by retention testing. Remove test fixtures securely when review is complete.
 
