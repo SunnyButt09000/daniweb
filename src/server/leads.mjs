@@ -23,7 +23,7 @@ function validate(body) {
   const source = maxLen(body.source, 130);
   const token = maxLen(body.turnstileToken, 2048);
   if (!name || !PHONE.test(phone) || (email && !EMAIL.test(email))) return null;
-  if (!summary || summary.length > 8000 || summary.length < 10) return null;
+  if (typeof body.summary !== 'string' || body.summary.trim().length > 8000 || summary.length < 10) return null;
   if (body.kind !== 'contact' && !POSTCODE.test(postcode)) return null;
   if (postcode && !POSTCODE.test(postcode)) return null;
   if (!token || !source.startsWith('/') || source.startsWith('//')) return null;
@@ -40,7 +40,7 @@ async function turnstileCheck(token, secret, hostname, fetcher) {
     });
     if (!response.ok) return false;
     const data = await response.json();
-    return data.success === true && data.hostname === hostname;
+    return data.success === true && data.hostname === hostname && data.action === 'lead';
   } catch { return false; }
 }
 
