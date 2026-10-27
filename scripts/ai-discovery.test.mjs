@@ -72,7 +72,7 @@ test('owner-confirmed product guarantee is consistent across public and AI answe
   assert.match(html, /No insurance-backed guarantee policy is currently in place/i);
   assert.match(llms, /10-year guarantee on new products/i);
   assert.match(llms, /No insurance-backed guarantee policy currently in place/i);
-  assert.ok(kb.faqs.some(f => /What guarantee do I get/.test(f.q) && /10-year product guarantee/.test(f.a)));
+  assert.ok(kb.faqs.some(f => /What guarantee do I get/.test(f.q) && /manufacturer provides a 10-year guarantee on new window and door products/i.test(f.a)));
   assert.doesNotMatch(read('privacy/index.html'), /registering insurance-backed guarantees|insurance-backed guarantee providers/);
 });
 
