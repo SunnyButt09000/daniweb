@@ -43,7 +43,7 @@ function mockEnv({ storageFails = false, emailFails = false } = {}) {
                   }
                 }
                 if (sql.startsWith('UPDATE leads')) {
-                  const [, id] = args;
+                  const id = args.length === 1 ? args[0] : args[1];
                   const row = leads.find(x => x.id === id);
                   if (row) row.notify_state = 'accepted';
                 }
