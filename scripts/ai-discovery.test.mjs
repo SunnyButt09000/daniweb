@@ -59,3 +59,19 @@ test('AI discovery endpoints do not invent service areas or publish a private ad
   assert.equal(site.contact.address.street, '');
   assert.equal(site.contact.address.postcode, '');
 });
+
+test('owner-confirmed product guarantee is consistent across public and AI answers', () => {
+  const site = JSON.parse(readFileSync(join(root, 'src/data/site.json'), 'utf8'));
+  assert.equal(site.guarantee.productYears, 10);
+  assert.equal(site.guarantee.repairMonths, 0);
+  assert.equal(site.guarantee.insuranceBacked, false);
+  const html = read('guarantee/index.html');
+  const llms = read('llms.txt');
+  const kb = JSON.parse(read('assets/data/kb.json'));
+  assert.match(html, /10.year guarantee on new window and door products/i);
+  assert.match(html, /No insurance-backed guarantee policy is currently in place/i);
+  assert.match(llms, /10-year guarantee on new products/i);
+  assert.match(llms, /No insurance-backed guarantee policy currently in place/i);
+  assert.ok(kb.faqs.some(f => /What guarantee do I get/.test(f.q) && /10-year product guarantee/.test(f.a)));
+  assert.doesNotMatch(read('privacy/index.html'), /registering insurance-backed guarantees|insurance-backed guarantee providers/);
+});
