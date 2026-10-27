@@ -5,9 +5,11 @@ on:
     branches:
       - claude/upvc-windows-doors-site-jj8slj
       - codex/veltrix-phase1-uk-seo
+      - chatgpt/veltrix-geo-aeo-phase1-20261027
   push:
     branches:
       - chatgpt/veltrix-geo-aeo-phase1-20261027
+      - chatgpt/veltrix-lead-receipt-pilot-20261027
 
 permissions:
   contents: read
