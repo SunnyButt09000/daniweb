@@ -159,6 +159,25 @@ export const faqGroups = [
           'working days', 'working hours', 'bank holiday', 'days you work', 'chutti', 'chutti wale din', 'itwar', 'hafta', 'sunday ko',
         ],
       },
+
+      {
+        q: 'Can Veltrix arrange installation in different UK cities?',
+        a: 'We can review enquiries from different UK cities and may be able to arrange fitting through a partner installer. Send your postcode, what you need and rough sizes or photos. We must first check the job, actual partner coverage and survey availability; fitting is not guaranteed in every postcode and no appointment is confirmed until the team agrees it.',
+        k: [
+          'uk wide', 'uk-wide', 'nationwide', 'across the uk', 'different cities', 'other cities', 'where do you cover',
+          'do you cover my area', 'outside manchester', 'local installers', 'installation coverage', 'fitting coverage',
+          'service area', 'postcode check', 'near me', 'partner installer', 'partner fitters',
+        ],
+      },
+      {
+        q: 'Who will install my windows or doors?',
+        a: 'Depending on your postcode and job, we may propose a partner installer. Before you agree to work, ask the team to confirm who surveys and fits, the applicable registration or building-control arrangements, the written quote, and who handles guarantees and aftercare. Do not assume every installer has the same qualifications.',
+        k: [
+          'who fits', 'who installs', 'who will fit', 'who are the fitters', 'installer', 'installers',
+          'partner fitting', 'partner installers', 'subcontractor', 'subcontractors', 'fitter qualifications',
+          'certification', 'fensa partner', 'certass partner', 'installation team', 'outsourced installation',
+        ],
+      },
     ],
   },
   {
