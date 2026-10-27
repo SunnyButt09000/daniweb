@@ -404,7 +404,7 @@ export const faqGroups = [
     items: [
       {
         q: 'What guarantee do I get?',
-        a: 'The manufacturer provides a 10-year guarantee on new window and door products. The selected manufacturer's identity, covered components, exclusions and claim process must be given in writing before you agree to the work. Installation workmanship and any repair warranty are separate and must be confirmed on the quotation. There is currently no insurance-backed guarantee policy in place. Your statutory rights are not affected.',
+        a: 'The manufacturer provides a 10-year guarantee on new window and door products. The selected manufacturer’s identity, covered components, exclusions and claim process must be given in writing before you agree to the work. Installation workmanship and any repair warranty are separate and must be confirmed on the quotation. There is currently no insurance-backed guarantee policy in place. Your statutory rights are not affected.',
         k: [
           'guarantee', 'guarantees', 'guaranteed', 'warranty', 'warranties', 'how long guarantee', 'guarantee length', 'years guarantee', '10 year guarantee',
           'ten year guarantee', 'insurance backed', 'insurance-backed', 'ibg', 'guarantee certificate', 'what is covered', 'guarentee', 'gaurantee',
