@@ -85,6 +85,16 @@ export const faqGroups = [
           'payment kaise', 'paise kaise', 'qist', 'qiston', 'qiston mein',
         ],
       },
+
+      {
+        q: 'Why is a supply-only online window price cheaper than a fitted quote?',
+        a: 'A supply-only advertised price usually covers the specified product rather than a complete job. Before comparing it with a fitted quotation, check the exact dimensions, glazing, colour, VAT, delivery, surveys, removal of old frames, installation labour, building-control or certification costs, and separate product and workmanship warranty terms. Veltrix prepares a written quotation after checking your product requirements, postcode and any fitting availability; an online quote request is not a confirmed installed price.',
+        k: [
+          'supply only price', 'supply-only window', 'why expensive', 'compare window quotes',
+          'fitted window price', 'installation included', 'cheap upvc windows', 'online window price',
+          'vat included', 'delivery included', 'supply and fit quote', 'window cost comparison',
+        ],
+      },
     ],
   },
   {
@@ -400,6 +410,17 @@ export const faqGroups = [
           'ten year guarantee', 'insurance backed', 'insurance-backed', 'ibg', 'guarantee certificate', 'what is covered', 'guarentee', 'gaurantee',
           'garantee', 'warrenty', 'waranty',
           'guarantee kitni', 'warranty kitni', 'kitni guarantee', 'kitne saal', 'kitne saal ki',
+        ],
+      },
+
+      {
+        q: 'Does the 10-year manufacturer guarantee cover fitting and labour?',
+        a: 'Not automatically. The manufacturer provides a 10-year guarantee on new products under the selected product’s written conditions. Fitting workmanship, labour costs, any repair warranty and any insurance-backed protection are separate matters. Veltrix has not arranged an insurance-backed guarantee policy. Before you accept a quote, check the named manufacturer, covered components, exclusions and who handles fitting issues and claims.',
+        k: [
+          'manufacturer guarantee vs installer guarantee', 'product guarantee and fitting',
+          '10 year labour warranty', 'ten year workmanship', 'does warranty include fitting',
+          'manufacturer warranty labour', 'insurance backed guarantee', 'installation warranty',
+          'who pays for fitting faults', 'manufacturer vs fitter',
         ],
       },
       {
