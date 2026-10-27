@@ -14,12 +14,15 @@ import { models as rawModels } from './src/content/models.mjs';
 import { checkModels, normalizeModels } from './lib/draw-node.mjs';
 import { documentShell } from './lib/layout.mjs';
 import * as P from './lib/pages.mjs';
+import { checkLeadReleaseConfig } from './lib/lead-config.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 // VX_OUT lets a second build run side by side (e.g. previews) without touching ./dist
 const out = process.env.VX_OUT ? resolve(process.env.VX_OUT) : join(root, 'dist');
 const site = JSON.parse(readFileSync(join(root, 'src/data/site.json'), 'utf8'));
 site.url = site.url.replace(/\/$/, '');
+// Fail closed before writing dist/ if someone accidentally enables personal-data collection.
+checkLeadReleaseConfig(site.forms, process.env);
 // quote PDF upload (Google Apps Script web app): only accept a real Apps Script /exec URL
 site.quoteUpload = site.quoteUpload || {};
 const qu = String(site.quoteUpload.endpoint || '').trim();
