@@ -598,7 +598,7 @@
     const f = faqBy(/guarantee do i get/i);
     const yrs = Number(g.productYears) || 0;
     const b = [H('Product guarantee and aftercare')];
-    if (yrs) b.push(P([B(`New products: ${yrs}-year manufacturer's guarantee.`), ' The selected manufacturer's identity, components covered, exclusions and claim procedure are set out in written terms before you agree to the work. This does not automatically include installation workmanship for the same period.']));
+    if (yrs) b.push(P([B(`New products: ${yrs}-year manufacturer's guarantee.`), " The selected manufacturer's identity, components covered, exclusions and claim procedure are set out in written terms before you agree to the work. This does not automatically include installation workmanship for the same period."]));
     else if (f) b.push(P(f.a));
     b.push(P('Installation workmanship and any separate repair warranty must be confirmed in writing for your job.'));
     b.push(P('There is currently no insurance-backed guarantee policy in place. Your statutory consumer rights remain unaffected.'));
