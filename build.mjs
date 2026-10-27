@@ -250,7 +250,7 @@ writeFileSync(
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'${site.forms.endpoint ? ' ' + new URL(site.forms.endpoint).origin : ''}${site.quoteUpload.endpoint ? ' https://script.google.com https://script.googleusercontent.com' : ''}; frame-src https://www.google.com https://maps.google.com; form-action 'self' https://wa.me mailto:; base-uri 'self'; frame-ancestors 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'${site.forms.endpoint === '/api/leads' && site.forms.turnstileSiteKey ? ' https://challenges.cloudflare.com' : ''}; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'${site.forms.endpoint && !site.forms.endpoint.startsWith('/') ? ' ' + new URL(site.forms.endpoint, site.url).origin : ''}${site.quoteUpload.endpoint ? ' https://script.google.com https://script.googleusercontent.com' : ''}${site.forms.endpoint === '/api/leads' && site.forms.turnstileSiteKey ? ' https://challenges.cloudflare.com' : ''}; frame-src https://www.google.com https://maps.google.com${site.forms.endpoint === '/api/leads' && site.forms.turnstileSiteKey ? ' https://challenges.cloudflare.com' : ''}; form-action 'self' https://wa.me mailto:; base-uri 'self'; frame-ancestors 'self'
 
 /assets/css/*
   Cache-Control: public, max-age=31536000, immutable
