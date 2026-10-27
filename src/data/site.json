@@ -72,9 +72,10 @@
   },
 
   "forms": {
-    "_readme": "Optional. Paste a Formspree or Basin form endpoint URL to receive a copy of every quote and booking by email as well as WhatsApp. Put the provider name in provider (shown in the privacy policy). Send a test enquiry afterwards to confirm the email arrives.",
+    "_readme": "Optional. Leave disabled until privacy review and live inbox acceptance test. For Cloudflare native lead receipt set endpoint to /api/leads, provider to Cloudflare D1, and verified Turnstile sitekey. A separate Worker API and D1 migration must already be deployed under the same domain. Existing third-party endpoints retain legacy behaviour.",
     "endpoint": "",
-    "provider": ""
+    "provider": "",
+    "turnstileSiteKey": ""
   },
 
   "quoteUpload": {
