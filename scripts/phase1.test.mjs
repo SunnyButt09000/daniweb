@@ -100,7 +100,7 @@ test('booking dates are checked at submission using the UK calendar, not just an
   assert.ok(start > -1 && end > start, 'UK-day helper is present');
   const nextDay = runInNewContext('(' + js.slice(start, end).trim() + ')', { Date, Intl, Object });
   for (const [instant, expected] of [
-    ['2026-10-27T23:30:00Z', '2026-10-29'],
+    ['2026-10-27T23:30:00Z', '2026-10-28'],
     ['2026-07-01T22:30:00Z', '2026-07-02'],
     ['2026-07-01T23:30:00Z', '2026-07-03'],
     ['2026-03-29T00:30:00Z', '2026-03-30'],
