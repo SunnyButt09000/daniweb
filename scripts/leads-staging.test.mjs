@@ -28,6 +28,32 @@ test('access form sets only a secure HttpOnly same-site cookie after same-origin
   assert.equal(response.headers.get('location'), '/');
   assert.equal((await staging.fetch(request('/staging-access', { ...init, headers: { origin: 'https://other.test' } }), env)).status, 404);
 });
+test('login document preserves same-origin form Origin while private assets retain no-referrer', async () => {
+  const response = await staging.fetch(request('/staging-access'), env);
+  assert.equal(response.status, 200);
+  // Chrome native POST navigation sends Origin: null under no-referrer.
+  // Preserve its real origin without allowing referrer disclosure off-site.
+  assert.equal(response.headers.get('referrer-policy'), 'same-origin');
+  assert.equal(response.headers.get('cache-control'), 'no-store');
+  assert.match(response.headers.get('x-robots-tag'), /noindex/);
+  assert.equal((await staging.fetch(request('/'), env)).headers.get('referrer-policy'), 'no-referrer');
+});
+test('login still rejects null, absent and foreign origins even with the correct key', async () => {
+  for (const suppliedOrigin of [undefined, 'null', 'https://other.test', origin + '/']) {
+    const headers = { 'content-type': 'application/x-www-form-urlencoded' };
+    if (suppliedOrigin !== undefined) headers.origin = suppliedOrigin;
+    const response = await staging.fetch(request('/staging-access', { method: 'POST', headers, body: new URLSearchParams({ key }) }), env);
+    assert.equal(response.status, 404);
+    assert.equal(response.headers.get('set-cookie'), null);
+  }
+});
+test('login still rejects incorrect keys and oversized access forms', async () => {
+  for (const submittedKey of ['b'.repeat(64), 'a'.repeat(513)]) {
+    const response = await staging.fetch(request('/staging-access', { method: 'POST', headers: { origin, 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ key: submittedKey }) }), env);
+    assert.equal(response.status, 404);
+    assert.equal(response.headers.get('set-cookie'), null);
+  }
+});
 test('staging rejects non-synthetic submissions and malformed fields without throwing', async () => {
   for (const bad of [{ name: 'Actual Customer' }, { phone: '07123456789' }, { email: 'customer@example.com' }, { postcode: {} }, { name: { toString: null } }]) {
     const response = await staging.fetch(request('/api/leads', { method: 'POST', headers: { origin, authorization: 'Bearer ' + key, 'content-type': 'application/json' }, body: JSON.stringify({ ...data, ...bad }) }), env);

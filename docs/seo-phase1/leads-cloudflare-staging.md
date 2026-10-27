@@ -2,6 +2,27 @@
 
 **27 October 2026 — PARTIAL; website production release not approved.** Tracks [Issue #7](https://github.com/SunnyButt09000/daniweb/issues/7) and the [technical handoff](CODEX-LEADS-CLOUDFLARE-HANDOFF.md). The owner authorised free isolated staging, then explicitly approved exactly five Email Routing DNS records and the exact business-address forwarding rule. Website deployment, website DNS/routes and live lead capture remain outside that approval.
 
+## Native Chrome login fix and PR #10 synchronisation
+
+The reported `Not found` login was reproduced with the correct privately stored key. The private operator page contains the complete matching 64-character value, and its copy handler passes the actual value rather than password-mask dots. A real clipboard write/read test confirmed the complete matching key without logging it; the previous clipboard was restored. A hidden copy fallback was added to the private helper and tested under simulated Clipboard API denial. No key rotation was necessary.
+
+The cause was the staging wrapper's `Referrer-Policy: no-referrer` on the login document. Chrome's native form navigation sent `Origin: null`, even though the destination was the same staging origin and the body contained the correct key. The server correctly rejected that POST with 404. This [referrer-policy effect on form Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy#effect_on_the_origin_header) differs from default CORS-mode fetch, explaining why the earlier direct request test succeeded while the owner's form failed.
+
+Only **GET `/staging-access`** now uses `Referrer-Policy: same-origin`. Other private responses retain `no-referrer`. The exact-origin guard, secret comparison, body limit, session-cookie protections and Turnstile validation are unchanged. The fix was deployed only to the isolated staging Worker.
+
+| Deployed Chrome test | Result |
+| --- | --- |
+| Explicit-origin direct POST, redirects disabled | 303; private key matches deployed secret; no redirect followed |
+| Native form before fix | Correct key, 68-byte encoded body; `Origin: null`; 404; no cookie |
+| Native form after fix | Exact configured staging Origin; 303; authenticated `/contact/` 200 |
+| Full private helper link flow | Local instruction file → noreferrer popup → native login → `/contact/`: 303 then 200; no forced Origin header |
+| Session cookie | Secure, HttpOnly, SameSite=Strict; correct private value; no value published |
+| Secret/copy | Complete matching key verified; not rotated; normal copy and hidden fallback tested |
+
+The feature branch incorporates production **`e4a7872` after PR #10**. The package-script conflict was resolved by retaining the staging suite and exactly one invocation of the shared asset-syntax test. `assistant.js` and `scripts/assets-syntax.test.mjs` match production, so the chatbot fix is no longer a separate PR #9 change. The current suite passes **53/53**, with 50 generated pages / 49 indexable URLs. Three new regression tests cover the login document policy and continued rejection of null/missing/foreign origins, incorrect keys and oversized forms. The policy regression failed before the fix and passed afterward.
+
+The updated private instructions were opened in ordinary Chrome for the owner. Successful login is verified with Chrome's real native form flow; a real human Turnstile-to-receipt submission remains a separate pending check.
+
 ## Email follow-up: owner-selected destination
 
 The owner subsequently supplied the notification/forwarding destination privately and authorised requesting Cloudflare verification. The destination was created successfully through the authenticated Email Routing API (HTTP 200), which requested the verification message. A subsequent authenticated API check confirmed its `verified` timestamp: **destination verification is complete**. The address, destination identifier and populated forwarding/binding configuration are deliberately absent from GitHub.
@@ -37,9 +58,9 @@ Account IDs, database IDs, widget credentials, populated configuration and opera
 
 The repository was found outside `system32`, with a clean working tree. The feature branch is `codex/veltrix-leads-cloudflare-staging`. GitHub was fetched and authenticated Wrangler OAuth login completed using the normal interactive flow; `wrangler whoami` confirmed access privately.
 
-The initial production baseline was `e67995b8efcaf18da16126377d5b4d7e2bb2fbd4`: 48 generated pages, 47 indexable URLs and 38 passing tests. Another actor merged PR #8 while staging work was underway. The feature branch was advanced without conflicts to `8f1649c1da8940a94363559b6e3083868af4c9e4`, which adds two guides and one regression test. The current result is **50 generated pages / 49 indexable URLs / 50 passing tests**, including this PR's eleven new tests. No pages were added by this staging change.
+The initial production baseline was `e67995b8efcaf18da16126377d5b4d7e2bb2fbd4`: 48 generated pages, 47 indexable URLs and 38 passing tests. Another actor merged PR #8, adding two guides and one regression test, and later PR #10, publishing the shared chatbot syntax fix/test. The feature branch is synchronised with production `e4a7872`: 40 baseline tests. The current result is **50 generated pages / 49 indexable URLs / 53 passing tests**, including this PR's thirteen additional tests. No pages were added by this staging change.
 
-Authenticated before/after inspection confirmed unchanged production Worker settings/bindings, custom-domain associations and route list. The production Worker deployment timestamp changed externally with PR #8; this report does not claim the production artifact stayed unchanged throughout the session. This task deployed only the separate staging Worker. Its production-domain changes were limited to the explicitly approved email DNS records and exact Email Routing rule; website A/AAAA/CNAME records, Worker routes, live capture configuration and production website deployment were not changed.
+Authenticated before/after inspection confirmed unchanged production Worker settings/bindings, custom-domain associations and route list. Production deployments changed externally with PRs #8 and #10; this report does not claim the production artifact stayed unchanged throughout the campaign. This task deployed only the separate staging Worker. Its production-domain changes were limited to the previously approved email DNS records and exact Email Routing rule. The login fix made no DNS, route, production website deployment or live capture change.
 
 Cloudflare documents [Routes and Custom Domains together](https://developers.cloudflare.com/workers/configuration/routing/routes/): a specific route may precede an existing custom-domain origin. A future API route would require a separately approved release. Staging instead uses its own Worker `main` plus `ASSETS.fetch`, avoiding any production routing change.
 
@@ -52,7 +73,8 @@ Cloudflare documents [Routes and Custom Domains together](https://developers.clo
 - Add a staging-only wrapper: exact `workers.dev` origin, private access, synthetic contact patterns, no indexing/cache, no production-host operation, and private retry control.
 - Keep missing staging email visibly pending through an adapter that throws. It does not simulate email acceptance. The normal backend still fails closed without its required bindings.
 - Supply an isolated staging template; remove the active production route from the general example. Neither example is a populated deployment configuration.
-- Fix a pre-existing unescaped apostrophe in `assistant.js:601`, reproduced at the production baseline, which prevented the chatbot script from parsing. Add a syntax test against all built JavaScript assets. The new test failed on the original error, then passed after changing only the string delimiter. Guarantee wording is unchanged. The fix is staged and proposed in this PR; it has not been deployed to production.
+- Retain the shared chatbot syntax fix and built-JavaScript test now published independently through PR #10. Their files match the latest production branch; the shared test runs once.
+- Fix the staging login document's referrer policy so native form POSTs preserve their real Origin. Do not accept null origins or change the key guard. Add regression coverage and verify the deployed native Chrome login/cookie/contact flow.
 
 Receipt uniqueness is enforced by D1's unique request key and comparison with persisted contents. Concurrent notification attempts are claimed atomically. **Exactly-once inbox delivery is not guaranteed**: if the email service accepts a message and the subsequent D1 state write fails, a later retry can send again. The documented email API does not supply a provider idempotency key here. Reconcile pending records before manual re-sends. A returned `messageId` means service acceptance, not proof of inbox delivery.
 
@@ -62,7 +84,7 @@ Machine-readable summary: [leads-staging-results.json](leads-staging-results.jso
 
 | Test layer | Result and limit |
 | --- | --- |
-| `npm run check` | **50/50 pass**, 50 generated / 49 indexable; link and SEO checks clean. Covers origin/hostname/action checks, consent, token replay simulation, persistence failure, idempotency/conflicts, notification failure/retry, retention, bounds, leases, staging gates and published JavaScript syntax. |
+| `npm run check` | **53/53 pass**, 50 generated / 49 indexable; link and SEO checks clean. Covers origin/hostname/action checks, consent, token replay simulation, persistence failure, idempotency/conflicts, notification failure/retry, retention, bounds, leases, staging/login gates and published JavaScript syntax. |
 | Actual SQLite | Both migrations exercised against SQLite, including concurrent cron/POST claims and expired-lease recovery. Turnstile and email are mocked in these tests. |
 | Wrangler configuration | Both committed examples bundle successfully with `wrangler deploy --dry-run --config …`. Private staging deployment succeeded. No production example was deployed. |
 | Real deployed negative requests | **10/10**: invalid real challenge 403, missing consent 422, malformed UUID 422, UUID suffix 422, wrong optional field type 422, non-synthetic payload 422, malformed JSON 400, UTF-8 byte overflow 413, wrong content type 415, authenticated manual retry 200. |

@@ -49,7 +49,13 @@ export default {
     const url = new URL(request.url);
     if (!stageConfigured(env, url)) return safe(new Response('Staging is not configured', { status: 503 }));
     if (url.pathname === '/staging-access') {
-      if (request.method === 'GET') return safe(accessPage());
+      if (request.method === 'GET') {
+        const response = safe(accessPage());
+        // Native Chrome form navigation uses Origin: null under no-referrer.
+        // Keep the real same-origin POST header; never permit a null origin.
+        response.headers.set('referrer-policy', 'same-origin');
+        return response;
+      }
       if (request.method !== 'POST' || request.headers.get('origin') !== env.SITE_ORIGIN) return safe(forbidden());
       if (Number(request.headers.get('content-length') || 0) > 512) return safe(forbidden());
       const text = await limitedBody(request).catch(() => '');
