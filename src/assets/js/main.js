@@ -321,13 +321,23 @@
     const mqm = window.matchMedia('(max-width: 760px)');
     let n = 0;
     let timer;
-    const show = () => msgs.forEach((x, j) => { x.classList.toggle('is-active', j === n); x.setAttribute('aria-hidden', String(j !== n)); });
+    const show = () => msgs.forEach((x, j) => {
+      x.classList.toggle('is-active', j === n);
+      x.setAttribute('aria-hidden', String(j !== n));
+      // Opacity and pointer-events alone do not remove hidden links from Tab order.
+      x.inert = j !== n;
+    });
     const start = () => {
       clearInterval(timer);
-      if (!mqm.matches || reduce) { tb.classList.remove('rot'); msgs.forEach((x) => { x.classList.remove('is-active'); x.removeAttribute('aria-hidden'); }); return; }
+      if (!mqm.matches || reduce) { tb.classList.remove('rot'); msgs.forEach((x) => { x.classList.remove('is-active'); x.removeAttribute('aria-hidden'); x.inert = false; }); return; }
       tb.classList.add('rot');
       show();
-      timer = setInterval(() => { n = (n + 1) % msgs.length; show(); }, 4200);
+      timer = setInterval(() => {
+        // Keep an actively focused contact action visible until focus leaves it.
+        if (tb.contains(document.activeElement)) return;
+        n = (n + 1) % msgs.length;
+        show();
+      }, 4200);
     };
     start();
     mqm.addEventListener?.('change', start);
