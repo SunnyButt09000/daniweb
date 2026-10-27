@@ -2,6 +2,7 @@
 -- Limit database access to owner-approved Cloudflare staff accounts.
 CREATE TABLE IF NOT EXISTS leads (
   id TEXT PRIMARY KEY,
+  request_key TEXT NOT NULL UNIQUE,
   created_at TEXT NOT NULL,
   kind TEXT NOT NULL CHECK(kind IN ('quote','booking','contact')),
   name TEXT NOT NULL,
