@@ -54,6 +54,31 @@ function configured(env) {
     typeof env?.SITE_ORIGIN === 'string' && env.SITE_ORIGIN.startsWith('https://');
 }
 
+
+async function sendNotification(env, entry) {
+  try {
+    const result = await env.NOTIFY_OPS.send({
+      from: env.FROM_EMAIL, to: env.OPS_EMAIL,
+      subject: `Veltrix ${entry.kind} enquiry ${entry.id}`,
+      text: [
+        `Enquiry ID: ${entry.id}`, `Received: ${entry.created_at}`, `Type: ${entry.kind}`,
+        `Name: ${entry.name}`, `Phone: ${entry.phone}`,
+        `Email: ${entry.email || 'not supplied'}`,
+        `Postcode: ${entry.postcode || 'not supplied'}`,
+        `Customer reference: ${entry.customer_reference || 'none'}`,
+        `Source: ${entry.source}`, '', entry.summary,
+        '', 'Original enquiry persists in private D1. Check it before contacting a customer.'
+      ].join('\n'),
+    });
+    if (!result?.messageId) return false;
+    try {
+      await env.LEADS_DB.prepare("UPDATE leads SET notify_state = 'accepted' WHERE id = ?")
+        .bind(entry.id).run();
+    } catch { /* email may be accepted even when status update fails: possible retry duplicate */ }
+    return true;
+  } catch { return false; }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -102,36 +127,20 @@ export default {
       return json({ ok: true, reference: saved.id, saved: true,
         notificationAccepted: saved.notify_state === 'accepted', reused: true }, 201);
     }
-    // Inbound receipt is confirmed by D1 persistence, NOT inbox delivery.
-    let notification = 'pending';
-    try {
-      const result = await env.NOTIFY_OPS.send({
-        from: env.FROM_EMAIL,
-        to: env.OPS_EMAIL,
-        subject: `Veltrix ${lead.kind} enquiry ${id}`,
-        text: [
-          `Enquiry ID: ${id}`, `Received: ${created}`, `Type: ${lead.kind}`,
-          `Name: ${lead.name}`, `Phone: ${lead.phone}`,
-          `Email: ${lead.email || 'not supplied'}`,
-          `Postcode: ${lead.postcode || 'not supplied'}`,
-          `Customer reference: ${lead.reference || 'none'}`,
-          `Source: ${lead.source}`, '', lead.summary,
-          '', 'Original enquiry persists in private D1. Check it before contacting a customer.'
-        ].join('\n'),
-      });
-      if (result?.messageId) {
-        notification = 'accepted';
-        await env.LEADS_DB.prepare('UPDATE leads SET notify_state = ? WHERE id = ?')
-          .bind('accepted', id).run().catch(() => {});
-      }
-    } catch {
-      // Do not pretend delivery. Owner must inspect pending leads in private D1.
-    }
-    return json({ ok: true, reference: id, saved: true, notificationAccepted: notification === 'accepted' }, 201);
+    // D1 persisted the enquiry. Email acceptance is best-effort, not inbox delivery.
+    const notified = await sendNotification(env, { ...saved, id, created_at: created });
+    return json({ ok: true, reference: id, saved: true, notificationAccepted: notified }, 201);
   },
   async scheduled(_event, env) {
     if (!env?.LEADS_DB?.prepare) return;
     const cutoff = new Date(Date.now() - 730 * 24 * 60 * 60 * 1000).toISOString();
     await env.LEADS_DB.prepare('DELETE FROM leads WHERE created_at < ?').bind(cutoff).run();
+    if (!configured(env)) return;
+    // Bounded retry. Notification acceptance is not proof of inbox delivery;
+    // recipients must also reconcile their D1 records periodically.
+    const pending = await env.LEADS_DB.prepare(
+      "SELECT id, created_at, kind, name, phone, email, postcode, summary, customer_reference, source FROM leads WHERE notify_state = 'pending' ORDER BY created_at ASC LIMIT 20"
+    ).all();
+    for (const entry of pending?.results || []) await sendNotification(env, entry);
   },
 };
