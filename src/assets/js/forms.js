@@ -81,7 +81,9 @@
     const widget = form.querySelector('.cf-turnstile');
     const token = form.querySelector('[name="cf-turnstile-response"]')?.value || '';
     if (!token) throw new Error('Please complete the security check, then try again.');
-    if (summary.length > 8000) throw new Error('This request is too long for direct submission. Please send it by email or WhatsApp.');
+    // Street address is unnecessary for a first-contact booking; keep it only in user-sent WhatsApp/email drafts.
+    const minimumSummary = kind === 'booking' ? summary.replace(/^Address: .*$(?:\r?\n)?/gmi, '') : summary;
+    if (minimumSummary.length > 8000) throw new Error('This request is too long for direct submission. Please send it by email or WhatsApp.');
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 12000);
     try {
@@ -92,7 +94,7 @@
         body: JSON.stringify({
           kind, name: val(form, 'name'), phone: val(form, 'phone'),
           email: val(form, 'email'), postcode: val(form, 'postcode'),
-          summary, reference, source: location.pathname, consent: !!form.elements.consent?.checked,
+          summary: minimumSummary, reference, source: location.pathname, consent: !!form.elements.consent?.checked,
           turnstileToken: token,
         }),
       });
