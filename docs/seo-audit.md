@@ -23,17 +23,27 @@ no parallel schema blocks, duplicate FAQs, extra sitemap or AI file were added.
 | Existing SEO documentation contained unsupported dated search-update claims | Replaced those claims with links to Google's published guidance. |
 | Private address protection | Address fields and registered office are blank and were left blank. No residential address was sought, added or exposed. Build/documentation advice now explicitly excludes private residential addresses. |
 
-## Owner confirmation required
+## Owner-confirmed hours and remaining confirmations
 
-**Business hours conflict:** the website's configured service hours and chat
-hours are **07:00–23:59, Monday–Sunday**. The Google Business Profile is
-**reported by the owner/request to show 24-hour hours**. This profile setting
-was not independently authenticated in this audit.
+The owner has confirmed **7:00 AM–midnight, seven days a week**, for both
+opening/service hours and enquiries (WhatsApp and website chat), in UK time.
+This replaces the previously unconfirmed closing time across the website,
+visible FAQs and their JSON-LD, assistant knowledge, booking labels and llms.txt.
 
-The owner needs to confirm the actual service hours and message-response hours,
-and whether any 24-hour availability has a different meaning. Then reconcile
-the website, FAQs, structured data, assistant information and Business Profile
-together. **No hours were changed automatically**, and no Profile edits were made.
+The source configuration uses **07:00–24:00**, where 24:00 is the end of that
+day. Existing display formatters show “midnight”; browser status calculations
+use 1,440 minutes for closing. At 23:59 the business is still open; at 00:00 it
+is closed until 07:00. UK summer time and clock-change days are covered by tests.
+
+Structured data emits **opens: "07:00", closes: "00:00"** on all seven days.
+Under [Schema.org's overnight-hours convention](https://schema.org/OpeningHoursSpecification),
+a closing time earlier than opening is on the next day. This describes a
+17-hour opening period, not a 24-hour business.
+
+The Google Business Profile is still **reported to show 24-hour hours** and
+needs separate owner reconciliation. No Profile setting was independently
+authenticated or edited. Website hours were changed only after this explicit
+owner confirmation.
 
 **Service area:** areaServed, serviceAreas and postcodePrefixes are empty.
 Supply the real coverage before introducing local content or local keywords.
@@ -69,8 +79,8 @@ guaranteed.
 
 - Baseline: npm run check passed, 48 pages and no broken internal links.
 - Final: npm run check builds all 48 pages, checks local links and fragments,
-  verifies SEO/discovery output for 47 indexable pages, and runs four schema
-  regression tests.
+  verifies SEO/discovery output for 47 indexable pages, and runs eight
+  regression tests (four SEO/schema tests and four hours tests).
 - html-validate 10.17.0 with the standard preset: all generated HTML passed;
   baseline and final JSON reports contained no findings.
 - sitemap.xml parsed with an XML parser: 47 URLs, no duplicates, all matching
@@ -78,16 +88,23 @@ guaranteed.
 - Negative controls in a separate temporary output copy: a broken cross-page
   fragment, wrong canonical origin, invisible FAQ and duplicate sitemap entry
   were each rejected by the new checks.
-- Baseline/output comparison: identical output file/route sets; 47 page bodies
-  unchanged after cache-version normalization. Only the measuring-guide body
-  changed. All form markup and runtime configuration remained identical after
-  cache-version normalization.
-- All generated assets, including CSS, JavaScript and assistant kb.json, remained
-  byte-identical. robots.txt, llms.txt, manifest and host headers also remained
-  byte-identical. No interactive browser or live enquiry submission was needed
-  to validate these unchanged files; no browser interaction test is claimed.
-- lastmod changes are limited to pages whose titles, descriptions or body
-  changed. Only the edited measuring guide received a new visible article date.
+- The initial SEO-only output comparison preserved 47 of 48 page bodies and all
+  generated assets. The owner-approved hours follow-up changes shared hours
+  text on all pages, the FAQ answer, the booking slot label and runtime hours.
+- The hours follow-up preserves every route and form structure. Relative to the
+  initial PR, form markup differs only in the late-evening booking label.
+  All CSS, JavaScript, images, fonts, model data, manifest and host files remain
+  byte-identical; assistant knowledge and llms.txt change only for the hours
+  and their matching FAQ answer. No live enquiries were sent.
+- Boundary tests execute the real browser hours code at 06:59, 07:00, 23:59 and
+  00:00 UK time, covering winter, summer, Sunday/Monday rollover and both DST
+  transition dates. Service and enquiry status match the confirmed schedule.
+- All 48 generated pages are checked for matching human-readable hours, runtime
+  configuration and JSON-LD; the booking label, assistant knowledge and llms.txt
+  are checked too. No obsolete closing-time copy remains in generated content.
+- The owner-confirmed hours affect shared page labels. The existing lastmod
+  fingerprints remain stable on repeat builds. Only the edited measuring guide
+  received a new visible article date during the original SEO audit.
 - Review the complete diff and run git diff --check before committing.
 - No Cloudflare, production branch, deployment configuration or Business
   Profile changes were made. Submit a draft PR only; merging or deploying

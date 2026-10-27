@@ -33,13 +33,13 @@
   "postcodePrefixes": [],
 
   "hours": [
-    { "days": "Monday – Sunday", "short": "Every day", "dow": [0, 1, 2, 3, 4, 5, 6], "open": "07:00", "close": "23:59" }
+    { "days": "Monday – Sunday", "short": "Every day", "dow": [0, 1, 2, 3, 4, 5, 6], "open": "07:00", "close": "24:00" }
   ],
 
   "chatHours": {
-    "_readme": "When the team answers WhatsApp and website chat messages, every day (24-hour times, e.g. 23:59).",
+    "_readme": "When the team answers WhatsApp and website chat messages, every day. Use 24:00 for midnight at the end of the day; structured data emits the equivalent next-day 00:00.",
     "open": "07:00",
-    "close": "23:59"
+    "close": "24:00"
   },
 
   "guarantee": {

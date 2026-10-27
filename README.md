@@ -48,7 +48,7 @@ All of these live in `src/data/site.json`:
 - [ ] **WhatsApp and phone number.** This is currently +44 7411 496356, taken from the domain registration. Change it if the business number is different.
 - [ ] **Email.** Set up `info@veltrixwindowsdoor.co.uk` with Cloudflare Email Routing (DEPLOY.md, step 6).
 - [ ] **Area served.** Fill in `areaServed`, `serviceAreas`, `postcodePrefixes` and, if you want it shown, `address`.
-- [ ] **Opening hours.** Owner confirmation needed: the website says 07:00–23:59 daily; the Google Business Profile reportedly says 24 hours. Reconcile only after confirming actual service and chat hours.
+- [x] **Opening and enquiry hours.** Owner-confirmed: 7am–midnight, seven days a week (UK time). Store the end-of-day boundary as `24:00`; JSON-LD uses next-day `00:00`. The Google Business Profile reportedly says 24 hours and still needs separate owner reconciliation.
 - [ ] **Guarantee terms.** Defaults are 10 years on installations, insurance-backed, and 12 months on repairs. Change them to what you actually offer.
 - [ ] **Company details.** Add legal name, company number, VAT number and ICO registration if applicable. Most UK businesses that handle customer data must pay the ICO data protection fee.
 - [ ] **Accreditations.** Add FENSA, Certass and similar only if you are registered.
