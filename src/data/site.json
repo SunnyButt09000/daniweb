@@ -43,9 +43,9 @@
   },
 
   "guarantee": {
-    "installationYears": 10,
-    "repairMonths": 12,
-    "insuranceBacked": true
+    "productYears": 10,
+    "repairMonths": 0,
+    "insuranceBacked": false
   },
 
   "company": {
