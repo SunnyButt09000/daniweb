@@ -97,7 +97,7 @@ export const guides = [
 <p>These are whole-window and whole-door figures, frame included. Our <a href="/guides/window-energy-ratings-explained/">energy ratings guide</a> explains U-values and WER.</p>
 <h2>Part F: ventilation</h2>
 <p>If the windows you are replacing have trickle vents, the new windows must have them too, and the room’s ventilation must be no worse than before.</p>
-<p>Where the old windows had none, trickle vents are still worth considering. New windows are far more airtight than the ones they replace. Without some background ventilation, condensation and mould can follow, especially in kitchens, bathrooms and bedrooms.</p>
+<p>Replacement work must not reduce required ventilation. Background ventilators or another suitable provision may be needed even where the old windows had no vents. A survey must assess the existing ventilation and increased airtightness; a working mechanical system may affect the solution. Do not assume that having no old vents makes new ventilation optional.</p>
 <h2>Part K: safety glass</h2>
 <p>Glass in <strong>critical locations</strong> must be safety glass, either toughened or laminated, so it breaks safely if someone falls against it. The critical locations are:</p>
 <ul><li>any glazing within <strong>800 mm of the floor</strong></li><li>glass in a door, and glass within <strong>300 mm of either side of a door</strong>, up to <strong>1,500 mm above the floor</strong></li></ul>
@@ -106,16 +106,24 @@ export const guides = [
 <p>In a typical two-storey house, bedrooms and other habitable rooms on the first floor need a window suitable for escape in a fire. Some ground-floor rooms do too, depending on the layout. An escape window needs:</p>
 <ul><li>a clear opening of at least <strong>0.33 m²</strong></li><li>at least <strong>450 mm wide</strong> and <strong>450 mm high</strong></li><li>the bottom of the opening no more than <strong>1,100 mm above the floor</strong></li></ul>
 <p>A replacement must never make an existing escape route worse. Egress (escape) hinges let a <a href="/windows/casement-windows/">casement window</a> open wider and give a bigger clear opening. A <a href="/windows/tilt-and-turn-windows/">tilt and turn window</a> often gives a generous opening too.</p>
-<h2>Who signs the work off</h2>
+<h2>Who signs the work off in England</h2>
 <p>There are two routes:</p>
 <ol><li><strong>Competent Person Scheme.</strong> An installer registered with a scheme such as FENSA or Certass can self-certify that the work complies. The scheme then sends you a certificate and notifies your local authority.</li><li><strong>Local authority building control.</strong> You or your installer apply to building control before work starts. They inspect the work and issue a completion certificate. There is a fee for this route.</li></ol>
 <p>Either way, <strong>keep your certificate</strong> with your house papers. Your buyer’s solicitor will ask for it when you sell.</p>
 <h3>Repairs are not controlled work</h3>
 <p>Replacing a misted sealed unit in an existing frame, a hinge or a lock is a repair, so no certificate is needed. Glass in a critical location should still be replaced with safety glass. See our <a href="/repairs/misted-double-glazing/">misted glass</a> and <a href="/repairs/handles-and-hinges/">handles and hinges</a> repair pages.</p>
-<h2>Planning permission</h2>
+<h2>Planning permission in England</h2>
 <p>Replacing windows in a house with ones of similar appearance is normally permitted development, so no planning application is needed. You may need permission or consent for:</p>
 <ul><li>flats and maisonettes</li><li>listed buildings, which need listed building consent</li><li>homes in a conservation area covered by an Article 4 direction</li><li>windows that look substantially different from the existing ones</li></ul>
 <p>In a leasehold flat the windows may belong to the freeholder, so check your lease and get written consent before you order. If in doubt, ask your council’s planning department first.</p>
+<h2 id="uk-nations">England, Wales, Scotland and Northern Ireland</h2>
+<p>This guide’s numbered Parts and figures describe England’s guidance, not one UK-wide approval system. Confirm the rules in force for your nation, property and work before ordering. An installer’s registration must cover the specific job; a scheme name on a website does not confirm membership.</p>
+<ul><li><strong>England:</strong> use the <a href="https://www.gov.uk/building-regulations-competent-person-schemes" target="_blank" rel="noopener">government’s competent person scheme guidance</a> or the appropriate building-control route.</li>
+<li><strong>Wales:</strong> separate <a href="https://www.gov.wales/building-regulations-doors-and-windows" target="_blank" rel="noopener">Welsh doors and windows guidance</a> applies. Safety glazing is covered by Part N, rather than England’s Part K.</li>
+<li><strong>Scotland:</strong> consult the <a href="https://www.gov.scot/publications/building-standards-technical-handbook-domestic-april-2026-pdf/" target="_blank" rel="noopener">Scottish building standards handbook</a> and local verifier. Straightforward replacements can be exempt from a building warrant while still needing to meet standards.</li>
+<li><strong>Northern Ireland:</strong> consult the <a href="https://www.finance-ni.gov.uk/articles/building-regulations-technical-booklets" target="_blank" rel="noopener">Northern Ireland Technical Booklets</a> and council building control. Application exemptions for straightforward replacements do not remove the technical requirements.</li></ul>
+<p>Do not assume future guidance is already in force: published 2026 changes in England and Wales have 2027 commencement dates and transitional arrangements. Check the current requirements for the date and scope of your work.</p>
+<p>Where installation is proposed through a partner, ask who will survey and fit, who is responsible for approvals, and which written guarantee applies. <a href="/services/installation/">Our installation enquiry process</a> explains the checks before a visit is agreed.</p>
 <h2>Questions to ask before you sign</h2>
 <ul><li>Is the installer registered with a Competent Person Scheme for this work? If not, who applies to building control and who pays the fee?</li><li>What are the U-value or WER figures for the windows quoted?</li><li>Which windows will be escape windows, and which will have safety glass?</li><li>Will trickle vents be fitted, and in which rooms?</li></ul>
 <div class="callout">The figures above come from the Approved Documents for England. Wales has its own Approved Documents, and Scotland and Northern Ireland have separate systems with similar aims. We confirm what applies to your property at survey. More answers in our <a href="/faq/#regulations">regulations FAQs</a>, or <a href="/quote/">start a quote</a>.</div>`,

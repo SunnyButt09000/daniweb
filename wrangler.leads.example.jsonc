@@ -1,0 +1,21 @@
+// Standalone API Worker example; DO NOT deploy this file as-is.
+// Site static-assets Wrangler config stays unchanged.
+// Set a new worker route veltrixwindowsdoor.co.uk/api/leads to this Worker
+// only after owner approves privacy, D1, Turnstile and verified email service.
+{
+  "name": "veltrix-leads-review",
+  "main": "src/server/leads.mjs",
+  "compatibility_date": "2026-10-21",
+  "workers_dev": false,
+  "routes": [{ "pattern": "veltrixwindowsdoor.co.uk/api/leads", "zone_name": "veltrixwindowsdoor.co.uk" }],
+  "vars": {
+    "SITE_ORIGIN": "https://veltrixwindowsdoor.co.uk",
+    "OPS_EMAIL": "REPLACE_WITH_VERIFIED_INBOX",
+    "FROM_EMAIL": "REPLACE_WITH_ONBOARDED_DOMAIN_SENDER"
+  },
+  "d1_databases": [
+    { "binding": "LEADS_DB", "database_name": "veltrix-leads", "database_id": "REPLACE_WITH_D1_DATABASE_ID" }
+  ],
+  "send_email": [{ "name": "NOTIFY_OPS", "destination_address": "REPLACE_WITH_VERIFIED_INBOX" }],
+  "triggers": { "crons": ["0 4 * * *"] }
+}

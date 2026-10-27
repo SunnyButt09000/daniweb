@@ -5,8 +5,8 @@
     "name": "Veltrix Windows & Doors",
     "short": "Veltrix",
     "tagline": "uPVC windows and doors, made to measure and fitted properly.",
-    "seoDescription": "uPVC windows, composite doors and repairs, made to measure and fitted properly. Free survey, itemised written quote and an online quote builder.",
-    "description": "Veltrix Windows & Doors supplies, installs and repairs uPVC windows and doors — casement, flush sash, tilt & turn, sash, bay, French, patio, bi-fold and composite doors — with free surveys and written quotes."
+    "seoDescription": "Replacement uPVC windows, composite doors and repairs. Explore the range, build a quote request and ask us to check installation availability for your postcode.",
+    "description": "Veltrix Windows & Doors supplies uPVC windows and doors and handles installation and repair enquiries. Survey, installation and partner availability are checked for each postcode and job before confirmation."
   },
 
   "url": "https://veltrixwindowsdoor.co.uk",
@@ -43,9 +43,11 @@
   },
 
   "guarantee": {
-    "installationYears": 10,
-    "repairMonths": 12,
-    "insuranceBacked": true
+    "productYears": 10,
+    "productGuarantor": "manufacturer",
+    "manufacturerName": "",
+    "repairMonths": 0,
+    "insuranceBacked": false
   },
 
   "company": {
@@ -70,9 +72,10 @@
   },
 
   "forms": {
-    "_readme": "Optional. Paste a Formspree or Basin form endpoint URL to receive a copy of every quote and booking by email as well as WhatsApp. Put the provider name in provider (shown in the privacy policy). Send a test enquiry afterwards to confirm the email arrives.",
+    "_readme": "Optional. Leave disabled until privacy review and live inbox acceptance test. For Cloudflare native lead receipt set endpoint to /api/leads, provider to Cloudflare D1, and verified Turnstile sitekey. A separate Worker API and D1 migration must already be deployed under the same domain. Existing third-party endpoints retain legacy behaviour.",
     "endpoint": "",
-    "provider": ""
+    "provider": "",
+    "turnstileSiteKey": ""
   },
 
   "quoteUpload": {

@@ -471,7 +471,7 @@
     const cs = chatStatus();
     const b = [P(`Hello. I’m the ${BRAND} assistant. I answer from the information on this website, so I can help with windows, doors, repairs and prices, or set up a quote or survey request for you.`)];
     if (cs && !cs.open) b.push(NOTE(`The team is offline right now and answers WhatsApp from ${chatHoursText().split(' to ')[0]}. You can still message them, and they’ll reply when they’re back.`));
-    else if (st && !st.open && cs?.open) b.push(NOTE(`Service hours have finished for today, but the team still replies on WhatsApp ${cs.text.replace(/^.*· /, '')}.`));
+    else if (st && !st.open && cs?.open) b.push(NOTE(`Contact hours have finished for today, but the team still replies on WhatsApp ${cs.text.replace(/^.*· /, '')}.`));
     else if (st && !st.open && !cs) b.push(NOTE(`${st.text}. You can still message the team on WhatsApp, and they’ll read it when they’re back.`));
     b.push(P('What can I help with?'));
     return { k: 'welcome', b, c: MAIN() };
@@ -513,10 +513,10 @@
     const t12 = typeof VX.fmtTime === 'function' ? VX.fmtTime : (x) => x;
     const src = arr(KB?.business?.hours).length ? KB.business.hours : arr(VX.hours);
     const rows = src.filter((h) => h && typeof h.days === 'string');
-    const b = [H('Service hours')];
+    const b = [H('Contact hours')];
     if (st) b.push(P(B(`${st.text}.`)));
     if (rows.length) b.push(UL(rows.map((h) => [B(`${h.days}: `), str(h.open) && str(h.close) ? `${t12(h.open)} to ${t12(h.close)}` : 'Closed'])));
-    b.push(P('Surveys, fittings and repair visits are booked within these hours.'));
+    b.push(P('These are contact hours, not guaranteed appointment times. Surveys, fitting and repairs depend on postcode coverage and installer availability; the team must confirm any visit.'));
     const ch = chatHoursText();
     if (ch) b.push(P([B('WhatsApp and chat: '), `the team replies from ${ch}, every day.`]));
     b.push(P('Outside these times, send a WhatsApp message and we’ll reply when we’re back. If you need a visit on a particular day, say so when you book.'));
@@ -544,7 +544,7 @@
     const pc = findPostcode(raw);
     const prefixes = arr(bz.postcodePrefixes);
     const areas = arr(bz.serviceAreas).filter((x) => typeof x === 'string');
-    const b = [H('Areas we cover')];
+    const b = [H('Check service availability'), P('Coverage depends on your postcode and job. If a partner installer is proposed, their availability and the installation arrangements must be confirmed before a visit is agreed.')];
     if (pc && prefixes.length && typeof VX.coversPostcode === 'function') {
       b.push(P(VX.coversPostcode(pc, prefixes) ? ['Yes. ', B(pc), ' is in our usual area.'] : [B(pc), ' may be outside our usual area. Send us a message and we’ll check.']));
     } else if (areas.length) {
@@ -583,9 +583,9 @@
     const g = guideBy('building-regulations-for-replacement-windows');
     const b = [H('Accreditations and certificates')];
     if (list.length) b.push(P(`We’re registered with ${joinAnd(list)}.`));
-    else b.push(P(`I can’t confirm scheme memberships${/\binsur/.test(q) ? ' or insurance details' : ''} from here, so please ask the team directly.`));
-    b.push(P('Replacement windows and doors must be certified under the Building Regulations. That’s done either by an installer registered with a Competent Person Scheme, such as FENSA or Certass, or through local authority building control.'));
-    b.push(P('Your quote confirms which route applies, and you get the certificate when the work is finished. Keep it, because a buyer’s solicitor will ask for it.'));
+    else b.push(P(/\binsur/.test(q) ? 'There is currently no insurance-backed guarantee policy in place. Please ask the team to confirm any other insurance details relevant to your job.' : 'I can’t confirm scheme memberships from here, so please ask the team directly.'));
+    b.push(P('In England and Wales, relevant replacement work can use an appropriately registered installer or the applicable building-control route. Scotland and Northern Ireland have separate systems, and straightforward replacements may be exempt from application while still needing to meet standards.'));
+    b.push(P('Ask which route applies to your property, which documents are required, and whether any proposed partner installer holds the relevant registration. Keep the documents for your records.'));
     return {
       k: 'accreditation',
       b,
@@ -596,17 +596,14 @@
   function guarantee() {
     const g = KB?.business?.guarantee && typeof KB.business.guarantee === 'object' ? KB.business.guarantee : {};
     const f = faqBy(/guarantee do i get/i);
-    const yrs = Number(g.installationYears) || 0;
-    const mths = Number(g.repairMonths) || 0;
-    const b = [H('Guarantees')];
-    const items = [];
-    if (yrs) items.push([B(`New windows and doors: ${yrs} years. `), `Covers defects in manufacture and workmanship from completion${g.insuranceBacked ? '. It’s insurance-backed, so it still stands if we stop trading' : ''}.`]);
-    if (mths) items.push([B(`Repairs: ${mths} months. `), 'Covers the parts we supply and fit, and our workmanship on that repair.']);
-    if (items.length) b.push(UL(items));
+    const yrs = Number(g.productYears) || 0;
+    const b = [H('Product guarantee and aftercare')];
+    if (yrs) b.push(P([B(`New products: ${yrs}-year manufacturer's guarantee.`), ' The selected manufacturer's identity, components covered, exclusions and claim procedure are set out in written terms before you agree to the work. This does not automatically include installation workmanship for the same period.']));
     else if (f) b.push(P(f.a));
-    b.push(P('Full terms are on your quotation and guarantee certificate. Your statutory rights are not affected.'));
-    b.push(CARD('Guarantees and aftercare', '/guarantee/', 'What’s covered and how to claim', 'Read the details'));
-    return { k: 'guarantee', b, c: [C('Something’s gone wrong', 'What if something goes wrong after fitting?'), CW('Report a problem', hi('I need help with something you fitted. My address is ')), CA('Get a quote', 'flow:quote')] };
+    b.push(P('Installation workmanship and any separate repair warranty must be confirmed in writing for your job.'));
+    b.push(P('There is currently no insurance-backed guarantee policy in place. Your statutory consumer rights remain unaffected.'));
+    b.push(CARD('Guarantees and aftercare', '/guarantee/', 'What to check before accepting your quotation', 'Read the details'));
+    return { k: 'guarantee', b, c: [C('Something’s gone wrong', 'What if something goes wrong after fitting?'), CW('Report a problem', hi('I need help with something you fitted. My job reference is ')), CA('Get a quote', 'flow:quote')] };
   }
 
   function payment(q) {
@@ -744,7 +741,7 @@
           H('Double or triple glazing?'),
           P(f ? f.a : 'Modern double glazing with Low-E glass, argon gas and warm-edge spacers meets current regulations and suits most homes. Triple glazing keeps in more heat and can cut more noise, but the units are heavier and cost more.'),
           TBL(['', 'Double', 'Triple'], [
-            ['Heat', 'Meets Part L (1.4 W/m²K or better, or WER band B)', 'Keeps in more heat'],
+            ['Heat', 'England Part L guidance: 1.4 W/m²K or better, or WER B; other nations differ', 'Keeps in more heat'],
             ['Noise', 'Fine for most homes', 'Can cut more noise'],
             ['Weight', 'Lighter', 'Heavier units'],
             ['Price', 'Lower', 'Higher'],

@@ -174,7 +174,7 @@ writeFileSync(
 // Search engines and AI search crawlers are all welcome: the site is public information about the business.
 writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /assets/data/\n\nSitemap: ${site.url}/sitemap.xml\n`);
 
-// llms.txt: a plain summary of the site for AI assistants (Google does not use it; others do)
+// llms.txt is a plain site summary; it is not an indexing or AI-search inclusion guarantee.
 {
   const u = (p) => `${site.url}${p}`;
   const area = site.serviceAreas.length ? site.serviceAreas.join(', ') : site.areaServed;
@@ -187,10 +187,10 @@ writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /asse
     '',
     `- Phone and WhatsApp: ${site.contact.phoneDisplay} (${site.contact.phoneInternational})`,
     `- Email: ${site.contact.email}`,
-    `- Service hours: ${hrs}`,
+    `- Contact hours: ${hrs}. These are enquiry hours, not installation appointment availability.`,
     site.chatHours?.open ? `- WhatsApp and chat replies: ${t12(site.chatHours.open)}–${t12(site.chatHours.close)}, every day` : null,
-    area ? `- Area served: ${area}` : null,
-    `- Guarantees: ${site.guarantee.installationYears}-year installation guarantee, ${site.guarantee.repairMonths}-month guarantee on repairs`,
+    area ? `- Area served: ${area}` : '- Coverage: ask the team to check your postcode and job. No nationwide installation availability is confirmed. Any proposed partner installer and appointment must be confirmed before work is agreed.',
+    `- Guarantees: manufacturer-provided ${site.guarantee.productYears}-year guarantee on new products, subject to selected manufacturer's written product terms. No insurance-backed guarantee policy currently in place. Installation and repair warranty terms are confirmed separately before agreement.`,
     `- Quotes: free survey and itemised written quote. Online quote builder: ${u('/quote/')}`,
     '',
     '## Windows',
@@ -250,7 +250,7 @@ writeFileSync(
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'${site.forms.endpoint ? ' ' + new URL(site.forms.endpoint).origin : ''}${site.quoteUpload.endpoint ? ' https://script.google.com https://script.googleusercontent.com' : ''}; frame-src https://www.google.com https://maps.google.com; form-action 'self' https://wa.me mailto:; base-uri 'self'; frame-ancestors 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'${site.forms.endpoint === '/api/leads' && site.forms.turnstileSiteKey ? ' https://challenges.cloudflare.com' : ''}; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'${site.forms.endpoint && !site.forms.endpoint.startsWith('/') ? ' ' + new URL(site.forms.endpoint, site.url).origin : ''}${site.quoteUpload.endpoint ? ' https://script.google.com https://script.googleusercontent.com' : ''}${site.forms.endpoint === '/api/leads' && site.forms.turnstileSiteKey ? ' https://challenges.cloudflare.com' : ''}; frame-src https://www.google.com https://maps.google.com${site.forms.endpoint === '/api/leads' && site.forms.turnstileSiteKey ? ' https://challenges.cloudflare.com' : ''}; form-action 'self' https://wa.me mailto:; base-uri 'self'; frame-ancestors 'self'
 
 /assets/css/*
   Cache-Control: public, max-age=31536000, immutable

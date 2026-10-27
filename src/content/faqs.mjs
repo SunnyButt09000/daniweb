@@ -85,6 +85,16 @@ export const faqGroups = [
           'payment kaise', 'paise kaise', 'qist', 'qiston', 'qiston mein',
         ],
       },
+
+      {
+        q: 'Why is a supply-only online window price cheaper than a fitted quote?',
+        a: 'A supply-only advertised price usually covers the specified product rather than a complete job. Before comparing it with a fitted quotation, check the exact dimensions, glazing, colour, VAT, delivery, surveys, removal of old frames, installation labour, building-control or certification costs, and separate product and workmanship warranty terms. Veltrix prepares a written quotation after checking your product requirements, postcode and any fitting availability; an online quote request is not a confirmed installed price.',
+        k: [
+          'supply only price', 'supply-only window', 'why expensive', 'compare window quotes',
+          'fitted window price', 'installation included', 'cheap upvc windows', 'online window price',
+          'vat included', 'delivery included', 'supply and fit quote', 'window cost comparison',
+        ],
+      },
     ],
   },
   {
@@ -153,10 +163,29 @@ export const faqGroups = [
       },
       {
         q: 'Do you work at weekends?',
-        a: 'Yes. Our service hours are 7am to midnight, seven days a week, so surveys, fittings and repairs can be booked for a weekend or an evening. The team answers WhatsApp and chat messages over the same hours, every day.',
+        a: 'Yes. Our contact hours are 7am to midnight, seven days a week. These are enquiry hours, not guaranteed survey, repair or installation times. Ask about a preferred evening or weekend; postcode coverage and installer availability must be confirmed. The team answers WhatsApp and chat messages over the same contact hours.',
         k: [
           'weekend', 'weekends', 'saturday', 'saturdays', 'sunday', 'sundays', 'evening', 'evenings', 'after work', 'opening hours', 'opening times',
           'working days', 'working hours', 'bank holiday', 'days you work', 'chutti', 'chutti wale din', 'itwar', 'hafta', 'sunday ko',
+        ],
+      },
+
+      {
+        q: 'Can Veltrix arrange installation in different UK cities?',
+        a: 'We can review enquiries from different UK cities and may be able to arrange fitting through a partner installer. Send your postcode, what you need and rough sizes or photos. We must first check the job, actual partner coverage and survey availability; fitting is not guaranteed in every postcode and no appointment is confirmed until the team agrees it.',
+        k: [
+          'uk wide', 'uk-wide', 'nationwide', 'across the uk', 'different cities', 'other cities', 'where do you cover',
+          'do you cover my area', 'outside manchester', 'local installers', 'installation coverage', 'fitting coverage',
+          'service area', 'postcode check', 'near me', 'partner installer', 'partner fitters',
+        ],
+      },
+      {
+        q: 'Who will install my windows or doors?',
+        a: 'Depending on your postcode and job, we may propose a partner installer. Before you agree to work, ask the team to confirm who surveys and fits, the applicable registration or building-control arrangements, the written quote, and who handles guarantees and aftercare. Do not assume every installer has the same qualifications.',
+        k: [
+          'who fits', 'who installs', 'who will fit', 'who are the fitters', 'installer', 'installers',
+          'partner fitting', 'partner installers', 'subcontractor', 'subcontractors', 'fitter qualifications',
+          'certification', 'fensa partner', 'certass partner', 'installation team', 'outsourced installation',
         ],
       },
     ],
@@ -176,7 +205,7 @@ export const faqGroups = [
       },
       {
         q: 'What is an A-rated window?',
-        a: 'A Window Energy Rating (WER) grades the whole window, glass and frame together, on how well it keeps heat in and lets useful sunlight warm the room. Replacement windows must reach a U-value of 1.4 W/m²K or better, or WER band B or above. A-rated options are available if you want to go further.',
+        a: 'A Window Energy Rating (WER) grades the whole window, glass and frame together, on how well it keeps heat in and lets useful sunlight warm the room. In England, ordinary replacement windows should meet the applicable guidance, normally a whole-window U-value of 1.4 W/m²K or better, or WER band B or above. Other UK nations have their own requirements. Confirm the whole-window rating for the product quoted.',
         k: [
           'a rated', 'a-rated', 'energy rating', 'energy ratings', 'wer', 'window energy rating', 'u value', 'u-value', 'uvalue', 'u values',
           'energy efficient', 'energy efficiency', 'efficiency', 'insulation', 'insulated', 'heat loss', 'warm', 'warmer', 'thermal', 'heating bills', 'bills',
@@ -259,7 +288,7 @@ export const faqGroups = [
     items: [
       {
         q: 'Do replacement windows need Building Regulations approval?',
-        a: 'Yes. In England and Wales, replacement windows and doors must meet the Building Regulations on energy efficiency, ventilation, safety glass and means of escape. The work is either self-certified by an installer registered with a Competent Person Scheme, such as FENSA or Certass, or approved by your local authority building control. Either way you should get a compliance certificate, so keep it safe for when you sell.',
+        a: 'Yes. In England and Wales, replacement windows and doors must meet the Building Regulations on energy efficiency, ventilation, safety glass and means of escape. The work is either self-certified by an installer registered with a Competent Person Scheme, such as FENSA or Certass, or approved by your local authority building control. Confirm the applicable route for your work and keep the required documents. Scotland and Northern Ireland use separate systems; straightforward replacements may not require an application but must still meet the relevant standards. Scheme registration must be checked for the installer and job.',
         k: [
           'building regulations', 'building regs', 'building regulation', 'regs', 'fensa', 'fensa certificate', 'certass', 'certificate', 'certificates',
           'compliance', 'compliance certificate', 'building control', 'competent person scheme', 'regulations', 'approved document', 'legal', 'law',
@@ -269,7 +298,7 @@ export const faqGroups = [
       },
       {
         q: 'Do I need planning permission?',
-        a: 'Replacing the windows and doors on a house with ones of similar appearance is usually permitted development, so planning permission isn’t needed. Flats and maisonettes, conservation areas with an Article 4 direction, and windows that look very different may need permission, and listed buildings need listed building consent. Leaseholders should also check their lease, as the freeholder’s consent is often required. If in doubt, ask your local planning authority before you order.',
+        a: 'In England, replacing the windows and doors on a house with ones of similar appearance is usually permitted development, so planning permission isn’t needed. Flats and maisonettes, conservation areas with an Article 4 direction, and windows that look very different may need permission, and listed buildings need listed building consent. Leaseholders should also check their lease, as the freeholder’s consent is often required. Planning rules differ in Wales, Scotland and Northern Ireland. Check the relevant local authority, property status and any landlord consent before ordering.',
         k: [
           'planning', 'planning permission', 'permission', 'permitted development', 'listed', 'listed building', 'listed building consent', 'conservation',
           'conservation area', 'article 4', 'council', 'local authority', 'flat', 'flats', 'maisonette', 'leasehold', 'freeholder', 'planing',
@@ -278,7 +307,7 @@ export const faqGroups = [
       },
       {
         q: 'Do new windows need trickle vents?',
-        a: 'Under Approved Document F (2021 edition), if the windows you are replacing have trickle vents, the new ones must have them too, and ventilation must not be made worse. We check each room at the survey and tell you where vents are needed.',
+        a: 'In England, Approved Document F requires ventilation to be no worse after replacement. Existing ventilators need suitable replacement provision, and additional ventilation may be needed even where the old windows had no vents. The survey should assess each room and any mechanical ventilation. Wales, Scotland and Northern Ireland have separate guidance.',
         k: [
           'trickle vent', 'trickle vents', 'trickel vent', 'tricke vent', 'trickle', 'vents', 'vent', 'ventilation', 'air vent', 'air vents', 'slot vent',
           'vent on top', 'part f', 'approved document f', 'fresh air', 'airflow', 'hawa',
@@ -286,7 +315,7 @@ export const faqGroups = [
       },
       {
         q: 'What is a fire escape window?',
-        a: 'An escape window is one you could climb out of in a fire, and upstairs habitable rooms such as bedrooms usually need one. The opening must give at least 0.33 m² of clear space, be at least 450 mm wide and 450 mm high, and have its bottom edge no more than 1,100 mm above the floor. Egress (escape) hinges help a casement open wide enough to meet this.',
+        a: 'An escape window is one you could climb out of in a fire, and upstairs habitable rooms such as bedrooms usually need one. England’s Approved Document B guidance includes at least 0.33 m² of clear opening, at least 450 mm wide and 450 mm high, with its bottom edge no more than 1,100 mm above the floor. Check the applicable national guidance for your property. Egress (escape) hinges help a casement open wide enough to meet this.',
         k: [
           'fire escape', 'escape window', 'escape windows', 'egress', 'fire', 'fire exit',
           'emergency exit', 'means of escape', 'part b', 'bedroom window', 'first floor bedroom', 'opening size', 'clear opening', 'egres',
@@ -295,7 +324,7 @@ export const faqGroups = [
       },
       {
         q: 'Where do I need safety glass?',
-        a: 'Part K of the Building Regulations requires safety glass where people are most likely to walk into it. That means any glazing within 800 mm of the floor, and glass in a door or within 300 mm of a door, up to 1,500 mm above the floor. We use toughened or laminated glass in these places and list it on your quote.',
+        a: 'In England, Part K guidance covers safety glass where people are most likely to walk into it. That means any glazing within 800 mm of the floor, and glass in a door or within 300 mm of a door, up to 1,500 mm above the floor. Wales uses Part N; Scotland and Northern Ireland have separate guidance. The applicable safety-glass specification should be confirmed on your quote.',
         k: [
           'safety glass', 'safety glazing', 'toughened', 'toughened glass', 'tempered', 'tempered glass', 'laminated', 'laminated glass', 'part k',
           'critical location', 'critical locations', 'low glass', 'glass near floor', 'glass in door', 'door glass', 'side panel', 'side light',
@@ -375,7 +404,7 @@ export const faqGroups = [
     items: [
       {
         q: 'What guarantee do I get?',
-        a: 'New installations come with our written installation guarantee, and repairs with a parts-and-labour guarantee. The length and full terms are on your quotation and guarantee certificate, and our guarantee page explains what is and isn’t covered. Your statutory rights are not affected.',
+        a: 'The manufacturer provides a 10-year guarantee on new window and door products. The selected manufacturer’s identity, covered components, exclusions and claim process must be given in writing before you agree to the work. Installation workmanship and any repair warranty are separate and must be confirmed on the quotation. There is currently no insurance-backed guarantee policy in place. Your statutory rights are not affected.',
         k: [
           'guarantee', 'guarantees', 'guaranteed', 'warranty', 'warranties', 'how long guarantee', 'guarantee length', 'years guarantee', '10 year guarantee',
           'ten year guarantee', 'insurance backed', 'insurance-backed', 'ibg', 'guarantee certificate', 'what is covered', 'guarentee', 'gaurantee',
@@ -383,9 +412,20 @@ export const faqGroups = [
           'guarantee kitni', 'warranty kitni', 'kitni guarantee', 'kitne saal', 'kitne saal ki',
         ],
       },
+
+      {
+        q: 'Does the 10-year manufacturer guarantee cover fitting and labour?',
+        a: 'Not automatically. The manufacturer provides a 10-year guarantee on new products under the selected product’s written conditions. Fitting workmanship, labour costs, any repair warranty and any insurance-backed protection are separate matters. Veltrix has not arranged an insurance-backed guarantee policy. Before you accept a quote, check the named manufacturer, covered components, exclusions and who handles fitting issues and claims.',
+        k: [
+          'manufacturer guarantee vs installer guarantee', 'product guarantee and fitting',
+          '10 year labour warranty', 'ten year workmanship', 'does warranty include fitting',
+          'manufacturer warranty labour', 'insurance backed guarantee', 'installation warranty',
+          'who pays for fitting faults', 'manufacturer vs fitter',
+        ],
+      },
       {
         q: 'What if something goes wrong after fitting?',
-        a: 'Contact us by phone, WhatsApp or email with your address, a short description and photos or a video. We’ll arrange a visit and, if it’s covered, put it right under your guarantee.',
+        a: 'Contact us by phone, WhatsApp or email with your job reference, a short description and photos or a video. We will check the applicable written product, fitting or repair terms and explain the next steps for inspecting and resolving the issue.',
         k: [
           'problem after', 'went wrong', 'gone wrong', 'complaint', 'complain', 'aftercare', 'after care', 'issue', 'fault', 'defect', 'defective',
           'snagging', 'snag', 'after installation', 'after fitting', 'problem with new windows', 'new door problem', 'claim',

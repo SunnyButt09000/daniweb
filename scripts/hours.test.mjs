@@ -10,7 +10,7 @@ import { allFaqs } from '../src/content/faqs.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const site = JSON.parse(readFileSync(join(root, 'src/data/site.json'), 'utf8'));
 
-test('owner-confirmed service and enquiry hours end at midnight every day', () => {
+test('owner-confirmed contact and enquiry hours end at midnight every day', () => {
   assert.equal(site.hours.length, 1);
   assert.deepEqual(site.hours[0].dow, [0, 1, 2, 3, 4, 5, 6]);
   assert.equal(site.hours[0].open, '07:00');
@@ -19,7 +19,7 @@ test('owner-confirmed service and enquiry hours end at midnight every day', () =
   assert.equal(site.chatHours.close, '24:00');
   assert.equal(hoursLine(site), '7am–midnight daily');
   assert.equal(chatLine(site), '7am–midnight');
-  const faq = allFaqs.find((f) => f.a.includes('Our service hours are'));
+  const faq = allFaqs.find((f) => f.a.includes('Our contact hours are'));
   assert.ok(faq?.a.includes('7am to midnight, seven days a week'));
 });
 
@@ -88,9 +88,9 @@ test('generated pages, booking slots, assistant knowledge and llms.txt agree on 
   const kb = JSON.parse(readFileSync(join(dist, 'assets/data/kb.json'), 'utf8'));
   assert.equal(kb.business.hours[0].close, '24:00');
   assert.equal(kb.business.chatHours.close, '24:00');
-  assert.ok(kb.faqs.some((f) => f.a.includes('Our service hours are 7am to midnight')));
+  assert.ok(kb.faqs.some((f) => f.a.includes('Our contact hours are 7am to midnight')));
   const llms = readFileSync(join(dist, 'llms.txt'), 'utf8');
-  assert.match(llms, /Service hours: Monday – Sunday: 7am–midnight/);
+  assert.match(llms, /Contact hours: Monday – Sunday: 7am–midnight/);
   assert.match(llms, /WhatsApp and chat replies: 7am–midnight, every day/);
   assert.doesNotMatch(llms, /23:59|11:59pm/);
 });
