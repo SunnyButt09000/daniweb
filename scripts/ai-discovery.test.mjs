@@ -75,3 +75,19 @@ test('owner-confirmed product guarantee is consistent across public and AI answe
   assert.ok(kb.faqs.some(f => /What guarantee do I get/.test(f.q) && /10-year product guarantee/.test(f.a)));
   assert.doesNotMatch(read('privacy/index.html'), /registering insurance-backed guarantees|insurance-backed guarantee providers/);
 });
+
+test('competition buyer FAQs explain pricing scope and manufacturer guarantee', () => {
+  const html = read('faq/index.html');
+  const llms = read('llms.txt');
+  const kb = JSON.parse(read('assets/data/kb.json'));
+  const cases = [
+    ['Why is a supply-only online window price cheaper than a fitted quote?', /VAT.*delivery.*surveys/i],
+    ['Does the 10-year manufacturer guarantee cover fitting and labour?', /not automatically/i],
+  ];
+  for (const [q, expected] of cases) {
+    assert.ok(html.includes(q) && llms.includes(q), q + ' missing from public output');
+    const entry = kb.faqs.find(f => f.q === q);
+    assert.ok(entry, q + ' missing from chatbot knowledge');
+    assert.match(entry.a, expected);
+  }
+});
