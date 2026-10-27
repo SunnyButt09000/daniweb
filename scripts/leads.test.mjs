@@ -19,6 +19,7 @@ const payload = () => ({
 function mockEnv({ storageFails = false, emailFails = false } = {}) {
   const leads = [];
   const emails = [];
+  let outage = emailFails;
   const env = {
     SITE_ORIGIN: ORIGIN, TURNSTILE_SECRET: 'test-private', OPS_EMAIL: 'ops@example.test',
     FROM_EMAIL: 'notifications@example.test',
@@ -33,7 +34,7 @@ function mockEnv({ storageFails = false, emailFails = false } = {}) {
                   const [id, key, created, kind, name, phone, email, postcode, summary,
                     customer_reference, source, notify_state] = args;
                   if (!leads.some(row => row.request_key === key)) {
-                    leads.push({ id, request_key: key, created, kind, name, phone, email, postcode,
+                    leads.push({ id, request_key: key, created_at: created, kind, name, phone, email, postcode,
                       summary, customer_reference, source, notify_state });
                   }
                 }
@@ -48,15 +49,22 @@ function mockEnv({ storageFails = false, emailFails = false } = {}) {
                 if (storageFails) throw new Error('simulated D1 failure');
                 return leads.find(x => x.request_key === args[0]) || null;
               },
+              async all() {
+                if (storageFails) throw new Error('simulated D1 failure');
+                return { results: leads.filter(x => x.notify_state === 'pending') };
+              },
             };
           },
         };
       },
     },
-    NOTIFY_OPS: { async send(msg) {
-      if (emailFails) throw new Error('simulated email outage');
-      emails.push(msg); return { messageId: 'accepted-email-id' };
-    } },
+    NOTIFY_OPS: {
+      setOutage(v) { outage = v; },
+      async send(msg) {
+        if (outage) throw new Error('simulated email outage');
+        emails.push(msg); return { messageId: 'accepted-email-id' };
+      },
+    },
   };
   return { env, leads, emails };
 }
@@ -168,4 +176,19 @@ test('requires a stable UUID submission key and cannot claim success for missing
   assert.equal((await handler.fetch(req({ ...payload(), requestKey: '' }), x.env)).status, 422);
   assert.equal((await handler.fetch(req({ ...payload(), requestKey: 'guess' }), x.env)).status, 422);
   assert.equal(x.leads.length, 0);
+});
+
+test('scheduled job retries saved leads whose first email notification failed', async () => {
+  allowChallenge();
+  const x = mockEnv({ emailFails: true });
+  const result = await (await handler.fetch(req(payload()), x.env)).json();
+  assert.equal(result.saved, true);
+  assert.equal(result.notificationAccepted, false);
+  assert.equal(x.leads[0].notify_state, 'pending');
+  x.env.NOTIFY_OPS.setOutage(false);
+  await handler.scheduled({}, x.env);
+  assert.equal(x.emails.length, 1);
+  assert.equal(x.leads[0].notify_state, 'accepted');
+  await handler.scheduled({}, x.env);
+  assert.equal(x.emails.length, 1);
 });
