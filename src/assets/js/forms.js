@@ -76,6 +76,15 @@
 
   // Native receipt is available only after a separately approved Cloudflare deployment.
   const directLead = VX.leadCapture === true && VX.endpoint === '/api/leads';
+  const lastRequest = new WeakMap();
+  function requestKeyFor(form, fingerprint) {
+    const last = lastRequest.get(form);
+    if (last && last.fingerprint === fingerprint) return last.key;
+    if (typeof crypto?.randomUUID !== 'function') throw new Error('Secure submission is not supported by this browser. Please use WhatsApp or email.');
+    const key = crypto.randomUUID();
+    lastRequest.set(form, { fingerprint, key });
+    return key;
+  }
   async function submitReceipt(kind, form, summary, reference = '') {
     if (!directLead) throw new Error('Direct submissions are not enabled.');
     const widget = form.querySelector('.cf-turnstile');
@@ -84,6 +93,9 @@
     // Street address is unnecessary for a first-contact booking; keep it only in user-sent WhatsApp/email drafts.
     const minimumSummary = kind === 'booking' ? summary.replace(/^Address: .*$(?:\r?\n)?/gmi, '') : summary;
     if (minimumSummary.length > 8000) throw new Error('This request is too long for direct submission. Please send it by email or WhatsApp.');
+    const fields = [kind, val(form, 'name'), val(form, 'phone'), val(form, 'email'),
+      val(form, 'postcode'), reference, location.pathname, minimumSummary];
+    const requestKey = requestKeyFor(form, JSON.stringify(fields));
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 12000);
     try {
@@ -95,13 +107,14 @@
           kind, name: val(form, 'name'), phone: val(form, 'phone'),
           email: val(form, 'email'), postcode: val(form, 'postcode'),
           summary: minimumSummary, reference, source: location.pathname, consent: !!form.elements.consent?.checked,
-          turnstileToken: token,
+          turnstileToken: token, requestKey,
         }),
       });
       const data = await response.json().catch(() => null);
       if (response.status !== 201 || !data?.saved || !/^VX-[a-f\d-]{36}$/i.test(data.reference || '')) {
         throw new Error(response.status === 403 ? 'Security check did not pass. Please retry.' : 'The enquiry could not be saved. Please use WhatsApp or email instead.');
       }
+      lastRequest.delete(form);
       return data.reference;
     } catch (error) {
       throw error?.name === 'AbortError'
