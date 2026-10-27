@@ -7,7 +7,9 @@
   "main": "src/server/leads.mjs",
   "compatibility_date": "2026-10-21",
   "workers_dev": false,
-  "routes": [{ "pattern": "veltrixwindowsdoor.co.uk/api/leads", "zone_name": "veltrixwindowsdoor.co.uk" }],
+  // Deliberately unrouted. Add any production route only in a separately
+  // approved private release configuration after staging and privacy review.
+  "routes": [],
   "vars": {
     "SITE_ORIGIN": "https://veltrixwindowsdoor.co.uk",
     "OPS_EMAIL": "REPLACE_WITH_VERIFIED_INBOX",

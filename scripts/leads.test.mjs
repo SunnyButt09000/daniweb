@@ -43,14 +43,23 @@ function mockEnv({ storageFails = false, emailFails = false } = {}) {
                   }
                 }
                 if (sql.startsWith('UPDATE leads')) {
-                  const id = args.length === 1 ? args[0] : args[1];
-                  const row = leads.find(x => x.id === id);
-                  if (row) row.notify_state = 'accepted';
+                  const row = leads.find(x => x.id === args[0]);
+                  if (row && row.notify_lease_token === args[1]) {
+                    if (sql.includes("notify_state = 'accepted'")) row.notify_state = 'accepted';
+                    row.notify_lease_token = ''; row.notify_lease_until = '';
+                  }
                 }
                 return { success: true };
               },
               async first() {
                 if (storageFails) throw new Error('simulated D1 failure');
+                if (sql.startsWith('UPDATE leads SET notify_lease_token = ?')) {
+                  const [token, until, id, now] = args;
+                  const row = leads.find(x => x.id === id && x.notify_state === 'pending' && (x.notify_lease_until || '') <= now);
+                  if (!row) return null;
+                  row.notify_lease_token = token; row.notify_lease_until = until;
+                  return { id };
+                }
                 return leads.find(x => x.request_key === args[0]) || null;
               },
               async all() {

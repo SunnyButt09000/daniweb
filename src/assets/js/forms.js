@@ -114,7 +114,8 @@
       if (response.status !== 201 || !data?.saved || !/^VX-[a-f\d-]{36}$/i.test(data.reference || '')) {
         throw new Error(response.status === 403 ? 'Security check did not pass. Please retry.' : 'The enquiry could not be saved. Please use WhatsApp or email instead.');
       }
-      lastRequest.delete(form);
+      // Keep the same key after acknowledgement too: another unchanged click
+      // is a retry, not a second lead. Editing submitted details changes it.
       return data.reference;
     } catch (error) {
       throw error?.name === 'AbortError'
@@ -909,10 +910,12 @@
     }
 
     let via = 'whatsapp';
+    let quoteSubmitting = false;
     quoteForm.querySelectorAll('[data-send]').forEach((b) => b.addEventListener('click', () => (via = b.dataset.send)));
     quoteForm.addEventListener('input', (e) => { const x = e.target.closest('.is-invalid'); if (x) x.classList.remove('is-invalid'); });
     quoteForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (quoteSubmitting) return;
       if (e.submitter?.dataset.send) via = e.submitter.dataset.send;
       const errors = validate(quoteForm);
       if (errors.length) {
@@ -921,6 +924,7 @@
         return;
       }
       if (!ensureItems()) { showMsg(quoteForm, 'Please add at least one window or door to your schedule.'); return; }
+      quoteSubmitting = true;
       showMsg(quoteForm, '');
       if (via === 'website' && directLead) {
         const buttons = [...quoteForm.querySelectorAll('[data-send]')];
@@ -933,6 +937,7 @@
           showMsg(quoteForm, err?.message || 'We could not confirm receipt. Please contact us by WhatsApp or email.');
         } finally {
           buttons.forEach((b) => { b.disabled = false; });
+          quoteSubmitting = false;
         }
         return;
       }
@@ -958,6 +963,7 @@
         showMsg(quoteForm, `${via === 'email' ? 'Your email app' : 'WhatsApp'} should open with request ${ref} and your full list. Press send there.`, true);
       } finally {
         btns.forEach((b) => (b.disabled = false));
+        quoteSubmitting = false;
         if (pressed && label) pressed.textContent = label;
       }
     });
