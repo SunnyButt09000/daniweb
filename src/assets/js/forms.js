@@ -74,10 +74,48 @@
     } catch { /* ignore */ }
   }
 
+  // Native receipt is available only after a separately approved Cloudflare deployment.
+  const directLead = VX.leadCapture === true && VX.endpoint === '/api/leads';
+  async function submitReceipt(kind, form, summary, reference = '') {
+    if (!directLead) throw new Error('Direct submissions are not enabled.');
+    const widget = form.querySelector('.cf-turnstile');
+    const token = form.querySelector('[name="cf-turnstile-response"]')?.value || '';
+    if (!token) throw new Error('Please complete the security check, then try again.');
+    if (summary.length > 8000) throw new Error('This request is too long for direct submission. Please send it by email or WhatsApp.');
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 12000);
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        credentials: 'same-origin', cache: 'no-store', signal: ctrl.signal,
+        body: JSON.stringify({
+          kind, name: val(form, 'name'), phone: val(form, 'phone'),
+          email: val(form, 'email'), postcode: val(form, 'postcode'),
+          summary, reference, source: location.pathname, consent: !!form.elements.consent?.checked,
+          turnstileToken: token,
+        }),
+      });
+      const data = await response.json().catch(() => null);
+      if (response.status !== 201 || !data?.saved || !/^VX-[a-f\d-]{36}$/i.test(data.reference || '')) {
+        throw new Error(response.status === 403 ? 'Security check did not pass. Please retry.' : 'The enquiry could not be saved. Please use WhatsApp or email instead.');
+      }
+      return data.reference;
+    } catch (error) {
+      throw error?.name === 'AbortError'
+        ? new Error('The request timed out. We cannot confirm receipt. Please contact us by WhatsApp or phone.')
+        : error;
+    } finally {
+      clearTimeout(timer);
+      try { window.turnstile?.reset(widget); } catch { /* Turnstile not loaded */ }
+    }
+  }
+
   function wire(form, { kind, subject, compose, before, after }) {
     let via = 'whatsapp';
     form.querySelectorAll('[data-send]').forEach((b) => b.addEventListener('click', () => (via = b.dataset.send)));
-    form.addEventListener('submit', (e) => {
+    let submitting = false;
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (e.submitter?.dataset.send) via = e.submitter.dataset.send;
       const errors = validate(form);
@@ -92,7 +130,24 @@
         return;
       }
       const text = compose(form);
-      postCopy(kind, form, text);
+      if (via === 'website' && directLead) {
+        if (submitting) return;
+        submitting = true;
+        const buttons = [...form.querySelectorAll('[data-send]')];
+        buttons.forEach((b) => { b.disabled = true; });
+        showMsg(form, 'Saving your enquiry securely…');
+        try {
+          const receipt = await submitReceipt(kind === 'Booking request' ? 'booking' : 'contact', form, text);
+          showMsg(form, `Request saved as ${receipt}. This is not an appointment confirmation. We will check your job and postcode before contacting you.`, true);
+        } catch (err) {
+          showMsg(form, err?.message || 'We could not confirm receipt. Please contact us by WhatsApp or email.');
+        } finally {
+          buttons.forEach((b) => { b.disabled = false; });
+          submitting = false;
+        }
+        return;
+      }
+      if (!directLead) postCopy(kind, form, text);
       if (via === 'email') {
         openEmail(subject(form), text);
         showMsg(form, after ? after(via) : 'Your email app should open with the message ready — press send there to deliver it.', true);
@@ -852,7 +907,21 @@
       }
       if (!ensureItems()) { showMsg(quoteForm, 'Please add at least one window or door to your schedule.'); return; }
       showMsg(quoteForm, '');
-      postCopy('Quote request', quoteForm, compose(quoteForm));
+      if (via === 'website' && directLead) {
+        const buttons = [...quoteForm.querySelectorAll('[data-send]')];
+        buttons.forEach((b) => { b.disabled = true; });
+        showMsg(quoteForm, 'Saving the numbered schedule securely…');
+        try {
+          const receipt = await submitReceipt('quote', quoteForm, compose(quoteForm), ref);
+          showMsg(quoteForm, `Quote request saved as ${receipt}. Your item list was received as text; the PDF drawings are not attached. You can save the PDF below and send photos by WhatsApp if needed.`, true);
+        } catch (err) {
+          showMsg(quoteForm, err?.message || 'We could not confirm receipt. Please contact us by WhatsApp or email.');
+        } finally {
+          buttons.forEach((b) => { b.disabled = false; });
+        }
+        return;
+      }
+      if (!directLead) postCopy('Quote request', quoteForm, compose(quoteForm));
       const btns = [...quoteForm.querySelectorAll('[data-send]')];
       const pressed = btns.find((b) => b.dataset.send === via)?.querySelector('span');
       const label = pressed?.textContent;
