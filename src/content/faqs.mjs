@@ -153,7 +153,7 @@ export const faqGroups = [
       },
       {
         q: 'Do you work at weekends?',
-        a: 'Yes. Our service hours are 7am to midnight, seven days a week, so surveys, fittings and repairs can be booked for a weekend or an evening. The team answers WhatsApp and chat messages over the same hours, every day.',
+        a: 'Yes. Our contact hours are 7am to midnight, seven days a week. These are enquiry hours, not guaranteed survey, repair or installation times. Ask about a preferred evening or weekend; postcode coverage and installer availability must be confirmed. The team answers WhatsApp and chat messages over the same contact hours.',
         k: [
           'weekend', 'weekends', 'saturday', 'saturdays', 'sunday', 'sundays', 'evening', 'evenings', 'after work', 'opening hours', 'opening times',
           'working days', 'working hours', 'bank holiday', 'days you work', 'chutti', 'chutti wale din', 'itwar', 'hafta', 'sunday ko',
@@ -176,7 +176,7 @@ export const faqGroups = [
       },
       {
         q: 'What is an A-rated window?',
-        a: 'A Window Energy Rating (WER) grades the whole window, glass and frame together, on how well it keeps heat in and lets useful sunlight warm the room. Replacement windows must reach a U-value of 1.4 W/m²K or better, or WER band B or above. A-rated options are available if you want to go further.',
+        a: 'A Window Energy Rating (WER) grades the whole window, glass and frame together, on how well it keeps heat in and lets useful sunlight warm the room. In England, ordinary replacement windows should meet the applicable guidance, normally a whole-window U-value of 1.4 W/m²K or better, or WER band B or above. Other UK nations have their own requirements. Confirm the whole-window rating for the product quoted.',
         k: [
           'a rated', 'a-rated', 'energy rating', 'energy ratings', 'wer', 'window energy rating', 'u value', 'u-value', 'uvalue', 'u values',
           'energy efficient', 'energy efficiency', 'efficiency', 'insulation', 'insulated', 'heat loss', 'warm', 'warmer', 'thermal', 'heating bills', 'bills',
@@ -259,7 +259,7 @@ export const faqGroups = [
     items: [
       {
         q: 'Do replacement windows need Building Regulations approval?',
-        a: 'Yes. In England and Wales, replacement windows and doors must meet the Building Regulations on energy efficiency, ventilation, safety glass and means of escape. The work is either self-certified by an installer registered with a Competent Person Scheme, such as FENSA or Certass, or approved by your local authority building control. Either way you should get a compliance certificate, so keep it safe for when you sell.',
+        a: 'Yes. In England and Wales, replacement windows and doors must meet the Building Regulations on energy efficiency, ventilation, safety glass and means of escape. The work is either self-certified by an installer registered with a Competent Person Scheme, such as FENSA or Certass, or approved by your local authority building control. Confirm the applicable route for your work and keep the required documents. Scotland and Northern Ireland use separate systems; straightforward replacements may not require an application but must still meet the relevant standards. Scheme registration must be checked for the installer and job.',
         k: [
           'building regulations', 'building regs', 'building regulation', 'regs', 'fensa', 'fensa certificate', 'certass', 'certificate', 'certificates',
           'compliance', 'compliance certificate', 'building control', 'competent person scheme', 'regulations', 'approved document', 'legal', 'law',
@@ -269,7 +269,7 @@ export const faqGroups = [
       },
       {
         q: 'Do I need planning permission?',
-        a: 'Replacing the windows and doors on a house with ones of similar appearance is usually permitted development, so planning permission isn’t needed. Flats and maisonettes, conservation areas with an Article 4 direction, and windows that look very different may need permission, and listed buildings need listed building consent. Leaseholders should also check their lease, as the freeholder’s consent is often required. If in doubt, ask your local planning authority before you order.',
+        a: 'In England, replacing the windows and doors on a house with ones of similar appearance is usually permitted development, so planning permission isn’t needed. Flats and maisonettes, conservation areas with an Article 4 direction, and windows that look very different may need permission, and listed buildings need listed building consent. Leaseholders should also check their lease, as the freeholder’s consent is often required. Planning rules differ in Wales, Scotland and Northern Ireland. Check the relevant local authority, property status and any landlord consent before ordering.',
         k: [
           'planning', 'planning permission', 'permission', 'permitted development', 'listed', 'listed building', 'listed building consent', 'conservation',
           'conservation area', 'article 4', 'council', 'local authority', 'flat', 'flats', 'maisonette', 'leasehold', 'freeholder', 'planing',
@@ -278,7 +278,7 @@ export const faqGroups = [
       },
       {
         q: 'Do new windows need trickle vents?',
-        a: 'Under Approved Document F (2021 edition), if the windows you are replacing have trickle vents, the new ones must have them too, and ventilation must not be made worse. We check each room at the survey and tell you where vents are needed.',
+        a: 'In England, Approved Document F requires ventilation to be no worse after replacement. Existing ventilators need suitable replacement provision, and additional ventilation may be needed even where the old windows had no vents. The survey should assess each room and any mechanical ventilation. Wales, Scotland and Northern Ireland have separate guidance.',
         k: [
           'trickle vent', 'trickle vents', 'trickel vent', 'tricke vent', 'trickle', 'vents', 'vent', 'ventilation', 'air vent', 'air vents', 'slot vent',
           'vent on top', 'part f', 'approved document f', 'fresh air', 'airflow', 'hawa',
@@ -286,7 +286,7 @@ export const faqGroups = [
       },
       {
         q: 'What is a fire escape window?',
-        a: 'An escape window is one you could climb out of in a fire, and upstairs habitable rooms such as bedrooms usually need one. The opening must give at least 0.33 m² of clear space, be at least 450 mm wide and 450 mm high, and have its bottom edge no more than 1,100 mm above the floor. Egress (escape) hinges help a casement open wide enough to meet this.',
+        a: 'An escape window is one you could climb out of in a fire, and upstairs habitable rooms such as bedrooms usually need one. England’s Approved Document B guidance includes at least 0.33 m² of clear opening, at least 450 mm wide and 450 mm high, with its bottom edge no more than 1,100 mm above the floor. Check the applicable national guidance for your property. Egress (escape) hinges help a casement open wide enough to meet this.',
         k: [
           'fire escape', 'escape window', 'escape windows', 'egress', 'fire', 'fire exit',
           'emergency exit', 'means of escape', 'part b', 'bedroom window', 'first floor bedroom', 'opening size', 'clear opening', 'egres',
@@ -295,7 +295,7 @@ export const faqGroups = [
       },
       {
         q: 'Where do I need safety glass?',
-        a: 'Part K of the Building Regulations requires safety glass where people are most likely to walk into it. That means any glazing within 800 mm of the floor, and glass in a door or within 300 mm of a door, up to 1,500 mm above the floor. We use toughened or laminated glass in these places and list it on your quote.',
+        a: 'In England, Part K guidance covers safety glass where people are most likely to walk into it. That means any glazing within 800 mm of the floor, and glass in a door or within 300 mm of a door, up to 1,500 mm above the floor. Wales uses Part N; Scotland and Northern Ireland have separate guidance. The applicable safety-glass specification should be confirmed on your quote.',
         k: [
           'safety glass', 'safety glazing', 'toughened', 'toughened glass', 'tempered', 'tempered glass', 'laminated', 'laminated glass', 'part k',
           'critical location', 'critical locations', 'low glass', 'glass near floor', 'glass in door', 'door glass', 'side panel', 'side light',

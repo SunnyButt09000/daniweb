@@ -530,7 +530,7 @@
         `*${items.length} item${items.length === 1 ? '' : 's'} · ${units} unit${units === 1 ? '' : 's'}*`,
         ...items.map((it, i) => `${refs[i]} ${nameOf(it.type)}${modelOf(it) ? ` ${modelOf(it).c}` : ''}${it.room ? ` (${it.room})` : ''} · ${it.w && it.h ? `${it.w}×${it.h} mm` : 'size TBC'} · ×${clampQty(it.qty)}`),
         '',
-        link ? `📄 Full schedule with drawings (PDF): ${link}` : `📎 Full schedule with drawings: ${pdfName()} (attached).`,
+        link ? `📄 Full schedule with drawings (PDF): ${link}` : `📎 Full schedule with drawings: ${pdfName()} — I still need to attach this PDF before sending.`,
       ].join('\n');
     }
     const pdfName = () => `${VX.brand || 'Quote'}-quote-${ref}.pdf`;
@@ -813,7 +813,7 @@
         const code = document.createElement('code');
         code.textContent = pdfName();
         const b = document.createElement('strong');
-        b.textContent = 'Saved:';
+        b.textContent = 'Download requested:';
         one.replaceChildren(b, ' ', code);
       }
       sendBox.querySelector('[data-sb-again]').textContent = link ? 'Save a copy' : 'Save again';
@@ -871,7 +871,7 @@
         // PDF could not be made on this device: fall back to the full text schedule
         if (via === 'email') openEmail(`Quote request ${ref} — ${val(quoteForm, 'name')}`, compose(quoteForm));
         else openWhatsApp(compose(quoteForm));
-        showMsg(quoteForm, `WhatsApp should open with request ${ref} and your full list. Press send there.`, true);
+        showMsg(quoteForm, `${via === 'email' ? 'Your email app' : 'WhatsApp'} should open with request ${ref} and your full list. Press send there.`, true);
       } finally {
         btns.forEach((b) => (b.disabled = false));
         if (pressed && label) pressed.textContent = label;

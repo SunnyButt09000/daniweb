@@ -5,10 +5,11 @@
 export const repairs = [
   {
     slug: 'misted-double-glazing',
+    seoTitle: 'Misted double glazing repair',
     icon: 'droplets',
     name: 'Misted double glazing',
     short: 'Fog or droplets trapped between the panes mean the seal has failed. We replace the glass unit and keep your frame.',
-    metaDescription: 'Misted double glazing fixed without replacing the frame. New sealed units made to size, with Low-E glass, argon and warm-edge spacers. Send a photo on WhatsApp.',
+    metaDescription: 'Misted or blown double glazing? Compare replacing the sealed unit with a whole window. Send photos, sizes and your postcode to check repair availability.',
     keywords: [
       'misted', 'mist', 'foggy', 'fog', 'cloudy', 'steamed', 'condensation between', 'moisture inside', 'blown', 'failed unit', 'sealed unit', 'between the glass', 'between panes', 'hazy', 'water inside glass',
       'misted up', 'misty', 'misting', 'misted window', 'misted glass', 'steaming up', 'blown unit', 'blown double glazing',
@@ -37,6 +38,8 @@ export const repairs = [
     ],
     visit: 'Two short visits. One to measure, then one to fit once the glass is made. Fitting usually takes under an hour per unit.',
     tips: [
+      'Blown double glazing means a failed sealed unit, not necessarily a failed frame. Our <a href="/guides/misted-double-glazing-repair-or-replace/">repair-or-replace guide</a> explains the difference.',
+      'A replacement double-glazed unit quote depends on size, glass specification and access. Send photos, approximate sizes and your postcode to check availability; <a href="/quote/?item=sealed-unit">start a glass-unit quote request</a>.',
       'Wipe both sides of the glass. If the mist stays, it’s between the panes and the unit needs replacing.',
       'Condensation on the room side of the glass is not a failed unit. It comes from moisture in the room, so keep trickle vents open and use extractor fans.',
       'Condensation on the outside of the glass on a cold morning is normal. It shows the glass is keeping the heat in.',
@@ -50,10 +53,11 @@ export const repairs = [
   },
   {
     slug: 'locks-and-mechanisms',
+    seoTitle: 'uPVC door lock & mechanism repair',
     icon: 'lock',
     name: 'Door locks & mechanisms',
     short: 'Handle won’t lift, key won’t turn or the door won’t lock. We repair gearboxes, multipoint locks and cylinders.',
-    metaDescription: 'uPVC and composite door lock repairs. Multipoint locks, gearboxes and handles replaced, and euro cylinders upgraded to anti-snap TS 007 3-star or SS 312 Diamond.',
+    metaDescription: 'uPVC door lock repair for stiff keys, failed gearboxes and multipoint mechanisms. Understand lock faults versus door alignment, then request a repair quote.',
     keywords: [
       'lock', 'locks', 'locking', 'key', 'cylinder', 'euro cylinder', 'multipoint', 'multi point', 'gearbox', 'mechanism', 'won\'t lock', 'wont lock', 'cant lock', 'door won\'t open', 'stuck', 'jammed', 'handle floppy', 'snap', 'anti snap', 'barrel',
       'door won\'t lock', 'door wont lock', 'can\'t lock door', 'lock broken', 'broken lock', 'lock stuck', 'lock jammed', 'lock mechanism', 'lock not working', 'door wont open', 'door stuck shut', 'door locked shut', 'locked out',
@@ -87,6 +91,8 @@ export const repairs = [
     ],
     visit: 'Most lock repairs are done in one visit if we can identify the part from your photos first. An uncommon lock may need a second visit once the part arrives.',
     tips: [
+      'A door that locks easily while open but catches when closed may need <a href="/repairs/door-alignment/">door alignment</a>, rather than a new lock. Do not force it shut.',
+      'For a window handle or friction stay rather than a door mechanism, see <a href="/repairs/handles-and-hinges/">window handle and hinge repair</a>. Send photos and your postcode so parts and repair availability can be checked.',
       'Don’t force a stiff handle. It’s the most common way gearboxes break, and the real cause is often a dropped door.',
       'Twice a year, spray the hooks, rollers and keeps with a silicone or PTFE lubricant.',
       'Send a photo of the door edge where the metal lock strip is. The maker’s name is often stamped on the faceplate, which helps us bring the right part.',
@@ -140,7 +146,7 @@ export const repairs = [
     faqs: [
       ['My window is on the first floor. Is it safe to use?', 'If the window feels loose, drops or doesn’t sit square, keep it shut and locked until it’s repaired. A failed hinge on an upper floor can let the window swing free or fall.'],
       ['What is an easy-clean hinge?', 'As the window opens, the hinge slides the opening part across and leaves a gap on the hinge side. You can then reach the outside of the glass from indoors, which helps on upstairs windows.'],
-      ['Do I need egress hinges?', 'If the window is the escape route from a room, egress hinges help it open wide enough. An escape window needs a clear opening of at least 0.33 m², at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor.'],
+      ['Do I need egress hinges?', 'If the window is the escape route from a room, egress hinges help it open wide enough. England’s Approved Document B guidance gives a clear opening of at least 0.33 m², at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor.'],
     ],
   },
   {
@@ -303,7 +309,7 @@ export const repairs = [
     fix: [
       'If the glass is broken, we make the opening safe on the first visit where needed',
       'We measure and order a new sealed unit or door panel made to size',
-      'New glass is toughened or laminated wherever Approved Document K calls for safety glass',
+      'New glass is specified for the applicable national safety rules; England uses Approved Document K and Wales uses Part N',
       'We fit it with the correct packers and beads so the window or door stays square',
       'uPVC door panels replaced with new glazed or solid designs that fit your existing door',
     ],
@@ -314,7 +320,7 @@ export const repairs = [
       'Toughened glass usually has a small mark etched in one corner. Check for it if you’re not sure what you have.',
     ],
     faqs: [
-      ['Where does safety glass have to be used?', 'Under Approved Document K, in doors and in any glass within 300 mm of a door, up to 1,500 mm above the floor. It is also needed in any glass within 800 mm of the floor.'],
+      ['Where does safety glass have to be used?', 'In England, Approved Document K covers glass in doors and in any glass within 300 mm of a door, up to 1,500 mm above the floor. It is also needed in any glass within 800 mm of the floor.'],
       ['Can I swap clear glass for frosted?', 'Yes. We replace the sealed unit with obscure glass in the pattern you choose. The frame stays as it is.'],
       ['What is the difference between toughened and laminated glass?', 'Toughened glass breaks into small, blunt pieces. Laminated glass has a plastic layer inside that holds the pieces together when it breaks, which also makes it harder to get through.'],
     ],
@@ -360,7 +366,7 @@ export const repairs = [
     ],
     faqs: [
       ['Do restrictors stop a window being an escape route?', 'Not if they’re the right type. Choose restrictors that an adult can release quickly without a key.'],
-      ['What size does an escape window need to be?', 'The clear opening must be at least 0.33 m², at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. Egress hinges help a window open wide enough to meet this.'],
+      ['What size does an escape window need to be?', 'England’s Approved Document B guidance gives a clear opening of at least 0.33 m², at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. Egress hinges help a window open wide enough to meet this.'],
       ['Will key-locking handles stop a window being used for escape?', 'They can, if the key isn’t to hand. On an escape window, keep the key close by, or choose a push-button handle that locks without a key.'],
     ],
   },
@@ -370,20 +376,20 @@ export const services = [
   {
     slug: 'installation',
     icon: 'hammer',
-    name: 'Supply & installation',
-    seoTitle: 'uPVC window & door installation',
-    short: 'Replacement windows and doors, surveyed, made to measure, fitted and registered for Building Regulations.',
-    metaDescription: 'uPVC window and door installation. Free survey, made-to-measure frames, careful fitting, making good inside and out, and Building Regulations certification.',
-    lead: 'This is what happens when we replace your windows or doors, from the first measure to the paperwork at the end. No surprises on the day.',
+    name: 'Double glazing installation',
+    seoTitle: 'Double glazing installation',
+    short: 'Replacement windows and doors with installation enquiries checked by postcode, job type and installer availability.',
+    metaDescription: 'Explore double glazing installation for replacement uPVC windows and doors. Check postcode coverage, partner fitting, survey and quotation arrangements.',
+    lead: 'Looking for double glazing installers or windows and doors supplied and fitted? Start with a postcode and job check. If installation can be arranged, the written quote confirms the supplier, installer, work and applicable compliance route.',
     steps: [
-      ['Free survey', 'We measure every opening and check the structure, including lintels and bay loads. We talk through styles, glass, colours and locks, and note where you need escape windows, safety glass or trickle vents. If your existing windows have trickle vents, the new ones must have them too.'],
-      ['Written quotation', 'You get an itemised quote with a drawing or schedule for each window and door. Every window meets Part L, with a U-value of 1.4 W/m²K or better, or WER band B or above. No pressure to sign on the day.'],
+      ['Check availability and survey', 'Send your postcode and a description of the job first. Survey and fitting depend on coverage and suitable installer availability. A confirmed technical survey checks openings, structure, ventilation, safety glass and escape requirements for your property.'],
+      ['Written quotation', 'You get an itemised quote with a drawing or schedule for each window and door. The specification, supply and fitting responsibilities, applicable national requirements and any certification costs are set out before you agree. No pressure to sign on the day.'],
       ['Final check survey', 'Before anything is made, a final technical survey confirms every measurement. Your windows and doors are then made to order.'],
-      ['Installation day', 'We lay dust sheets, take out the old frames carefully, and fit the new ones level, plumb and square. Each frame is fixed into the wall and sealed inside and out.'],
-      ['Making good', 'We trim and seal inside, fit cills and trims outside, clean the glass and frames, and take the old frames and waste away.'],
-      ['Handover & certification', 'We show you how everything works and hand over the keys and care guide. The work is registered through a Competent Person Scheme or with building control, and you receive the Building Regulations compliance certificate.'],
+      ['Installation day', 'The confirmed installer protects the work area, removes the old frames and fits the replacements level, plumb and square, with the agreed fixing and sealing specification.'],
+      ['Making good', 'The quotation identifies the agreed sealing, trims, cills, making good and waste disposal, so you can compare what each supplied-and-fitted proposal includes.'],
+      ['Handover & certification', 'The installer explains operation and care. Before work is agreed, confirm which compliance documents are required in your UK nation, who provides them, the written guarantee and who handles aftercare.'],
     ],
-    includes: ['Free survey and written quote', 'Removal and disposal of old frames', 'Dust sheets and floor protection', 'Sealing and trims inside and out', 'Building Regulations compliance certificate', 'Written guarantee'],
+    includes: ['Free survey and written quote', 'Removal and disposal of old frames', 'Dust sheets and floor protection', 'Sealing and trims inside and out', 'Job-specific compliance arrangements', 'Written guarantee terms'],
   },
   {
     slug: 'survey-and-quote',

@@ -3,9 +3,9 @@
 
 const commonWindowSpecs = [
   ['Glazing', 'Double glazed as standard. Triple glazing available on request'],
-  ['Energy', 'Meets Building Regulations Part L for replacement windows (U-value 1.4 W/m²K or better, or WER band B or above). A-rated options available'],
-  ['Ventilation', 'Trickle vents fitted where Part F requires them, including wherever the old windows had them'],
-  ['Safety glass', 'Toughened or laminated glass in critical locations, including any pane within 800 mm of the floor (Part K)'],
+  ['Energy', 'England guidance: whole-window U-value 1.4 W/m²K or better, or WER band B or above. Confirm the specification and applicable national rules at survey'],
+  ['Ventilation', 'Ventilation assessed at survey; background vents or another suitable provision may be needed, including where old windows had no vents'],
+  ['Safety glass', 'Toughened or laminated glass in critical locations; England Part K examples include glazing within 800 mm of the floor. Other UK nations use their own guidance'],
   ['Colours', 'White, cream, woodgrain foils and solid colours including anthracite grey (RAL 7016), black and Chartwell green'],
 ];
 
@@ -18,11 +18,11 @@ export const products = [
     category: 'windows',
     name: 'Casement windows',
     short: 'Hinged and fixed panes in almost any layout. The standard window for most UK houses.',
-    metaDescription: 'uPVC casement windows made to measure and fitted. Side-hung, top-hung and fixed lights, multipoint locks, escape hinges and A-rated glass. Free survey.',
+    metaDescription: 'uPVC casement windows made to measure and fitted. Side-hung, top-hung and fixed lights, multipoint locks, escape hinges and A-rated window options. Ask about survey availability.',
     lead: 'A casement window is a frame split into panes, called lights, that are either fixed or hinged at the side or top. You can combine them in almost any layout, so casements suit 1930s semis, new-build extensions and most homes in between. They are usually the most cost-effective way to replace old timber, aluminium or tired uPVC.',
     body: [
       'We plan each window around the room it serves. An upper-floor bedroom usually needs an opener big enough to escape through. A kitchen benefits from a top-hung vent you can leave open in light rain. Bathrooms normally take obscure glass. We note all of this at survey, so the window suits how you use the room as well as the size of the opening.',
-      'A few things are worth checking on any quote. Every opener should have a multipoint lock and a key-locking handle. Panes within 800 mm of the floor need safety glass. If your current windows have trickle vents, Part F says the new ones must have them too. And Part L asks for a U-value of 1.4 W/m²K or better, or a Window Energy Rating of band B or above.',
+      'A few things are worth checking on any quote. Every opener should have a multipoint lock and a key-locking handle. Panes within 800 mm of the floor need safety glass. Ventilation must be assessed even if the old windows had no vents; England’s Part F guidance explains the requirements. In England, Part L guidance asks for a whole-window U-value of 1.4 W/m²K or better, or a Window Energy Rating of band B or above.',
       'Profiles come in chamfered (bevelled) or sculptured (rounded) styles, in white, woodgrain or a solid colour, and the inside can be a different colour from the outside. Georgian or astragal bars, decorative glass and lead designs are available if you are matching existing windows. Our <a href="/guides/building-regulations-for-replacement-windows/">guide to Building Regulations for replacement windows</a> covers the rules in more detail.',
     ],
     features: [
@@ -36,9 +36,9 @@ export const products = [
     options: ['Chamfered or sculptured profile', 'Georgian or astragal bars', 'Obscure or decorative glass', 'Child-safety restrictors', 'Egress (escape) hinges', 'Trickle vents', 'Dual colour'],
     faqs: [
       ['Do casement windows open inwards or outwards?', 'Standard UK casements open outwards. If a sash would swing out over a path, balcony or walkway, an inward-opening <a href="/windows/tilt-and-turn-windows/">tilt & turn window</a> is usually the better fit.'],
-      ['Can I have an escape window in a bedroom?', 'Yes. Where a window is an escape route, usually in upper-floor bedrooms, we specify an opener with egress hinges so the clear opening meets Approved Document B. That means at least 0.33 m² of clear opening, at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. A replacement should never make escape harder than the window it replaces.'],
+      ['Can I have an escape window in a bedroom?', 'Yes. Where a window is an escape route, usually in upper-floor bedrooms, we specify an opener with egress hinges so the clear opening meets the applicable national escape requirements. England’s Approved Document B gives the following example. That means at least 0.33 m² of clear opening, at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. A replacement should never make escape harder than the window it replaces.'],
       ['What is the difference between chamfered and sculptured frames?', 'It is the shape of the frame edge. A chamfered profile has a flat, bevelled edge and looks crisp and modern. A sculptured profile has a rounded edge that looks closer to traditional timber. Performance is broadly the same, so choose the one that suits the house.'],
-      ['Do replacement windows need Building Regulations approval?', 'Yes. Replacing a window is notifiable building work. It can be self-certified by an installer registered with a Competent Person Scheme such as FENSA or Certass, or approved by local authority building control. Your quote confirms how your installation will be certified. Keep the certificate, because a buyer’s solicitor will ask for it.'],
+      ['Do replacement windows need Building Regulations approval?', 'In England and Wales, relevant replacement work can use an appropriately registered installer or the applicable building-control route. Scotland and Northern Ireland have separate systems; straightforward replacement work may be exempt from an application but must still meet standards. Ask which route and documents apply before agreeing the work.'],
     ],
     related: ['flush-casement-windows', 'tilt-and-turn-windows', 'bay-and-bow-windows'],
   },
@@ -49,7 +49,7 @@ export const products = [
     category: 'windows',
     name: 'Flush casement windows',
     short: 'Sashes sit level with the frame, like timber joinery. Woodgrain and heritage colours.',
-    metaDescription: 'uPVC flush casement windows with the flat face of traditional timber joinery. Woodgrain and heritage colours, multipoint locks and A-rated glass. Free survey.',
+    metaDescription: 'uPVC flush casement windows with the flat face of traditional timber joinery. Woodgrain and heritage colours, multipoint locks and A-rated window options. Ask about survey availability.',
     lead: 'In a flush casement, each opening sash sits level with the outer frame instead of lapping over it. That flat face is how timber casements have been made in Britain for centuries. It suits period cottages and terraces, and modern homes that want a cleaner, more architectural look.',
     body: [
       'Flush casements use deeper, more detailed profiles than a standard casement. Many systems offer mechanical or timber-style corner joints and a woodgrain texture, so you do not see the welded corner line of a standard uPVC frame. Anthracite grey, black, Chartwell green and cream are popular, and dual colour (a heritage colour outside, white inside) is common.',
@@ -97,7 +97,7 @@ export const products = [
     goodFor: ['Flats and high-rise buildings', 'Upper floors and loft rooms', 'Rooms next to walkways or balconies'],
     options: ['Tilt-first (child safety) hardware', 'Lockable handles', 'Restrictors', 'Integral blinds (selected systems)', 'Triple glazing'],
     faqs: [
-      ['Can tilt & turn windows be used as a fire escape?', 'Yes, if the clear opening meets Approved Document B. That means at least 0.33 m², at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. We check each escape window at survey.'],
+      ['Can tilt & turn windows be used as a fire escape?', 'Yes, if the clear opening meets the applicable national escape requirements. England’s Approved Document B gives the following example. That means at least 0.33 m², at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. We check each escape window at survey.'],
       ['Do they need special blinds?', 'The blind must not block the sash as it swings in. Blinds fixed to the sash itself work well, as do blinds set far enough back from the reveal. Integral blinds inside the glass are available on selected systems.'],
       ['Is it safe to leave a tilt & turn on tilt?', 'The gap at the top is small and hard to reach from outside, so tilt is a safer way to ventilate than an open casement. It is still an open window. Close and lock it when you go out.'],
       ['Should I choose turn-first or tilt-first?', 'Turn-first is the standard arrangement and suits most rooms. Choose tilt-first where children could reach the handle, because a quick turn only tilts the sash rather than opening it fully. Lockable handles add another layer of protection.'],
@@ -111,7 +111,7 @@ export const products = [
     category: 'windows',
     name: 'Sash windows',
     short: 'Vertical sliders in the proportions of a box sash. No rattles, cords or repainting.',
-    metaDescription: 'uPVC sliding sash windows for Victorian, Edwardian and Georgian homes. Run-through horns, Georgian bars, tilt-in cleaning and A-rated glass. Free survey.',
+    metaDescription: 'uPVC sliding sash windows for Victorian, Edwardian and Georgian homes. Run-through horns, Georgian bars, tilt-in cleaning and A-rated window options. Ask about survey availability.',
     lead: 'A uPVC vertical sliding sash keeps the look of a traditional box sash, with two sashes sliding past each other, run-through horns and a deep bottom rail. It drops the rattles, draughts and repainting that come with old timber.',
     body: [
       'Modern sash windows run on spiral or constant-force balances rather than weights and cords, so they slide smoothly and stay where you leave them. On most systems the sashes tilt inwards, so you can clean both sides of the glass from inside.',
@@ -129,8 +129,8 @@ export const products = [
     options: ['Georgian bars (2-over-2, 6-over-6 and others)', 'Run-through horns', 'Woodgrain finishes', 'Sash stops or restrictors', 'Fittings in brass, chrome or black'],
     faqs: [
       ['Can uPVC sash windows go in a listed building?', 'Usually not. Listed building consent is needed for any window change and is rarely given for uPVC. Speak to your local authority conservation officer before you go further.'],
-      ['Will they still have trickle vents?', 'If your existing windows have trickle vents, Part F requires the replacements to have them too. Slim vents can be fitted in the head of the frame, where they are least noticeable.'],
-      ['Can a sash window be an escape window?', 'It can, but it is harder. Only one sash opens at a time, so the clear opening is roughly half the window. An escape window needs at least 0.33 m² clear, at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. We check the size at survey and suggest options if it falls short.'],
+      ['Will they still have trickle vents?', 'In England, Part F requires suitable ventilation after replacement, including appropriate provision for existing vents. New provision may also be needed without old vents. Other UK nations use separate guidance. Slim vents can be fitted in the head of the frame, where they are least noticeable.'],
+      ['Can a sash window be an escape window?', 'It can, but it is harder. Only one sash opens at a time, so the clear opening is roughly half the window. England’s Approved Document B guidance gives an escape opening of at least 0.33 m² clear, at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. We check the size at survey and suggest options if it falls short.'],
       ['Should I restore my timber sashes instead?', 'If the timber is mostly sound, or the house is listed, restoration by a timber sash specialist may be the better route. uPVC makes most sense where the frames are rotten or you want to stop repainting.'],
     ],
     related: ['flush-casement-windows', 'bay-and-bow-windows', 'casement-windows'],
@@ -189,7 +189,7 @@ export const products = [
     options: ['2- or 3-pane layouts', 'Insect screens (selected systems)', 'Obscure glass'],
     faqs: [
       ['Are sliding windows as airtight as casements?', 'Modern sliders are well sealed, but compression-sealed casements and tilt & turns generally achieve better air-tightness. We will advise on the best option for the room.'],
-      ['Can a sliding window be used as a fire escape?', 'Only if the opening part alone meets Approved Document B. That means at least 0.33 m² clear, at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. Because only part of a slider opens, the frame has to be fairly large. For a bedroom escape window, a casement or tilt & turn is often simpler.'],
+      ['Can a sliding window be used as a fire escape?', 'Only if the opening part alone meets the applicable national escape requirements. England’s Approved Document B gives the following example. That means at least 0.33 m² clear, at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. Because only part of a slider opens, the frame has to be fairly large. For a bedroom escape window, a casement or tilt & turn is often simpler.'],
       ['How do I keep a sliding window running smoothly?', 'Vacuum grit out of the bottom track a few times a year, wipe it with a damp cloth and keep the drainage slots clear. If a sash still drags, the rollers may be worn. That is usually a repair rather than a new window.'],
     ],
     related: ['tilt-and-turn-windows', 'casement-windows', 'patio-doors'],
@@ -236,16 +236,16 @@ export const products = [
     lead: 'A uPVC door is the dependable, good-value choice for front, back and side entrances. A steel-reinforced frame, a full-height multipoint lock and an anti-snap cylinder make it hard to force, and there is a wide choice of panel designs, glass and colours.',
     body: [
       'Every door we fit has a multipoint lock that throws hooks, bolts or rollers into the frame along the locking edge. We specify anti-snap cylinders rated TS 007 3-star or SS 312 Diamond. Letterplates, spy-holes, knockers and numerals can be added, and low thresholds are available for step-free access.',
-      'Side panels and top lights bring light into a dark hallway. Glass in the door, and in any side panel within 300 mm of it, must be safety glass up to 1,500 mm above the floor (Approved Document K). A replacement door also has to meet Part L, with a U-value of 1.4 W/m²K or better, or a Door Set Energy Rating of band B or above. Band C is allowed where the door is more than 60% glazed.',
+      'Side panels and top lights bring light into a dark hallway. Glass in the door, and in any side panel within 300 mm of it, must be safety glass up to 1,500 mm above the floor (England’s Approved Document K). England’s Part L guidance for a replacement door gives a U-value of 1.4 W/m²K or better, or a Door Set Energy Rating of band B or above. Band C is allowed where the door is more than 60% glazed.',
       'Compared with a composite door, uPVC is lighter, thinner and usually cheaper. Both can be very secure when correctly specified and fitted. Our <a href="/guides/upvc-vs-composite-doors/">uPVC vs composite door guide</a> sets out the differences.',
     ],
     features: [
       ['Multipoint locking', 'Hooks, bolts or rollers engage the frame along the full height of the door.'],
       ['Anti-snap cylinder', 'Rated TS 007 3-star or SS 312 Diamond.'],
-      ['Safety glass', 'Toughened or laminated glass wherever Part K requires it.'],
+      ['Safety glass', 'Toughened or laminated glass in critical locations; England Part K is one nation’s guidance.'],
       ['Low threshold', 'A step-free threshold for wheelchairs, walking aids and pushchairs.'],
     ],
-    specs: [['Styles', 'Panelled, half-glazed or fully glazed, with optional side panels and top lights'], ['Security', 'Multipoint lock, TS 007 3-star or SS 312 Diamond cylinder; PAS 24 options available'], ['Energy', 'Meets Part L for replacement doors (1.4 W/m²K or better, or DSER band B or above; band C where more than 60% glazed)'], ['Colours', 'White, woodgrain foils and RAL colours']],
+    specs: [['Styles', 'Panelled, half-glazed or fully glazed, with optional side panels and top lights'], ['Security', 'Multipoint lock, TS 007 3-star or SS 312 Diamond cylinder; PAS 24 options available'], ['Energy', 'England Part L guidance for replacement doors (1.4 W/m²K or better, or DSER band B or above; band C where more than 60% glazed)'], ['Colours', 'White, woodgrain foils and RAL colours']],
     goodFor: ['Back and side doors', 'Front doors on a tighter budget', 'Utility rooms and garages'],
     options: ['Letterplate and knocker', 'Spy-hole or door chain', 'Side panels and top lights', 'Low threshold', 'Decorative glass'],
     faqs: [
@@ -260,14 +260,16 @@ export const products = [
     tag: "Premium front door",
     chips: ["Thick core", "PAS 24 options"],
     category: 'doors',
-    name: 'Composite doors',
+    name: 'Composite front doors',
+    seoTitle: 'Composite front doors',
     short: 'A thick core behind a timber-look GRP skin. A solid, low-maintenance front door.',
-    metaDescription: 'Composite front doors with a thick core, timber-grain GRP skin and multipoint locking. PAS 24 and Secured by Design options, dual colour. Free survey and quote.',
+    metaDescription: 'Compare composite front door designs, glazing, colours and locks. Request a supplied-and-fitted quote, subject to survey and installation availability.',
     lead: 'A composite door is built from several materials. A thick core, usually insulating foam or solid timber, sits behind a glass-reinforced plastic (GRP) skin with a timber grain, in a uPVC or aluminium frame. It looks like a painted hardwood door, insulates well and does not need repainting.',
     body: [
       'Designs range from cottage-style ledged doors to contemporary slab doors with vertical glass. Many ranges offer a different colour inside and out, so the hall side can match your interior.',
       'PAS 24 and Secured by Design options are available. If your insurer or lender asks for a particular standard, tell us before you order and we will specify a door that meets it. Whatever the range, check that the cylinder is rated TS 007 3-star or SS 312 Diamond.',
       'Composite doors are heavier than uPVC, so the frame and hinges have to be set up correctly to stop the door dropping over time. A dark door in full sun can also feel stiffer to lock on hot days as the materials expand. Adjustable hinges and keeps allow for this.',
+      'For a composite front door supplied and fitted, ask us to check local installation availability before choosing a date. Your written quote should identify the door specification, fitting work, who will install it and the applicable guarantee. Compare <a href="/guides/upvc-vs-composite-doors/">uPVC and composite doors</a>, or read <a href="/services/installation/">how installation is arranged</a>.',
     ],
     features: [
       ['Solid feel', 'A thick core gives a heavier, more solid close than a uPVC door.'],
@@ -275,7 +277,7 @@ export const products = [
       ['Colour choice', 'A wide palette, with a different colour inside and out on many ranges.'],
       ['Security options', 'Multipoint locking, with PAS 24 and Secured by Design options.'],
     ],
-    specs: [['Construction', 'Thick core (insulating foam or solid timber, depending on the range), GRP skin, uPVC or aluminium frame'], ['Security', 'Multipoint lock, anti-snap cylinder; PAS 24 and Secured by Design options available'], ['Energy', 'Meets Part L for replacement doors (1.4 W/m²K or better, or DSER band B or above)'], ['Finish', 'Woodgrain GRP in solid colours; dual colour available']],
+    specs: [['Construction', 'Thick core (insulating foam or solid timber, depending on the range), GRP skin, uPVC or aluminium frame'], ['Security', 'Multipoint lock, anti-snap cylinder; PAS 24 and Secured by Design options available'], ['Energy', 'England Part L guidance for replacement doors: 1.4 W/m²K or better, or DSER band B or above; confirm the applicable national requirements'], ['Finish', 'Woodgrain GRP in solid colours; dual colour available']],
     goodFor: ['Main front doors', 'Period and modern homes', 'Homes needing a set security standard'],
     options: ['Side panels and top lights', 'Smart locks (selected ranges)', 'Chrome, black, gold or graphite hardware', 'House numbers and knockers'],
     faqs: [
@@ -297,7 +299,7 @@ export const products = [
     body: [
       'One leaf is the main door, with the handle and multipoint lock. The other is the secondary leaf, held by shoot bolts into the head and threshold. Open the main leaf on its own for everyday use, or both for a wide opening.',
       'Most French doors open outwards, which keeps the room clear for furniture. Inward-opening doors need clear floor space and careful threshold detailing to keep rain out. Opening stays hold the doors back in the wind and protect the hinges.',
-      'Approved Document K treats glass in a door as a critical location up to 1,500 mm above the floor, so French doors use toughened or laminated safety glass. Replacement doors also have to meet Part L. For doors more than 60% glazed, that means a U-value of 1.4 W/m²K or better, or a Door Set Energy Rating of band C or above.',
+      'England’s Approved Document K treats glass in a door as a critical location up to 1,500 mm above the floor, so French doors use toughened or laminated safety glass. England’s Part L also gives energy guidance for replacement doors. For doors more than 60% glazed, that means a U-value of 1.4 W/m²K or better, or a Door Set Energy Rating of band C or above.',
     ],
     features: [
       ['Wide clear opening', 'No centre post when both doors are open.'],
@@ -305,7 +307,7 @@ export const products = [
       ['Opening stays', 'Hold the doors open and protect the hinges in the wind.'],
       ['Side panels', 'Extend the glass across wider openings.'],
     ],
-    specs: [['Opening', 'Outward or inward'], ['Security', 'Multipoint lock, shoot bolts, anti-snap cylinder'], ['Glass', 'Toughened or laminated safety glass, A-rated options'], ['Energy', 'Meets Part L for replacement doors (1.4 W/m²K or better, or DSER band C or above where more than 60% glazed)'], ['Threshold', 'Standard or low threshold']],
+    specs: [['Opening', 'Outward or inward'], ['Security', 'Multipoint lock, shoot bolts, anti-snap cylinder'], ['Glass', 'Toughened or laminated safety glass; confirm the whole-door energy rating'], ['Energy', 'England Part L guidance for replacement doors (1.4 W/m²K or better, or DSER band C or above where more than 60% glazed)'], ['Threshold', 'Standard or low threshold']],
     goodFor: ['Garden rooms and extensions', 'Replacing patio doors', 'Openings up to about 1.8 m'],
     options: ['Side panels', 'Georgian bars', 'Low threshold', 'Integral blinds', 'Opening stays'],
     faqs: [
@@ -335,7 +337,7 @@ export const products = [
       ['Anti-lift security', 'Hook locks and anti-lift blocks keep panels on the track.'],
       ['No swing space', 'Furniture can sit close to the glass.'],
     ],
-    specs: [['Configurations', '2-, 3- and 4-panel'], ['Security', 'Multipoint hook locking, anti-lift blocks'], ['Glass', 'Toughened safety glass, A-rated options'], ['Energy', 'Meets Part L for replacement doors (1.4 W/m²K or better, or DSER band C or above where more than 60% glazed)'], ['Colours', 'White, woodgrain and RAL colours']],
+    specs: [['Configurations', '2-, 3- and 4-panel'], ['Security', 'Multipoint hook locking, anti-lift blocks'], ['Glass', 'Toughened safety glass; confirm the whole-door energy rating'], ['Energy', 'England Part L guidance for replacement doors (1.4 W/m²K or better, or DSER band C or above where more than 60% glazed)'], ['Colours', 'White, woodgrain and RAL colours']],
     goodFor: ['Wide openings', 'Rooms with furniture near the doors', 'Replacing old aluminium patio doors'],
     options: ['3- and 4-panel layouts', 'Low threshold', 'Child-safety lock'],
     faqs: [
@@ -356,7 +358,7 @@ export const products = [
     body: [
       'uPVC bi-folds are an affordable way to open up an extension. They do have thicker frames than aluminium, and there are limits on panel size. For very wide openings, or where you want the slimmest sightlines, aluminium bi-folds may suit better. We will tell you which fits your opening and budget.',
       'Bi-folds need a level, square structural opening and a properly supported head, because any sag stops the panels folding smoothly. We check both at survey. Think too about where the stacked panels will sit. Folding outwards keeps the room clear, but the stack needs space on the patio.',
-      'Approved Document K treats glass in a door as a critical location up to 1,500 mm above the floor, so bi-folds use toughened safety glass. Replacement bi-folds also need to meet Part L, which for doors more than 60% glazed means a U-value of 1.4 W/m²K or better, or a Door Set Energy Rating of band C or above.',
+      'England’s Approved Document K treats glass in a door as a critical location up to 1,500 mm above the floor, so bi-folds use toughened safety glass. England’s Part L also gives energy guidance for replacement bi-folds, which for doors more than 60% glazed means a U-value of 1.4 W/m²K or better, or a Door Set Energy Rating of band C or above.',
     ],
     features: [
       ['Wide opening', 'Panels stack neatly to open almost the full width.'],
@@ -364,7 +366,7 @@ export const products = [
       ['Fold in or out', 'Choose the direction and stacking side to suit your space.'],
       ['Low threshold', 'Options for a near-flush step onto the patio.'],
     ],
-    specs: [['Configurations', '2 to 6 panels, stacking left, right or split'], ['Security', 'Multipoint locking, shoot bolts on each panel'], ['Glass', 'Toughened safety glass, A-rated options'], ['Energy', 'Meets Part L for replacement doors (1.4 W/m²K or better, or DSER band C or above where more than 60% glazed)'], ['Threshold', 'Standard or low threshold']],
+    specs: [['Configurations', '2 to 6 panels, stacking left, right or split'], ['Security', 'Multipoint locking, shoot bolts on each panel'], ['Glass', 'Toughened safety glass; confirm the whole-door energy rating'], ['Energy', 'England Part L guidance for replacement doors (1.4 W/m²K or better, or DSER band C or above where more than 60% glazed)'], ['Threshold', 'Standard or low threshold']],
     goodFor: ['Kitchen and living extensions', 'Garden rooms', 'Openings around 2–4 m wide'],
     options: ['Traffic door', 'Low threshold', 'Integral blinds', 'Dual colour'],
     faqs: [
@@ -385,7 +387,7 @@ export const products = [
     body: [
       'Each leaf has its own locking, and the two are joined together when closed, so a stable door is as secure as a standard entrance door when correctly specified. Ask how the leaves connect and how many keys you will need, because this varies between systems.',
       'The meeting rail between the leaves is rebated and has a weather bar to keep rain out. It is still an extra joint compared with a one-piece door, so on a very exposed wall we check the position and the drip detail at survey.',
-      'Any glass in the top leaf is toughened or laminated safety glass, as Approved Document K requires for doors. Like any replacement door, a stable door must also meet Part L, with a U-value of 1.4 W/m²K or better, or a Door Set Energy Rating of band B or above.',
+      'Any glass in the top leaf is toughened or laminated safety glass, as England’s Approved Document K describes for doors. England’s Part L guidance for replacement doors gives a U-value of 1.4 W/m²K or better, or a Door Set Energy Rating of band B or above.',
     ],
     features: [
       ['Two independent leaves', 'Open the top, the bottom or both together.'],
@@ -393,7 +395,7 @@ export const products = [
       ['Weather-sealed', 'A rebated meeting rail with a weather bar.'],
       ['uPVC or composite', 'Available in both constructions.'],
     ],
-    specs: [['Construction', 'uPVC or composite'], ['Security', 'Multipoint lock to each leaf, anti-snap cylinder'], ['Glass', 'Optional glazed top leaf in safety glass'], ['Energy', 'Meets Part L for replacement doors (1.4 W/m²K or better, or DSER band B or above)'], ['Colours', 'White, woodgrain and RAL colours']],
+    specs: [['Construction', 'uPVC or composite'], ['Security', 'Multipoint lock to each leaf, anti-snap cylinder'], ['Glass', 'Optional glazed top leaf in safety glass'], ['Energy', 'England Part L guidance for replacement doors: 1.4 W/m²K or better, or DSER band B or above; confirm the applicable national requirements'], ['Colours', 'White, woodgrain and RAL colours']],
     goodFor: ['Kitchen and utility doors', 'Cottages and farmhouses', 'Homes with pets or young children'],
     options: ['Glazed top leaf', 'Letterplate', 'Low threshold'],
     faqs: [
@@ -408,9 +410,9 @@ export const products = [
 export const categories = {
   windows: {
     name: 'Windows',
-    title: 'uPVC windows',
-    metaDescription: 'Made-to-measure uPVC windows, supplied and fitted. Casement, flush casement, tilt & turn, sash, bay and bow, sliding and shaped styles. Free survey and quote.',
-    lead: 'Every window is made to measure from our survey and specified to current Building Regulations for energy, ventilation, safety glass and escape. Choose a style to see how it opens and where it suits.',
+    title: 'Replacement uPVC windows',
+    metaDescription: 'Compare replacement uPVC window styles, glazing and opening options. Build a window quote request and check survey and installation availability by postcode.',
+    lead: 'Compare made-to-measure replacement uPVC windows, from practical casements to flush and sliding sash styles. Choose how each window opens, the glazing and the finish, then ask us to check survey and installation availability for your postcode.',
   },
   doors: {
     name: 'Doors',

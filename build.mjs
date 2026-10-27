@@ -174,7 +174,7 @@ writeFileSync(
 // Search engines and AI search crawlers are all welcome: the site is public information about the business.
 writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /assets/data/\n\nSitemap: ${site.url}/sitemap.xml\n`);
 
-// llms.txt: a plain summary of the site for AI assistants (Google does not use it; others do)
+// llms.txt is a plain site summary; it is not an indexing or AI-search inclusion guarantee.
 {
   const u = (p) => `${site.url}${p}`;
   const area = site.serviceAreas.length ? site.serviceAreas.join(', ') : site.areaServed;
@@ -187,9 +187,9 @@ writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /asse
     '',
     `- Phone and WhatsApp: ${site.contact.phoneDisplay} (${site.contact.phoneInternational})`,
     `- Email: ${site.contact.email}`,
-    `- Service hours: ${hrs}`,
+    `- Contact hours: ${hrs}. These are enquiry hours, not installation appointment availability.`,
     site.chatHours?.open ? `- WhatsApp and chat replies: ${t12(site.chatHours.open)}–${t12(site.chatHours.close)}, every day` : null,
-    area ? `- Area served: ${area}` : null,
+    area ? `- Area served: ${area}` : '- Coverage: ask the team to check your postcode and job. No nationwide installation availability is confirmed. Any proposed partner installer and appointment must be confirmed before work is agreed.',
     `- Guarantees: ${site.guarantee.installationYears}-year installation guarantee, ${site.guarantee.repairMonths}-month guarantee on repairs`,
     `- Quotes: free survey and itemised written quote. Online quote builder: ${u('/quote/')}`,
     '',

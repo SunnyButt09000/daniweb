@@ -471,7 +471,7 @@
     const cs = chatStatus();
     const b = [P(`Hello. I’m the ${BRAND} assistant. I answer from the information on this website, so I can help with windows, doors, repairs and prices, or set up a quote or survey request for you.`)];
     if (cs && !cs.open) b.push(NOTE(`The team is offline right now and answers WhatsApp from ${chatHoursText().split(' to ')[0]}. You can still message them, and they’ll reply when they’re back.`));
-    else if (st && !st.open && cs?.open) b.push(NOTE(`Service hours have finished for today, but the team still replies on WhatsApp ${cs.text.replace(/^.*· /, '')}.`));
+    else if (st && !st.open && cs?.open) b.push(NOTE(`Contact hours have finished for today, but the team still replies on WhatsApp ${cs.text.replace(/^.*· /, '')}.`));
     else if (st && !st.open && !cs) b.push(NOTE(`${st.text}. You can still message the team on WhatsApp, and they’ll read it when they’re back.`));
     b.push(P('What can I help with?'));
     return { k: 'welcome', b, c: MAIN() };
@@ -513,10 +513,10 @@
     const t12 = typeof VX.fmtTime === 'function' ? VX.fmtTime : (x) => x;
     const src = arr(KB?.business?.hours).length ? KB.business.hours : arr(VX.hours);
     const rows = src.filter((h) => h && typeof h.days === 'string');
-    const b = [H('Service hours')];
+    const b = [H('Contact hours')];
     if (st) b.push(P(B(`${st.text}.`)));
     if (rows.length) b.push(UL(rows.map((h) => [B(`${h.days}: `), str(h.open) && str(h.close) ? `${t12(h.open)} to ${t12(h.close)}` : 'Closed'])));
-    b.push(P('Surveys, fittings and repair visits are booked within these hours.'));
+    b.push(P('These are contact hours, not guaranteed appointment times. Surveys, fitting and repairs depend on postcode coverage and installer availability; the team must confirm any visit.'));
     const ch = chatHoursText();
     if (ch) b.push(P([B('WhatsApp and chat: '), `the team replies from ${ch}, every day.`]));
     b.push(P('Outside these times, send a WhatsApp message and we’ll reply when we’re back. If you need a visit on a particular day, say so when you book.'));
@@ -544,7 +544,7 @@
     const pc = findPostcode(raw);
     const prefixes = arr(bz.postcodePrefixes);
     const areas = arr(bz.serviceAreas).filter((x) => typeof x === 'string');
-    const b = [H('Areas we cover')];
+    const b = [H('Check service availability'), P('Coverage depends on your postcode and job. If a partner installer is proposed, their availability and the installation arrangements must be confirmed before a visit is agreed.')];
     if (pc && prefixes.length && typeof VX.coversPostcode === 'function') {
       b.push(P(VX.coversPostcode(pc, prefixes) ? ['Yes. ', B(pc), ' is in our usual area.'] : [B(pc), ' may be outside our usual area. Send us a message and we’ll check.']));
     } else if (areas.length) {
@@ -584,8 +584,8 @@
     const b = [H('Accreditations and certificates')];
     if (list.length) b.push(P(`We’re registered with ${joinAnd(list)}.`));
     else b.push(P(`I can’t confirm scheme memberships${/\binsur/.test(q) ? ' or insurance details' : ''} from here, so please ask the team directly.`));
-    b.push(P('Replacement windows and doors must be certified under the Building Regulations. That’s done either by an installer registered with a Competent Person Scheme, such as FENSA or Certass, or through local authority building control.'));
-    b.push(P('Your quote confirms which route applies, and you get the certificate when the work is finished. Keep it, because a buyer’s solicitor will ask for it.'));
+    b.push(P('In England and Wales, relevant replacement work can use an appropriately registered installer or the applicable building-control route. Scotland and Northern Ireland have separate systems, and straightforward replacements may be exempt from application while still needing to meet standards.'));
+    b.push(P('Ask which route applies to your property, which documents are required, and whether any proposed partner installer holds the relevant registration. Keep the documents for your records.'));
     return {
       k: 'accreditation',
       b,
@@ -600,7 +600,7 @@
     const mths = Number(g.repairMonths) || 0;
     const b = [H('Guarantees')];
     const items = [];
-    if (yrs) items.push([B(`New windows and doors: ${yrs} years. `), `Covers defects in manufacture and workmanship from completion${g.insuranceBacked ? '. It’s insurance-backed, so it still stands if we stop trading' : ''}.`]);
+    if (yrs) items.push([B(`New windows and doors: ${yrs} years. `), `Covers defects in manufacture and workmanship from completion${g.insuranceBacked ? '. Insurance-backed protection applies only where a policy is issued for your installation, subject to its terms and exclusions; ask for the provider and cover details' : ''}.`]);
     if (mths) items.push([B(`Repairs: ${mths} months. `), 'Covers the parts we supply and fit, and our workmanship on that repair.']);
     if (items.length) b.push(UL(items));
     else if (f) b.push(P(f.a));
@@ -744,7 +744,7 @@
           H('Double or triple glazing?'),
           P(f ? f.a : 'Modern double glazing with Low-E glass, argon gas and warm-edge spacers meets current regulations and suits most homes. Triple glazing keeps in more heat and can cut more noise, but the units are heavier and cost more.'),
           TBL(['', 'Double', 'Triple'], [
-            ['Heat', 'Meets Part L (1.4 W/m²K or better, or WER band B)', 'Keeps in more heat'],
+            ['Heat', 'England Part L guidance: 1.4 W/m²K or better, or WER B; other nations differ', 'Keeps in more heat'],
             ['Noise', 'Fine for most homes', 'Can cut more noise'],
             ['Weight', 'Lighter', 'Heavier units'],
             ['Price', 'Lower', 'Higher'],
