@@ -28,7 +28,7 @@ Kyun Cloudflare?
 | `accreditations` | Khali | Sirf tab likhein jab aap waqai registered hon, jaise `[{"name": "FENSA Approved Installer", "url": "https://www.fensa.org.uk"}]` |
 | `testimonials` | Khali | Sirf asli customers ke reviews likhein (format README mein hai) |
 
-> ⚠️ UK qanoon ke mutabiq website par trader ka **naam aur asal (geographic) address** dena zaroori hai. `site.json` mein `company.legalName` aur `contact.address` (ya `company.registeredOffice`) zaroor bharein.
+> Business identity aur legal details owner se confirm karein. Sirf owner-approved public business address publish karein; private residential address website, JSON-LD, chatbot ya llms.txt mein na daalein. Address khali ho to Google LocalBusiness rich-result eligibility assume na karein.
 
 > ⚠️ Website par jhooti claims (fake reviews, FENSA bina registration ke, ghalat guarantee) UK mein **Consumer Protection** ke qanoon ke khilaf hain. Isliye ye fields khali chhori gayi hain.
 

@@ -8,6 +8,7 @@ export const guides = [
     metaDescription: 'How to measure windows and doors for a uPVC quote: which widths and heights to take, the photos to send, and how to enter sizes in our online quote builder.',
     summary: 'Two measurements per window, a few photos and a note of the room. That is enough for a useful estimate before we survey.',
     date: '2026-09-14',
+    updated: '2026-10-27',
     read: '4 min',
     tag: 'Getting a quote',
     body: `
@@ -32,9 +33,11 @@ export const guides = [
 <ul><li>Each window or door from <strong>outside</strong>, square on, with the whole frame in shot</li><li>The same window from <strong>inside</strong>, showing the window board, blinds and any radiator underneath</li><li>For doors, a close-up of the lock edge and the threshold</li><li>For bays, one photo from a few steps back so we can see the angles</li></ul>
 <h2>6. Enter your sizes in the quote builder</h2>
 <p>Our <a href="/quote/">online quote builder</a> shows a drawing of each window or door. Type the width and height straight onto the drawing, then choose the product, opening side, glass, trickle vents and colour. The drawing is viewed from outside and redraws as you type. The dashed lines meet at the hinge side, so you can check the opening is right before you add it to your list.</p>
-<p>Repeat for each window and door. When the list is complete, send it to us on WhatsApp as one numbered schedule, with the total area worked out for you. Attach your photos in the same chat. Not sure of a size? Leave it blank and add a note.</p>
+<p>Repeat for each window and door. When the list is complete, send it to us on WhatsApp as one numbered schedule, with the total area worked out for you. Attach your photos in the same chat. If you are not sure of a dimension, leave it blank and add a note: the schedule marks the size as “to be confirmed”. You can also <a href="/book/?type=survey">request a free survey</a> if you cannot measure safely. These are estimate sizes, not manufacturing sizes.</p>
 <h2>Common mistakes</h2>
-<ul><li>Measuring in centimetres or inches</li><li>Including the cill in the height</li><li>Measuring one side only. Old openings are rarely square.</li><li>Rounding up. If in doubt, round down to the nearest 5 mm.</li></ul>
+<ul><li>Measuring in centimetres or inches</li><li>Including the cill in the height</li><li>Measuring one side only. Old openings are rarely square.</li><li>Rounding measurements or subtracting fitting allowances. Record the readings in millimetres; the survey establishes the final manufacturing sizes.</li></ul>
+<h2>What to include when comparing quotes</h2>
+<p>Keep the same opening layout, colour on each side, glass and hardware on each quote. Note the room and floor, any side panels, and whether a cill or threshold is included. Different options can change the specification even when the outside measurements match. Compare <a href="/windows/">window styles</a> and <a href="/doors/">door types</a> before sending your schedule.</p>
 <h2>Why we still survey</h2>
 <p>Openings are rarely square. Lintels and bays may carry load. The rules on escape, ventilation and safety glass all affect the final specification. A short survey at your home lets us confirm every size and detail before anything is made. The fixed price is then confirmed on your written quote.</p>
 <div class="callout">Ready to start? Open the <a href="/quote/">quote builder</a>, or see our <a href="/windows/">windows</a> and <a href="/doors/">doors</a> first.</div>`,
@@ -79,6 +82,7 @@ export const guides = [
   {
     slug: 'building-regulations-for-replacement-windows',
     title: 'Replacement windows and Building Regulations: a homeowner’s guide',
+    seoTitle: 'Replacement windows: Building Regulations in England',
     metaDescription: 'The Building Regulations for replacement windows and doors in England: Part L energy, Part F trickle vents, Part K safety glass, Part B escape, and sign-off.',
     summary: 'Energy, ventilation, safety glass and escape, plus the certificate your buyer’s solicitor will ask for when you sell.',
     date: '2026-08-20',
