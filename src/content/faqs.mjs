@@ -394,7 +394,7 @@ export const faqGroups = [
     items: [
       {
         q: 'What guarantee do I get?',
-        a: 'New installations come with our written installation guarantee, and repairs with a parts-and-labour guarantee. The length and full terms are on your quotation and guarantee certificate, and our guarantee page explains what is and isn’t covered. Your statutory rights are not affected.',
+        a: 'New windows and doors come with a 10-year product guarantee, with its exact components, exclusions and claim process provided in writing before you agree to the work. Installation workmanship and any repair warranty are separate and must be confirmed on the quotation. There is currently no insurance-backed guarantee policy in place. Your statutory rights are not affected.',
         k: [
           'guarantee', 'guarantees', 'guaranteed', 'warranty', 'warranties', 'how long guarantee', 'guarantee length', 'years guarantee', '10 year guarantee',
           'ten year guarantee', 'insurance backed', 'insurance-backed', 'ibg', 'guarantee certificate', 'what is covered', 'guarentee', 'gaurantee',
@@ -404,7 +404,7 @@ export const faqGroups = [
       },
       {
         q: 'What if something goes wrong after fitting?',
-        a: 'Contact us by phone, WhatsApp or email with your address, a short description and photos or a video. We’ll arrange a visit and, if it’s covered, put it right under your guarantee.',
+        a: 'Contact us by phone, WhatsApp or email with your job reference, a short description and photos or a video. We will check the applicable written product, fitting or repair terms and explain the next steps for inspecting and resolving the issue.',
         k: [
           'problem after', 'went wrong', 'gone wrong', 'complaint', 'complain', 'aftercare', 'after care', 'issue', 'fault', 'defect', 'defective',
           'snagging', 'snag', 'after installation', 'after fitting', 'problem with new windows', 'new door problem', 'claim',
