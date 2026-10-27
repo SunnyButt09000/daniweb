@@ -2,6 +2,18 @@
 
 **27 October 2026 — PARTIAL; not approved for production.** Tracks [Issue #7](https://github.com/SunnyButt09000/daniweb/issues/7) and the [technical handoff](CODEX-LEADS-CLOUDFLARE-HANDOFF.md). The owner's latest instruction authorises free, isolated staging resources. It does not authorise production changes or DNS changes.
 
+## Email follow-up: owner-selected destination
+
+The owner subsequently supplied the notification/forwarding destination privately and authorised requesting Cloudflare verification. The destination was created successfully through the authenticated Email Routing API (HTTP 200), which requested the verification message. At the latest check its `verified` field was still null: the owner must click the link in that inbox. The address, destination identifier and populated forwarding/binding configuration are deliberately absent from GitHub.
+
+The exact-match `info@veltrixwindowsdoor.co.uk` forwarding payload and a staging-only, destination-restricted `NOTIFY_OPS` configuration have been prepared privately. Neither has been activated. No catch-all forwarding is proposed. The current disabled catch-all/drop rule is preserved.
+
+Cloudflare's read-only Email Routing DNS endpoint returned five required records: three apex MX records for its route1/route2/route3 mail servers, apex SPF TXT and DKIM TXT at `cf2024-1._domainkey`. Public DNS preflight found no existing apex MX or SPF. A concrete private approval plan contains Cloudflare's exact record values and rollback. **Explicit owner approval is pending before these production email DNS additions.** Website records, Worker domains/routes and production lead collection remain unchanged.
+
+The existing OAuth session can inspect Email Routing settings, but the generic DNS-record-list endpoint returned HTTP 403 / code 10000. This does not mean that DNS was modified or that generic DNS write access exists. No extra credentials were requested. Any approved onboarding must use the authorised email-specific operation and stop if it requires unrelated records, deletion of existing settings, an additional sending-domain DNS set or a paid upgrade.
+
+After recipient verification and approved sender-domain readiness, the prepared private staging configuration can be deployed and real notification tests resumed. At present neither actual inbox delivery nor a real challenge-to-D1 receipt is newly claimed. The initial test evidence below remains explicitly separated from these pending checks.
+
 ## What exists
 
 | Component | Observed/configured state |
@@ -70,7 +82,7 @@ An optional custom CPU-limit setting was rejected with Cloudflare error **100328
 
 ## Remaining owner actions and review gates
 
-1. Identify the existing business inbox to verify and receive **synthetic** notifications, plus an already eligible sender domain/service if one exists. Recipient verification alone does not establish sender eligibility. If none exists, separately approve the specific free sender-domain/DNS setup before any such change; this task made none. Do not send credentials in chat or GitHub.
+1. Click the verification link requested for the privately supplied destination, then approve or decline the prepared five-record Email Routing DNS plan. Recipient verification alone does not establish sender eligibility. If additional sender-domain/DNS setup is needed beyond that plan, obtain separate approval; no DNS changes have been made. Do not send credentials in chat or GitHub.
 2. Complete a real Turnstile challenge through the private staging page in a supported browser. Then submit a synthetic lead and confirm a 201 receipt against authenticated D1. Obtain a fresh challenge and repeat the unchanged UUID; confirm the same receipt and one database record. Replayed tokens must fail. Check hostname and `action=lead` remain enforced.
 3. After sender and recipient eligibility are confirmed, add a private restricted `send_email` binding named `NOTIFY_OPS` with one verified `destination_address`, and private `OPS_EMAIL` / `FROM_EMAIL`. Deploy **only staging**. Confirm accepted status, inspect the actual inbox/spam, force a controlled failure, restore service, invoke retry and confirm recovery without duplicate leads.
 4. Review the privacy wording, lawful basis, access owners, deletion process and the existing **planned 730-day retention** before any real customer collection. This PR preserves that planned policy rather than silently replacing it. EU D1 jurisdiction is not a claim that every Cloudflare processing operation occurs only in the EU.
