@@ -44,6 +44,8 @@
 
   "guarantee": {
     "productYears": 10,
+    "productGuarantor": "manufacturer",
+    "manufacturerName": "",
     "repairMonths": 0,
     "insuranceBacked": false
   },
