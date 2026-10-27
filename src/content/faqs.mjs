@@ -85,6 +85,16 @@ export const faqGroups = [
           'payment kaise', 'paise kaise', 'qist', 'qiston', 'qiston mein',
         ],
       },
+
+      {
+        q: 'Why is a supply-only online window price cheaper than a fitted quote?',
+        a: 'A supply-only advertised price usually covers the specified product rather than a complete job. Before comparing it with a fitted quotation, check the exact dimensions, glazing, colour, VAT, delivery, surveys, removal of old frames, installation labour, building-control or certification costs, and separate product and workmanship warranty terms. Veltrix prepares a written quotation after checking your product requirements, postcode and any fitting availability; an online quote request is not a confirmed installed price.',
+        k: [
+          'supply only price', 'supply-only window', 'why expensive', 'compare window quotes',
+          'fitted window price', 'installation included', 'cheap upvc windows', 'online window price',
+          'vat included', 'delivery included', 'supply and fit quote', 'window cost comparison',
+        ],
+      },
     ],
   },
   {
@@ -157,6 +167,25 @@ export const faqGroups = [
         k: [
           'weekend', 'weekends', 'saturday', 'saturdays', 'sunday', 'sundays', 'evening', 'evenings', 'after work', 'opening hours', 'opening times',
           'working days', 'working hours', 'bank holiday', 'days you work', 'chutti', 'chutti wale din', 'itwar', 'hafta', 'sunday ko',
+        ],
+      },
+
+      {
+        q: 'Can Veltrix arrange installation in different UK cities?',
+        a: 'We can review enquiries from different UK cities and may be able to arrange fitting through a partner installer. Send your postcode, what you need and rough sizes or photos. We must first check the job, actual partner coverage and survey availability; fitting is not guaranteed in every postcode and no appointment is confirmed until the team agrees it.',
+        k: [
+          'uk wide', 'uk-wide', 'nationwide', 'across the uk', 'different cities', 'other cities', 'where do you cover',
+          'do you cover my area', 'outside manchester', 'local installers', 'installation coverage', 'fitting coverage',
+          'service area', 'postcode check', 'near me', 'partner installer', 'partner fitters',
+        ],
+      },
+      {
+        q: 'Who will install my windows or doors?',
+        a: 'Depending on your postcode and job, we may propose a partner installer. Before you agree to work, ask the team to confirm who surveys and fits, the applicable registration or building-control arrangements, the written quote, and who handles guarantees and aftercare. Do not assume every installer has the same qualifications.',
+        k: [
+          'who fits', 'who installs', 'who will fit', 'who are the fitters', 'installer', 'installers',
+          'partner fitting', 'partner installers', 'subcontractor', 'subcontractors', 'fitter qualifications',
+          'certification', 'fensa partner', 'certass partner', 'installation team', 'outsourced installation',
         ],
       },
     ],
@@ -375,7 +404,7 @@ export const faqGroups = [
     items: [
       {
         q: 'What guarantee do I get?',
-        a: 'New installations come with our written installation guarantee, and repairs with a parts-and-labour guarantee. The length and full terms are on your quotation and guarantee certificate, and our guarantee page explains what is and isn’t covered. Your statutory rights are not affected.',
+        a: 'The manufacturer provides a 10-year guarantee on new window and door products. The selected manufacturer’s identity, covered components, exclusions and claim process must be given in writing before you agree to the work. Installation workmanship and any repair warranty are separate and must be confirmed on the quotation. There is currently no insurance-backed guarantee policy in place. Your statutory rights are not affected.',
         k: [
           'guarantee', 'guarantees', 'guaranteed', 'warranty', 'warranties', 'how long guarantee', 'guarantee length', 'years guarantee', '10 year guarantee',
           'ten year guarantee', 'insurance backed', 'insurance-backed', 'ibg', 'guarantee certificate', 'what is covered', 'guarentee', 'gaurantee',
@@ -383,9 +412,20 @@ export const faqGroups = [
           'guarantee kitni', 'warranty kitni', 'kitni guarantee', 'kitne saal', 'kitne saal ki',
         ],
       },
+
+      {
+        q: 'Does the 10-year manufacturer guarantee cover fitting and labour?',
+        a: 'Not automatically. The manufacturer provides a 10-year guarantee on new products under the selected product’s written conditions. Fitting workmanship, labour costs, any repair warranty and any insurance-backed protection are separate matters. Veltrix has not arranged an insurance-backed guarantee policy. Before you accept a quote, check the named manufacturer, covered components, exclusions and who handles fitting issues and claims.',
+        k: [
+          'manufacturer guarantee vs installer guarantee', 'product guarantee and fitting',
+          '10 year labour warranty', 'ten year workmanship', 'does warranty include fitting',
+          'manufacturer warranty labour', 'insurance backed guarantee', 'installation warranty',
+          'who pays for fitting faults', 'manufacturer vs fitter',
+        ],
+      },
       {
         q: 'What if something goes wrong after fitting?',
-        a: 'Contact us by phone, WhatsApp or email with your address, a short description and photos or a video. We’ll arrange a visit and, if it’s covered, put it right under your guarantee.',
+        a: 'Contact us by phone, WhatsApp or email with your job reference, a short description and photos or a video. We will check the applicable written product, fitting or repair terms and explain the next steps for inspecting and resolving the issue.',
         k: [
           'problem after', 'went wrong', 'gone wrong', 'complaint', 'complain', 'aftercare', 'after care', 'issue', 'fault', 'defect', 'defective',
           'snagging', 'snag', 'after installation', 'after fitting', 'problem with new windows', 'new door problem', 'claim',

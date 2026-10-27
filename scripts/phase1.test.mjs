@@ -30,7 +30,10 @@ test('installation and enquiry journeys require coverage and partner checks', ()
   assert.match(installation, /England/);
   assert.match(installation, /Scotland/);
   assert.match(installation, /Northern Ireland/);
-  assert.match(read('guarantee/index.html'), /policy is issued/);
+  const warranty = read('guarantee/index.html');
+  assert.match(warranty, /New product guarantee/);
+  assert.match(warranty, /No insurance-backed guarantee policy is currently in place/);
+  assert.doesNotMatch(warranty, /12-month repair guarantee|Installation guarantee/);
   assert.doesNotMatch(read('assets/js/assistant.js'), /It’s insurance-backed, so it still stands/);
 });
 

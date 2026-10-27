@@ -1,0 +1,32 @@
+name: Veltrix SEO and GEO/AEO verification
+
+on:
+  pull_request:
+    branches:
+      - claude/upvc-windows-doors-site-jj8slj
+      - codex/veltrix-phase1-uk-seo
+      - chatgpt/veltrix-geo-aeo-phase1-20261027
+  push:
+    branches:
+      - chatgpt/veltrix-geo-aeo-phase1-20261027
+      - chatgpt/veltrix-lead-receipt-pilot-20261027
+
+permissions:
+  contents: read
+
+jobs:
+  site-check:
+    name: Build and SEO regression tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run website build and regression tests
+        run: npm run check
+      - name: Check for uncommitted build changes
+        run: git diff --exit-code -- src/data/lastmod.json
