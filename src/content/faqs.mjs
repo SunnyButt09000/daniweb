@@ -12,7 +12,7 @@ export const faqGroups = [
     items: [
       {
         q: 'How much do uPVC windows cost?',
-        a: 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list that could mislead you. For a quick estimate, use the online quote builder or send sizes and photos on WhatsApp. We then confirm a fixed price in writing after a free survey.',
+        a: 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list that could mislead you. For a quick estimate, use the online quote builder or send sizes and photos on WhatsApp. The written price follows confirmed specifications and any necessary survey. Check survey availability and any charges before booking.',
         k: [
           'price', 'prices', 'pricing', 'cost', 'costs', 'how much', 'expensive', 'cheap', 'cheapest', 'affordable', 'rate', 'rates',
           'per window', 'price per window', 'cost per window', 'price list', 'ballpark', 'rough price', 'rough cost', 'estimate', 'budget',
@@ -23,7 +23,7 @@ export const faqGroups = [
       },
       {
         q: 'Are the survey and quote really free?',
-        a: 'Yes. Surveys and written quotations for new windows and doors are free, and there’s no obligation to go ahead. You won’t be asked to sign on the day.',
+        a: 'Ask us to confirm whether a free survey or quotation is available for your postcode and job. Availability, survey or travel charges and any repair diagnostic fee must be agreed before a visit. An enquiry does not reserve a free visit or commit you to an order.',
         k: [
           'free survey', 'free quote', 'free quotation', 'free estimate', 'free visit', 'no obligation', 'obligation', 'charge for quote', 'charge for survey',
           'survey cost', 'survey fee', 'pay for survey', 'pay for quote', 'quote fee', 'is it free', 'hard sell', 'pressure', 'sign on the day',
@@ -32,7 +32,7 @@ export const faqGroups = [
       },
       {
         q: 'Can I get a price over WhatsApp?',
-        a: 'Yes. Send the rough width and height of each window or door, the style you want and a photo of each one from outside. We reply with an estimate, then book a free survey to confirm the exact price.',
+        a: 'Yes. Send the rough width and height of each window or door, the style you want and a photo of each one from outside. Ask for an estimate and check survey availability and any charges. A final quotation depends on the specification and any necessary technical survey.',
         k: [
           'whatsapp', 'whats app', 'watsapp', 'whatsap', 'watsap', 'send photos', 'send pictures', 'photo', 'photos', 'picture', 'pictures', 'pics', 'video',
           'quick quote', 'quick price', 'price by text', 'text you', 'message', 'quote by message', 'quote without visit', 'remote quote',
@@ -146,7 +146,7 @@ export const faqGroups = [
       },
       {
         q: 'Will you damage my plaster or window boards?',
-        a: 'We take the old frames out carefully to keep damage to a minimum, but older plaster can sometimes come away. Sealing and trims inside are included as standard. Any extra plastering or decorating is discussed and quoted at the survey.',
+        a: 'Removing frames can disturb plaster, trims and decoration. Ask the actual installer to confirm sealing, trims, making-good and any decorating or waste charges in the written quote before work is agreed.',
         k: [
           'plaster', 'plastering', 'damage', 'damage walls', 'wall damage', 'window board', 'window boards', 'window sill', 'inside sill', 'decorating',
           'decoration', 'making good', 'make good', 'trims', 'trim', 'render', 'brickwork', 'plastr', 'deewar',
@@ -375,7 +375,7 @@ export const faqGroups = [
       },
       {
         q: 'Can you replace just the glass and keep the frame?',
-        a: 'Yes, as long as the frame is in good order. We can replace a cracked, broken or misted sealed unit on its own, or swap clear glass for obscure, acoustic or safety glass. We measure the unit, have a new one made to size and usually fit it in under an hour. Where safety glass is needed, such as in a door or within 800 mm of the floor, we fit toughened or laminated glass.',
+        a: 'If the frame is sound, a cracked, broken or misted sealed unit may be replaced separately, with options such as obscure, acoustic or safety glass. The unit needs measuring and the specification, fitting arrangements and any charges must be agreed after checking access and availability. Where safety glass is required, the actual installer must confirm the applicable rules for the property and UK nation.',
         k: [
           'just the glass', 'glass only', 'only the glass', 'keep the frame', 'keep frame', 'without new frame', 'replace glass only', 'replace the glass',
           'new glass', 'new glass unit', 'glass unit', 'dg unit', 'replacement unit', 'upgrade glass', 'change glass',

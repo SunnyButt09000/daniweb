@@ -80,7 +80,7 @@ export const products = [
     category: 'windows',
     name: 'Tilt & turn windows',
     short: 'Tilts in to ventilate, swings in to clean. A practical choice for flats and upper floors.',
-    metaDescription: 'uPVC tilt and turn windows made to measure. Tilt in to ventilate, open fully inward to clean or escape. Suits flats, upper floors and walkways. Free survey.',
+    metaDescription: 'uPVC tilt and turn windows made to measure. Tilt in to ventilate, open fully inward to clean or escape. Suits flats, upper floors and walkways. Check survey availability and charges.',
     lead: 'A tilt & turn window has one handle and two opening positions. In one, the sash tilts in at the top for ventilation. In the other, it swings into the room on side hinges like a door. That makes it the practical choice for flats, upper floors and anywhere the outside glass is hard to reach.',
     body: [
       'Because the sash opens inwards, nothing projects over a walkway, balcony or a neighbour’s garden. A large tilt & turn sash also gives a generous clear opening, so it is often used as an escape window.',
@@ -142,7 +142,7 @@ export const products = [
     category: 'windows',
     name: 'Bay & bow windows',
     short: 'Three to six facets that catch light from several sides. Structure checked at survey.',
-    metaDescription: 'Replacement uPVC bay and bow windows. We check whether the old bay carries load and fit support poles where needed. Casement, flush or sash facets. Free survey.',
+    metaDescription: 'Replacement uPVC bay and bow windows. We check whether the old bay carries load and fit support poles where needed. Casement, flush or sash facets. Check survey availability and charges.',
     lead: 'A bay window projects from the wall in angled facets, usually three. A bow uses four or more shallower facets to form a gentle curve. Both add light and a little floor space, and both need careful surveying, because the old frames often carry part of the structure above.',
     body: [
       'In many older homes the original timber bay is load-bearing. It may support a bay roof, a bedroom bay or brickwork above. uPVC frames are not designed to carry that weight, so where it is needed we fit bay support poles inside the corner couplings to take the load down to the cill or brickwork below. They go in before the old frames come out. Skipping this step leads to cracked frames, sagging heads and sashes that will not close.',
@@ -172,7 +172,7 @@ export const products = [
     category: 'windows',
     name: 'Horizontal sliding windows',
     short: 'Sashes slide sideways, so nothing swings in or out. Useful by walkways and over worktops.',
-    metaDescription: 'uPVC horizontal sliding windows for walkways, balconies and kitchens. Sashes slide sideways, so nothing projects in or out. 2- and 3-pane layouts. Free survey.',
+    metaDescription: 'uPVC horizontal sliding windows for walkways, balconies and kitchens. Sashes slide sideways, so nothing projects in or out. 2- and 3-pane layouts. Check survey availability and charges.',
     lead: 'A horizontal sliding window moves sideways on a track, so it takes up no space inside the room or outside the wall. That makes it useful beside walkways and balconies, over kitchen worktops, and anywhere a swinging sash would get in the way.',
     body: [
       'Sliders are less common in UK houses than casements, but they make sense in a few specific places. They are also easier for anyone who struggles to lean across a deep worktop and push a sash open.',
@@ -201,7 +201,7 @@ export const products = [
     category: 'windows',
     name: 'Shaped & feature windows',
     short: 'Arches, apexes, circles and picture windows. Templated to your opening.',
-    metaDescription: 'Shaped uPVC windows templated to your opening. Arched heads, gable apexes, circles and large picture windows, matched to the rest of your windows. Free survey.',
+    metaDescription: 'Shaped uPVC windows templated to your opening. Arched heads, gable apexes, circles and large picture windows, matched to the rest of your windows. Check survey availability and charges.',
     lead: 'Arched heads, gable-end apexes, circular feature windows and large fixed panes are all possible in uPVC. Shaped frames are bent or cut and welded to a template taken from your opening, so they follow the brickwork rather than approximating it.',
     body: [
       'Large fixed windows are usually combined with opening lights below or beside them. That way the room can still be ventilated, and the outside glass can be cleaned safely.',
@@ -232,7 +232,7 @@ export const products = [
     category: 'doors',
     name: 'uPVC front & back doors',
     short: 'Reinforced entrance doors with multipoint locks. Anti-snap cylinders as standard.',
-    metaDescription: 'uPVC front and back doors with multipoint locks and TS 007 3-star or SS 312 Diamond cylinders. Choice of panels, glass and colours. Free survey and quote.',
+    metaDescription: 'uPVC front and back doors with multipoint locks and TS 007 3-star or SS 312 Diamond cylinders. Choice of panels, glass and colours. Check survey availability and charges.',
     lead: 'A uPVC door is the dependable, good-value choice for front, back and side entrances. A steel-reinforced frame, a full-height multipoint lock and an anti-snap cylinder make it hard to force, and there is a wide choice of panel designs, glass and colours.',
     body: [
       'Every door we fit has a multipoint lock that throws hooks, bolts or rollers into the frame along the locking edge. We specify anti-snap cylinders rated TS 007 3-star or SS 312 Diamond. Letterplates, spy-holes, knockers and numerals can be added, and low thresholds are available for step-free access.',
@@ -294,7 +294,7 @@ export const products = [
     category: 'doors',
     name: 'French doors',
     short: 'A pair of glazed doors with no centre post. Opens wide onto the garden.',
-    metaDescription: 'uPVC French doors for gardens and patios. Opening outwards or inwards, with a multipoint lock, shoot bolts and side panels for wider openings. Free survey.',
+    metaDescription: 'uPVC French doors for gardens and patios. Opening outwards or inwards, with a multipoint lock, shoot bolts and side panels for wider openings. Check survey availability and charges.',
     lead: 'French doors are a pair of glazed doors that open from the centre with no post between them, giving a wide opening onto the garden. As a rough guide they suit openings from about 1,200 mm to 1,800 mm wide. Side panels can make up the width in a larger opening.',
     body: [
       'One leaf is the main door, with the handle and multipoint lock. The other is the secondary leaf, held by shoot bolts into the head and threshold. Open the main leaf on its own for everyday use, or both for a wide opening.',
@@ -324,7 +324,7 @@ export const products = [
     category: 'doors',
     name: 'Sliding patio doors',
     short: 'Large glass panels that slide on tandem rollers. No space needed for doors to swing.',
-    metaDescription: 'uPVC in-line sliding patio doors with large glass panels, tandem rollers and anti-lift multipoint locking. 2, 3 and 4 panel layouts. Free survey and quote.',
+    metaDescription: 'uPVC in-line sliding patio doors with large glass panels, tandem rollers and anti-lift multipoint locking. 2, 3 and 4 panel layouts. Check survey availability and charges.',
     lead: 'In-line sliding patio doors use large glazed panels that slide past each other on tandem rollers. You get a wide view and easy access without needing room for doors to swing, which helps where furniture sits close to the glass.',
     body: [
       'Two-panel doors are the most common. Three- and four-panel layouts suit wider openings, with one or two sliding panels. Multipoint hook locks and anti-lift blocks stop a sliding panel being lifted off its track.',
@@ -353,7 +353,7 @@ export const products = [
     category: 'doors',
     name: 'Bi-fold doors',
     short: 'Panels that fold and stack to open almost a whole wall. A traffic door for daily use.',
-    metaDescription: 'uPVC bi-fold doors for extensions and garden rooms. Panels fold to one or both sides, with a traffic door for daily use and low threshold options. Free survey.',
+    metaDescription: 'uPVC bi-fold doors for extensions and garden rooms. Panels fold to one or both sides, with a traffic door for daily use and low threshold options. Check survey availability and charges.',
     lead: 'Bi-fold doors are a run of hinged panels that fold concertina-style and stack to one or both sides, opening almost the full width of the frame. A traffic door lets you use one panel as an everyday door without folding the rest.',
     body: [
       'uPVC bi-folds are an affordable way to open up an extension. They do have thicker frames than aluminium, and there are limits on panel size. For very wide openings, or where you want the slimmest sightlines, aluminium bi-folds may suit better. We will tell you which fits your opening and budget.',
@@ -382,7 +382,7 @@ export const products = [
     category: 'doors',
     name: 'Stable doors',
     short: 'A door split into top and bottom leaves. Fresh air in, children and pets kept in.',
-    metaDescription: 'uPVC and composite stable doors with top and bottom leaves that open together or separately. Multipoint locking on both leaves. Free survey and written quote.',
+    metaDescription: 'uPVC and composite stable doors with top and bottom leaves that open together or separately. Multipoint locking on both leaves. Check survey availability and charges.',
     lead: 'A stable door is split horizontally into two leaves that open together as one door or separately. Open the top for fresh air and light while the bottom keeps children and pets inside. It is a long-standing favourite for kitchens and cottages.',
     body: [
       'Each leaf has its own locking, and the two are joined together when closed, so a stable door is as secure as a standard entrance door when correctly specified. Ask how the leaves connect and how many keys you will need, because this varies between systems.',
@@ -417,7 +417,7 @@ export const categories = {
   doors: {
     name: 'Doors',
     title: 'uPVC & composite doors',
-    metaDescription: 'uPVC and composite front doors, French doors, sliding patio doors, bi-folds and stable doors. Multipoint locks and anti-snap cylinders. Free survey and quote.',
+    metaDescription: 'uPVC and composite front doors, French doors, sliding patio doors, bi-folds and stable doors. Multipoint locks and anti-snap cylinders. Check survey availability and charges.',
     lead: 'Front and back doors, garden doors and stable doors, with multipoint locks, anti-snap cylinders and safety glass as standard.',
   },
 };

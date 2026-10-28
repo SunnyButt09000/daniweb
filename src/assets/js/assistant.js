@@ -664,14 +664,14 @@
       const n = lc(p.name);
       return {
         k: 'price:product',
-        b: [H(`Prices for ${n}`), P('We don’t publish a price list. Size, glass, colour and hardware all change the price, so a list would mislead you.'), P(`Add your ${n} to the quote builder with rough sizes and send it to us. We reply with an estimate, then confirm a fixed price in writing after a free survey.`), ACT(bGo(`Price ${n}`, `/quote/?item=${p.slug}`))],
+        b: [H(`Prices for ${n}`), P('We don’t publish a price list. Size, glass, colour and hardware all change the price, so a list would mislead you.'), P(`Add your ${n} to the quote builder with rough sizes and send it to us. Ask for an estimate, then check survey availability and any charges before confirming the specification and written price.`), ACT(bGo(`Price ${n}`, `/quote/?item=${p.slug}`))],
         c: [CA('Quick quote here', `flow:quote:${p.slug}`), C('How do I measure?'), CL(`About ${n}`, p.url)],
       };
     }
     const f = faqBy(/how much/i);
     return {
       k: 'price',
-      b: [H('Prices'), P(f ? f.a : 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list. Use the quote builder or send sizes and photos on WhatsApp for an estimate. We confirm a fixed price in writing after a free survey.'), ACT(bGo('Open the quote builder', '/quote/'))],
+      b: [H('Prices'), P(f ? f.a : 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list. Use the quote builder or send sizes and photos on WhatsApp for an estimate. Check survey availability and any charges before confirming the specification and written price.'), ACT(bGo('Open the quote builder', '/quote/'))],
       c: [CA('Quick quote here', 'flow:quote'), C('How do I measure?'), C('Is the survey free?', 'Are the survey and quote really free?'), CW('Ask on WhatsApp', hi('I’d like a rough price for '))],
     };
   }
@@ -1135,7 +1135,7 @@
     survey: {
       title: 'survey request',
       head: 'Book a survey',
-      intro: 'Surveys and written quotes for new windows and doors are free, with no obligation. A few questions, then I’ll put your request into a WhatsApp message. Type Cancel at any time.',
+      intro: 'Check survey availability and any charges for your postcode and job before agreeing a visit. A few questions, then I’ll put your enquiry into a WhatsApp message. Type Cancel at any time.',
       steps: [
         { key: 'what', ask: 'What’s the survey for?', opts: () => ['New windows', 'New doors', 'Windows and doors', 'Replacement glass', 'A repair instead'] },
         { key: 'count', ask: (d) => `Roughly how many ${noun(d)}?`, opts: () => COUNT },

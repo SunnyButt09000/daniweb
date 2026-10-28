@@ -676,7 +676,7 @@
       };
       const footer = (c) => {
         c.fillStyle = LINE; c.fillRect(M, PH - 110, PW - 2 * M, 1);
-        T(c, 'Sizes are customer measurements and will be confirmed at a free survey. This is a request for a quotation, not a price.', M, PH - 76, '400 16px "IBM Plex Sans"', SLATE);
+        T(c, 'Estimate sizes only. Confirm survey arrangements and any charges before booking; this request is not a price.', M, PH - 76, '400 16px "IBM Plex Sans"', SLATE);
         T(c, `${(VX.url || '').replace(/^https?:\/\//, '')} · WhatsApp ${VX.phoneDisplay || ''}`, M, PH - 46, '600 17px "IBM Plex Sans"', INK);
         T(c, 'Drawings viewed from outside · dashed lines meet at the hinge side', PW - M, PH - 46, '400 15px "IBM Plex Sans"', MUTED, 'right');
       };
@@ -1006,7 +1006,7 @@
      ===================================================== */
   const bookForm = document.getElementById('book-form');
   if (bookForm) {
-    const typeLabels = { survey: 'Free survey (new windows/doors)', repair: 'Repair visit', service: 'Servicing', other: 'Other enquiry' };
+    const typeLabels = { survey: 'Survey enquiry (new windows/doors)', repair: 'Repair visit', service: 'Servicing', other: 'Other enquiry' };
     const sync = () => {
       const t = bookForm.querySelector('[name="type"]:checked')?.value;
       bookForm.querySelectorAll('[data-show-for]').forEach((el) => (el.hidden = el.dataset.showFor !== t));
