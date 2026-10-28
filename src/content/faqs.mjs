@@ -12,7 +12,7 @@ export const faqGroups = [
     items: [
       {
         q: 'How much do uPVC windows cost?',
-        a: 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list that could mislead you. For a quick estimate, use the online quote builder or send sizes and photos on WhatsApp. We then confirm a fixed price in writing after a free survey.',
+        a: 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list that could mislead you. For a quick estimate, use the online quote builder or send sizes and photos on WhatsApp. The written price follows confirmed specifications and any necessary survey. Check survey availability and any charges before booking.',
         k: [
           'price', 'prices', 'pricing', 'cost', 'costs', 'how much', 'expensive', 'cheap', 'cheapest', 'affordable', 'rate', 'rates',
           'per window', 'price per window', 'cost per window', 'price list', 'ballpark', 'rough price', 'rough cost', 'estimate', 'budget',
@@ -23,7 +23,7 @@ export const faqGroups = [
       },
       {
         q: 'Are the survey and quote really free?',
-        a: 'Yes. Surveys and written quotations for new windows and doors are free, and there’s no obligation to go ahead. You won’t be asked to sign on the day.',
+        a: 'Ask us to confirm whether a free survey or quotation is available for your postcode and job. Availability, survey or travel charges and any repair diagnostic fee must be agreed before a visit. An enquiry does not reserve a free visit or commit you to an order.',
         k: [
           'free survey', 'free quote', 'free quotation', 'free estimate', 'free visit', 'no obligation', 'obligation', 'charge for quote', 'charge for survey',
           'survey cost', 'survey fee', 'pay for survey', 'pay for quote', 'quote fee', 'is it free', 'hard sell', 'pressure', 'sign on the day',
@@ -32,7 +32,7 @@ export const faqGroups = [
       },
       {
         q: 'Can I get a price over WhatsApp?',
-        a: 'Yes. Send the rough width and height of each window or door, the style you want and a photo of each one from outside. We reply with an estimate, then book a free survey to confirm the exact price.',
+        a: 'Yes. Send the rough width and height of each window or door, the style you want and a photo of each one from outside. Ask for an estimate and check survey availability and any charges. A final quotation depends on the specification and any necessary technical survey.',
         k: [
           'whatsapp', 'whats app', 'watsapp', 'whatsap', 'watsap', 'send photos', 'send pictures', 'photo', 'photos', 'picture', 'pictures', 'pics', 'video',
           'quick quote', 'quick price', 'price by text', 'text you', 'message', 'quote by message', 'quote without visit', 'remote quote',
@@ -103,7 +103,7 @@ export const faqGroups = [
     items: [
       {
         q: 'How long does it take to fit new windows?',
-        a: 'A typical window takes two to four hours to replace, so most houses are finished in one to three days. Bays, large doors and any structural work take longer. We give you a timetable before work starts.',
+        a: 'The time needed depends on the number and type of openings, access, frame condition, weather and any structural work. Ask the proposed installer for a job-specific programme after the survey. Enquiring about a date does not reserve an installation slot.',
         k: [
           'how long', 'how long to fit', 'how long to install', 'install time', 'installation time', 'fitting time', 'how many days', 'days', 'duration',
           'one day', 'fit in a day', 'installation take', 'hours per window', 'whole house', 'instalation', 'installtion',
@@ -112,7 +112,7 @@ export const faqGroups = [
       },
       {
         q: 'What is the lead time for new windows and doors?',
-        a: 'Everything is made to order after the final survey. Lead times depend on the product and colour, and standard white windows usually come through sooner than coloured frames or composite doors. We confirm the expected date on your quote and tell you if it changes.',
+        a: 'Manufacturing, delivery and fitting lead times vary with the product, specification, supplier and postcode. The team can check availability for your job; request written lead-time assumptions and an agreed schedule before accepting a quotation. A website enquiry is not an order.',
         k: [
           'lead time', 'lead times', 'leadtime', 'how soon', 'how quickly', 'wait', 'waiting time', 'waiting list', 'manufacture', 'manufacturing',
           'made to order', 'delivery', 'delivery time', 'weeks', 'how many weeks', 'start date', 'earliest date',
@@ -121,7 +121,7 @@ export const faqGroups = [
       },
       {
         q: 'Do I need to be at home during the installation?',
-        a: 'Someone over 18 should be in at the start and end of each day, so we can agree the plan and hand over. You don’t need to stay in the room while we work.',
+        a: 'Agree access and handover arrangements with the actual installer before the visit. Ask who must be present, how the property will be secured, and who signs off the completed work. Do not leave keys or allow unsupervised access unless your arrangements are clearly agreed.',
         k: [
           'be home', 'at home', 'be there', 'be present', 'present', 'stay in', 'stay home', 'go to work', 'out at work', 'access', 'keys', 'leave keys',
           'adult', 'ghar par', 'ghar pe rehna', 'ghar pe',
@@ -129,7 +129,7 @@ export const faqGroups = [
       },
       {
         q: 'Will there be a lot of mess?',
-        a: 'We lay dust sheets, protect floors and furniture, and tidy up at the end of each day. Some dust is unavoidable when old frames come out, so move delicate items away from the windows before we arrive.',
+        a: 'Replacing frames can create dust and may disturb surrounding plaster, trims or decoration. Ask the installer what protection, making-good and daily clean-up are included, who is responsible and whether any extra charges apply. These details should be on the written quote.',
         k: [
           'mess', 'messy', 'dust', 'dusty', 'dirt', 'dirty', 'clean up', 'tidy', 'tidy up', 'disruption', 'disruptive', 'dust sheets', 'protect floor',
           'furniture', 'carpet', 'curtains', 'blinds', 'gand', 'safai', 'mitti',
@@ -137,7 +137,7 @@ export const faqGroups = [
       },
       {
         q: 'Do you take away the old windows and doors?',
-        a: 'Yes. Removing and disposing of your old frames and glass, along with all the packaging, is part of our installation service. You don’t need to hire a skip.',
+        a: 'Old-frame removal, glass disposal and packaging collection are not automatically included in every quote. Ask for these items to be confirmed separately in the written specification and check whether any waste or skip charges are payable.',
         k: [
           'old frames', 'old windows', 'old doors', 'disposal', 'dispose', 'dispose of', 'remove old', 'removal', 'take away', 'take old windows',
           'rubbish', 'waste', 'skip', 'recycle', 'recycling', 'dispossal',
@@ -146,7 +146,7 @@ export const faqGroups = [
       },
       {
         q: 'Will you damage my plaster or window boards?',
-        a: 'We take the old frames out carefully to keep damage to a minimum, but older plaster can sometimes come away. Sealing and trims inside are included as standard. Any extra plastering or decorating is discussed and quoted at the survey.',
+        a: 'Removing frames can disturb plaster, trims and decoration. Ask the actual installer to confirm sealing, trims, making-good and any decorating or waste charges in the written quote before work is agreed.',
         k: [
           'plaster', 'plastering', 'damage', 'damage walls', 'wall damage', 'window board', 'window boards', 'window sill', 'inside sill', 'decorating',
           'decoration', 'making good', 'make good', 'trims', 'trim', 'render', 'brickwork', 'plastr', 'deewar',
@@ -154,11 +154,27 @@ export const faqGroups = [
       },
       {
         q: 'Can you fit windows in winter or when it’s raining?',
-        a: 'Yes. We fit all year round, and each new frame goes in as soon as the old one comes out, so each opening is exposed only briefly and the house keeps most of its heat. External sealant needs a dry surface, so in heavy rain or high winds we may change the order of work or move the date.',
+        a: 'Window installation may be possible in winter, but rain, wind, temperature and the chosen sealant can affect safety and quality. The actual installer should assess the conditions and agree whether to proceed or reschedule; no date is guaranteed by an initial enquiry.',
         k: [
           'winter', 'cold weather', 'fit in the rain', 'raining', 'rainy day', 'wet weather', 'bad weather', 'weather', 'snow', 'frost', 'freezing',
           'stormy', 'christmas', 'all year', 'time of year', 'best time', 'wintr',
           'barish', 'baarish', 'sardi', 'sardiyon', 'thand', 'mausam',
+        ],
+      },
+      {
+        q: 'How can I check a window installer before agreeing to work?',
+        a: 'Ask who will survey, supply, install and take payment, and which business is responsible if anything goes wrong. Ask how replacement work will be signed off under the rules applicable in England, Wales, Scotland or Northern Ireland. In England a relevant Competent Person Scheme registration or building control route may apply; independently verify any claimed registration. Request written product and workmanship warranty terms, insurance details where relevant and a named aftercare contact. A proposed partner registration is not automatically a Veltrix registration.',
+        k: [
+          'choose window installer', 'check fitter', 'check fensa', 'installer credentials',
+          'fitter certification', 'building control', 'trusted window installer', 'certass', 'competent person',
+        ],
+      },
+      {
+        q: 'What should be included in a written window and door quotation?',
+        a: 'Compare the same product sizes, materials, glazing, colours, hardware and number of openings. Ask for an itemised breakdown of product supply, survey, fitting, delivery, VAT, removal of old frames, making-good, certification and any travel charges. Check the expected dates, payment stages, cancellation terms, who contracts with you, and separate manufacturer product and installer workmanship guarantees. Do not assume a cheap supply-only price includes fitting or that a quote request confirms a booking.',
+        k: [
+          'written quote checklist', 'window quote included', 'what is included',
+          'compare quotations', 'itemised fitting quote', 'vat', 'waste removal', 'hidden costs',
         ],
       },
       {
@@ -359,7 +375,7 @@ export const faqGroups = [
       },
       {
         q: 'Can you replace just the glass and keep the frame?',
-        a: 'Yes, as long as the frame is in good order. We can replace a cracked, broken or misted sealed unit on its own, or swap clear glass for obscure, acoustic or safety glass. We measure the unit, have a new one made to size and usually fit it in under an hour. Where safety glass is needed, such as in a door or within 800 mm of the floor, we fit toughened or laminated glass.',
+        a: 'If the frame is sound, a cracked, broken or misted sealed unit may be replaced separately, with options such as obscure, acoustic or safety glass. The unit needs measuring and the specification, fitting arrangements and any charges must be agreed after checking access and availability. Where safety glass is required, the actual installer must confirm the applicable rules for the property and UK nation.',
         k: [
           'just the glass', 'glass only', 'only the glass', 'keep the frame', 'keep frame', 'without new frame', 'replace glass only', 'replace the glass',
           'new glass', 'new glass unit', 'glass unit', 'dg unit', 'replacement unit', 'upgrade glass', 'change glass',

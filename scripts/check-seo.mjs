@@ -76,7 +76,8 @@ for (const file of files) {
   check(website?.url === origin + '/', label('website URL mismatch'));
   check(business?.name === site.brand.name && business?.telephone === site.contact.phoneInternational && business?.email === site.contact.email, label('business identity mismatch'));
   const expectedHours = site.hours.filter((h) => h.open).map((h) => [h.open, h.close === '24:00' ? '00:00' : h.close]);
-  check(JSON.stringify(business?.openingHoursSpecification?.map((h) => [h.opens, h.closes])) === JSON.stringify(expectedHours), label('schema hours differ from configured hours'));
+  check(!business?.openingHoursSpecification, label('contact-only hours must not imply business attendance hours'));
+  check(JSON.stringify(business?.contactPoint?.hoursAvailable?.map((h) => [h.opens, h.closes])) === JSON.stringify(expectedHours), label('schema contact hours differ from configured hours'));
   if (!site.areaServed && !site.serviceAreas.length) {
     check(!business?.areaServed && !business?.contactPoint?.areaServed, label('unconfirmed service area'));
   }

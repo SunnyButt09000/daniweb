@@ -1,10 +1,10 @@
 {
  "/": {
-  "h": "67a3748176f8",
+  "h": "69c22cf11a7a",
   "d": "2026-10-27"
  },
  "/about/": {
-  "h": "1b215d771b5f",
+  "h": "40d81cff2103",
   "d": "2026-10-27"
  },
  "/accessibility/": {
@@ -12,7 +12,7 @@
   "d": "2026-10-03"
  },
  "/book/": {
-  "h": "73683f21c892",
+  "h": "2e9ef463ef31",
   "d": "2026-10-27"
  },
  "/contact/": {
@@ -24,139 +24,139 @@
   "d": "2026-10-03"
  },
  "/doors/": {
-  "h": "595258dbacae",
+  "h": "32f684afc791",
   "d": "2026-10-27"
  },
  "/doors/bifold-doors/": {
-  "h": "510f66b4c0ac",
+  "h": "e5dc7951a3bb",
   "d": "2026-10-27"
  },
  "/doors/composite-doors/": {
-  "h": "ea301db711f0",
+  "h": "0f4a11483d41",
   "d": "2026-10-27"
  },
  "/doors/french-doors/": {
-  "h": "b85ce34195db",
+  "h": "5a95117cfc8b",
   "d": "2026-10-27"
  },
  "/doors/patio-doors/": {
-  "h": "777d91dc34a9",
+  "h": "50efe4eebabf",
   "d": "2026-10-27"
  },
  "/doors/stable-doors/": {
-  "h": "e143e42ae413",
+  "h": "1cf6baa6867a",
   "d": "2026-10-27"
  },
  "/doors/upvc-doors/": {
-  "h": "f4b7c19240cc",
+  "h": "80d857223d8c",
   "d": "2026-10-27"
  },
  "/faq/": {
-  "h": "ad19c71af26f",
+  "h": "cfbcd9696b0a",
   "d": "2026-10-27"
  },
  "/guarantee/": {
-  "h": "3ef60686cdc6",
+  "h": "611f5cc23d7a",
   "d": "2026-10-27"
  },
  "/guides/": {
-  "h": "034bea681baf",
+  "h": "4d221a86e4d8",
   "d": "2026-10-27"
  },
  "/guides/building-regulations-for-replacement-windows/": {
-  "h": "948124bf51c8",
+  "h": "f41b5d4b23d0",
   "d": "2026-10-27"
  },
  "/guides/how-to-maintain-upvc-windows-and-doors/": {
-  "h": "7661e14028ef",
-  "d": "2026-10-03"
+  "h": "f0d45fdce821",
+  "d": "2026-10-27"
  },
  "/guides/how-to-measure-windows-for-a-quote/": {
-  "h": "d7f97e0ab24d",
+  "h": "823868b58790",
   "d": "2026-10-27"
  },
  "/guides/misted-double-glazing-repair-or-replace/": {
-  "h": "e4af12a843ba",
-  "d": "2026-10-03"
+  "h": "3ce425361cbd",
+  "d": "2026-10-27"
  },
  "/guides/supply-only-vs-supply-and-fit-windows/": {
-  "h": "3f51b1c494f4",
+  "h": "48a03c1975cb",
   "d": "2026-10-27"
  },
  "/guides/upvc-vs-composite-doors/": {
-  "h": "9f6f8f80c709",
-  "d": "2026-10-03"
+  "h": "dbd9badaa50f",
+  "d": "2026-10-27"
  },
  "/guides/window-door-schedule-for-builders-and-renovators/": {
-  "h": "97f6b8782c8c",
+  "h": "1f373a18e013",
   "d": "2026-10-27"
  },
  "/guides/window-energy-ratings-explained/": {
-  "h": "c0119b251097",
-  "d": "2026-10-03"
+  "h": "cf341a6bfc12",
+  "d": "2026-10-27"
  },
  "/privacy/": {
   "h": "f25bedab2b86",
   "d": "2026-10-27"
  },
  "/quote/": {
-  "h": "3a686e81b6d3",
+  "h": "9d31c2780c69",
   "d": "2026-10-27"
  },
  "/repairs/": {
-  "h": "7acd7356c2a4",
+  "h": "c26016480bfc",
   "d": "2026-10-27"
  },
  "/repairs/door-alignment/": {
-  "h": "8bf1724f93b4",
-  "d": "2026-10-03"
+  "h": "f3af34947d89",
+  "d": "2026-10-27"
  },
  "/repairs/draughts-and-leaks/": {
-  "h": "1d1ef4d91c3d",
-  "d": "2026-10-03"
+  "h": "e554909219e5",
+  "d": "2026-10-27"
  },
  "/repairs/glass-and-panel-replacement/": {
-  "h": "4ba8ab28484c",
+  "h": "00e60b727048",
   "d": "2026-10-27"
  },
  "/repairs/handles-and-hinges/": {
-  "h": "61b4d411a548",
+  "h": "494f0302a2cb",
   "d": "2026-10-27"
  },
  "/repairs/locks-and-mechanisms/": {
-  "h": "24fe0b21a554",
+  "h": "a6dc9608ed0f",
   "d": "2026-10-27"
  },
  "/repairs/misted-double-glazing/": {
-  "h": "9ecbb231d336",
+  "h": "0aa0c3313ec3",
   "d": "2026-10-27"
  },
  "/repairs/patio-and-bifold-repairs/": {
-  "h": "1b294d865921",
-  "d": "2026-10-03"
+  "h": "2c34452e3cbe",
+  "d": "2026-10-27"
  },
  "/repairs/safety-and-security-upgrades/": {
-  "h": "cb3291ed5282",
+  "h": "4d5db6e72cda",
   "d": "2026-10-27"
  },
  "/services/": {
-  "h": "8c612ee324e5",
+  "h": "bc216b3a2bd7",
   "d": "2026-10-27"
  },
  "/services/installation/": {
-  "h": "2aaf4e8bb1d7",
+  "h": "ccfcd985281f",
   "d": "2026-10-27"
  },
  "/services/landlords-and-commercial/": {
-  "h": "35ab27b2e803",
+  "h": "86ce7e09d5fd",
   "d": "2026-10-27"
  },
  "/services/servicing-and-maintenance/": {
-  "h": "a16b2d1a623e",
+  "h": "d7d3b743aed7",
   "d": "2026-10-27"
  },
  "/services/survey-and-quote/": {
-  "h": "9e7e96a8cfc5",
+  "h": "5603e6ac7caa",
   "d": "2026-10-27"
  },
  "/terms/": {
@@ -164,35 +164,35 @@
   "d": "2026-10-27"
  },
  "/windows/": {
-  "h": "38d9838ae201",
+  "h": "113d1a62e63f",
   "d": "2026-10-27"
  },
  "/windows/bay-and-bow-windows/": {
-  "h": "72a29583839c",
+  "h": "95de5e90cca7",
   "d": "2026-10-27"
  },
  "/windows/casement-windows/": {
-  "h": "833060a2e134",
+  "h": "b851eeb2c1c7",
   "d": "2026-10-27"
  },
  "/windows/flush-casement-windows/": {
-  "h": "f4ccd13cb4cc",
+  "h": "7009169b399a",
   "d": "2026-10-27"
  },
  "/windows/sash-windows/": {
-  "h": "ec86e2cdbfd7",
+  "h": "f1e68841f998",
   "d": "2026-10-27"
  },
  "/windows/shaped-and-feature-windows/": {
-  "h": "75f72bf6b56b",
+  "h": "3ec3c722fbf4",
   "d": "2026-10-27"
  },
  "/windows/sliding-windows/": {
-  "h": "af60e45b6856",
+  "h": "1747dc346763",
   "d": "2026-10-27"
  },
  "/windows/tilt-and-turn-windows/": {
-  "h": "57b0e92ac577",
+  "h": "bbb8ca06e699",
   "d": "2026-10-27"
  }
 }
