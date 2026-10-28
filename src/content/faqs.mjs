@@ -188,7 +188,7 @@ export const faqGroups = [
 
       {
         q: 'Can Veltrix arrange installation in different UK cities?',
-        a: 'Yes. Veltrix welcomes window and door installation enquiries from across the UK. If no local fitter is available, we may arrange for a fitter from another area to travel to the job. Send your postcode, job details and rough sizes or photos so we can check survey and installation availability, travel costs and the written quotation before agreeing a visit. An enquiry is not a confirmed appointment, and we do not promise a local fitter in every UK city.',
+        a: 'Yes. Veltrix welcomes window and door installation enquiries from across the UK. If no local partner installer is available, we may arrange for a fitter from another area to travel to the job. Send your postcode, job details and rough sizes or photos so we can check survey and installation availability, travel costs and the written quotation before agreeing a visit. An enquiry is not a confirmed appointment, and we do not promise a local fitter in every UK city.',
         k: [
           'uk wide', 'uk-wide', 'nationwide', 'across the uk', 'different cities', 'other cities', 'where do you cover',
           'do you cover my area', 'outside manchester', 'local installers', 'installation coverage', 'fitting coverage',
