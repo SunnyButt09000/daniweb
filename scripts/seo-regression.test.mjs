@@ -141,3 +141,25 @@ test('illustrative product layouts never claim real popularity, frequent install
     assert.match(section, /Request a quote/);
   }
 });
+
+
+test('category specifications are checks for a written quote, not unconditional inclusions', () => {
+  for (const category of ['windows', 'doors']) {
+    const html = readFileSync(new URL('../dist/' + category + '/index.html', import.meta.url), 'utf8');
+    assert.match(html, new RegExp(category === 'windows' ? 'Window specifications to check' : 'Door specifications to check'));
+    assert.match(html, /Confirm the final details and any required compliance arrangements in your written quote/);
+    assert.doesNotMatch(html, /What every (window|door) includes|As standard/);
+    assert.match(html, /href="\/quote\/"/);
+  }
+});
+
+test('product options and homepage finishes do not claim unverified popularity', () => {
+  const home = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
+  assert.match(home, /Ask which finishes are offered for your chosen product/);
+  assert.doesNotMatch(home, /some of the most popular/);
+  for (const p of products) {
+    const html = readFileSync(new URL('../dist/' + p.category + '/' + p.slug + '/index.html', import.meta.url), 'utf8');
+    assert.match(html, /<h2 class="h4">Options to discuss<\/h2>/, p.slug);
+    assert.doesNotMatch(html, /<h2 class="h4">Popular options<\/h2>/, p.slug);
+  }
+});
