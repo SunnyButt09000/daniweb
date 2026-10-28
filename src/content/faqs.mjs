@@ -12,7 +12,7 @@ export const faqGroups = [
     items: [
       {
         q: 'How much do uPVC windows cost?',
-        a: 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list that could mislead you. For a quick estimate, use the online quote builder or send sizes and photos on WhatsApp. The written price follows confirmed specifications and any necessary survey. Check survey availability and any charges before booking.',
+        a: 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list that could mislead you. For a quick estimate, use the online quote builder or send sizes and photos on WhatsApp. The written price follows confirmed specifications and any necessary survey. Window and door surveys are free; confirm postcode and appointment availability, and any separately applicable fitter travel costs, before booking.',
         k: [
           'price', 'prices', 'pricing', 'cost', 'costs', 'how much', 'expensive', 'cheap', 'cheapest', 'affordable', 'rate', 'rates',
           'per window', 'price per window', 'cost per window', 'price list', 'ballpark', 'rough price', 'rough cost', 'estimate', 'budget',
@@ -23,7 +23,7 @@ export const faqGroups = [
       },
       {
         q: 'Are the survey and quote really free?',
-        a: 'Ask us to confirm whether a free survey or quotation is available for your postcode and job. Availability, survey or travel charges and any repair diagnostic fee must be agreed before a visit. An enquiry does not reserve a free visit or commit you to an order.',
+        a: 'Window and door surveys are free. We provide a no-obligation written quotation after checking your requirements. Survey appointment availability must be confirmed for your postcode; any separate fitter travel costs will be explained and agreed before a visit. Repair diagnostic or call-out visits are different and may have a separately agreed fee. An enquiry is not an appointment confirmation.',
         k: [
           'free survey', 'free quote', 'free quotation', 'free estimate', 'free visit', 'no obligation', 'obligation', 'charge for quote', 'charge for survey',
           'survey cost', 'survey fee', 'pay for survey', 'pay for quote', 'quote fee', 'is it free', 'hard sell', 'pressure', 'sign on the day',
@@ -32,7 +32,7 @@ export const faqGroups = [
       },
       {
         q: 'Can I get a price over WhatsApp?',
-        a: 'Yes. Send the rough width and height of each window or door, the style you want and a photo of each one from outside. Ask for an estimate and check survey availability and any charges. A final quotation depends on the specification and any necessary technical survey.',
+        a: 'Yes. Send the rough width and height of each window or door, the style you want and a photo of each one from outside. Ask for an estimate and a free window or door survey, subject to postcode and appointment availability. Any separate fitter travel costs are agreed before a visit. A final quotation depends on the specification and any necessary technical survey.',
         k: [
           'whatsapp', 'whats app', 'watsapp', 'whatsap', 'watsap', 'send photos', 'send pictures', 'photo', 'photos', 'picture', 'pictures', 'pics', 'video',
           'quick quote', 'quick price', 'price by text', 'text you', 'message', 'quote by message', 'quote without visit', 'remote quote',
@@ -171,7 +171,7 @@ export const faqGroups = [
       },
       {
         q: 'What should be included in a written window and door quotation?',
-        a: 'Compare the same product sizes, materials, glazing, colours, hardware and number of openings. Ask for an itemised breakdown of product supply, survey, fitting, delivery, VAT, removal of old frames, making-good, certification and any travel charges. Check the expected dates, payment stages, cancellation terms, who contracts with you, and separate manufacturer product and installer workmanship guarantees. Do not assume a cheap supply-only price includes fitting or that a quote request confirms a booking.',
+        a: 'Compare the same product sizes, materials, glazing, colours, hardware and number of openings. Ask for an itemised breakdown of product supply, fitting, delivery, VAT, removal of old frames, making-good, certification and any separately agreed travel costs. The window and door survey itself is free. Check the expected dates, payment stages, cancellation terms, who contracts with you, and separate manufacturer product and installer workmanship guarantees. Do not assume a cheap supply-only price includes fitting or that a quote request confirms a booking.',
         k: [
           'written quote checklist', 'window quote included', 'what is included',
           'compare quotations', 'itemised fitting quote', 'vat', 'waste removal', 'hidden costs',
@@ -188,7 +188,7 @@ export const faqGroups = [
 
       {
         q: 'Can Veltrix arrange installation in different UK cities?',
-        a: 'Yes. Veltrix welcomes window and door installation enquiries from across the UK. If no local partner installer is available, we may arrange for a fitter from another area to travel to the job. Send your postcode, job details and rough sizes or photos so we can check survey and installation availability, travel costs and the written quotation before agreeing a visit. An enquiry is not a confirmed appointment, and we do not promise a local fitter in every UK city.',
+        a: 'Yes. Veltrix welcomes window and door installation enquiries from across the UK. If no local partner installer is available, we may arrange for a fitter from another area to travel to the job. Send your postcode, job details and rough sizes or photos so we can arrange a free window or door survey if an appointment is available, and confirm installation availability, any separately applicable fitter travel costs and the written quotation before agreeing a visit. An enquiry is not a confirmed appointment, and we do not promise a local fitter in every UK city.',
         k: [
           'uk wide', 'uk-wide', 'nationwide', 'across the uk', 'different cities', 'other cities', 'where do you cover',
           'do you cover my area', 'outside manchester', 'local installers', 'installation coverage', 'fitting coverage',
