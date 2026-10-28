@@ -13,6 +13,7 @@ test('business markup does not invent prices or nationwide coverage', () => {
   const unconfigured = structuredClone(site);
   unconfigured.areaServed = '';
   unconfigured.serviceAreas = [];
+  unconfigured.schemaCoverageCountry = '';
   unconfigured.contact.address = { street: '', locality: '', region: '', postcode: '', country: 'United Kingdom' };
   const business = businessSchema(unconfigured, data);
   assert.equal(business.priceRange, undefined);
@@ -21,6 +22,12 @@ test('business markup does not invent prices or nationwide coverage', () => {
   assert.equal(business.address, undefined);
   assert.equal(business.review, undefined);
   assert.equal(business.aggregateRating, undefined);
+});
+test('owner-confirmed UK travel coverage is included on business and service schema, not a GBP local zone', () => {
+  assert.deepEqual(businessSchema(site, data).areaServed, { '@type': 'Country', name: 'United Kingdom' });
+  const graph = graphFor(service(site, data, services[0]));
+  assert.deepEqual(graph.find((n) => n['@type'] === 'Service').areaServed, { '@type': 'Country', name: 'United Kingdom' });
+  assert.ok(!businessSchema(site, data).address, 'No private service-base address may be published');
 });
 test('main services and articles link back to their canonical web page', () => {
   for (const page of [service(site, data, services[0]), guide(site, data, guides[0])]) {
