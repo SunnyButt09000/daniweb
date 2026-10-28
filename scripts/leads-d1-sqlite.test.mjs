@@ -7,7 +7,8 @@ import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
 import leads from '../src/server/leads.mjs';
 
-const migration = readFileSync(fileURLToPath(new URL('../migrations/0001_leads.sql', import.meta.url)), 'utf8');
+const migration = ['0001_leads.sql', '0002_notification_leases.sql'].map((file) =>
+  readFileSync(fileURLToPath(new URL('../migrations/' + file, import.meta.url)), 'utf8')).join('\n');
 const origin = 'https://veltrixwindowsdoor.co.uk';
 const originalFetch = globalThis.fetch;
 after(() => { globalThis.fetch = originalFetch; });
@@ -152,5 +153,82 @@ test('retention job removes only records older than 730 days', async () => {
     await leads.scheduled({}, x.env);
     assert.equal(x.db.prepare('SELECT COUNT(*) AS n FROM leads').get().n, 1);
     assert.equal(x.db.prepare('SELECT id FROM leads').get().id, id);
+  } finally { x.db.close(); }
+});
+
+test('invalid types, overlong fields, UUID suffixes and punctuation-only phones never persist', async () => {
+  const x = staging();
+  try {
+    passTurnstile();
+    for (const bad of [{ name: 'x'.repeat(101) }, { email: {} }, { reference: [] },
+      { requestKey: input().requestKey + 'junk' }, { phone: '..........' },
+      { turnstileToken: 'x'.repeat(2049) }]) {
+      assert.equal((await leads.fetch(request(input(bad)), x.env)).status, 422, JSON.stringify(Object.keys(bad)));
+    }
+    assert.equal(x.db.prepare('SELECT COUNT(*) AS n FROM leads').get().n, 0);
+  } finally { x.db.close(); }
+});
+
+test('body limit counts UTF-8 bytes even without Content-Length', async () => {
+  const x = staging();
+  try {
+    passTurnstile();
+    const req = request(input({ summary: 'é'.repeat(7900) }));
+    assert.equal(req.headers.get('content-length'), null);
+    assert.equal((await leads.fetch(req, x.env)).status, 413);
+    assert.equal(x.db.prepare('SELECT COUNT(*) AS n FROM leads').get().n, 0);
+  } finally { x.db.close(); }
+});
+
+test('overlapping notification retries claim a pending lead only once', async () => {
+  const x = staging();
+  try {
+    passTurnstile(); x.setEmailDown(true);
+    assert.equal((await leads.fetch(request(input()), x.env)).status, 201);
+    x.setEmailDown(false);
+    await Promise.all([leads.scheduled({}, x.env), leads.scheduled({}, x.env)]);
+    assert.equal(x.messages.length, 1);
+    assert.equal(x.db.prepare('SELECT notify_state FROM leads').get().notify_state, 'accepted');
+  } finally { x.db.close(); }
+});
+
+test('cron cannot send a second notification while the original request is sending', async () => {
+  const x = staging();
+  let release;
+  const gate = new Promise(resolve => { release = resolve; });
+  let started;
+  const signal = new Promise(resolve => { started = resolve; });
+  let calls = 0;
+  try {
+    passTurnstile();
+    x.env.NOTIFY_OPS.send = async () => { calls++; started(); await gate; return { messageId: 'synthetic-accepted' }; };
+    const first = leads.fetch(request(input()), x.env);
+    await signal;
+    const cron = leads.scheduled({}, x.env);
+    await new Promise(resolve => setTimeout(resolve, 10));
+    const observed = calls;
+    release();
+    assert.equal((await first).status, 201);
+    await cron;
+    assert.equal(observed, 1);
+  } finally { release(); x.db.close(); }
+});
+
+test('an interrupted notification lease expires and a later retry can recover', async () => {
+  const x = staging();
+  try {
+    passTurnstile(); x.setEmailDown(true);
+    const response = await leads.fetch(request(input()), x.env);
+    const { reference } = await response.json();
+    x.db.prepare('UPDATE leads SET notify_lease_token = ?, notify_lease_until = ? WHERE id = ?')
+      .run('synthetic-interrupted-attempt', new Date(Date.now() + 60000).toISOString(), reference);
+    x.setEmailDown(false);
+    await leads.scheduled({}, x.env);
+    assert.equal(x.messages.length, 0);
+    x.db.prepare('UPDATE leads SET notify_lease_until = ? WHERE id = ?')
+      .run('2000-01-01T00:00:00.000Z', reference);
+    await leads.scheduled({}, x.env);
+    assert.equal(x.messages.length, 1);
+    assert.equal(x.db.prepare('SELECT notify_state FROM leads').get().notify_state, 'accepted');
   } finally { x.db.close(); }
 });

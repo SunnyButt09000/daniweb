@@ -4,7 +4,10 @@ const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' },
 });
 const fail = (status, code) => json({ ok: false, code }, status);
-const maxLen = (text, n) => typeof text === 'string' ? text.trim().slice(0, n) : '';
+// Reject invalid/overlong supplied fields; truncation can turn a malformed UUID
+// or contact value into a different, apparently valid enquiry.
+const bounded = (value, n) => value === undefined ? '' :
+  typeof value === 'string' && value.length <= n ? value.trim() : null;
 const POSTCODE = /^[A-Z]{1,2}[0-9][A-Z0-9]?\s*[0-9][A-Z]{2}$/i;
 const PHONE = /^[+()\d\s.-]{10,30}$/;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -14,21 +17,44 @@ const REQUEST_KEY = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-
 function validate(body) {
   if (!body || Array.isArray(body) || typeof body !== 'object') return null;
   if (body.consent !== true || !TYPES.has(body.kind)) return null;
-  const name = maxLen(body.name, 100);
-  const phone = maxLen(body.phone, 30);
-  const email = maxLen(body.email, 180);
-  const postcode = maxLen(body.postcode, 9).toUpperCase().replace(/\s+/g, '');
-  const summary = maxLen(body.summary, 8000);
-  const reference = maxLen(body.reference, 60);
-  const requestKey = maxLen(body.requestKey, 36);
-  const source = maxLen(body.source, 130);
-  const token = maxLen(body.turnstileToken, 2048);
-  if (!name || !PHONE.test(phone) || (email && !EMAIL.test(email))) return null;
-  if (typeof body.summary !== 'string' || body.summary.trim().length > 8000 || summary.length < 10) return null;
+  const name = bounded(body.name, 100);
+  const phone = bounded(body.phone, 30);
+  const email = bounded(body.email, 180);
+  const rawPostcode = bounded(body.postcode, 9);
+  const summary = bounded(body.summary, 8000);
+  const reference = bounded(body.reference, 60);
+  const requestKey = bounded(body.requestKey, 36);
+  const source = bounded(body.source, 130);
+  const token = bounded(body.turnstileToken, 2048);
+  if ([name, phone, email, rawPostcode, summary, reference, requestKey, source, token].includes(null)) return null;
+  const postcode = rawPostcode.toUpperCase().replace(/\s+/g, '');
+  if (!name || !PHONE.test(phone) || phone.replace(/\D/g, '').length < 10 || (email && !EMAIL.test(email))) return null;
+  if (summary.length < 10) return null;
   if (body.kind !== 'contact' && !POSTCODE.test(postcode)) return null;
   if (postcode && !POSTCODE.test(postcode)) return null;
-  if (!token || !REQUEST_KEY.test(requestKey) || !source.startsWith('/') || source.startsWith('//')) return null;
+  if (!token || !REQUEST_KEY.test(requestKey) || !source.startsWith('/') || source.startsWith('//') || /[\\\s]/.test(source)) return null;
   return { kind: body.kind, name, phone, email, postcode, summary, reference, requestKey, source, token };
+}
+
+export async function limitedBody(request) {
+  const reader = request.body?.getReader();
+  if (!reader) return '';
+  const chunks = [];
+  let size = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > 15000) {
+      try { await reader.cancel(); } catch { /* already closed */ }
+      throw Object.assign(new Error('Body exceeds byte limit'), { code: 'too_large' });
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(size);
+  let offset = 0;
+  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
+  return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
 }
 
 async function turnstileCheck(token, secret, hostname, fetcher) {
@@ -56,7 +82,17 @@ function configured(env) {
 
 
 async function sendNotification(env, entry) {
+  const lease = crypto.randomUUID();
+  const now = new Date().toISOString();
+  const until = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+  let accepted = false;
   try {
+    // D1 serialises this conditional UPDATE. A POST and overlapping cron jobs
+    // must acquire the same expiring claim before either calls the email API.
+    const claimed = await env.LEADS_DB.prepare(
+      "UPDATE leads SET notify_lease_token = ?, notify_lease_until = ? WHERE id = ? AND notify_state = 'pending' AND notify_lease_until <= ? RETURNING id"
+    ).bind(lease, until, entry.id, now).first();
+    if (!claimed?.id) return false;
     const result = await env.NOTIFY_OPS.send({
       from: env.FROM_EMAIL, to: env.OPS_EMAIL,
       subject: `Veltrix ${entry.kind} enquiry ${entry.id}`,
@@ -71,12 +107,21 @@ async function sendNotification(env, entry) {
       ].join('\n'),
     });
     if (!result?.messageId) return false;
+    accepted = true;
     try {
-      await env.LEADS_DB.prepare("UPDATE leads SET notify_state = 'accepted' WHERE id = ?")
-        .bind(entry.id).run();
-    } catch { /* email may be accepted even when status update fails: possible retry duplicate */ }
+      await env.LEADS_DB.prepare("UPDATE leads SET notify_state = 'accepted', notify_lease_token = '', notify_lease_until = '' WHERE id = ? AND notify_lease_token = ?")
+        .bind(entry.id, lease).run();
+    } catch { /* Accepted email + failed status write remains ambiguous; no exactly-once delivery claim. */ }
     return true;
   } catch { return false; }
+  finally {
+    if (!accepted) {
+      try {
+        await env.LEADS_DB.prepare("UPDATE leads SET notify_lease_token = '', notify_lease_until = '' WHERE id = ? AND notify_lease_token = ?")
+          .bind(entry.id, lease).run();
+      } catch { /* An interrupted attempt becomes eligible when its lease expires. */ }
+    }
+  }
 }
 
 export default {
@@ -92,10 +137,9 @@ export default {
     if (Number(request.headers.get('content-length') || 0) > 15000) return fail(413, 'too_large');
     let body;
     try {
-      const raw = await request.text();
-      if (raw.length > 15000) return fail(413, 'too_large');
+      const raw = await limitedBody(request);
       body = JSON.parse(raw);
-    } catch { return fail(400, 'invalid_json'); }
+    } catch (error) { return fail(error?.code === 'too_large' ? 413 : 400, error?.code === 'too_large' ? 'too_large' : 'invalid_json'); }
     const lead = validate(body);
     if (!lead) return fail(422, 'invalid_details');
     const host = new URL(env.SITE_ORIGIN).hostname;
@@ -139,8 +183,8 @@ export default {
     // Bounded retry. Notification acceptance is not proof of inbox delivery;
     // recipients must also reconcile their D1 records periodically.
     const pending = await env.LEADS_DB.prepare(
-      "SELECT id, created_at, kind, name, phone, email, postcode, summary, customer_reference, source FROM leads WHERE notify_state = 'pending' ORDER BY created_at ASC LIMIT 20"
-    ).all();
+      "SELECT id, created_at, kind, name, phone, email, postcode, summary, customer_reference, source FROM leads WHERE notify_state = 'pending' AND notify_lease_until <= ? ORDER BY created_at ASC LIMIT 20"
+    ).bind(new Date().toISOString()).all();
     for (const entry of pending?.results || []) await sendNotification(env, entry);
   },
 };

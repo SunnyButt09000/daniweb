@@ -1,0 +1,34 @@
+// Private synthetic-only staging. Copy to a PRIVATE path before provisioning.
+// No production routes, account/database IDs, inboxes or secrets belong here.
+{
+  "name": "veltrix-leads-staging",
+  "main": "src/server/leads-staging.mjs",
+  "compatibility_date": "2026-10-21",
+  "workers_dev": true,
+  "preview_urls": false,
+  "routes": [],
+  // Workers Free enforces its own fixed CPU limit; custom CPU limits require Paid.
+  "assets": {
+    "directory": "dist",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  "vars": {
+    "STAGING_ONLY": "true",
+    "SITE_ORIGIN": "https://REPLACE_WITH_STAGING_ONLY.workers.dev",
+    "TURNSTILE_SITE_KEY": "REPLACE_WITH_STAGING_PUBLIC_KEY"
+  },
+  "d1_databases": [{
+    "binding": "LEADS_DB",
+    "database_name": "veltrix-leads-staging",
+    "database_id": "REPLACE_PRIVATELY",
+    "migrations_dir": "migrations"
+  }],
+  // Add restricted send_email + OPS_EMAIL/FROM_EMAIL only after free sender
+  // eligibility and recipient verification are established. Without them,
+  // synthetic storage is tested but notifications remain honestly pending.
+  "triggers": { "crons": ["0 4 * * *"] },
+  "observability": { "enabled": false }
+}

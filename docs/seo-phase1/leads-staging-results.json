@@ -1,0 +1,257 @@
+{
+  "date": "2026-10-27",
+  "issue": 7,
+  "status": "PASS",
+  "contactNavigationFix": {
+    "cause": "Local file helper opened protected contact page cross-site, so Chrome withheld SameSite=Strict cookie",
+    "cookieStoredAndUnexpiredDuringFailure": true,
+    "brokenHelperNavigationFetchSite": "cross-site",
+    "brokenHelperContactRequestSentSessionCookie": false,
+    "brokenHelperContactStatus": 404,
+    "brokenResponseWasPlainAuthGate404": true,
+    "authenticatedInternalContactBeforeFix": 200,
+    "contactAssetMissing": false,
+    "localHelperProtectedPageLinksAfterFix": 0,
+    "fixedNativeLoginStatus": 303,
+    "fixedAuthenticatedHomepageStatus": 200,
+    "fixedAuthenticatedContactStatus": 200,
+    "fixedContactNavigationFetchSite": "same-origin",
+    "fixedContactRequestSentSessionCookie": true,
+    "cookiePersistedAndUnexpired": true,
+    "cookieExpiryUnchanged": true,
+    "cookieSameSite": "Strict",
+    "cookieSecureAndHttpOnly": true,
+    "cookiePath": "/",
+    "contactFormRendered": true,
+    "unauthenticatedContactStatus": 404,
+    "noCookieInjectedOrAuthHeadersForcedInBrowserTest": true,
+    "deployment": "ISOLATED STAGING ONLY"
+  },
+  "loginFix": {
+    "cause": "Login document no-referrer policy made native Chrome form POST send Origin: null",
+    "privateOperatorKeyMatchesStoredKey": true,
+    "completeKeyLength": 64,
+    "realClipboardCopyVerifiedWithoutCredentialOutput": true,
+    "clipboardRestoredAfterTest": true,
+    "hiddenCopyFallbackTestedWithSimulatedClipboardDenial": true,
+    "secretRotated": false,
+    "explicitOriginDirectPostStatus": 303,
+    "directRedirectFollowed": false,
+    "nativePostBeforeFix": 404,
+    "nativePostOriginBeforeFix": "null",
+    "loginDocumentPolicyAfterFix": "same-origin",
+    "nativePostAfterFix": 303,
+    "nativePostOriginMatchesConfiguredOrigin": true,
+    "privateHelperNoreferrerPopupNativeLoginVerified": true,
+    "nativeLoginOriginHeaderForced": false,
+    "authenticatedContactStatus": 200,
+    "cookieSecure": true,
+    "cookieHttpOnly": true,
+    "cookieSameSite": "Strict",
+    "exactOriginSecretAndTurnstileGuardsPreserved": true,
+    "deployment": "ISOLATED STAGING ONLY"
+  },
+  "emailFollowUp": {
+    "ownerSelectedDestinationStoredPrivately": true,
+    "cloudflareDestinationCreateHttpStatus": 200,
+    "verificationEmailRequested": true,
+    "destinationVerified": true,
+    "forwardingPayloadPreparedPrivately": true,
+    "forwardingRuleCreatedDisabledAndReadBack": true,
+    "existingEmailRulesUnchanged": true,
+    "forwardingActivated": true,
+    "stagingRestrictedEmailConfigPreparedPrivately": true,
+    "requiredEmailDnsRecords": 5,
+    "publicApexMxBefore": 0,
+    "publicApexSpfBefore": 0,
+    "dnsApproval": "EXPLICITLY APPROVED AND APPLIED",
+    "dnsChanged": true,
+    "emailOnlyDnsRecordsApplied": 5,
+    "publicMxAfter": 3,
+    "publicSpfAfter": 1,
+    "publicDkimAfter": 1,
+    "genericDnsListApi": "403 / 10000; permitted Email Routing-specific enable operation succeeded",
+    "incomingSyntheticTestSent": true,
+    "incomingProviderAction": "forward",
+    "incomingProviderStatus": "delivered",
+    "incomingProviderEventUtc": "2026-10-27T17:46:54Z",
+    "destinationInboxOrSpamPlacement": "Owner confirms inbox arrival for the real form-created enquiry notification; earlier standalone forwarding probe placement not separately confirmed",
+    "stagingNotificationAcceptedAfterRealRetry": true,
+    "stagingNotificationProviderStatus": "delivered",
+    "stagingNotificationProviderEventType": "newEmail",
+    "stagingNotificationProviderEventUtc": "2026-10-27T17:50:23Z",
+    "distinctDeliveredFixtureNotificationsObservedAfterRetries": 1,
+    "additionalSendingDomainDnsAdded": false
+  },
+  "productionReleaseApproved": false,
+  "productionWebsiteChangedByThisTask": false,
+  "approvedProductionEmailDnsChanged": true,
+  "baseSha": "e4a787235ab5b89180aa07d34c3d63b0a951bc10",
+  "externalProductionChangeDuringTask": "PRs #8 and #10 merged independently; latest production merged into feature, shared syntax test retained once",
+  "automated": {
+    "command": "npm run check",
+    "passed": 54,
+    "failed": 0,
+    "generatedPages": 50,
+    "indexablePages": 49,
+    "realSqlite": true,
+    "turnstileAndEmailMockedInUnitTests": true,
+    "wranglerStagingAndUnroutedApiTemplatesDryRun": "PASS"
+  },
+  "remoteNegativeRequests": [
+    {
+      "case": "invalid real Turnstile challenge",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "case": "missing consent",
+      "expected": 422,
+      "actual": 422
+    },
+    {
+      "case": "invalid UUID",
+      "expected": 422,
+      "actual": 422
+    },
+    {
+      "case": "UUID suffix",
+      "expected": 422,
+      "actual": 422
+    },
+    {
+      "case": "wrong optional field type",
+      "expected": 422,
+      "actual": 422
+    },
+    {
+      "case": "non-synthetic contact",
+      "expected": 422,
+      "actual": 422
+    },
+    {
+      "case": "malformed JSON",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "case": "UTF-8 body byte limit",
+      "expected": 413,
+      "actual": 413
+    },
+    {
+      "case": "wrong content type",
+      "expected": 415,
+      "actual": 415
+    },
+    {
+      "case": "authenticated manual retry invocation",
+      "expected": 200,
+      "actual": 200
+    }
+  ],
+  "remoteD1": {
+    "fixtureMethod": "Historical SQL fixture only; final owner-created API enquiry is verified separately in finalVerification",
+    "currentSyntheticRowsAfterRetry": 1,
+    "pendingRowsAfterUnavailableEmail": 1,
+    "pendingRowsAfterRestoringRealEmailBinding": 0,
+    "acceptedRowsAfterRealRetry": 1,
+    "releasedNotificationLeases": 1,
+    "expiredSyntheticRowsAfterRetention": 0,
+    "currentSyntheticRowsAtFinalVerification": 2,
+    "currentSyntheticRowsExplanation": "One historical SQL fixture plus one owner form-created enquiry; not two copies of the owner enquiry"
+  },
+  "browser": {
+    "tool": "local Playwright with Chrome",
+    "mockedApiAndTokenScenarioGroupsPassed": 7,
+    "scenarios": [
+      "contact timeout",
+      "contact receipt/error/retry UI",
+      "contact manual fallback",
+      "booking receipt/error/retry UI",
+      "booking manual fallback",
+      "quote receipt/error/retry UI",
+      "quote PDF/manual fallback"
+    ],
+    "realManagedChallenge": "PASS: owner completed real managed Turnstile in ordinary Chrome; no bypass or test key",
+    "realApi201Receipt": "PASS: owner observed saved receipt, independently corroborated by remote D1; raw HTTP 201 not captured",
+    "realApiDuplicateReceipt": "PASS: owner fresh challenge and unchanged form returned same receipt; remote D1 confirms one request-key row and one identical-content row",
+    "realEmailAcceptance": "PASS: owner form-created record accepted with released lease; matching provider event delivered",
+    "realInboxDelivery": "PASS: owner confirms matching enquiry notification in Gmail inbox; no mailbox read performed by agent",
+    "chatbotDesktopAndMobileSmoke": "PASS: guarantee reply renders, no overflow, zero page errors",
+    "preExistingChatbotSyntaxError": "Shared fix now published independently in production PR #10; feature files match production"
+  },
+  "isolation": {
+    "productionSettingsDomainsRoutesCompared": "UNCHANGED",
+    "siteEndpointAndKey": "EMPTY",
+    "releaseFlagSet": false,
+    "stagingPrivateAccess": true,
+    "stagingNoindexAndNoStore": true,
+    "databaseJurisdiction": "eu",
+    "turnstileRestrictedToStagingHostname": true,
+    "cronConfigured": "0 4 * * *",
+    "overnightCronExecutionObserved": false,
+    "emailBindingConfigured": true,
+    "emailDestinationRestricted": true,
+    "additionalSendingDomainDnsChanged": false,
+    "paidUpgradeOrPurchase": false
+  },
+  "scope": "Isolated synthetic staging verification; not production approval",
+  "productionReleaseStatus": "BLOCKED_PENDING_INDEPENDENT_PRIVACY_SECURITY_AND_OWNER_RELEASE_REVIEW",
+  "finalVerification": {
+    "verifiedAt": "2026-10-27T21:04:03.149Z",
+    "observationStart": "2026-10-27T20:46:57.232Z",
+    "observationEnd": "2026-10-27T21:04:03.149Z",
+    "matchingOwnerEnquiryRows": 1,
+    "rowsForRequestKey": 1,
+    "rowsForIdenticalContent": 1,
+    "receiptFormatValid": true,
+    "notificationState": "accepted",
+    "notificationLeaseReleased": true,
+    "notificationEvents": [
+      {
+        "at": "2026-10-27T20:51:57Z",
+        "status": "delivered",
+        "eventType": "newEmail",
+        "hasError": false
+      }
+    ],
+    "notificationEventCount": 1,
+    "distinctObservedMessages": 1,
+    "distinctDeliveredMessages": 1,
+    "activityLimit": 100,
+    "activityLimitReached": false,
+    "exactlyOnceDeliveryGuaranteed": false,
+    "evidenceSources": {
+      "realBrowser": "Owner confirmation in this session and PR reviews dated 2026-10-27; no browser network trace retained",
+      "database": "Read-only authenticated Cloudflare D1 query using existing Wrangler OAuth",
+      "notification": "Receipt-subject-filtered Cloudflare Email Routing activity; private receipt and message identifiers omitted"
+    },
+    "ownerConfirmedRealTurnstile": true,
+    "ownerConfirmedFirstSavedReceipt": true,
+    "ownerConfirmedMatchingNotificationInGmailInbox": true,
+    "ownerConfirmedFreshChallengeUnchangedResubmission": true,
+    "ownerConfirmedIdenticalReceipt": true,
+    "rawApiHttpStatusesCaptured": false,
+    "duplicateNotificationObserved": false,
+    "duplicateObservationLimit": "One distinct delivered message in the stated provider observation window; no exactly-once or future-delivery guarantee",
+    "realConsumedTokenReplaySeparatelyObserved": false,
+    "overnightCronExecutionObserved": false
+  },
+  "securityPrivacyReleaseReview": {
+    "status": "REQUIRES INDEPENDENT REVIEW AND EXPLICIT OWNER PRODUCTION APPROVAL",
+    "retentionDaysImplemented": 730,
+    "retentionApprovedForProduction": false,
+    "retentionDecision": "Justify or revise unconverted-enquiry period, earlier deletion, email copies, backups/restores and separate job/accounting records; do not silently substitute a new period",
+    "consent": "Required true before persistence; no separate consent value, notice version or consent audit trail is stored. Review wording and lawful basis before collection; no marketing permission inferred",
+    "privacy": "Review controller identity, processor terms, transfers, minimisation, rights/deletion and partner-sharing notice",
+    "security": "Review least-privilege staff access, secret custody/revocation, account security, incident response, quota/abuse controls and private D1 reconciliation; staging shared access key is not production staff authentication",
+    "operations": "Observe first scheduled run, assign pending-lead reconciliation and deletion owners, and approve retry/rollback procedures",
+    "limitations": [
+      "Email accepted followed by failed D1 status write may be resent on later retry; exactly-once delivery is not guaranteed",
+      "Fresh-token repeat was observed; consumed-token replay is covered by simulated verification tests, not a separately observed real replay",
+      "One initial SQL fixture remains, alongside the owner synthetic enquiry; retain privately only for review and remove through an approved cleanup"
+    ],
+    "release": "Keep PR draft, endpoint/site key empty, launch acknowledgement unset and production API unconfigured; separate reviewed production architecture, migrations, live-host Turnstile and owner go-live approval required"
+  }
+}
