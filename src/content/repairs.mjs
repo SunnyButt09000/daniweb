@@ -389,7 +389,7 @@ export const services = [
       ['Making good', 'The quotation identifies the agreed sealing, trims, cills, making good and waste disposal, so you can compare what each supplied-and-fitted proposal includes.'],
       ['Handover & certification', 'The installer explains operation and care. Before work is agreed, confirm which compliance documents are required in your UK nation, who provides them, the written guarantee and who handles aftercare.'],
     ],
-    includes: ['Survey availability and any charges', 'Old-frame removal and waste disposal arrangements', 'Floor and furniture protection responsibilities', 'Sealing, trims and making-good scope', 'Job-specific compliance arrangements and fees', 'Separate product and fitting guarantee terms'],
+    includes: ['Free window and door survey, subject to appointment availability', 'Old-frame removal and waste disposal arrangements', 'Floor and furniture protection responsibilities', 'Sealing, trims and making-good scope', 'Job-specific compliance arrangements and fees', 'Separate product and fitting guarantee terms'],
   },
   {
     slug: 'survey-and-quote',
@@ -397,15 +397,15 @@ export const services = [
     name: 'Survey & quote',
     seoTitle: 'Window & door survey and quote',
     short: 'We measure properly, explain the options and put the price in writing. No obligation.',
-    metaDescription: 'Request a window and door survey and written quote. Check postcode availability, the survey scope and any charges before confirming a visit.',
-    lead: 'A quote is only as good as the measurements behind it. We measure every opening, check what’s behind the frames and explain your options. Then you get the price in writing.',
+    metaDescription: 'Request a free window and door survey and written quote. Confirm postcode availability, survey scope and any separate fitter travel costs before a visit.',
+    lead: 'Our window and door survey is free. Once postcode and appointment availability are confirmed, we measure every opening, check the frames and explain your options. You then get the price in writing, with no obligation to proceed.',
     steps: [
       ['Book a time', 'Pick a time that suits you with the booking form, or message us on WhatsApp.'],
       ['On the day', 'Agree the expected duration, access and survey scope with the proposed surveyor. Measurements and any photographs should be limited to what is needed for your quotation.'],
       ['Advice', 'We talk through styles, glass, colours and security, and any regulations that apply, such as escape windows, safety glass or trickle vents.'],
       ['Your quote', 'An itemised written quote follows, listing each window and door with its size, style, glass and hardware.'],
     ],
-    includes: ['Measurements and technical checks required', 'Access and structural checks', 'Available product samples', 'An itemised written quote', 'Survey, travel or diagnostic charges'],
+    includes: ['Measurements and technical checks required', 'Access and structural checks', 'Available product samples', 'An itemised written quote', 'Free survey; any separately applicable fitter travel costs disclosed in advance'],
   },
   {
     slug: 'servicing-and-maintenance',
