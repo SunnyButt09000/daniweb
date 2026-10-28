@@ -23,8 +23,8 @@ test('owner-confirmed contact and enquiry hours end at midnight every day', () =
   assert.ok(faq?.a.includes('7am to midnight, seven days a week'));
 });
 
-test('JSON-LD encodes closing as midnight on the following day', () => {
-  const hours = businessSchema(site).openingHoursSpecification;
+test('JSON-LD contact availability encodes closing as midnight on the following day', () => {
+  const hours = businessSchema(site).contactPoint.hoursAvailable;
   assert.equal(hours.length, 1);
   assert.equal(hours[0].opens, '07:00');
   assert.equal(hours[0].closes, '00:00');
@@ -80,7 +80,8 @@ test('generated pages, booking slots, assistant knowledge and llms.txt agree on 
     const jsonld = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s);
     if (jsonld) {
       const business = JSON.parse(jsonld[1])['@graph'].find((n) => n['@type'] === 'HomeAndConstructionBusiness');
-      assert.equal(business.openingHoursSpecification[0].closes, '00:00', file);
+      assert.equal(business.openingHoursSpecification, undefined, file);
+      assert.equal(business.contactPoint.hoursAvailable[0].closes, '00:00', file);
     }
   }
   const book = readFileSync(join(dist, 'book/index.html'), 'utf8');

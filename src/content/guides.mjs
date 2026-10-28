@@ -12,7 +12,7 @@ export const guides = [
     read: '4 min',
     tag: 'Getting a quote',
     body: `
-<p>You do not need to be a fitter to get a useful estimate. Two careful measurements, a few photos and a note of where each window is will let us price the job. Every size is checked again at a free survey before anything is made, so a few millimetres out at this stage is fine.</p>
+<p>You do not need to be a fitter to get a useful estimate. Two careful measurements, a few photos and a note of where each window is will let us price the job. Every size is checked again at a survey before anything is made, so a few millimetres out at this stage is fine.</p>
 <div class="callout"><strong>Quick checklist</strong>
 <ul><li>Metal tape measure, reading in millimetres</li><li>Width: three readings, keep the smallest</li><li>Height: three readings, keep the smallest</li><li>Which panes open, and which side they hinge on</li><li>Room and floor for each window or door</li><li>Photos from outside and inside</li></ul></div>
 <h2>Before you start</h2>
@@ -33,7 +33,7 @@ export const guides = [
 <ul><li>Each window or door from <strong>outside</strong>, square on, with the whole frame in shot</li><li>The same window from <strong>inside</strong>, showing the window board, blinds and any radiator underneath</li><li>For doors, a close-up of the lock edge and the threshold</li><li>For bays, one photo from a few steps back so we can see the angles</li></ul>
 <h2>6. Enter your sizes in the quote builder</h2>
 <p>Our <a href="/quote/">online quote builder</a> shows a drawing of each window or door. Type the width and height straight onto the drawing, then choose the product, opening side, glass, trickle vents and colour. The drawing is viewed from outside and redraws as you type. The dashed lines meet at the hinge side, so you can check the opening is right before you add it to your list.</p>
-<p>Repeat for each window and door. When the list is complete, send it to us on WhatsApp as one numbered schedule, with the total area worked out for you. Attach your photos in the same chat. If you are not sure of a dimension, leave it blank and add a note: the schedule marks the size as “to be confirmed”. You can also <a href="/book/?type=survey">request a free survey</a> if you cannot measure safely. These are estimate sizes, not manufacturing sizes.</p>
+<p>Repeat for each window and door. When the list is complete, send it to us on WhatsApp as one numbered schedule, with the total area worked out for you. Attach your photos in the same chat. If you are not sure of a dimension, leave it blank and add a note: the schedule marks the size as “to be confirmed”. You can also <a href="/book/?type=survey">request a survey</a> if you cannot measure safely. These are estimate sizes, not manufacturing sizes.</p>
 <h2>Common mistakes</h2>
 <ul><li>Measuring in centimetres or inches</li><li>Including the cill in the height</li><li>Measuring one side only. Old openings are rarely square.</li><li>Rounding measurements or subtracting fitting allowances. Record the readings in millimetres; the survey establishes the final manufacturing sizes.</li></ul>
 <h2>What to include when comparing quotes</h2>
