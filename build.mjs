@@ -192,7 +192,7 @@ writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /asse
     `- Email: ${site.contact.email}`,
     `- Contact hours: ${hrs}. These are enquiry hours, not installation appointment availability.`,
     site.chatHours?.open ? `- WhatsApp and chat replies: ${t12(site.chatHours.open)}–${t12(site.chatHours.close)}, every day` : null,
-    area ? `- Area served: ${area}` : '- Coverage: ask the team to check your postcode and job. No nationwide installation availability is confirmed. Any proposed partner installer and appointment must be confirmed before work is agreed.',
+    area ? `- Area served: ${area}` : '- Coverage: UK-wide window, door and repair enquiries welcome. If no local fitter is available, a fitter may travel from another area. Survey, fitting, travel charges, any partner and appointments require postcode/job confirmation; submitting an enquiry does not book a visit.',
     `- Guarantees: manufacturer-provided ${site.guarantee.productYears}-year guarantee on new products, subject to selected manufacturer's written product terms. No insurance-backed guarantee policy currently in place. Installation and repair warranty terms are confirmed separately before agreement.`,
     `- Quotes: check survey availability and any charges before confirming a visit or written quotation. Online quote builder: ${u('/quote/')}`,
     '',

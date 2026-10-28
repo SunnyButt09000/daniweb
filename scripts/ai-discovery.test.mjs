@@ -47,7 +47,9 @@ test('AI discovery endpoints do not invent service areas or publish a private ad
   const home = read('index.html');
   assert.match(robots, /User-agent: \*/);
   assert.match(robots, /Sitemap: https:\/\/veltrixwindowsdoor\.co\.uk\/sitemap\.xml/);
-  assert.match(llms, /Coverage: ask the team to check your postcode/);
+  assert.match(llms, /Coverage: UK-wide window, door and repair enquiries welcome/i);
+  assert.match(llms, /a fitter may travel from another area/i);
+  assert.match(llms, /require postcode\/job confirmation/i);
   assert.match(llms, /not installation appointment availability/i);
   if (!site.serviceAreas.length && !site.areaServed) {
     const schema = JSON.parse(home.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
