@@ -91,12 +91,20 @@ Screenshots, raw HTTP/browser reports, synthetic PDFs and account-access diagnos
 
 ## Exact outstanding actions
 
+### Follow-up to the comment added during this pass
+
+The owner added a further source audit to Issue #11 at **23:47 UTC on 27 October**. It was read completely before finishing. Its live-reachability uncertainty is resolved by the successful HTTP/Chrome checks above; actual search-index and profile states remain unknown without account access. Its contact-hours semantic discrepancy and remaining cross-site survey/removal/aftercare promises are addressed in a separate **draft [PR #14](https://github.com/SunnyButt09000/daniweb/pull/14)**, head `d7082c3`, stacked on the unchanged PR #12 branch. That change moves confirmed contact hours to ContactPoint availability, qualifies copy across shared templates/metadata/FAQ/chatbot/PDF/llms and removes unsupported repair durations. It does not change numerical hours or Google Profile settings. Its report contains the exact before/after scope.
+
+PR #14 passes **47/47** tests. The final isolated combination of PR #12 + PR #13 accessibility + PR #14 consistency passes **51/51**, with Chrome functional/PDF and six-page desktop/mobile accessibility samples also passing within their documented limits. Retain both added test suites when resolving the one-line package-script merge conflict in any future approved combination. No production or PR branch was merged. PR #13 remains the focused accessibility/audit change; PR #14 carries the business-hours/copy correction, not repeated PR #12 work.
+
+Contact still requires a phone even if email is supplied. This is a current enquiry-workflow choice, not an indexing defect; changing it would require an approved reply-channel/validation decision and consistency with any future backend. No silent change was made to that rule. Supplier/product/partner evidence, first-party search accounts and lab/field LCP limitations remain as documented. No repeated competitor research or unsupported new location/guide content was added.
+
 | Action | Needed from owner/reviewer | Status |
 | --- | --- | --- |
 | Account diagnosis | Connect existing authorised signed-in browser for GBP/GSC/Bing read-only inspection; no new credentials need to be pasted | PENDING access |
 | Profile eligibility, hours and areas | Supply genuine operating model/service evidence; then approve exact consequential corrections, if needed | PENDING evidence and explicit change approval |
 | Redirect consolidation | Approve the exact HTTP/www-to-HTTPS-apex proposal after existing-rule inspection; no DNS changes proposed | PENDING approval; not applied |
-| PR #12 and this new PR | Independent review and separate explicit merge/deployment approval | PENDING; both remain draft/unmerged |
+| PR #12, #13 and stacked #14 | Independent review and separate explicit merge/deployment approval; #14 currently targets #12's feature branch | PENDING; all remain draft/unmerged |
 | Backlog business-dependent features | Named manufacturer written terms, genuine partner operations/qualifications, prices/contracts and consented assets as listed in the reconciliation | PENDING evidence; no fabricated substitute |
 
 No paid service, DNS/email-routing/authentication/Turnstile setting, production route, production lead endpoint or production deployment was changed. No PR was merged. Stop here for independent review; account-dependent conclusions remain open.
