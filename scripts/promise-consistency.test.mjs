@@ -17,26 +17,39 @@ test('confirmed contact hours are ContactPoint availability, not unverified busi
  assert.equal(b.contactPoint.hoursAvailable[0].closes,'00:00');
  assert.equal(b.contactPoint.hoursAvailable[0].dayOfWeek.length,7);
 });
-test('all rendered routes avoid blanket free-survey and included-waste promises',()=>{
+test('all rendered routes retain free-survey policy without inventing included extras',()=>{
  const files=walk(fileURLToPath(new URL('../dist/',import.meta.url))).filter(x=>x.endsWith('.html'));assert.equal(files.length,50);
  for(const f of files){const html=readFileSync(f,'utf8');
-  assert.ok(!/Free survey and (?:an itemised |a |written)|Book a free survey|after a free survey|at a free survey|old frames taken away|We come back and fix it|you don.t need to hire a skip/i.test(html),f);
+  assert.ok(!/guaranteed (?:free |same.day )?visit|no travel costs anywhere|free repair diagnostic|old frames taken away|We come back and fix it|you don.t need to hire a skip/i.test(html),f);
   const jsonld=html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s);
   if(!jsonld){assert.match(html,/noindex/);continue;}
   const b=JSON.parse(jsonld[1])['@graph'].find(n=>n['@type']==='HomeAndConstructionBusiness');
   assert.equal(b.openingHoursSpecification,undefined,f);assert.equal(b.contactPoint.hoursAvailable[0].closes,'00:00',f);
  }
+ assert.match(read('dist/index.html'),/Free window &amp; door surveys/);
 });
-test('survey FAQ and installation scope require job-specific fee and responsibility checks',()=>{
- const f=allFaqs.find(f=>f.q==='Are the survey and quote really free?');assert.match(f.a,/availability/i);assert.match(f.a,/charges/i);
- const installation=read('dist/services/installation/index.html');assert.match(installation,/Confirm in your quote/);assert.match(installation,/any charges/);assert.match(installation,/waste disposal arrangements/);
- const about=read('dist/about/index.html');assert.match(about,/aftercare contact/);assert.doesNotMatch(about,/old frames taken away|We come back and fix it/);
+test('owner-confirmed free window-and-door survey remains distinct from travel and repair fees',()=>{
+ const f=allFaqs.find(f=>f.q==='Are the survey and quote really free?');
+ assert.ok(f,'Free-survey FAQ missing');assert.match(f.a,/surveys are free/i);
+ assert.match(f.a,/postcode/i);assert.match(f.a,/separate fitter travel costs/i);
+ assert.match(f.a,/Repair diagnostic or call-out visits.*separately agreed fee/i);
+ const installation=read('dist/services/installation/index.html');
+ assert.match(installation,/Confirm in your quote/);assert.match(installation,/Free window and door survey/);
+ assert.match(installation,/waste disposal arrangements/);
+ const survey=read('dist/services/survey-and-quote/index.html');
+ assert.match(survey,/survey is free/i);assert.match(survey,/separate fitter travel costs/i);
+ const about=read('dist/about/index.html');assert.match(about,/Free survey before price/);
+ assert.doesNotMatch(about,/old frames taken away|We come back and fix it/);
 });
-test('chatbot, PDF text and machine summary retain the same survey qualification',()=>{
+test('chatbot, quote PDF and machine-readable copy use the confirmed free-survey terms',()=>{
  const bot=read('dist/assets/js/assistant.js'),forms=read('dist/assets/js/forms.js'),llms=read('dist/llms.txt');
- for(const text of [bot,forms,llms])assert.ok(!/after a free survey|at a free survey|surveys and written quotes.*are free/i.test(text),'No unconditional survey promise in machine-facing copy');
- assert.match(bot,/survey availability and any charges/);assert.match(forms,/survey arrangements and any charges/);assert.match(llms,/survey availability and any charges/);
- const kb=JSON.parse(read('dist/assets/data/kb.json'));assert.ok(kb.faqs.some(x=>x.q==='Are the survey and quote really free?'&&/charges/i.test(x.a)));
+ assert.match(bot,/window and door surveys are free/i);
+ assert.match(bot,/separate fitter travel costs/i);
+ assert.match(forms,/window and door surveys are free/i);
+ assert.match(llms,/window and door surveys are free/i);
+ assert.match(llms,/repair diagnostic call-outs.*fee/i);
+ const kb=JSON.parse(read('dist/assets/data/kb.json'));
+ assert.ok(kb.faqs.some(x=>x.q==='Are the survey and quote really free?'&&/surveys are free/i.test(x.a)));
 });
 test('repair visit descriptions do not invent completion frequencies or fixed durations',()=>{
  for(const r of repairs)assert.ok(!/usually|often|most|under an hour|about an hour|can take a day|two short visits/i.test(r.visit),r.slug);

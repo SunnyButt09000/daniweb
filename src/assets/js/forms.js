@@ -676,7 +676,7 @@
       };
       const footer = (c) => {
         c.fillStyle = LINE; c.fillRect(M, PH - 110, PW - 2 * M, 1);
-        T(c, 'Estimate sizes only. Confirm survey arrangements and any charges before booking; this request is not a price.', M, PH - 76, '400 16px "IBM Plex Sans"', SLATE);
+        T(c, 'Estimate sizes only. Window and door surveys are free, subject to booking availability; any separately applicable fitter travel costs are confirmed before the visit. This request is not a price.', M, PH - 76, '400 16px "IBM Plex Sans"', SLATE);
         T(c, `${(VX.url || '').replace(/^https?:\/\//, '')} · WhatsApp ${VX.phoneDisplay || ''}`, M, PH - 46, '600 17px "IBM Plex Sans"', INK);
         T(c, 'Drawings viewed from outside · dashed lines meet at the hinge side', PW - M, PH - 46, '400 15px "IBM Plex Sans"', MUTED, 'right');
       };
