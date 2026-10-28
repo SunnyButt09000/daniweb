@@ -1,0 +1,651 @@
+{
+  "date": "2026-10-28",
+  "baseCommit": "6ceee5c1deb5ab6c2fcafee1d074bc48ce9bf904",
+  "chrome": "156.0.8078.48",
+  "settings": {
+    "viewport": {
+      "width": 412,
+      "height": 823
+    },
+    "deviceScaleFactor": 1.75,
+    "cpuSlowdown": 4,
+    "latencyMs": 150,
+    "downloadBytesPerSecond": 200000,
+    "uploadBytesPerSecond": 93750,
+    "observationMsAfterNetworkIdle": 4500
+  },
+  "before": [
+    {
+      "route": "/",
+      "run": 1,
+      "status": 200,
+      "lcpMs": 2524,
+      "lcpElement": "<span style=\"--d:0\">Windows &amp; doors,</span>",
+      "cls": 0,
+      "longTaskExcessMs": 397,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/",
+      "run": 2,
+      "status": 200,
+      "lcpMs": 2424,
+      "lcpElement": "<span style=\"--d:0\">Windows &amp; doors,</span>",
+      "cls": 0,
+      "longTaskExcessMs": 343,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/",
+      "run": 3,
+      "status": 200,
+      "lcpMs": 2400,
+      "lcpElement": "<span style=\"--d:0\">Windows &amp; doors,</span>",
+      "cls": 0,
+      "longTaskExcessMs": 332,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/guides/supply-only-vs-supply-and-fit-windows/",
+      "run": 1,
+      "status": 200,
+      "lcpMs": 1596,
+      "lcpElement": "<h1 class=\"h1\">Supply-only vs supply-and-fit windows: how to compare UK quotes</h1>",
+      "cls": 0,
+      "longTaskExcessMs": 144,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/guides/supply-only-vs-supply-and-fit-windows/",
+      "run": 2,
+      "status": 200,
+      "lcpMs": 1580,
+      "lcpElement": "<h1 class=\"h1\">Supply-only vs supply-and-fit windows: how to compare UK quotes</h1>",
+      "cls": 0,
+      "longTaskExcessMs": 147,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/guides/supply-only-vs-supply-and-fit-windows/",
+      "run": 3,
+      "status": 200,
+      "lcpMs": 1568,
+      "lcpElement": "<h1 class=\"h1\">Supply-only vs supply-and-fit windows: how to compare UK quotes</h1>",
+      "cls": 0,
+      "longTaskExcessMs": 164,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/windows/casement-windows/",
+      "run": 1,
+      "status": 200,
+      "lcpMs": 1684,
+      "lcpElement": "<p class=\"phero__lead\">A casement window is a frame split into panes, called lights, that are either fixed or hinged at the side or top. You can combine them in almost any layout, so casements suit 1930s semis, new-build extensions and most homes in between. They are usually the most cost-effective way to replace old timber, aluminium or tired uPVC.</p>",
+      "cls": 0,
+      "longTaskExcessMs": 233,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/windows/casement-windows/",
+      "run": 2,
+      "status": 200,
+      "lcpMs": 1612,
+      "lcpElement": "<p class=\"phero__lead\">A casement window is a frame split into panes, called lights, that are either fixed or hinged at the side or top. You can combine them in almost any layout, so casements suit 1930s semis, new-build extensions and most homes in between. They are usually the most cost-effective way to replace old timber, aluminium or tired uPVC.</p>",
+      "cls": 0,
+      "longTaskExcessMs": 254,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/windows/casement-windows/",
+      "run": 3,
+      "status": 200,
+      "lcpMs": 1668,
+      "lcpElement": "<p class=\"phero__lead\">A casement window is a frame split into panes, called lights, that are either fixed or hinged at the side or top. You can combine them in almost any layout, so casements suit 1930s semis, new-build extensions and most homes in between. They are usually the most cost-effective way to replace old timber, aluminium or tired uPVC.</p>",
+      "cls": 0,
+      "longTaskExcessMs": 215,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    }
+  ],
+  "after": [
+    {
+      "route": "/",
+      "run": 1,
+      "status": 200,
+      "lcpMs": 2016,
+      "lcpElement": "<p class=\"hero__lead\">Veltrix supplies uPVC and composite windows and doors. Tell us about your job and postcode so we can check survey, repair or installation availability before confirming a written quote.</p>",
+      "cls": 0,
+      "longTaskExcessMs": 394,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/",
+      "run": 2,
+      "status": 200,
+      "lcpMs": 1936,
+      "lcpElement": "<p class=\"hero__lead\">Veltrix supplies uPVC and composite windows and doors. Tell us about your job and postcode so we can check survey, repair or installation availability before confirming a written quote.</p>",
+      "cls": 0,
+      "longTaskExcessMs": 364,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/",
+      "run": 3,
+      "status": 200,
+      "lcpMs": 1836,
+      "lcpElement": "<p class=\"hero__lead\">Veltrix supplies uPVC and composite windows and doors. Tell us about your job and postcode so we can check survey, repair or installation availability before confirming a written quote.</p>",
+      "cls": 0,
+      "longTaskExcessMs": 344,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/guides/supply-only-vs-supply-and-fit-windows/",
+      "run": 1,
+      "status": 200,
+      "lcpMs": 1560,
+      "lcpElement": "<h1 class=\"h1\">Supply-only vs supply-and-fit windows: how to compare UK quotes</h1>",
+      "cls": 0,
+      "longTaskExcessMs": 88,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/guides/supply-only-vs-supply-and-fit-windows/",
+      "run": 2,
+      "status": 200,
+      "lcpMs": 1580,
+      "lcpElement": "<h1 class=\"h1\">Supply-only vs supply-and-fit windows: how to compare UK quotes</h1>",
+      "cls": 0,
+      "longTaskExcessMs": 136,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/guides/supply-only-vs-supply-and-fit-windows/",
+      "run": 3,
+      "status": 200,
+      "lcpMs": 1576,
+      "lcpElement": "<h1 class=\"h1\">Supply-only vs supply-and-fit windows: how to compare UK quotes</h1>",
+      "cls": 0,
+      "longTaskExcessMs": 147,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/windows/casement-windows/",
+      "run": 1,
+      "status": 200,
+      "lcpMs": 1704,
+      "lcpElement": "<p class=\"phero__lead\">A casement window is a frame split into panes, called lights, that are either fixed or hinged at the side or top. You can combine them in almost any layout, so casements suit 1930s semis, new-build extensions and most homes in between. They are usually the most cost-effective way to replace old timber, aluminium or tired uPVC.</p>",
+      "cls": 0,
+      "longTaskExcessMs": 241,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/windows/casement-windows/",
+      "run": 2,
+      "status": 200,
+      "lcpMs": 1632,
+      "lcpElement": "<p class=\"phero__lead\">A casement window is a frame split into panes, called lights, that are either fixed or hinged at the side or top. You can combine them in almost any layout, so casements suit 1930s semis, new-build extensions and most homes in between. They are usually the most cost-effective way to replace old timber, aluminium or tired uPVC.</p>",
+      "cls": 0,
+      "longTaskExcessMs": 241,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    },
+    {
+      "route": "/windows/casement-windows/",
+      "run": 3,
+      "status": 200,
+      "lcpMs": 1684,
+      "lcpElement": "<p class=\"phero__lead\">A casement window is a frame split into panes, called lights, that are either fixed or hinged at the side or top. You can combine them in almost any layout, so casements suit 1930s semis, new-build extensions and most homes in between. They are usually the most cost-effective way to replace old timber, aluminium or tired uPVC.</p>",
+      "cls": 0,
+      "longTaskExcessMs": 232,
+      "overflow": false,
+      "errors": [],
+      "leadCapture": false
+    }
+  ],
+  "lighthouse": [
+    {
+      "sample": "after-local-casement-windows-1-summary.json",
+      "fetchTime": "2026-10-28T02:46:10.334Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3178.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1302.1651,
+        "largest-contentful-paint": 1302.1651,
+        "total-blocking-time": 213.95872499999973,
+        "cumulative-layout-shift": 0.0001180393225606457,
+        "speed-index": 1302.1651
+      },
+      "categories": {
+        "performance": 0.96,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "div.wrap > div.prod > div.prod__main > p.phero__lead"
+    },
+    {
+      "sample": "after-local-casement-windows-2-summary.json",
+      "fetchTime": "2026-10-28T02:46:18.978Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3170.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1283.8263,
+        "largest-contentful-paint": 1283.8263,
+        "total-blocking-time": 198.04342500000007,
+        "cumulative-layout-shift": 0.0001180393225606457,
+        "speed-index": 1283.8263
+      },
+      "categories": {
+        "performance": 0.97,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "div.wrap > div.prod > div.prod__main > p.phero__lead"
+    },
+    {
+      "sample": "after-local-casement-windows-3-summary.json",
+      "fetchTime": "2026-10-28T02:46:27.550Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3181.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1303.1846,
+        "largest-contentful-paint": 1303.1846,
+        "total-blocking-time": 219.20384999999987,
+        "cumulative-layout-shift": 0.0001180393225606457,
+        "speed-index": 1303.1846
+      },
+      "categories": {
+        "performance": 0.96,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "div.wrap > div.prod > div.prod__main > p.phero__lead"
+    },
+    {
+      "sample": "after-local-home-1-summary.json",
+      "fetchTime": "2026-10-28T02:45:14.611Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3056.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1399.8848,
+        "largest-contentful-paint": 1399.8848,
+        "total-blocking-time": 330,
+        "cumulative-layout-shift": 0,
+        "speed-index": 1785.9060916810536
+      },
+      "categories": {
+        "performance": 0.92,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "section.hero > div.wrap > div.hero__copy > p.hero__lead"
+    },
+    {
+      "sample": "after-local-home-2-summary.json",
+      "fetchTime": "2026-10-28T02:45:24.587Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3184.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1389.1979,
+        "largest-contentful-paint": 1389.1979,
+        "total-blocking-time": 318,
+        "cumulative-layout-shift": 0,
+        "speed-index": 1774.3733325381938
+      },
+      "categories": {
+        "performance": 0.93,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "section.hero > div.wrap > div.hero__copy > p.hero__lead"
+    },
+    {
+      "sample": "after-local-home-3-summary.json",
+      "fetchTime": "2026-10-28T02:45:34.139Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3175,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1393.5884,
+        "largest-contentful-paint": 1393.5884,
+        "total-blocking-time": 335,
+        "cumulative-layout-shift": 0,
+        "speed-index": 1790.4126691825363
+      },
+      "categories": {
+        "performance": 0.92,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "section.hero > div.wrap > div.hero__copy > p.hero__lead"
+    },
+    {
+      "sample": "after-local-supply-only-vs-supply-and-fit-windows-1-summary.json",
+      "fetchTime": "2026-10-28T02:45:43.776Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3101,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1053.7442,
+        "largest-contentful-paint": 1053.7442,
+        "total-blocking-time": 18,
+        "cumulative-layout-shift": 0.00008514311791259692,
+        "speed-index": 1053.7442
+      },
+      "categories": {
+        "performance": 1,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "article > header.phero > div.wrap > h1.h1"
+    },
+    {
+      "sample": "after-local-supply-only-vs-supply-and-fit-windows-2-summary.json",
+      "fetchTime": "2026-10-28T02:45:51.950Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 2978.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1257.6625,
+        "largest-contentful-paint": 1257.6625,
+        "total-blocking-time": 174,
+        "cumulative-layout-shift": 0,
+        "speed-index": 1257.6625
+      },
+      "categories": {
+        "performance": 0.97,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "article > header.phero > div.wrap > h1.h1"
+    },
+    {
+      "sample": "after-local-supply-only-vs-supply-and-fit-windows-3-summary.json",
+      "fetchTime": "2026-10-28T02:46:00.145Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3088,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1539.1873,
+        "largest-contentful-paint": 3003.1873000000005,
+        "total-blocking-time": 166.59365000000003,
+        "cumulative-layout-shift": 0,
+        "speed-index": 3965.104757403064
+      },
+      "categories": {
+        "performance": 0.9,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "article > header.phero > div.wrap > h1.h1"
+    },
+    {
+      "sample": "baseline-live-casement-windows-1-summary.json",
+      "fetchTime": "2026-10-28T02:33:05.054Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3159.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1538.606,
+        "largest-contentful-paint": 1564.606,
+        "total-blocking-time": 0,
+        "cumulative-layout-shift": 0.000006020220458466449,
+        "speed-index": 3316.3766140863336
+      },
+      "categories": {
+        "performance": 0.98,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "div.wrap > div.prod > div.prod__main > p.phero__lead"
+    },
+    {
+      "sample": "baseline-live-home-1-summary.json",
+      "fetchTime": "2026-10-28T02:32:42.566Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3125.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1411.1055000000001,
+        "largest-contentful-paint": 1411.1055000000001,
+        "total-blocking-time": 286,
+        "cumulative-layout-shift": 0,
+        "speed-index": 4568.2137521417835
+      },
+      "categories": {
+        "performance": 0.91,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "section.hero > div.wrap > div.hero__copy > p.eyebrow"
+    },
+    {
+      "sample": "baseline-live-supply-only-vs-supply-and-fit-windows-1-summary.json",
+      "fetchTime": "2026-10-28T02:32:54.577Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3157.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1288.5320000000002,
+        "largest-contentful-paint": 2368.532,
+        "total-blocking-time": 168,
+        "cumulative-layout-shift": 0,
+        "speed-index": 4126.5600740119935
+      },
+      "categories": {
+        "performance": 0.94,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "article > header.phero > div.wrap > h1.h1"
+    },
+    {
+      "sample": "baseline-local-home-1-summary.json",
+      "fetchTime": "2026-10-28T02:31:50.859Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3114.5,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1541.7778,
+        "largest-contentful-paint": 1541.7778,
+        "total-blocking-time": 234.8888999999997,
+        "cumulative-layout-shift": 0,
+        "speed-index": 3074.585377241181
+      },
+      "categories": {
+        "performance": 0.95,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "section.hero > div.wrap > div.hero__copy > p.eyebrow"
+    },
+    {
+      "sample": "baseline-local-home-2-summary.json",
+      "fetchTime": "2026-10-28T02:32:01.767Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3133,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1391.2919,
+        "largest-contentful-paint": 2853.2919,
+        "total-blocking-time": 341,
+        "cumulative-layout-shift": 0,
+        "speed-index": 1798.2885047020259
+      },
+      "categories": {
+        "performance": 0.87,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "div.hero__actions > a.hbtn > span.hbtn__txt > strong"
+    },
+    {
+      "sample": "baseline-local-home-3-summary.json",
+      "fetchTime": "2026-10-28T02:32:11.407Z",
+      "version": "13.6.0",
+      "environment": {
+        "networkUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36",
+        "hostUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "benchmarkIndex": 3148,
+        "credits": {
+          "axe-core": "4.14.0"
+        }
+      },
+      "metrics": {
+        "first-contentful-paint": 1541.065,
+        "largest-contentful-paint": 1541.065,
+        "total-blocking-time": 201.53250000000003,
+        "cumulative-layout-shift": 0,
+        "speed-index": 3055.408791806181
+      },
+      "categories": {
+        "performance": 0.96,
+        "accessibility": 1,
+        "best-practices": 1,
+        "seo": 1
+      },
+      "lcp": "section.hero > div.wrap > div.hero__copy > p.eyebrow"
+    }
+  ],
+  "limits": [
+    "Local lab results, not field Core Web Vitals.",
+    "Long-task excess is a diagnostic over the observation window, not Lighthouse TBT or INP.",
+    "PageSpeed Insights API returned 429; no field percentile obtained.",
+    "Lighthouse uses simulation; animated text changed its LCP candidate between runs. No Lighthouse score improvement is claimed.",
+    "No production deployment or enquiry submission."
+  ]
+}
