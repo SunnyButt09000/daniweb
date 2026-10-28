@@ -107,3 +107,28 @@ test('mobile navigation, chatbot, quote, booking and guide section links remain 
     assert.deepEqual(errors, []);
   } finally { await context.close(); }
 });
+
+
+test('illustrative model-card labels stay inside narrow mobile cards', async () => {
+  for (const pathname of ['/windows/casement-windows/', '/doors/upvc-doors/']) {
+    const { context, page, errors } = await visit(390, pathname);
+    try {
+      const cards = page.locator('.mcard');
+      assert.ok(await cards.count() > 0, 'Missing example layout cards: ' + pathname);
+      const examples = await cards.evaluateAll(nodes => nodes.map(card => {
+        const r = card.getBoundingClientRect();
+        const badge = card.querySelector('.mcard__pop')?.getBoundingClientRect();
+        const cta = card.querySelector('.mcard__cta')?.getBoundingClientRect();
+        return { cardRight: r.right, cardLeft: r.left, badgeRight: badge?.right, ctaRight: cta?.right,
+          label: card.querySelector('.mcard__meta dt:last-child')?.textContent };
+      }));
+      for (const x of examples) {
+        if (x.badgeRight != null) assert.ok(x.badgeRight <= x.cardRight + 1, 'Featured badge clipped: ' + pathname);
+        assert.ok(x.ctaRight <= x.cardRight + 1, 'Quote CTA clipped: ' + pathname);
+        assert.ok(x.cardLeft >= -1, 'Card outside viewport: ' + pathname);
+      }
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, pathname);
+      assert.deepEqual(errors, []);
+    } finally { await context.close(); }
+  }
+});
