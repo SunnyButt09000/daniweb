@@ -664,14 +664,14 @@
       const n = lc(p.name);
       return {
         k: 'price:product',
-        b: [H(`Prices for ${n}`), P('We don’t publish a price list. Size, glass, colour and hardware all change the price, so a list would mislead you.'), P(`Add your ${n} to the quote builder with rough sizes and send it to us. Ask for an estimate, then check survey availability and any charges before confirming the specification and written price.`), ACT(bGo(`Price ${n}`, `/quote/?item=${p.slug}`))],
+        b: [H(`Prices for ${n}`), P('We don’t publish a price list. Size, glass, colour and hardware all change the price, so a list would mislead you.'), P(`Add your ${n} to the quote builder with rough sizes and send it to us. Ask for an estimate, then arrange a free window or door survey subject to postcode availability. We confirm any separate fitter travel costs before a visit and the final written price.`), ACT(bGo(`Price ${n}`, `/quote/?item=${p.slug}`))],
         c: [CA('Quick quote here', `flow:quote:${p.slug}`), C('How do I measure?'), CL(`About ${n}`, p.url)],
       };
     }
     const f = faqBy(/how much/i);
     return {
       k: 'price',
-      b: [H('Prices'), P(f ? f.a : 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list. Use the quote builder or send sizes and photos on WhatsApp for an estimate. Check survey availability and any charges before confirming the specification and written price.'), ACT(bGo('Open the quote builder', '/quote/'))],
+      b: [H('Prices'), P(f ? f.a : 'It depends on the size, style, glass and colour, and on how many windows you’re replacing, so we don’t publish a price list. Use the quote builder or send sizes and photos on WhatsApp for an estimate. Our window and door surveys are free, subject to postcode and appointment availability. We confirm any separate fitter travel costs before booking.'), ACT(bGo('Open the quote builder', '/quote/'))],
       c: [CA('Quick quote here', 'flow:quote'), C('How do I measure?'), C('Is the survey free?', 'Are the survey and quote really free?'), CW('Ask on WhatsApp', hi('I’d like a rough price for '))],
     };
   }
@@ -1135,7 +1135,7 @@
     survey: {
       title: 'survey request',
       head: 'Book a survey',
-      intro: 'Check survey availability and any charges for your postcode and job before agreeing a visit. A few questions, then I’ll put your enquiry into a WhatsApp message. Type Cancel at any time.',
+      intro: 'Window and door surveys are free. We must confirm appointment availability for your postcode and any separately applicable fitter travel costs before a visit. Repair diagnostic call-outs are different and may have a fee. A few questions, then I’ll prepare your WhatsApp enquiry. Type Cancel at any time.',
       steps: [
         { key: 'what', ask: 'What’s the survey for?', opts: () => ['New windows', 'New doors', 'Windows and doors', 'Replacement glass', 'A repair instead'] },
         { key: 'count', ask: (d) => `Roughly how many ${noun(d)}?`, opts: () => COUNT },
