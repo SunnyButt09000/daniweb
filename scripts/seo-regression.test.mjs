@@ -59,3 +59,34 @@ test('illustrative model cards are not marked up as retail Product snippets', ()
     assert.match(html, /\bprod__models\b/, `Visible model navigation removed: ${p.slug}`);
   }
 });
+
+
+test('buyer guides have readable direct-section links matching unique H2 anchors', () => {
+  for (const gd of guides) {
+    const page = guide(site, { ...data, guides }, gd);
+    const toc = page.body.match(/<nav class="article-toc"[\s\S]*?<\/nav>/)?.[0];
+    assert.ok(toc, 'Missing section navigation: ' + gd.slug);
+    const ids = [...page.body.matchAll(/<h2\b[^>]*\bid="([^"]+)"[^>]*>/g)].map((m) => m[1]);
+    const links = [...toc.matchAll(/<a href="#([^"]+)">/g)].map((m) => m[1]);
+    assert.ok(ids.length >= 4, 'Too few article sections: ' + gd.slug);
+    assert.deepEqual(links, ids, 'Inaccurate section links: ' + gd.slug);
+    assert.equal(new Set(ids).size, ids.length, 'Duplicate heading anchor: ' + gd.slug);
+    assert.equal((page.body.match(/<h1\b/g) || []).length, 1);
+    assert.ok(page.body.includes(gd.summary), 'Article summary changed: ' + gd.slug);
+  }
+  const regs = guide(site, { ...data, guides }, guides.find((g) => g.slug === 'building-regulations-for-replacement-windows'));
+  assert.match(regs.body, /href="#uk-nations"/);
+  assert.match(regs.body, /<h2 id="uk-nations">/);
+});
+
+test('related articles have three distinct existing non-self guide links', () => {
+  for (const gd of guides) {
+    const page = guide(site, { ...data, guides }, gd);
+    const section = page.body.split('Keep reading')[1]?.split('</section>')[0] || '';
+    const slugs = [...section.matchAll(/href="\/guides\/([^/]+)\/"/g)].map((m) => m[1]);
+    assert.equal(slugs.length, 3, 'Expected three recommendations for ' + gd.slug);
+    assert.equal(new Set(slugs).size, 3, 'Repeated recommendations for ' + gd.slug);
+    assert.ok(!slugs.includes(gd.slug), 'Self-recommended article: ' + gd.slug);
+    for (const slug of slugs) assert.ok(guides.some((g) => g.slug === slug), 'Broken guide link ' + slug);
+  }
+});
