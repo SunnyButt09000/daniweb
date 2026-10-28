@@ -5,9 +5,11 @@
 // - Add a model: copy an entry in the right product list, give it a new unique `code`, and edit it.
 // - Remove a model: delete its entry. Old quote links with that code fall back to "Standard".
 // - Reorder: the order here is the order on the website. Put the most asked-for first.
-// - `popular: true` adds a "Popular" tag. Keep it to one or two per product.
+// - `popular: true` currently marks editorially featured example layouts; it does not
+//   represent measured demand, completed installations or customer reviews.
 // - `{ group: 'Heading' }` starts a group of models under that heading on the product page.
-// - `size` is a typical width × height in mm. It is only a starting point in the quote builder.
+// - `size` is an example width × height in mm, not a verified standard,
+//   offered stock dimension or final measurement. It is only a starting point for enquiries.
 // - Names are generic UK trade descriptions. Do not use a manufacturer's model name unless you
 //   sell that exact product.
 //
