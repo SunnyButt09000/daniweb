@@ -644,6 +644,19 @@ ul, ol { margin: 0; padding: 0; }
 .prose a { color: var(--ink); text-decoration-color: var(--brass); text-decoration-thickness: 1.5px; }
 .prose a:hover { color: var(--brass-ink); }
 .prose strong { color: var(--ink); font-weight: 600; }
+
+/* Guide contents: readable jump links to existing advice. */
+.article-toc { margin: 0 0 clamp(30px, 4vw, 48px); padding: 20px 24px; background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--brass); border-radius: var(--r); }
+.article-toc__title { margin: 0 0 12px !important; color: var(--ink); font: 650 0.9375rem/1.3 var(--f-display); }
+.article-toc ol { margin: 0 !important; padding-left: 1.3em; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 24px; font-size: 0.875rem; line-height: 1.45; }
+.article-toc li { margin: 0; padding-left: 2px; }
+.article-toc a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.prose--article h2[id] { scroll-margin-top: calc(var(--hdr) + 24px); }
+@media (max-width: 640px) {
+  .article-toc { padding: 18px; }
+  .article-toc ol { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+}
+
 .prose--article { font-size: 1.125rem; }
 .prose--article > p:first-child { font-size: 1.25rem; color: var(--ink); }
 .prose--legal h2 { font-size: 1.375rem; }
