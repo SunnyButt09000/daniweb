@@ -927,10 +927,14 @@ a.ccard:hover { background: var(--white); }
    ===================================================================== */
 .display .ln { display: block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; }
 .display .ln > span { display: inline-block; }
-@media (prefers-reduced-motion: no-preference) {
+/* Keep mobile LCP text visible on the first paint; desktop retains its entrance. */
+@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
   .hero .display .ln > span { animation: vxUp .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--d, 0) * 110ms + 80ms); }
-  .hero .hero__lead, .hero .hero__actions, .hero .hero__ticks { animation: vxFadeUp .8s ease both; }
-  .hero .hero__lead { animation-delay: .45s; } .hero .hero__actions { animation-delay: .58s; } .hero .hero__ticks { animation-delay: .7s; }
+  .hero .hero__lead { animation: vxFadeUp .8s .45s ease both; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero .hero__actions, .hero .hero__ticks { animation: vxFadeUp .8s ease both; }
+  .hero .hero__actions { animation-delay: .58s; } .hero .hero__ticks { animation-delay: .7s; }
   .hero .diagram--facade { animation: vxFadeUp .9s .15s ease both; }
   .hero .d-call, .hero .d-dim, .hero .d-open { animation: vxFade .6s ease both; animation-delay: 1.7s; }
   .hero .d-call:nth-of-type(2n) { animation-delay: 1.9s; }
