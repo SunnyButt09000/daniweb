@@ -27,6 +27,8 @@ All existing routes remain: **50 generated HTML documents / 49 indexable URLs / 
 
 **`npm run check`: 47/47 PASS** on this branch, including PR #12's 42 existing tests and five new consistency regressions. The first four new tests were observed failing before implementation; the repair expectation test was also run failing against the unsupported visit/FAQ wording before its correction. Existing hours and SEO checks were adapted to require ContactPoint availability rather than weakened or removed.
 
+The existing read-only GitHub verification workflow originally excluded this stacked PR's feature base. Its push filter now additionally includes only `codex/veltrix-promise-consistency`, so the same Node 22 build/regression/clean-fingerprint job can verify this branch. Permissions remain `contents: read`; no deployment command, secret access or account setting was added.
+
 The tests inspect all 50 rendered HTML files, 49 business graphs, current FAQ answers, generated chatbot knowledge, hard-coded chatbot replies, PDF text and llms summary for the targeted inconsistencies. JSON-LD parses and contact midnight values agree. The non-indexable 404 document has no business graph and is checked separately for noindex.
 
 An isolated integration tree with PR #12, this patch and the separate accessibility patch passes **51/51**. Its package command explicitly retains **both** new test suites; a future approved merge may need this one-line package-script conflict resolution. No branch was merged to production or into another PR. The shared layout changes applied cleanly in that integration tree.
