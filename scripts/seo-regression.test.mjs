@@ -138,6 +138,6 @@ test('illustrative product layouts never claim real popularity, frequent install
     assert.match(section, /planning, not manufacturing or fitting/);
     assert.doesNotMatch(section, /we fit most|<dt>Typical size<\/dt>|>Popular<\/span>|standard (layouts|designs)/i);
     assert.match(section, /href="\/quote\/\?item=[^"]+&amp;model=[^"]+"/);
-    assert.match(section, /Add to quote request/);
+    assert.match(section, /Request a quote/);
   }
 });
