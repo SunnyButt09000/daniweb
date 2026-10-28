@@ -1,10 +1,10 @@
 {
  "/": {
-  "h": "7b507bbd94a7",
+  "h": "50ca8044ebf7",
   "d": "2026-10-28"
  },
  "/about/": {
-  "h": "1fcc1e1938f7",
+  "h": "bb0b6195e866",
   "d": "2026-10-28"
  },
  "/accessibility/": {
@@ -24,31 +24,31 @@
   "d": "2026-10-03"
  },
  "/doors/": {
-  "h": "1c8100fd65a1",
+  "h": "88906b9f0e9f",
   "d": "2026-10-28"
  },
  "/doors/bifold-doors/": {
-  "h": "7fb290d53776",
+  "h": "1c5bc2a35b47",
   "d": "2026-10-28"
  },
  "/doors/composite-doors/": {
-  "h": "e0d088b3a847",
+  "h": "6c9411e628e9",
   "d": "2026-10-28"
  },
  "/doors/french-doors/": {
-  "h": "d0e6081e429a",
+  "h": "6288d4acb986",
   "d": "2026-10-28"
  },
  "/doors/patio-doors/": {
-  "h": "41d7bddcfc51",
+  "h": "b225ea249455",
   "d": "2026-10-28"
  },
  "/doors/stable-doors/": {
-  "h": "4418ea7173a0",
+  "h": "da276eee4275",
   "d": "2026-10-28"
  },
  "/doors/upvc-doors/": {
-  "h": "2af8542e7132",
+  "h": "7643abf42bc3",
   "d": "2026-10-28"
  },
  "/faq/": {
@@ -60,39 +60,39 @@
   "d": "2026-10-27"
  },
  "/guides/": {
-  "h": "4d221a86e4d8",
-  "d": "2026-10-27"
+  "h": "835fab0d1e71",
+  "d": "2026-10-28"
  },
  "/guides/building-regulations-for-replacement-windows/": {
-  "h": "6c48476c7d3e",
+  "h": "dbc6cdab59e5",
   "d": "2026-10-28"
  },
  "/guides/how-to-maintain-upvc-windows-and-doors/": {
-  "h": "83cfe83576ec",
+  "h": "0551d0d55b44",
   "d": "2026-10-28"
  },
  "/guides/how-to-measure-windows-for-a-quote/": {
-  "h": "18a261dfb4da",
+  "h": "044f3df85201",
   "d": "2026-10-28"
  },
  "/guides/misted-double-glazing-repair-or-replace/": {
-  "h": "ae1d118ff663",
+  "h": "2cfdd8286f0b",
   "d": "2026-10-28"
  },
  "/guides/supply-only-vs-supply-and-fit-windows/": {
-  "h": "900b4e6196b2",
+  "h": "3aed5b5c9162",
   "d": "2026-10-28"
  },
  "/guides/upvc-vs-composite-doors/": {
-  "h": "9be66fd40c49",
+  "h": "1f45b45b6d5e",
   "d": "2026-10-28"
  },
  "/guides/window-door-schedule-for-builders-and-renovators/": {
-  "h": "8b0284940b2b",
+  "h": "689a0dec285b",
   "d": "2026-10-28"
  },
  "/guides/window-energy-ratings-explained/": {
-  "h": "4cb2c6cbe357",
+  "h": "0080843c3bd2",
   "d": "2026-10-28"
  },
  "/privacy/": {
@@ -140,23 +140,23 @@
   "d": "2026-10-27"
  },
  "/services/": {
-  "h": "bc216b3a2bd7",
-  "d": "2026-10-27"
+  "h": "958e17afb083",
+  "d": "2026-10-28"
  },
  "/services/installation/": {
-  "h": "e2cf2e249f63",
+  "h": "969db5974f28",
   "d": "2026-10-28"
  },
  "/services/landlords-and-commercial/": {
-  "h": "86ce7e09d5fd",
-  "d": "2026-10-27"
+  "h": "d01b734f7dd1",
+  "d": "2026-10-28"
  },
  "/services/servicing-and-maintenance/": {
-  "h": "d7d3b743aed7",
-  "d": "2026-10-27"
+  "h": "b8205e665b99",
+  "d": "2026-10-28"
  },
  "/services/survey-and-quote/": {
-  "h": "a25b5ead3027",
+  "h": "b90a9a58510d",
   "d": "2026-10-28"
  },
  "/terms/": {
@@ -164,35 +164,35 @@
   "d": "2026-10-27"
  },
  "/windows/": {
-  "h": "bc6260c64cb1",
+  "h": "448577196f86",
   "d": "2026-10-28"
  },
  "/windows/bay-and-bow-windows/": {
-  "h": "8351fbbe34f1",
+  "h": "49c2833b9ae6",
   "d": "2026-10-28"
  },
  "/windows/casement-windows/": {
-  "h": "7ae735fc6568",
+  "h": "efe68e128898",
   "d": "2026-10-28"
  },
  "/windows/flush-casement-windows/": {
-  "h": "decc67bb6fb8",
+  "h": "30f9fc908162",
   "d": "2026-10-28"
  },
  "/windows/sash-windows/": {
-  "h": "51134003c971",
+  "h": "ec5c44aa3052",
   "d": "2026-10-28"
  },
  "/windows/shaped-and-feature-windows/": {
-  "h": "e56c31b4837b",
+  "h": "cecff9c8e2ba",
   "d": "2026-10-28"
  },
  "/windows/sliding-windows/": {
-  "h": "69e94c37ff13",
+  "h": "026863a0ac91",
   "d": "2026-10-28"
  },
  "/windows/tilt-and-turn-windows/": {
-  "h": "9931539ee1af",
+  "h": "d6d80da0e51c",
   "d": "2026-10-28"
  }
 }
