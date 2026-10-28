@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {businessSchema} from '../lib/layout.mjs';
+import {businessSchema,ctaBand} from '../lib/layout.mjs';
 import {allFaqs} from '../src/content/faqs.mjs';
 import {repairs} from '../src/content/repairs.mjs';
 const root=new URL('../',import.meta.url);
@@ -54,4 +54,17 @@ test('chatbot, quote PDF and machine-readable copy use the confirmed free-survey
 test('repair visit descriptions do not invent completion frequencies or fixed durations',()=>{
  for(const r of repairs)assert.ok(!/usually|often|most|under an hour|about an hour|can take a day|two short visits/i.test(r.visit),r.slug);
  assert.ok(!/\b(?:Most|usually|often)[^.]{0,140}(?:one visit|under an hour)/i.test(JSON.stringify({repairs,allFaqs})),'Repair answers also avoid unsupported visit/duration promises');
+});
+
+test('shared CTA never suggests charging for free window and door surveys',()=>{
+ const site=JSON.parse(read('src/data/site.json'));
+ const band=ctaBand(site);
+ assert.match(band,/Window and door surveys are free/);
+ assert.match(band,/separate fitter travel costs/);
+ assert.doesNotMatch(band,/survey or travel charges|survey charges|survey fees/i);
+ for(const path of ['dist/index.html','dist/about/index.html','dist/services/installation/index.html','dist/services/survey-and-quote/index.html']){
+  const html=read(path);
+  assert.match(html,/Window and door surveys are free/,path);
+  assert.doesNotMatch(html,/survey or travel charges|survey charges|survey fees/i,path);
+ }
 });
