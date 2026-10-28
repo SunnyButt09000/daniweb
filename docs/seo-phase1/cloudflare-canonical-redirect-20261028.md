@@ -79,6 +79,41 @@ curl.exe --silent --show-error --max-time 30 --output NUL --dump-header - 'http:
 curl.exe --silent --show-error --max-time 30 --location --max-redirs 3 --output NUL --write-out '%{http_code} %{url_effective} %{num_redirects}' 'http://www.veltrixwindowsdoor.co.uk/contact/?source=seo-audit&item=door%20handle&item=lock'
 ```
 
+
+## Automated read-only acceptance check (prepared 28 October 2026)
+
+The repository now contains a dependency-free, **opt-in** Node script. It uses GET
+requests with automatic redirect following **disabled**, and validates the
+initial 301 Location header. It also confirms that the original HTTPS apex
+responds with the correct HTTP status, including a real 404 on missing paths.
+
+Run on a machine with working public DNS **only after explicit approval and
+activation of the redirect rule** (or as a deliberately failing preflight):
+
+```powershell
+npm run audit:redirects
+```
+
+It checks six documented paths: homepage, contact with repeated query keys and
+encoded space, buyer guide, self-hosted font, nonexistent route and encoded
+path/query. Each has three source-host checks (HTTP apex, HTTP www, HTTPS www)
+and one HTTPS-apex check: **24 HTTP requests in total**. It neither authenticates
+to Cloudflare nor changes DNS/rules, submits enquiries or writes customer data.
+Any status other than the expected direct 301/200/404 makes the command fail.
+A transient network/DNS failure also fails closed; it is **not** evidence of
+a production outage. If your environment cannot resolve the website, use a
+different authorized machine and document that limitation.
+
+```powershell
+npm run check
+```
+
+The standard local/CI build runs **mocked redirect-unit tests only**; it does
+not contact the production website and does not require Cloudflare access.
+No audit result from this script is a substitute for inspecting existing
+Cloudflare rules, SSL, Worker routes and the exact approved rule order
+before activation. See rollback checklist below.
+
 ## Rollback
 
 Record the new rule's identifier privately. If any test fails, disable **only that new rule**, confirm the previous responses return, and review the cause. Do not delete existing rules or restore an entire ruleset over concurrent edits. Do not change DNS/SSL/Worker routing. Permanent redirects can remain cached by clients after rollback; use uncached requests to verify the server and communicate that limitation before activation. The approved action must include permission to disable this same rule immediately if validation fails.
