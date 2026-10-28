@@ -119,9 +119,9 @@ test('illustrative model-card labels stay inside narrow mobile cards', async () 
         const r = card.getBoundingClientRect();
         const badge = card.querySelector('.mcard__pop')?.getBoundingClientRect();
         const cta = card.querySelector('.mcard__cta')?.getBoundingClientRect();
-        return { cardRight: r.right, cardLeft: r.left, badgeRight: badge?.right, ctaRight: cta?.right,
-          label: card.querySelector('.mcard__meta dt:last-child')?.textContent };
+        return { cardRight: r.right, cardLeft: r.left, badgeRight: badge?.right, ctaRight: cta?.right };
       }));
+      assert.ok(examples.some(x => x.badgeRight != null), 'Expected a featured illustration: ' + pathname);
       for (const x of examples) {
         if (x.badgeRight != null) assert.ok(x.badgeRight <= x.cardRight + 1, 'Featured badge clipped: ' + pathname);
         assert.ok(x.ctaRight <= x.cardRight + 1, 'Quote CTA clipped: ' + pathname);
