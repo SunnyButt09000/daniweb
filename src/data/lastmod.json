@@ -1,7 +1,7 @@
 {
  "/": {
-  "h": "69c22cf11a7a",
-  "d": "2026-10-27"
+  "h": "c1f21568f726",
+  "d": "2026-10-28"
  },
  "/about/": {
   "h": "40d81cff2103",
@@ -24,31 +24,31 @@
   "d": "2026-10-03"
  },
  "/doors/": {
-  "h": "32f684afc791",
-  "d": "2026-10-27"
+  "h": "1c8100fd65a1",
+  "d": "2026-10-28"
  },
  "/doors/bifold-doors/": {
-  "h": "6c39526ae882",
+  "h": "7fb290d53776",
   "d": "2026-10-28"
  },
  "/doors/composite-doors/": {
-  "h": "51e0dd7c38e6",
+  "h": "e0d088b3a847",
   "d": "2026-10-28"
  },
  "/doors/french-doors/": {
-  "h": "b9b72fee5a1b",
+  "h": "d0e6081e429a",
   "d": "2026-10-28"
  },
  "/doors/patio-doors/": {
-  "h": "79d6ab2360ea",
+  "h": "41d7bddcfc51",
   "d": "2026-10-28"
  },
  "/doors/stable-doors/": {
-  "h": "11bc40f6aa57",
+  "h": "4418ea7173a0",
   "d": "2026-10-28"
  },
  "/doors/upvc-doors/": {
-  "h": "fe087be178e0",
+  "h": "2af8542e7132",
   "d": "2026-10-28"
  },
  "/faq/": {
@@ -164,35 +164,35 @@
   "d": "2026-10-27"
  },
  "/windows/": {
-  "h": "113d1a62e63f",
-  "d": "2026-10-27"
+  "h": "bc6260c64cb1",
+  "d": "2026-10-28"
  },
  "/windows/bay-and-bow-windows/": {
-  "h": "4b112066ba85",
+  "h": "8351fbbe34f1",
   "d": "2026-10-28"
  },
  "/windows/casement-windows/": {
-  "h": "a4f9206f75b3",
+  "h": "7ae735fc6568",
   "d": "2026-10-28"
  },
  "/windows/flush-casement-windows/": {
-  "h": "85fc345075c1",
+  "h": "decc67bb6fb8",
   "d": "2026-10-28"
  },
  "/windows/sash-windows/": {
-  "h": "c042a5ed6992",
+  "h": "51134003c971",
   "d": "2026-10-28"
  },
  "/windows/shaped-and-feature-windows/": {
-  "h": "557914765f3e",
+  "h": "e56c31b4837b",
   "d": "2026-10-28"
  },
  "/windows/sliding-windows/": {
-  "h": "e7fa8ce18769",
+  "h": "69e94c37ff13",
   "d": "2026-10-28"
  },
  "/windows/tilt-and-turn-windows/": {
-  "h": "89f86cf63bef",
+  "h": "9931539ee1af",
   "d": "2026-10-28"
  }
 }
