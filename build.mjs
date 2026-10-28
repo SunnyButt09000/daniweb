@@ -52,6 +52,10 @@ rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 cpSync(join(root, 'src/assets'), join(out, 'assets'), { recursive: true });
 cpSync(join(root, 'src/static'), out, { recursive: true });
+// IndexNow public ownership proof (not a secret); never include it in sitemap.
+const indexNowKey = readFileSync(join(root, 'src/data/indexnow-key.txt'), 'utf8').trim();
+if (!/^[a-f0-9]{32}$/.test(indexNowKey)) throw new Error('Invalid IndexNow ownership key');
+writeFileSync(join(out, `${indexNowKey}.txt`), `${indexNowKey}\n`);
 
 /* ---------- pages ---------- */
 const pages = [

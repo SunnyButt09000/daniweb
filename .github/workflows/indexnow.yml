@@ -1,0 +1,33 @@
+name: Veltrix IndexNow indexing notifications
+
+on:
+  push:
+    branches:
+      - claude/upvc-windows-doors-site-jj8slj
+    paths:
+      - 'src/**'
+      - 'lib/**'
+      - 'build.mjs'
+      - 'scripts/indexnow-*.mjs'
+      - '.github/workflows/indexnow.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Notify IndexNow about changed canonical URLs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build public static site
+        run: node build.mjs
+      - name: Submit new/changed indexable URLs to IndexNow
+        run: node scripts/indexnow-submit.mjs
