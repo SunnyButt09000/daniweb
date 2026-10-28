@@ -91,3 +91,36 @@ test('related articles have three distinct existing non-self guide links', () =>
     for (const slug of slugs) assert.ok(guides.some((g) => g.slug === slug), 'Broken guide link ' + slug);
   }
 });
+
+test('product and repair detail pages directly link to relevant existing buyer guidance', () => {
+  const cases = [
+    ['windows/casement-windows', ['how-to-measure-windows-for-a-quote', 'window-energy-ratings-explained']],
+    ['doors/composite-doors', ['upvc-vs-composite-doors', 'how-to-maintain-upvc-windows-and-doors']],
+    ['doors/upvc-doors', ['upvc-vs-composite-doors', 'how-to-maintain-upvc-windows-and-doors']],
+    ['repairs/misted-double-glazing', ['misted-double-glazing-repair-or-replace']],
+    ['repairs/handles-and-hinges', ['how-to-maintain-upvc-windows-and-doors']],
+  ];
+  for (const [route, expected] of cases) {
+    const html = readFileSync(new URL(`../dist/${route}/index.html`, import.meta.url), 'utf8');
+    const advice = html.match(/<aside class="prose" aria-label="Related buyer advice">[\s\S]*?<\/aside>/)?.[0];
+    assert.ok(advice, `No contextual buyer advice: ${route}`);
+    for (const slug of expected) assert.ok(advice.includes(`href="/guides/${slug}/"`), `Missing ${slug} from ${route}`);
+    assert.equal((advice.match(/<a /g) || []).length, expected.length);
+  }
+});
+
+test('detail advice links are unique, published and limited to applicable repair topics', () => {
+  for (const item of [...products, ...repairs.map((r) => ({ ...r, category: 'repairs' }))]) {
+    const html = readFileSync(new URL(`../dist/${item.category}/${item.slug}/index.html`, import.meta.url), 'utf8');
+    const advice = html.match(/<aside class="prose" aria-label="Related buyer advice">[\s\S]*?<\/aside>/)?.[0] || '';
+    const slugs = [...advice.matchAll(/href="\/guides\/([^/]+)\/"/g)].map((m) => m[1]);
+    const applicable = item.category !== 'repairs' || [
+      'misted-double-glazing', 'locks-and-mechanisms', 'handles-and-hinges',
+      'door-alignment', 'draughts-and-leaks', 'patio-and-bifold-repairs',
+    ].includes(item.slug);
+    assert.equal(slugs.length > 0, applicable, `Incorrect advice availability: ${item.slug}`);
+    assert.equal(new Set(slugs).size, slugs.length, item.slug);
+    for (const slug of slugs) assert.ok(guides.some((g) => g.slug === slug), `Unpublished advice ${slug}`);
+    if (['glass-and-panel-replacement', 'safety-and-security-upgrades'].includes(item.slug)) assert.equal(slugs.length, 0, 'No directly matching guide exists');
+  }
+});
