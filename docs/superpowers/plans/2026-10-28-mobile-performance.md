@@ -19,14 +19,18 @@
 
 Files: `src/assets/css/main.css`; optional browser checks in `scripts/mobile-performance.browser.mjs`; evidence in `docs/seo-phase1/mobile-performance-20261028.md` and a compact JSON result file.
 
-- [ ] Before editing CSS, run a browser assertion that `.hero__lead` and `.display .ln > span` have no entrance animation at 390px. It must fail against the baseline; check desktop still animates and reduced-motion preferences still apply.
-- [ ] Move only headline/lead rules into `@media (min-width: 761px) and (prefers-reduced-motion: no-preference)`. Keep actions, ticks and SVG animation rules in their existing media block.
-- [ ] Rerun the browser assertion, `npm run check`, three fixed-throttle samples per home/guide/product, and Lighthouse comparisons. Reject any regression in layout, chatbot, forms, navigation, article anchors or reduced motion.
-- [ ] Review diff and obtain independent review. Commit and open a review-only performance PR against the latest default branch.
+- [x] Before editing CSS, run a browser assertion that `.hero__lead` and `.display .ln > span` have no entrance animation at 390px. It must fail against the baseline; check desktop still animates and reduced-motion preferences still apply.
+- [x] Move only headline/lead rules into `@media (min-width: 761px) and (prefers-reduced-motion: no-preference)`. Keep actions, ticks and SVG animation rules in their existing media block.
+- [x] Rerun the browser assertion, `npm run check`, three fixed-throttle samples per home/guide/product, and Lighthouse comparisons. Reject any regression in layout, chatbot, forms, navigation, article anchors or reduced motion.
+- [x] Review diff and obtain independent review. Commit and open a review-only performance PR against the latest default branch.
 
 ## Task 2: Separate technical SEO continuation
 
-- [ ] On another branch from the latest default, prepare a concrete Cloudflare Single Redirect rule and rollback/test checklist. Match exactly the apex/www hosts and HTTP or www; dynamic target `concat("https://veltrixwindowsdoor.co.uk", http.request.uri.path)`; 301; preserve query string. Do not apply it.
-- [ ] Reconcile all C01–C25 statuses with the merged work. Review existing product/repair detail links for actual missing routes to already-published buyer advice, leaving guide navigation unchanged.
-- [ ] If a genuine link gap exists, write generated-page assertions first, implement a small link-only correction, run the full suite and browser checks, and open a separate PR.
-- [ ] Report exact files, PRs, lab measurements, field-data limitations, account access and business evidence blockers.
+- [x] On another branch from the latest default, prepare a concrete Cloudflare Single Redirect rule and rollback/test checklist. Match exactly the apex/www hosts and HTTP or www; dynamic target `concat("https://veltrixwindowsdoor.co.uk", http.request.uri.path)`; 301; preserve query string. Do not apply it.
+- [x] Reconcile all C01–C25 statuses with the merged work. Review existing product/repair detail links for actual missing routes to already-published buyer advice, leaving guide navigation unchanged.
+- [x] If a genuine link gap exists, write generated-page assertions first, implement a small link-only correction, run the full suite and browser checks, and open a separate PR.
+- [x] Report exact files, PRs, lab measurements, field-data limitations, account access and business evidence blockers.
+
+## Completion state
+
+Draft PR #18 contains the measured performance change; draft PR #19 contains the independent detail-page links, redirect proposal and backlog audit. Both target the latest default base 6ceee5c and are mergeable. GitHub CI passed 68 build/SEO tests plus 4 browser tests for #18, and 70 build/SEO tests for #19. The technical branch also passed the local interaction smoke check. No merge or production change was performed.
