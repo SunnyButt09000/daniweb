@@ -17,6 +17,15 @@
   };
 
   /* ---------- validation ---------- */
+  // Calculate tomorrow from the UK calendar day, not the visitor device timezone.
+  // Booking dates are preferences only; no appointment is confirmed by this form.
+  function ukTomorrowIso(now = new Date()) {
+    const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/London', year: 'numeric', month: '2-digit', day: '2-digit',
+    }).formatToParts(now).filter((part) => part.type !== 'literal').map((part) => [part.type, part.value]));
+    return new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day) + 1)).toISOString().slice(0, 10);
+  }
+
   function validate(form) {
     const errors = [];
     form.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'));
@@ -36,6 +45,22 @@
     if (email && email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) mark(email, 'Please check your email address.');
     const pc = form.elements.postcode;
     if (pc && pc.value.trim() && !POSTCODE.test(pc.value.trim())) mark(pc, 'Please enter a valid UK postcode.');
+    // The booking form uses novalidate for custom errors, so native date min alone
+    // must not be relied upon. Recompute tomorrow at submission (also after midnight).
+    if (form.id === 'book-form') {
+      const earliest = ukTomorrowIso();
+      for (const name of ['date', 'date2']) {
+        const input = form.elements[name];
+        const date = input?.value || '';
+        if (!date) continue; // Required fields are handled above.
+        const formatValid = /^\d{4}-\d{2}-\d{2}$/.test(date);
+        const parsed = formatValid ? new Date(date + 'T12:00:00Z') : null;
+        const realDate = parsed && !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
+        if (!realDate || date < earliest || input.validity?.rangeUnderflow || input.validity?.badInput) {
+          mark(input, 'Please choose a valid date from tomorrow onward.');
+        }
+      }
+    }
     return errors;
   }
   const labelOf = (el) => el.closest('label')?.querySelector('span')?.textContent.replace(/\(optional\)/, '').trim() || el.name;
@@ -114,8 +139,7 @@
       if (response.status !== 201 || !data?.saved || !/^VX-[a-f\d-]{36}$/i.test(data.reference || '')) {
         throw new Error(response.status === 403 ? 'Security check did not pass. Please retry.' : 'The enquiry could not be saved. Please use WhatsApp or email instead.');
       }
-      // Keep the same key after acknowledgement too: another unchanged click
-      // is a retry, not a second lead. Editing submitted details changes it.
+      // A retry of unchanged data must reuse its previous request key.
       return data.reference;
     } catch (error) {
       throw error?.name === 'AbortError'
@@ -652,7 +676,7 @@
       };
       const footer = (c) => {
         c.fillStyle = LINE; c.fillRect(M, PH - 110, PW - 2 * M, 1);
-        T(c, 'Sizes are customer measurements and will be confirmed at a free survey. This is a request for a quotation, not a price.', M, PH - 76, '400 16px "IBM Plex Sans"', SLATE);
+        T(c, 'Estimate sizes only. Confirm survey arrangements and any charges before booking; this request is not a price.', M, PH - 76, '400 16px "IBM Plex Sans"', SLATE);
         T(c, `${(VX.url || '').replace(/^https?:\/\//, '')} · WhatsApp ${VX.phoneDisplay || ''}`, M, PH - 46, '600 17px "IBM Plex Sans"', INK);
         T(c, 'Drawings viewed from outside · dashed lines meet at the hinge side', PW - M, PH - 46, '400 15px "IBM Plex Sans"', MUTED, 'right');
       };
@@ -987,7 +1011,7 @@
      ===================================================== */
   const bookForm = document.getElementById('book-form');
   if (bookForm) {
-    const typeLabels = { survey: 'Free survey (new windows/doors)', repair: 'Repair visit', service: 'Servicing', other: 'Other enquiry' };
+    const typeLabels = { survey: 'Survey enquiry (new windows/doors)', repair: 'Repair visit', service: 'Servicing', other: 'Other enquiry' };
     const sync = () => {
       const t = bookForm.querySelector('[name="type"]:checked')?.value;
       bookForm.querySelectorAll('[data-show-for]').forEach((el) => (el.hidden = el.dataset.showFor !== t));
@@ -1004,15 +1028,13 @@
     bookForm.addEventListener('change', sync);
     sync();
 
-    // dates: from tomorrow, warn if the day is one we don't work
-    const tomorrow = new Date(Date.now() + 864e5);
-    const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    // Preferred visit dates begin tomorrow in UK time (including DST transitions).
     const closedDays = (VX.hours || []).filter((h) => !h.open).flatMap((h) => h.dow);
     const hintText = document.getElementById('date-hint')?.textContent || '';
     ['date', 'date2'].forEach((n) => {
       const el = bookForm.elements[n];
       if (!el) return;
-      el.min = iso(tomorrow);
+      el.min = ukTomorrowIso();
       el.addEventListener('change', () => {
         const d = el.value ? new Date(el.value + 'T12:00:00') : null;
         const hint = document.getElementById('date-hint');

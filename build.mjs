@@ -194,7 +194,7 @@ writeFileSync(join(out, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /asse
     site.chatHours?.open ? `- WhatsApp and chat replies: ${t12(site.chatHours.open)}–${t12(site.chatHours.close)}, every day` : null,
     area ? `- Area served: ${area}` : '- Coverage: ask the team to check your postcode and job. No nationwide installation availability is confirmed. Any proposed partner installer and appointment must be confirmed before work is agreed.',
     `- Guarantees: manufacturer-provided ${site.guarantee.productYears}-year guarantee on new products, subject to selected manufacturer's written product terms. No insurance-backed guarantee policy currently in place. Installation and repair warranty terms are confirmed separately before agreement.`,
-    `- Quotes: free survey and itemised written quote. Online quote builder: ${u('/quote/')}`,
+    `- Quotes: check survey availability and any charges before confirming a visit or written quotation. Online quote builder: ${u('/quote/')}`,
     '',
     '## Windows',
     ...products.filter((p) => p.category === 'windows').map((p) => `- [${p.name}](${u(`/windows/${p.slug}/`)}): ${strip(p.short)}${models[p.slug]?.length ? ` Standard layouts: ${models[p.slug].map((m) => m.name).join('; ')}.` : ''}`),

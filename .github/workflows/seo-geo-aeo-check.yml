@@ -8,6 +8,7 @@ on:
       - chatgpt/veltrix-geo-aeo-phase1-20261027
   push:
     branches:
+      - codex/veltrix-promise-consistency
       - chatgpt/veltrix-geo-aeo-phase1-20261027
       - chatgpt/veltrix-lead-receipt-pilot-20261027
 

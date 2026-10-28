@@ -44,3 +44,18 @@ test('confirmed service areas are preserved when supplied by the owner', () => {
     { '@type': 'City', name: configured.serviceAreas[0] },
   ]);
 });
+
+test('illustrative model cards are not marked up as retail Product snippets', () => {
+  for (const p of products) {
+    const path = new URL(`../dist/${p.category}/${p.slug}/index.html`, import.meta.url);
+    const html = readFileSync(path, 'utf8');
+    const match = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s);
+    assert.ok(match, `Missing JSON-LD on ${p.slug}`);
+    const graph = JSON.parse(match[1])['@graph'];
+    assert.ok(graph.some((n) => n['@type'] === 'Service'), `Service schema removed: ${p.slug}`);
+    // Google requires offers, reviews or aggregate ratings on Product items.
+    // No real retail prices/product reviews are established for model layouts.
+    assert.doesNotMatch(JSON.stringify(graph), /"@type":"Product"/, `Unqualified Product item: ${p.slug}`);
+    assert.match(html, /\bprod__models\b/, `Visible model navigation removed: ${p.slug}`);
+  }
+});
