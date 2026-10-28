@@ -124,3 +124,20 @@ test('detail advice links are unique, published and limited to applicable repair
     if (['glass-and-panel-replacement', 'safety-and-security-upgrades'].includes(item.slug)) assert.equal(slugs.length, 0, 'No directly matching guide exists');
   }
 });
+
+
+test('illustrative product layouts never claim real popularity, frequent installations or verified standard sizes', () => {
+  // Product layout diagrams come from illustrative model data, not sales records.
+  for (const p of products) {
+    const html = readFileSync(new URL('../dist/' + p.category + '/' + p.slug + '/index.html', import.meta.url), 'utf8');
+    const section = html.match(/<section class="sec sec--paper2" id="models"[\s\S]*?<\/section>/)?.[0];
+    assert.ok(section, 'Missing model examples for ' + p.slug);
+    assert.match(section, /id="models-title"/);
+    assert.match(section, /example (?:layouts|designs)/i);
+    assert.match(section, /Example dimensions/);
+    assert.match(section, /planning, not manufacturing or fitting/);
+    assert.doesNotMatch(section, /we fit most|<dt>Typical size<\/dt>|>Popular<\/span>|standard (layouts|designs)/i);
+    assert.match(section, /href="\/quote\/\?item=[^"]+&amp;model=[^"]+"/);
+    assert.match(section, /Add to quote request/);
+  }
+});
