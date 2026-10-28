@@ -66,7 +66,8 @@ test('buyer guides have readable direct-section links matching unique H2 anchors
     const page = guide(site, { ...data, guides }, gd);
     const toc = page.body.match(/<nav class="article-toc"[\s\S]*?<\/nav>/)?.[0];
     assert.ok(toc, 'Missing section navigation: ' + gd.slug);
-    const ids = [...page.body.matchAll(/<h2\b[^>]*\bid="([^"]+)"[^>]*>/g)].map((m) => m[1]);
+    const article = page.body.match(/<article>[\s\S]*?<\/article>/)?.[0] || "";
+    const ids = [...article.matchAll(/<h2\b[^>]*\bid="([^"]+)"[^>]*>/g)].map((m) => m[1]);
     const links = [...toc.matchAll(/<a href="#([^"]+)">/g)].map((m) => m[1]);
     assert.ok(ids.length >= 4, 'Too few article sections: ' + gd.slug);
     assert.deepEqual(links, ids, 'Inaccurate section links: ' + gd.slug);
