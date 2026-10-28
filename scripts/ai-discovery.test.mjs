@@ -55,7 +55,8 @@ test('AI discovery endpoints do not invent service areas or publish a private ad
     const schema = JSON.parse(home.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
     const business = schema['@graph'].find((x) => x['@id'] === site.url + '/#business');
     assert.ok(business, 'Stable business identifier missing');
-    assert.equal(business.areaServed, undefined);
+    assert.deepEqual(business.areaServed, { '@type': 'Country', name: site.schemaCoverageCountry });
+    assert.equal(business.contactPoint.areaServed, undefined);
     assert.equal(business.address, undefined);
   }
   assert.equal(site.contact.address.street, '');

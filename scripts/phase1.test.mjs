@@ -59,7 +59,17 @@ test('all original routes remain and unverified locations are absent from public
   if (!site.serviceAreas.length && !site.areaServed) {
     for (const file of html) {
       const graph = readFileSync(file, 'utf8').match(/<script type="application\/ld\+json">(.*?)<\/script>/s)?.[1];
-      if (graph) assert.doesNotMatch(graph, /"areaServed"|"PostalAddress"|"streetAddress"|"postalCode"/, file);
+      if (graph) {
+        const nodes = JSON.parse(graph)['@graph'];
+        const business = nodes.find((n) => n['@id'] === site.url + '/#business');
+        if (site.schemaCoverageCountry) {
+          assert.deepEqual(business.areaServed, { '@type': 'Country', name: site.schemaCoverageCountry }, file);
+          for (const n of nodes.filter((x) => x['@type'] === 'Service')) {
+            assert.deepEqual(n.areaServed, { '@type': 'Country', name: site.schemaCoverageCountry }, file);
+          }
+        } else assert.doesNotMatch(graph, /"areaServed"/, file);
+        assert.doesNotMatch(graph, /"PostalAddress"|"streetAddress"|"postalCode"/, file);
+      }
     }
     const kb = JSON.parse(read('assets/data/kb.json'));
     assert.equal(kb.business.address, '');

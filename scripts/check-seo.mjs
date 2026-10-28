@@ -79,7 +79,10 @@ for (const file of files) {
   check(!business?.openingHoursSpecification, label('contact-only hours must not imply business attendance hours'));
   check(JSON.stringify(business?.contactPoint?.hoursAvailable?.map((h) => [h.opens, h.closes])) === JSON.stringify(expectedHours), label('schema contact hours differ from configured hours'));
   if (!site.areaServed && !site.serviceAreas.length) {
-    check(!business?.areaServed && !business?.contactPoint?.areaServed, label('unconfirmed service area'));
+    if (site.schemaCoverageCountry) {
+      check(JSON.stringify(business?.areaServed) === JSON.stringify({ '@type': 'Country', name: site.schemaCoverageCountry }), label('owner-confirmed UK coverage schema mismatch'));
+      check(!business?.contactPoint?.areaServed, label('do not assign local contact area from UK-wide travel'));
+    } else check(!business?.areaServed && !business?.contactPoint?.areaServed, label('unconfirmed service area'));
   }
   if (!site.contact.address.street && !site.contact.address.locality && !site.contact.address.postcode) {
     check(!business?.address, label('unconfigured address published'));
