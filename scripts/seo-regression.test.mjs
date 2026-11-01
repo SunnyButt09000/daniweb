@@ -183,3 +183,16 @@ test('glass-only replacement page targets a distinct repair intent without inven
   assert.match(misted, /sealed unit/i);
   assert.match(misted, /\/guides\/misted-double-glazing-repair-or-replace\//);
 });
+
+test('real UK sliding-window and back-door buying questions have scoped answers', () => {
+  const sliding = readFileSync(new URL('../dist/windows/sliding-windows/index.html', import.meta.url), 'utf8');
+  assert.match(sliding, /Are horizontal sliding windows available in uPVC for UK homes\?/);
+  assert.match(sliding, /How much do horizontal sliding windows cost\?/);
+  assert.match(sliding, /\/repairs\/glass-and-panel-replacement\//);
+  assert.match(sliding, /postcode/i);
+  const backDoor = readFileSync(new URL('../dist/doors/upvc-doors/index.html', import.meta.url), 'utf8');
+  assert.match(backDoor, /fully fitted uPVC back door or supply-only\?/);
+  assert.match(backDoor, /How much does a fully fitted uPVC back door cost\?/);
+  assert.match(backDoor, /written quote/i);
+  assert.doesNotMatch(backDoor, /guaranteed installation slot/i);
+});
