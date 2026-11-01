@@ -243,3 +243,41 @@ test('patio repairs and security upgrade pages route distinct repair questions s
   assert.match(security, /href="\/repairs\/locks-and-mechanisms\/"/);
   assert.match(security, /escape arrangements/i);
 });
+
+test('four service landing pages use the right enquiry type and contextual next steps', () => {
+  const readService = (slug) => readFileSync(new URL('../dist/services/' + slug + '/index.html', import.meta.url), 'utf8');
+  const servicing = readService('servicing-and-maintenance');
+  assert.match(servicing, /href="\/book\/\?type=service"/);
+  assert.match(servicing, /Request a servicing visit/);
+  assert.match(servicing, /Do I need a service or a specific repair\?/);
+  assert.match(servicing, /href="\/guides\/how-to-maintain-upvc-windows-and-doors\/"/);
+  assert.doesNotMatch(servicing, /<a[^>]+href="\/quote\/"[^>]*>[^<]*Build my quote request/);
+
+  const landlord = readService('landlords-and-commercial');
+  assert.match(landlord, /href="\/book\/\?type=other"/);
+  assert.match(landlord, /Enquire about property repairs/);
+  assert.match(landlord, /Can I ask about repairs for several rental properties\?/);
+  assert.match(landlord, /href="\/repairs\/glass-and-panel-replacement\/"/);
+
+  const survey = readService('survey-and-quote');
+  assert.match(survey, /href="\/book\/\?type=survey"/);
+  assert.match(survey, /Request a free survey/);
+  assert.match(survey, /Is a window or door survey free\?/);
+  assert.match(survey, /href="\/guides\/how-to-measure-windows-for-a-quote\/"/);
+  assert.match(survey, /travel costs/i);
+
+  const install = readService('installation');
+  assert.match(install, /href="\/quote\/"/);
+  assert.match(install, /Build an installation quote/);
+  assert.match(install, /Can you arrange supplied-and-fitted windows and doors for my postcode\?/);
+  assert.match(install, /href="\/doors\/composite-doors\/"/);
+  assert.match(install, /href="\/guides\/building-regulations-for-replacement-windows\/"/);
+  for (const html of [servicing, landlord, survey, install]) {
+    assert.match(html, /<h2[^>]*>Practical answers and related help<\/h2>/);
+    assert.doesNotMatch(html, /guaranteed appointment|guaranteed same.day fitting/i);
+  }
+  // Booking form accepts and honours the named type parameters; this test does not submit a lead.
+  const forms = readFileSync(new URL('../src/assets/js/forms.js', import.meta.url), 'utf8');
+  assert.match(forms, /params\.get\('type'\)/);
+  assert.match(forms, /if \(radio\) radio\.checked = true/);
+});
