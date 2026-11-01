@@ -282,8 +282,11 @@ export const repairs = [
       'Vacuum the track regularly. Grit is the main cause of roller wear.',
       'Don’t use oil on the track, because it holds dirt. A dry PTFE spray works better.',
       'Send photos of the door edge, the track and any maker’s name on the frame. They help us identify the rollers and lock before we visit.',
+      'If the patio door slides properly but its glass is cracked, see our <a href="/repairs/glass-and-panel-replacement/">glass and sealed-unit replacement</a> service instead of booking a roller repair.',
     ],
     faqs: [
+      ['Can a patio door with worn rollers be repaired instead of replaced?', 'Often, yes. Rollers, tracks and panel alignment can sometimes be repaired while retaining a sound frame and glass. We assess the door system, replacement-part availability and safe access before recommending work.'],
+      ['What affects the cost of a sliding patio or bifold door repair?', 'Roller and track type, size and weight of panels, access, compatible parts and whether a second visit is needed affect the written quote. Send photos of the full door, track, edge markings and your postcode.'],
       ['Can you repair old aluminium patio doors?', 'We specialise in uPVC, but we can often repair rollers and locks on aluminium sliders too. Send photos on WhatsApp and we’ll tell you whether it’s worth repairing.'],
       ['Does the sliding panel have to come out?', 'To change the rollers, yes. The panel lifts out of the frame. It’s heavy glass, so please don’t try to lift it out yourself.'],
     ],
@@ -379,8 +382,11 @@ export const repairs = [
       'Restrictors on escape windows must be releasable without a key, so an adult can still open the window fully in an emergency.',
       'Keep keys for locking window handles where every adult in the house knows to find them, but out of children’s reach.',
       'Check your home insurance wording. Some policies state the standard of lock they expect on outside doors.',
+      'If your existing door is difficult to lock because it has dropped or its mechanism has failed, start with <a href="/repairs/locks-and-mechanisms/">door lock fault diagnosis</a> rather than assuming a security upgrade will fix it.',
     ],
     faqs: [
+      ['Can I upgrade a front-door lock without replacing the whole door?', 'Often a compatible security-rated cylinder or other hardware can be installed in a serviceable door. The existing lock, doorset, installation and any insurer requirements need checking before recommending an upgrade.'],
+      ['Are child-safety window restrictors suitable for every window?', 'No. The correct restrictor depends on the opening, where it is used and whether the window provides an escape route. Before fitting, the installer must check that escape arrangements and any relevant building-safety requirements remain suitable.'],
       ['Do restrictors stop a window being an escape route?', 'Not if they’re the right type. Choose restrictors that an adult can release quickly without a key.'],
       ['What size does an escape window need to be?', 'England’s Approved Document B guidance gives a clear opening of at least 0.33 m², at least 450 mm wide and 450 mm high, with the bottom of the opening no more than 1,100 mm above the floor. Egress hinges help a window open wide enough to meet this.'],
       ['Will key-locking handles stop a window being used for escape?', 'They can, if the key isn’t to hand. On an escape window, keep the key close by, or choose a push-button handle that locks without a key.'],

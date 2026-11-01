@@ -220,3 +220,26 @@ test('repair-intent FAQ pages link to the appropriate next service without inven
   assert.match(handles, /href="\/repairs\/safety-and-security-upgrades\/"/);
   assert.doesNotMatch(locks + draughts + handles, /guaranteed same-day|guaranteed emergency callout/i);
 });
+
+test('composite door buyer intent and linked repair alternatives remain transparent', () => {
+  const html = readFileSync(new URL('../dist/doors/composite-doors/index.html', import.meta.url), 'utf8');
+  assert.match(html, /How much does a fully fitted composite front door cost\?/);
+  assert.match(html, /Can I order a composite door supply-only or supplied and fitted\?/);
+  assert.match(html, /Can I repair a composite front door lock instead of replacing the door\?/);
+  assert.match(html, /Can you replace broken glass in a composite door without replacing the door\?/);
+  for (const path of ['/repairs/locks-and-mechanisms/', '/repairs/door-alignment/', '/repairs/glass-and-panel-replacement/']) {
+    assert.ok(html.includes('href="' + path + '"'), 'Missing contextual composite repair link: ' + path);
+  }
+  assert.match(html, /written quote/i);
+});
+test('patio repairs and security upgrade pages route distinct repair questions safely', () => {
+  const patio = readFileSync(new URL('../dist/repairs/patio-and-bifold-repairs/index.html', import.meta.url), 'utf8');
+  assert.match(patio, /Can a patio door with worn rollers be repaired instead of replaced\?/);
+  assert.match(patio, /What affects the cost of a sliding patio or bifold door repair\?/);
+  assert.match(patio, /href="\/repairs\/glass-and-panel-replacement\/"/);
+  const security = readFileSync(new URL('../dist/repairs/safety-and-security-upgrades/index.html', import.meta.url), 'utf8');
+  assert.match(security, /Can I upgrade a front-door lock without replacing the whole door\?/);
+  assert.match(security, /Are child-safety window restrictors suitable for every window\?/);
+  assert.match(security, /href="\/repairs\/locks-and-mechanisms\/"/);
+  assert.match(security, /escape arrangements/i);
+});
