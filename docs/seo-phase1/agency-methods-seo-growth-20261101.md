@@ -42,6 +42,8 @@ Use: **homepage → windows/doors/repairs hub → individual service/product →
 5. Run zero-dependency `npm run audit:internal-links` to quantify the canonical URL graph, inbound links, and editorial-context link coverage. Investigate underlinked pages; reports are not ranking or link-authority scores.
 6. Use Search Console page-query mapping, actual customer enquiries and internal audit together to select the next contextual link. Document source, target, anchor wording and intent before change.
 
+**Actual internal-link audit from PR #31 CI, 2026-11-01:** 49 canonical URLs, 0 orphan canonical pages, 0 pages lacking a detected main area. Total anchor occurrences (including ubiquitous menu/footer links) were 4,593; this is **not** a quality metric and does not imply thousands of individual editorial endorsements. The report separately counts contextual unique source pages. Underlinked commercial/service candidates for human review included `/services/survey-and-quote/` (1 editorial inbound), `/services/landlords-and-commercial/` (2), `/services/servicing-and-maintenance/` (2), and `/repairs/safety-and-security-upgrades/` (2). These are site-graph observations, not evidence of search demand or a justification for inserting generic links. Legal/accessibility pages can be linked from navigation/footer without forcing editorial anchors.
+
 ## Ethical, zero-paid-spend authority acquisition
 
 - Verify actual supplier/product partner relationships and request that genuine partner pages reference the relevant Veltrix category page where helpful.
