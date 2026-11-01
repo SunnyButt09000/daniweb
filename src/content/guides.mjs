@@ -167,6 +167,7 @@ export const guides = [
     metaDescription: 'A twice-yearly care routine for uPVC windows and doors: cleaning, drainage, lubrication and seals, the products to avoid, and early signs of a fault.',
     summary: 'A short routine, twice a year, that keeps locks, hinges and seals working smoothly and catches small faults early.',
     date: '2026-07-10',
+    updated: '2026-11-01',
     read: '3 min',
     tag: 'Care',
     body: `
@@ -186,6 +187,7 @@ export const guides = [
 <p>Look for gaskets that have shrunk, cracked or come out of their groove. Check the silicone around the outside of the frame for gaps and splits. Both are easy to fix early. Left alone, they let in draughts and water.</p>
 <h2>Test handles and locks</h2>
 <p>Open, close and lock every window and door. A handle should move smoothly without force. If a door handle needs a hard lift to lock, do not force it. Forcing a stiff handle is a common way to break the gearbox. The door usually needs adjusting instead.</p>
+<p>If you are unsure whether a small fault justifies a completely new unit, use our <a href="/guides/window-door-repair-or-replacement-checklist/">window and door repair-versus-replacement checklist</a> to compare the options before arranging a quote.</p>
 <h2>Early warning signs</h2>
 <ul><li>A door handle that needs more force to lift, or a door that catches on the frame. The door may have dropped. See <a href="/repairs/door-alignment/">door alignment</a>.</li><li>A window that rubs, will not stay open or will not lock. See <a href="/repairs/handles-and-hinges/">handles and hinges</a>.</li><li>A key that is stiff or only turns part of the way. See <a href="/repairs/locks-and-mechanisms/">locks and mechanisms</a>.</li><li>Misting between the panes. See <a href="/repairs/misted-double-glazing/">misted double glazing</a>.</li><li>Draughts, whistling or water on the inside cill. See <a href="/repairs/draughts-and-leaks/">draughts and leaks</a>.</li></ul>
 <p>Our <a href="/guarantee/">guarantee</a> does not cover wear caused by lack of basic maintenance, so this routine is worth keeping up.</p>
@@ -287,5 +289,58 @@ export const guides = [
 <h2>Send a structured project enquiry</h2>
 <p>The <a href="/quote/">Veltrix quote builder</a> can help you prepare a numbered set of approximate windows and doors and a PDF for your own records. Enquiries can be reviewed for the requested specification and postcode; do not assume trade accounts, wholesale pricing, installation in every location, guaranteed stock or a booked survey. For letting and property-management needs, see <a href="/services/landlords-and-commercial/">landlords and commercial enquiries</a>.</p>
 <div class="callout"><strong>Compare before you commit:</strong> <a href="/guides/supply-only-vs-supply-and-fit-windows/">Read our supply-only versus fitted-quote checklist</a> so you can compare prices on the same scope.</div>`,
+  },
+
+  {
+    slug: 'window-door-repair-or-replacement-checklist',
+    title: 'Repair or replace a window or door? UK homeowner checklist',
+    metaDescription: 'Repair or replace a window or door? Compare broken glass, misted units, hinges, locks, draughts and frames, plus what to ask for in a UK repair quote.',
+    summary: 'A symptom-by-symptom checklist to decide what to check before paying for replacement windows or doors.',
+    date: '2026-11-01',
+    read: '6 min',
+    tag: 'Repairs',
+    body: `
+<p>A window that sticks or a door that will not lock does not automatically need a new frame. The sensible starting point is to identify <strong>which part has failed</strong>, assess whether the surrounding frame is sound and ask for a written repair-versus-replacement explanation. This guide is for comparing options, not diagnosing a hazardous fault yourself.</p>
+<div class="callout"><strong>Three questions before you replace anything</strong>
+<ol><li>Is the problem with the glass, hardware, seal, alignment or the entire frame?</li><li>Can the faulty component be replaced safely and with compatible parts?</li><li>Does the written quote explain why a repair would or would not be suitable?</li></ol></div>
+<h2>1. Find the symptom, then the right service</h2>
+<h3>Condensation between two panes</h3>
+<p>If the mist sits <strong>inside the sealed double-glazed unit</strong> and cannot be wiped off, the edge seal may have failed. With a sound compatible frame, the usual repair is a new made-to-measure sealed glass unit, not a whole new window. See <a href="/guides/misted-double-glazing-repair-or-replace/">why double glazing mists and what replacement involves</a> or our <a href="/repairs/misted-double-glazing/">misted glass service</a>. Condensation on the room-side surface instead calls for a different ventilation and moisture assessment.</p>
+<h3>Cracked, broken or damaged glass</h3>
+<p>A competent glazier should check whether the <strong>glass or complete sealed unit</strong> can be replaced in a serviceable window or door frame. Broken double glazing commonly needs the complete sealed unit changed rather than just a single piece of glass. The new glass must suit its location and safety requirements. Keep people away from damaged glazing and seek professional assessment; do not attempt to dismantle a glazed door or window yourself. See <a href="/repairs/glass-and-panel-replacement/">window glass and door-panel replacement</a>.</p>
+<h3>Stiff door handle, jammed lock or difficult key</h3>
+<p>A dropped door, faulty cylinder, worn gearbox or multipoint strip can all make a lock difficult to operate. Some faults can be repaired without replacing the whole composite or uPVC door, but compatibility and security matter. If the entrance cannot be secured, arrange professional attention rather than forcing it. See <a href="/repairs/locks-and-mechanisms/">lock and mechanism repair</a> or <a href="/repairs/door-alignment/">door alignment</a>.</p>
+<h3>Sticking window, worn hinges or handles</h3>
+<p>Hinges, stays, handles and keeps may be replaceable if the surrounding frame is stable and compatible hardware is available. If a window is used for emergency escape, hardware and restrictor changes must preserve the applicable escape arrangements. See <a href="/repairs/handles-and-hinges/">window handles and hinges</a> and <a href="/repairs/safety-and-security-upgrades/">safety and security options</a>.</p>
+<h3>Draughts, leaks or water at the cill</h3>
+<p>Worn gaskets, blocked drainage, missing sealant or a misaligned opener can cause draughts or leaks. The source might also be a surrounding wall or bay roof, so simply adding a new seal may not solve it. Ask for the cause to be assessed before agreeing the repair. See <a href="/repairs/draughts-and-leaks/">draughts, seals and leaks</a>.</p>
+<h3>Patio or bi-fold doors difficult to slide or fold</h3>
+<p>Rollers, guides, tracks and panel alignment sometimes need attention rather than replacing the entire assembly. Parts and structural condition still need checking. See <a href="/repairs/patio-and-bifold-repairs/">patio and bi-fold door repairs</a>.</p>
+<h2>2. When whole-frame replacement may be the better option</h2>
+<p>A professional survey may recommend a new window or door when the frame is badly distorted, decayed, structurally unsuitable, repeatedly failing or no longer has compatible parts. A major design change, improved glazing specification or a planned wider replacement project may also affect the decision. The condition of nearby brickwork, roof, thresholds and ventilation provisions matters. Ask the provider to distinguish <strong>necessary repair</strong> from <strong>optional upgrade</strong> on the quote.</p>
+<p>For older or protected homes, check whether conservation-area controls, listed-building consent or planning requirements restrict frame changes. The <a href="https://energysavingtrust.org.uk/advice/windows-and-doors/">Energy Saving Trust's windows and doors advice</a> discusses repairing, upgrading and replacing glazing, including options for historic buildings.</p>
+<h2>3. Compare repair and replacement quotes fairly</h2>
+<p>Request a clear breakdown so you are not comparing unlike-for-like jobs:</p>
+<ul>
+<li><strong>Exact fault and proposed work:</strong> what was inspected; which part is to be repaired or replaced; why the frame can or cannot stay.</li>
+<li><strong>Specification:</strong> glass type, safety glazing, lock/hardware compatibility, colour, opening arrangement and ventilation where relevant.</li>
+<li><strong>Price scope:</strong> materials, labour, access, travel, disposal, making good, and any optional upgrade shown separately; ask about VAT where applicable.</li>
+<li><strong>Practical details:</strong> availability for your postcode, survey needs, likely parts availability and what happens if further damage is found.</li>
+<li><strong>Aftercare:</strong> who supplies the parts, who completes the work, and what each written product or workmanship warranty actually covers.</li>
+</ul>
+<p>For full replacement work, ask which installer or building-control route applies to your property and nation of the UK. A scheme registration must belong to the relevant qualified business; it cannot be assumed because an enquiry platform has installation partners. Read <a href="/guides/building-regulations-for-replacement-windows/">our UK replacement regulations overview</a> and the <a href="https://www.gov.uk/building-regulations-approval/use-a-competent-person-scheme">GOV.UK explanation of competent person schemes</a> for England.</p>
+<p><a href="https://www.trustmark.org.uk/homeowner">TrustMark's homeowner guidance</a> recommends obtaining detailed quotes, checking references and using a written contract. You do not have to accept a whole-window replacement simply because that is the first option offered.</p>
+<h2>4. What to photograph for an initial assessment</h2>
+<ul>
+<li>One picture showing the entire affected window or door, and one close-up of the fault.</li>
+<li>For glass: which pane or glazed panel is affected, and a rough width and height in millimetres.</li>
+<li>For a lock or hinge: the relevant metal strip, handle or hinge and any visible manufacturer marks, <em>without dismantling anything</em>.</li>
+<li>For draughts and water: which side or corner is affected and when it occurs.</li>
+<li>Your postcode, floor level and whether access might be difficult.</li>
+</ul>
+<p>Only take photographs from a safe position. Do not climb, lean out of upper-floor windows or touch broken glass. Approximate measurements support an estimate; a final technical survey confirms repair compatibility or manufacturing dimensions. See <a href="/guides/how-to-measure-windows-for-a-quote/">how to measure safely for a quote</a>.</p>
+<h2>5. A practical next step</h2>
+<p>If you have a specific fault, use our <a href="/book/?type=repair">repair enquiry form</a> or send clear photos for assessment. If a survey suggests full replacement, compare <a href="/windows/">window types</a> and <a href="/doors/">door types</a> before deciding. We check postcode and installer availability rather than promising an immediate appointment or service everywhere. The best outcome is a documented decision that fits the actual condition of your window or door.</p>
+<div class="callout"><strong>Shareable quote checklist:</strong> Ask what failed, what can be retained, the compatible replacement specification, the full fitted cost, any regulatory requirements and the separate written guarantees. Use that same list with every supplier.</div>`,
   },
 ];
