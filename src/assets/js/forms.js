@@ -1012,6 +1012,13 @@
   const bookForm = document.getElementById('book-form');
   if (bookForm) {
     const typeLabels = { survey: 'Survey enquiry (new windows/doors)', repair: 'Repair visit', service: 'Servicing', other: 'Other enquiry' };
+    // A visitor-visible, non-personal service-page label; no cookies, tracking scripts or analytics calls.
+    // Only these exact source slugs are accepted; arbitrary URL text is never copied into a lead.
+    const bookingSource = new Map([
+      ['servicing-and-maintenance', 'Servicing & maintenance'],
+      ['landlords-and-commercial', 'Landlords & commercial'],
+      ['survey-and-quote', 'Survey & quote'],
+    ]).get(params.get('from')) || '';
     const sync = () => {
       const t = bookForm.querySelector('[name="type"]:checked')?.value;
       bookForm.querySelectorAll('[data-show-for]').forEach((el) => (el.hidden = el.dataset.showFor !== t));
@@ -1059,6 +1066,7 @@
           `*Booking request — ${VX.brand} website*`,
           '',
           `Visit: ${typeLabels[type]}${rep ? ` — ${rep}` : ''}`,
+          bookingSource ? `Enquiry page: ${bookingSource}` : null,
           `Items: ${val(form, 'count')}`,
           `Preferred: ${niceDate(val(form, 'date'))}, ${val(form, 'slot')}`,
           val(form, 'date2') && `Alternative: ${niceDate(val(form, 'date2'))}`,

@@ -247,20 +247,20 @@ test('patio repairs and security upgrade pages route distinct repair questions s
 test('four service landing pages use the right enquiry type and contextual next steps', () => {
   const readService = (slug) => readFileSync(new URL('../dist/services/' + slug + '/index.html', import.meta.url), 'utf8');
   const servicing = readService('servicing-and-maintenance');
-  assert.match(servicing, /href="\/book\/\?type=service"/);
+  assert.match(servicing, /href="\/book\/\?type=service(?:&amp;|&)from=servicing-and-maintenance"/);
   assert.match(servicing, /Request a servicing visit/);
   assert.match(servicing, /Do I need a service or a specific repair\?/);
   assert.match(servicing, /href="\/guides\/how-to-maintain-upvc-windows-and-doors\/"/);
   assert.doesNotMatch(servicing, /<a[^>]+href="\/quote\/"[^>]*>[^<]*Build my quote request/);
 
   const landlord = readService('landlords-and-commercial');
-  assert.match(landlord, /href="\/book\/\?type=other"/);
+  assert.match(landlord, /href="\/book\/\?type=other(?:&amp;|&)from=landlords-and-commercial"/);
   assert.match(landlord, /Enquire about property repairs/);
   assert.match(landlord, /Can I ask about repairs for several rental properties\?/);
   assert.match(landlord, /href="\/repairs\/glass-and-panel-replacement\/"/);
 
   const survey = readService('survey-and-quote');
-  assert.match(survey, /href="\/book\/\?type=survey"/);
+  assert.match(survey, /href="\/book\/\?type=survey(?:&amp;|&)from=survey-and-quote"/);
   assert.match(survey, /Request a free survey/);
   assert.match(survey, /Is a window or door survey free\?/);
   assert.match(survey, /href="\/guides\/how-to-measure-windows-for-a-quote\/"/);
@@ -280,4 +280,26 @@ test('four service landing pages use the right enquiry type and contextual next 
   const forms = readFileSync(new URL('../src/assets/js/forms.js', import.meta.url), 'utf8');
   assert.match(forms, /params\.get\('type'\)/);
   assert.match(forms, /if \(radio\) radio\.checked = true/);
+});
+
+test('service booking CTAs expose a whitelisted customer-visible page origin', () => {
+  const page = (slug) => readFileSync(new URL('../dist/services/' + slug + '/index.html', import.meta.url), 'utf8');
+  const refs = [
+    ['servicing-and-maintenance', 'service'],
+    ['landlords-and-commercial', 'other'],
+    ['survey-and-quote', 'survey'],
+  ];
+  for (const [slug, type] of refs) {
+    const html = page(slug);
+    assert.ok(html.includes('type=' + type + '&amp;from=' + slug)
+      || html.includes('type=' + type + '&from=' + slug), 'Missing source-aware booking CTA for ' + slug);
+  }
+  const js = readFileSync(new URL('../src/assets/js/forms.js', import.meta.url), 'utf8');
+  assert.match(js, /new Map\(\[/);
+  assert.ok(js.includes("]).get(params.get('from')) || ''"));
+  assert.match(js, /Enquiry page: \$\{bookingSource\}/);
+  assert.match(js, /bookingSource \? `Enquiry page:/);
+  assert.doesNotMatch(js, /Enquiry page: \$\{params\.get\(/);
+  // Product quotation is not falsely labelled as one of the service booking types.
+  assert.doesNotMatch(page('installation'), /type=service&amp;from=|type=other&amp;from=/);
 });
