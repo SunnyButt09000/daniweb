@@ -204,3 +204,19 @@ test('misted-glazing guide distinguishes failed seals from broken glass with con
   assert.match(html, /href="\/repairs\/misted-double-glazing\/"/);
   assert.match(html, /window glass-only and sealed-unit replacement service/);
 });
+
+test('repair-intent FAQ pages link to the appropriate next service without invented promises', () => {
+  const locks = readFileSync(new URL('../dist/repairs/locks-and-mechanisms/index.html', import.meta.url), 'utf8');
+  assert.match(locks, /Can a failed uPVC or composite door lock be repaired without replacing the whole door\?/);
+  assert.match(locks, /What should I send for a door-lock repair quote\?/);
+  assert.match(locks, /href="\/repairs\/safety-and-security-upgrades\/"/);
+  assert.match(locks, /postcode/i);
+  const draughts = readFileSync(new URL('../dist/repairs/draughts-and-leaks/index.html', import.meta.url), 'utf8');
+  assert.match(draughts, /Can you fix a leaking uPVC back door without replacing the door\?/);
+  assert.match(draughts, /Is a draughty window always a sign it needs replacing\?/);
+  assert.match(draughts, /href="\/repairs\/door-alignment\/"/);
+  assert.match(draughts, /href="\/repairs\/misted-double-glazing\/"/);
+  const handles = readFileSync(new URL('../dist/repairs/handles-and-hinges/index.html', import.meta.url), 'utf8');
+  assert.match(handles, /href="\/repairs\/safety-and-security-upgrades\/"/);
+  assert.doesNotMatch(locks + draughts + handles, /guaranteed same-day|guaranteed emergency callout/i);
+});
