@@ -18,7 +18,8 @@ test('IndexNow ownership key is included in static output without user data', ()
 
 test('IndexNow bootstrap sends unique, canonical sitemap URLs only', () => {
   const urls = selectIndexNowUrls(sitemap, current, null, true);
-  assert.equal(urls.length, 49);
+  const expectedRoutes = JSON.parse(read('scripts/fixtures/phase1-routes.json'));
+  assert.deepEqual(urls.map((u) => new URL(u).pathname).sort(), expectedRoutes);
   assert.equal(new Set(urls).size, urls.length);
   assert.ok(urls.every((u) => new URL(u).origin === origin));
 });

@@ -69,7 +69,8 @@ test('generated pages, booking slots, assistant knowledge and llms.txt agree on 
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
     e.isDirectory() ? walk(join(dir, e.name)) : [join(dir, e.name)]);
   const htmlFiles = walk(dist).filter((path) => path.endsWith('.html'));
-  assert.equal(htmlFiles.length, 50);
+  const expectedRoutes = JSON.parse(readFileSync(new URL('./fixtures/phase1-routes.json', import.meta.url), 'utf8'));
+  assert.equal(htmlFiles.length, expectedRoutes.length + 1); // Canonical pages plus the noindex 404 document.
   for (const file of htmlFiles) {
     const html = readFileSync(file, 'utf8');
     assert.doesNotMatch(html, /23:59|11:59pm/, file);

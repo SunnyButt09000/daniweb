@@ -18,7 +18,9 @@ test('confirmed contact hours are ContactPoint availability, not unverified busi
  assert.equal(b.contactPoint.hoursAvailable[0].dayOfWeek.length,7);
 });
 test('all rendered routes retain free-survey policy without inventing included extras',()=>{
- const files=walk(fileURLToPath(new URL('../dist/',import.meta.url))).filter(x=>x.endsWith('.html'));assert.equal(files.length,50);
+ const files=walk(fileURLToPath(new URL('../dist/',import.meta.url))).filter(x=>x.endsWith('.html'));
+ const expectedRoutes=JSON.parse(readFileSync(new URL('./fixtures/phase1-routes.json',import.meta.url),'utf8'));
+ assert.equal(files.length,expectedRoutes.length+1); // Canonical routes plus the noindex 404 document.
  for(const f of files){const html=readFileSync(f,'utf8');
   assert.ok(!/guaranteed (?:free |same.day )?visit|no travel costs anywhere|free repair diagnostic|old frames taken away|We come back and fix it|you don.t need to hire a skip/i.test(html),f);
   const jsonld=html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s);
