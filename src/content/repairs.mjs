@@ -286,8 +286,8 @@ export const repairs = [
     seoTitle: 'Window glass replacement & door panels',
     icon: 'scan-line',
     name: 'Glass & door panel replacement',
-    short: 'Broken window or door glass? When the frame is sound, we can replace just the glass or sealed unit. We also fit privacy glass and uPVC door panels.'
-    metaDescription: 'Broken window or door glass? Replace the glass or double-glazed sealed unit without changing a sound frame. Safety, privacy and door panel options. Request a quote.'
+    short: 'Broken window or door glass? When the frame is sound, we can replace just the glass or sealed unit. We also fit privacy glass and uPVC door panels.',
+    metaDescription: 'Broken window or door glass? Replace the glass or double-glazed sealed unit without changing a sound frame. Safety, privacy and door panel options. Request a quote.',
     keywords: [
       'broken glass', 'cracked glass', 'smashed', 'crack', 'cracked', 'broken window', 'glass replacement', 'replace glass', 'obscure', 'frosted', 'privacy glass', 'door panel', 'panel', 'toughened', 'laminated', 'safety glass', 'lead', 'decorative glass',
       'smashed glass', 'smashed window', 'shattered', 'shattered glass', 'chipped glass', 'glass cracked', 'cracked double glazing', 'broken double glazing', 'glass broke',
