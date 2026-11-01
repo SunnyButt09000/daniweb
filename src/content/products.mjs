@@ -181,6 +181,7 @@ export const products = [
     chips: ["No projection", "2–3 panes"],
     category: 'windows',
     name: 'Horizontal sliding windows',
+    seoTitle: 'uPVC horizontal sliding windows in the UK',
     short: 'Sashes slide sideways, so nothing swings in or out. Useful by walkways and over worktops.',
     metaDescription: 'uPVC horizontal sliding windows for walkways, balconies and kitchens. Sashes slide sideways, so nothing projects in or out. 2- and 3-pane layouts. Check survey availability and charges.',
     lead: 'A horizontal sliding window moves sideways on a track, so it takes up no space inside the room or outside the wall. That makes it useful beside walkways and balconies, over kitchen worktops, and anywhere a swinging sash would get in the way.',
@@ -199,6 +200,7 @@ export const products = [
     options: ['2- or 3-pane layouts', 'Insect screens (selected systems)', 'Obscure glass'],
     faqs: [
       ['Are horizontal sliding windows available in uPVC for UK homes?', 'Yes, selected uPVC horizontal-slider systems can suit UK homes, especially where an opening sash would obstruct a walkway or worktop. Availability, profiles, glazing, ventilation and the intended opening size must be checked at survey.'],
+      ['Are horizontal sliders the same as traditional sash windows?', 'Not usually. Horizontal sliders move left or right along a track, whereas traditional sliding sash windows move up and down. The available frame materials, profiles, opening sizes and suitable safety glazing need checking for the chosen system. Compare our <a href="/windows/sash-windows/">vertical sliding sash windows</a> if you prefer the traditional look.'],
       ['How much do horizontal sliding windows cost?', 'Prices depend on width and height, number of panes, glazing, finish, hardware, access and whether supply-only or fitting is required. Send your rough sizes and postcode so we can confirm a suitable product and written quote.'],
       ['Can the glass be replaced without changing the horizontal sliding window?', 'Often, if the window frame, beads and mechanisms are sound. For cracked glazing or a failed sealed unit, see our <a href="/repairs/glass-and-panel-replacement/">glass-unit replacement service</a>; a survey establishes compatibility.'],
       ['Are sliding windows as airtight as casements?', 'Modern sliders are well sealed, but compression-sealed casements and tilt & turns generally achieve better air-tightness. We will advise on the best option for the room.'],

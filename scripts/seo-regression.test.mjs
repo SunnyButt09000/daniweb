@@ -381,3 +381,22 @@ test('repair-versus-replacement homeowner reference is specific, sourced and int
   }
   assert.doesNotMatch(html, /guaranteed same-day|save \d+%|from £\d+/i);
 });
+
+test('observed UK slider searches map to one honest product page and relevant sash alternative', () => {
+  const html = readFileSync(new URL('../dist/windows/sliding-windows/index.html', import.meta.url), 'utf8');
+  assert.match(html, /<title>uPVC horizontal sliding windows in the UK \| Veltrix<\/title>/i);
+  assert.match(html, /<h1[^>]*>Horizontal sliding windows<\/h1>/);
+  assert.match(html, /Are horizontal sliders the same as traditional sash windows\?/);
+  assert.match(html, /href="\/windows\/sash-windows\/"/);
+  assert.match(html, /href="\/quote\/\?item=sliding-windows"/);
+  assert.match(html, /uPVC horizontal-slider systems can suit UK homes/);
+});
+test('repair hub routes readers to distinct repair decision guide without unverified savings claims', () => {
+  const html = readFileSync(new URL('../dist/repairs/index.html', import.meta.url), 'utf8');
+  assert.match(html, /href="\/guides\/window-door-repair-or-replacement-checklist\/"/);
+  assert.match(html, /fault-by-fault decision/);
+  assert.match(html, /Written quotes|written quotes|written quote/);
+  assert.doesNotMatch(html, /fraction of the cost of replacement/i);
+  assert.doesNotMatch(html, /frames are cracked or badly discoloured/i);
+  assert.match(html, /Cosmetic discolouration alone does not automatically require a new window/);
+});
