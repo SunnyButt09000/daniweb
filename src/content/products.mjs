@@ -321,6 +321,8 @@ export const products = [
     goodFor: ['Garden rooms and extensions', 'Replacing patio doors', 'Openings up to about 1.8 m'],
     options: ['Side panels', 'Georgian bars', 'Low threshold', 'Integral blinds', 'Opening stays'],
     faqs: [
+      ["How much do fully fitted uPVC French doors cost?","A written quote depends on the opening size, inward or outward opening, glazing and safety specification, side panels, colour, threshold, removal and fitting access. Send photos, rough measurements and your postcode so we can confirm suitable options and survey availability."],
+      ["Can you replace broken French door glass without replacing both doors?","Often a suitable glazed unit can be replaced while keeping the existing door leaves and frame, provided they are sound and the glazing system supports it. The replacement must meet the correct safety-glass specification. See our <a href=\"/repairs/glass-and-panel-replacement/\">door glass replacement service</a>."],
       ['French doors or patio doors?', 'French doors open the full width and suit narrower openings, but they need space to swing. <a href="/doors/patio-doors/">Sliding patio doors</a> suit wider openings and need no swing space, but only part of the width opens at once. We can show you both at survey.'],
       ['Should French doors open in or out?', 'Outward opening is the usual choice, because the doors take up no room inside. Inward opening suits a Juliet balcony, or a small patio where outward doors would block the path. Inward doors need extra care at the threshold to keep rain out.'],
       ['Can I widen my opening for French doors?', 'Often, but widening an opening means a new lintel. That is structural work, and it needs Building Regulations approval. We can advise at survey and size the doors to the opening you settle on.'],
@@ -351,6 +353,8 @@ export const products = [
     goodFor: ['Wide openings', 'Rooms with furniture near the doors', 'Replacing old aluminium patio doors'],
     options: ['3- and 4-panel layouts', 'Low threshold', 'Child-safety lock'],
     faqs: [
+      ["What sizes and dimensions should I measure for new sliding patio doors?","Measure the approximate overall width and height of the opening in millimetres and send photos showing the existing frame and outside access. Two-, three- and four-panel configurations suit different openings; only a technical survey confirms manufacture sizes. Read <a href=\"/guides/how-to-measure-windows-for-a-quote/\">our measurement guide</a>."],
+      ["How much do replacement patio doors cost supplied and fitted?","Costs depend on the size, number of panels, glass and safety specification, colour, threshold, access, removal and fitting scope. Tell us your postcode and whether you want supply-only or fitting so that these can be separated in the written quote."],
       ['Can you repair my existing patio door instead?', 'Often, yes. Worn rollers, damaged tracks and failed locks can usually be replaced. See our <a href="/repairs/patio-and-bifold-repairs/">patio and bi-fold door repairs</a> page.'],
       ['Patio doors or bi-folds?', 'Sliding patio doors give more glass and less frame, and they are simpler to use day to day. Bi-folds open almost the whole width, but there are more frames in the view when they are closed and the panels need space to stack. Think about how often you will open the full width.'],
     ],
@@ -380,6 +384,8 @@ export const products = [
     goodFor: ['Kitchen and living extensions', 'Garden rooms', 'Openings around 2–4 m wide'],
     options: ['Traffic door', 'Low threshold', 'Integral blinds', 'Dual colour'],
     faqs: [
+      ["How much do uPVC bi-fold doors cost fully fitted?","Price depends on the opening width, panel count, folding direction, traffic door, glazing and hardware, threshold, structural and access needs, removal and installation. A measured quote should make supply and fitting scope explicit, and confirm availability for your postcode."],
+      ["Can a dropped or sticking bi-fold door be repaired instead of replaced?","Sometimes a suitable adjustment or a compatible runner, roller, hinge, guide or lock replacement restores operation if the opening and frame are sound. Read our <a href=\"/repairs/patio-and-bifold-repairs/\">bi-fold door repairs</a> information before assuming the full door needs replacing."],
       ['How many panels do I need?', 'It depends on the width of the opening and how you want the panels to stack. As a guide, panels are usually about 600 mm to 900 mm wide. With an odd number of panels, one end panel can work as a traffic door while the rest stack to one side. We draw the options at survey.'],
       ['Do bi-fold doors let in draughts?', 'They should not if the opening is square and the doors are adjusted correctly. Draughts and leaks usually point to a sagging head, an uneven threshold or panels that have dropped, and these can often be put right. See our <a href="/repairs/patio-and-bifold-repairs/">patio and bi-fold door repairs</a>.'],
     ],
@@ -409,6 +415,8 @@ export const products = [
     goodFor: ['Kitchen and utility doors', 'Cottages and farmhouses', 'Homes with pets or young children'],
     options: ['Glazed top leaf', 'Letterplate', 'Low threshold'],
     faqs: [
+      ["How much does a fully fitted stable door cost?","The construction, width and height, glazing in the top leaf, colour, lock hardware, threshold, old-door removal, installation and access affect the price. Send rough measurements, photographs and your postcode for a written quote subject to survey and suitable installation availability."],
+      ["What is the difference between a uPVC stable door and a composite stable door?","Both can have independently operating top and bottom leaves. Construction, finishes, insulation and available lock systems vary by actual supplier range. Compare general material trade-offs in our <a href=\"/guides/upvc-vs-composite-doors/\">uPVC versus composite door guide</a>, then ask which stable-door designs are available for your opening."],
       ['Is a stable door secure?', 'Yes, when both leaves have their own multipoint locking and are secured together when closed. We specify this as standard.'],
       ['Will I need two keys?', 'It depends on the system. Some use a separate cylinder for each leaf, others lock both leaves from one. We confirm the arrangement on your quote.'],
       ['Can a stable door be my front door?', 'It can, and it suits many cottages. Check that the door meets any security standard your insurer asks for, and decide where the letterplate goes, usually in the bottom leaf.'],

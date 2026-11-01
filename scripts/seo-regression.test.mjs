@@ -303,3 +303,31 @@ test('service booking CTAs expose a whitelisted customer-visible page origin', (
   // Product quotation is not falsely labelled as one of the service booking types.
   assert.doesNotMatch(page('installation'), /type=service&amp;from=|type=other&amp;from=/);
 });
+
+test('French patio bifold and stable door pages answer distinct UK buyer intents', () => {
+  const doors = (slug) => readFileSync(new URL('../dist/doors/' + slug + '/index.html', import.meta.url), 'utf8');
+  const french = doors('french-doors');
+  assert.match(french, /How much do fully fitted uPVC French doors cost\?/);
+  assert.match(french, /Can you replace broken French door glass without replacing both doors\?/);
+  assert.match(french, /href="\/repairs\/glass-and-panel-replacement\/"/);
+
+  const patio = doors('patio-doors');
+  assert.match(patio, /What sizes and dimensions should I measure for new sliding patio doors\?/);
+  assert.match(patio, /How much do replacement patio doors cost supplied and fitted\?/);
+  assert.match(patio, /href="\/guides\/how-to-measure-windows-for-a-quote\/"/);
+
+  const bifold = doors('bifold-doors');
+  assert.match(bifold, /How much do uPVC bi-fold doors cost fully fitted\?/);
+  assert.match(bifold, /Can a dropped or sticking bi-fold door be repaired instead of replaced\?/);
+  assert.match(bifold, /href="\/repairs\/patio-and-bifold-repairs\/"/);
+
+  const stable = doors('stable-doors');
+  assert.match(stable, /How much does a fully fitted stable door cost\?/);
+  assert.match(stable, /What is the difference between a uPVC stable door and a composite stable door\?/);
+  assert.match(stable, /href="\/guides\/upvc-vs-composite-doors\/"/);
+
+  for (const html of [french, patio, bifold, stable]) {
+    assert.match(html, /postcode/i);
+    assert.doesNotMatch(html, /guaranteed fitting date|guaranteed same-day|from £[0-9]/i);
+  }
+});
