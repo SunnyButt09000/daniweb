@@ -281,3 +281,25 @@ test('four service landing pages use the right enquiry type and contextual next 
   assert.match(forms, /params\.get\('type'\)/);
   assert.match(forms, /if \(radio\) radio\.checked = true/);
 });
+
+test('service booking CTAs expose a whitelisted customer-visible page origin', () => {
+  const page = (slug) => readFileSync(new URL('../dist/services/' + slug + '/index.html', import.meta.url), 'utf8');
+  const refs = [
+    ['servicing-and-maintenance', 'service'],
+    ['landlords-and-commercial', 'other'],
+    ['survey-and-quote', 'survey'],
+  ];
+  for (const [slug, type] of refs) {
+    const html = page(slug);
+    assert.ok(html.includes('type=' + type + '&amp;from=' + slug)
+      || html.includes('type=' + type + '&from=' + slug), 'Missing source-aware booking CTA for ' + slug);
+  }
+  const js = readFileSync(new URL('../src/assets/js/forms.js', import.meta.url), 'utf8');
+  assert.match(js, /new Map\(\[/);
+  assert.match(js, /\]\.get\(params\.get\('from'\)\) \|\| ''/);
+  assert.match(js, /Enquiry page: \$\{bookingSource\}/);
+  assert.match(js, /bookingSource \? `Enquiry page:/);
+  assert.doesNotMatch(js, /Enquiry page: \$\{params\.get\(/);
+  // Product quotation is not falsely labelled as one of the service booking types.
+  assert.doesNotMatch(page('installation'), /type=service&amp;from=|type=other&amp;from=/);
+});
