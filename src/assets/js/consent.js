@@ -11,6 +11,26 @@
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
   const gtag = window.gtag;
+  let analyticsConsent = false;
+  const permittedEvents = new Set(['contact_click', 'lead_handoff', 'quote_prepared', 'generate_lead']);
+  const allowedParams = {
+    contact_method: new Set(['phone', 'email', 'whatsapp']),
+    form_type: new Set(['quote', 'booking', 'contact']),
+    submission_channel: new Set(['website'])
+  };
+  // Public helper for other scripts. Fail closed and whitelist every value:
+  // no names, phone numbers, email addresses, postcodes or free-text messages.
+  window.VXAnalytics = Object.freeze({
+    track(eventName, params = {}) {
+      if (!analyticsConsent || !tagLoaded || !permittedEvents.has(eventName)) return false;
+      const clean = {};
+      for (const [key, value] of Object.entries(params)) {
+        if (allowedParams[key]?.has(value)) clean[key] = value;
+      }
+      gtag('event', eventName, clean);
+      return true;
+    }
+  });
 
   // These defaults MUST precede all measurement/config commands.
   gtag('consent', 'default', {
@@ -62,6 +82,7 @@
   }
 
   function applyDecision(allow) {
+    analyticsConsent = allow === true;
     gtag('consent', 'update', {
       analytics_storage: allow ? 'granted' : 'denied',
       ad_storage: 'denied',
@@ -114,6 +135,7 @@
       rememberDecision(allow);
       banner.hidden = true;
       if (!allow && previous === true) {
+        analyticsConsent = false;
         gtag('consent', 'update', {
           analytics_storage: 'denied', ad_storage: 'denied',
           ad_user_data: 'denied', ad_personalization: 'denied'
