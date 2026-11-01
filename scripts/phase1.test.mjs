@@ -52,8 +52,8 @@ test('UK regulations guide distinguishes nations and ventilation without existin
 test('all original routes remain and unverified locations are absent from public data', () => {
   const walk = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(join(dir, e.name)) : [join(dir, e.name)]);
   const html = walk(dist).filter((p) => p.endsWith('.html'));
-  assert.equal(html.length, 50);
   const expected = JSON.parse(readFileSync(new URL('./fixtures/phase1-routes.json', import.meta.url), 'utf8'));
+  assert.equal(html.length, expected.length + 1); // All sitemap routes plus the noindex 404 document.
   const sitemap = read('sitemap.xml');
   assert.deepEqual([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => new URL(m[1]).pathname).sort(), expected);
   if (!site.serviceAreas.length && !site.areaServed) {
