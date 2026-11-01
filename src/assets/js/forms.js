@@ -179,6 +179,7 @@
         try {
           const receipt = await submitReceipt(kind === 'Booking request' ? 'booking' : 'contact', form, text);
           showMsg(form, `Request saved as ${receipt}. This is not an appointment confirmation. We will check your job and postcode before contacting you.`, true);
+          window.VXAnalytics?.track('generate_lead', { form_type: kind === 'Booking request' ? 'booking' : 'contact', submission_channel: 'website' });
         } catch (err) {
           showMsg(form, err?.message || 'We could not confirm receipt. Please contact us by WhatsApp or email.');
         } finally {
@@ -189,9 +190,11 @@
       }
       if (!directLead) postCopy(kind, form, text);
       if (via === 'email') {
+        window.VXAnalytics?.track('lead_handoff', { form_type: kind === 'Booking request' ? 'booking' : 'contact', contact_method: 'email' });
         openEmail(subject(form), text);
         showMsg(form, after ? after(via) : 'Your email app should open with the message ready — press send there to deliver it.', true);
       } else {
+        window.VXAnalytics?.track('lead_handoff', { form_type: kind === 'Booking request' ? 'booking' : 'contact', contact_method: 'whatsapp' });
         openWhatsApp(text);
         showMsg(form, after ? after(via) : 'WhatsApp should open with your message ready — press send in WhatsApp to deliver it. Not opening? Call us instead.', true);
       }
@@ -957,6 +960,7 @@
         try {
           const receipt = await submitReceipt('quote', quoteForm, compose(quoteForm), ref);
           showMsg(quoteForm, `Quote request saved as ${receipt}. Your item list was received as text; the PDF drawings are not attached. You can save the PDF below and send photos by WhatsApp if needed.`, true);
+          window.VXAnalytics?.track('generate_lead', { form_type: 'quote', submission_channel: 'website' });
         } catch (err) {
           showMsg(quoteForm, err?.message || 'We could not confirm receipt. Please contact us by WhatsApp or email.');
         } finally {
@@ -980,8 +984,10 @@
         lastLink = link;
         if (!link) downloadBlob(blob, pdfName());
         showSendBox(via, quoteForm, link);
+        window.VXAnalytics?.track('quote_prepared', { form_type: 'quote' });
       } catch {
         // PDF could not be made on this device: fall back to the full text schedule
+        window.VXAnalytics?.track('lead_handoff', { form_type: 'quote', contact_method: via === 'email' ? 'email' : 'whatsapp' });
         if (via === 'email') openEmail(`Quote request ${ref} — ${val(quoteForm, 'name')}`, compose(quoteForm));
         else openWhatsApp(compose(quoteForm));
         showMsg(quoteForm, `${via === 'email' ? 'Your email app' : 'WhatsApp'} should open with request ${ref} and your full list. Press send there.`, true);
