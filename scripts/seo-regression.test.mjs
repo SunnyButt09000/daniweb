@@ -351,3 +351,33 @@ test('remaining window categories answer specific buyers and link to suitable re
     assert.doesNotMatch(html, /guaranteed installation date|from £[0-9]|guaranteed same-day/i);
   }
 });
+
+test('repair-versus-replacement homeowner reference is specific, sourced and internally reachable', () => {
+  const html = readFileSync(new URL('../dist/guides/window-door-repair-or-replacement-checklist/index.html', import.meta.url), 'utf8');
+  assert.match(html, /Repair or replace a window or door\?/);
+  assert.match(html, /Find the symptom, then the right service/);
+  assert.match(html, /Compare repair and replacement quotes fairly/);
+  assert.match(html, /Shareable quote checklist/);
+  const links = [
+    '/repairs/misted-double-glazing/',
+    '/repairs/glass-and-panel-replacement/',
+    '/repairs/locks-and-mechanisms/',
+    '/repairs/door-alignment/',
+    '/repairs/handles-and-hinges/',
+    '/repairs/draughts-and-leaks/',
+    '/repairs/patio-and-bifold-repairs/',
+    '/book/?type=repair',
+    'https://energysavingtrust.org.uk/advice/windows-and-doors/',
+    'https://www.gov.uk/building-regulations-approval/use-a-competent-person-scheme',
+    'https://www.trustmark.org.uk/homeowner',
+  ];
+  for (const link of links) {
+    assert.ok(html.includes('href="' + link + '"'), 'Missing repair guide link: ' + link);
+  }
+  const hub = readFileSync(new URL('../dist/guides/index.html', import.meta.url), 'utf8');
+  const maintenance = readFileSync(new URL('../dist/guides/how-to-maintain-upvc-windows-and-doors/index.html', import.meta.url), 'utf8');
+  for (const page of [hub, maintenance]) {
+    assert.match(page, /href="\/guides\/window-door-repair-or-replacement-checklist\/"/);
+  }
+  assert.doesNotMatch(html, /guaranteed same-day|save \d+%|from £\d+/i);
+});
