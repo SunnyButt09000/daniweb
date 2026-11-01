@@ -102,7 +102,7 @@ export const repairs = [
     faqs: [
       ['Can a failed uPVC or composite door lock be repaired without replacing the whole door?', 'Often, yes. The fault might be door alignment, a euro cylinder, the centre gearbox or the multipoint strip. We identify the compatible parts and assess the frame before recommending a repair or a replacement.'],
       ['What should I send for a door-lock repair quote?', 'Send a photo of the door from inside and outside, a clear photo of the metal lock strip and any maker stamp, a short description of what happens when you lift the handle or turn the key, and your postcode. We confirm available parts, visit arrangements and charges before booking.'],
-      ['Can you just replace the gearbox?' 'Often, yes. If the hooks, rollers and rods are in good order, a new centre gearbox fixes the problem and costs less than a full multipoint lock.'],
+      ['Can you just replace the gearbox?', 'Often, yes. If the hooks, rollers and rods are in good order, a new centre gearbox fixes the problem and costs less than a full multipoint lock.'],
       ['What cylinder should I have?', 'An anti-snap euro cylinder rated TS 007 3-star or SS 312 Diamond. Some insurers ask for one of these, so check your policy wording.'],
       ['Why does my key turn but the door doesn’t lock?', 'Usually the cam on the back of the cylinder or the gearbox inside the door has failed. A cylinder is a quick swap. A failed gearbox needs replacing as well. We check which it is before ordering parts.'],
     ],
@@ -240,7 +240,7 @@ export const repairs = [
     faqs: [
       ['Can you fix a leaking uPVC back door without replacing the door?', 'Sometimes the issue is a threshold seal, drainage, failed external sealant or a door that needs realignment. We assess the water path and the condition of the frame before recommending any replacement. The quote depends on the actual cause and access.'],
       ['Is a draughty window always a sign it needs replacing?', 'No. Worn gaskets, hinge or keep adjustments, or failed perimeter sealant may be repairable. We inspect the frame, fit and seals first. If the glass has condensation trapped between its panes rather than cold air entering around the edge, see <a href="/repairs/misted-double-glazing/">misted sealed-unit replacement</a>.'],
-      ['Is it the window or the wall?' 'It can be the window, the sealant round it, or the wall and cavity tray above. We test to find the source before we quote, so you don’t pay to fix the wrong thing.'],
+      ['Is it the window or the wall?', 'It can be the window, the sealant round it, or the wall and cavity tray above. We test to find the source before we quote, so you don’t pay to fix the wrong thing.'],
       ['Can you replace just the rubber seals?', 'Usually, yes. Most uPVC gaskets can be replaced on their own, and we match the profile to your frame. Some frames have seals bonded in at the factory, and we’ll tell you if yours are one of them.'],
     ],
   },
