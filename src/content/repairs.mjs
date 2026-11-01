@@ -283,19 +283,22 @@ export const repairs = [
   },
   {
     slug: 'glass-and-panel-replacement',
+    seoTitle: 'Window glass replacement & door panels',
     icon: 'scan-line',
     name: 'Glass & door panel replacement',
-    short: 'Cracked or smashed glass, privacy glass for a bathroom or front door, and new uPVC door panels.',
-    metaDescription: 'Replacement glass for uPVC windows and doors. Cracked and broken units, toughened and laminated safety glass, obscure privacy glass and new uPVC door panels.',
+    short: 'Broken window or door glass? When the frame is sound, we can replace just the glass or sealed unit. We also fit privacy glass and uPVC door panels.',
+    metaDescription: 'Broken window or door glass? Replace the glass or double-glazed sealed unit without changing a sound frame. Safety, privacy and door panel options. Request a quote.',
     keywords: [
       'broken glass', 'cracked glass', 'smashed', 'crack', 'cracked', 'broken window', 'glass replacement', 'replace glass', 'obscure', 'frosted', 'privacy glass', 'door panel', 'panel', 'toughened', 'laminated', 'safety glass', 'lead', 'decorative glass',
       'smashed glass', 'smashed window', 'shattered', 'shattered glass', 'chipped glass', 'glass cracked', 'cracked double glazing', 'broken double glazing', 'glass broke',
+      'glass only replacement', 'window glass replacement', 'replace window glass only', 'double glazed unit replacement', 'replace glass not frame', 'upvc window glass replacement', 'door glass replacement',
       'replacement glass', 'glass unit replacement', 'glazier', 'frosted glass', 'obscure glass', 'obscured', 'opaque glass', 'bathroom glass', 'leaded', 'leaded glass', 'stained glass',
       'door panel replacement', 'upvc door panel', 'panel cracked', 'panel faded', 'toughned', 'toughend', 'laminate glass', 'tempered glass',
       'toot gaya', 'sheesha toot gaya', 'sheesha tuta', 'toota sheesha', 'tuta hua sheesha', 'sheesha badalna', 'naya sheesha', 'darwaze ka panel', 'darwaze ka sheesha',
     ],
     symptoms: [
       'A crack or break in either pane of glass',
+      'The frame is still in good condition but the glass or sealed unit needs changing',
       'A door panel that’s cracked, dented or faded',
       'You want obscure (frosted) glass for a bathroom, landing or front door',
       'Glass low down or next to a door that isn’t safety glass',
@@ -308,6 +311,7 @@ export const repairs = [
     ],
     fix: [
       'If the glass is broken, we make the opening safe on the first visit where needed',
+      'Where a window or door frame is sound and compatible, we replace the glass or sealed unit rather than the whole frame',
       'We measure and order a new sealed unit or door panel made to size',
       'New glass is specified for the applicable national safety rules; England uses Approved Document K and Wales uses Part N',
       'We fit it with the correct packers and beads so the window or door stays square',
@@ -316,10 +320,15 @@ export const repairs = [
     visit: 'Replacement glass or panels may require separate measuring and fitting visits. Ask about safe handling, any temporary measures, part availability and charges.',
     tips: [
       'If glass is broken, keep children and pets away. Tape over cracks and sharp edges, and don’t pull loose pieces out.',
+      'For broken double glazing, glass-only replacement normally means changing the complete sealed glass unit, not just one pane or the frame.',
+      'For condensation trapped between panes rather than broken glass, see <a href="/repairs/misted-double-glazing/">misted double glazing and sealed-unit replacement</a>.',
       'If you’re insured, check whether accidental damage to glass is covered before you book.',
       'Toughened glass usually has a small mark etched in one corner. Check for it if you’re not sure what you have.',
     ],
     faqs: [
+      ['Can you replace just the window glass without replacing the frame?', 'Often, yes. If the frame and glazing system are sound, we can measure and replace the glass or complete double-glazed sealed unit. We check the existing frame, beads, glazing specification and safe access before quoting.'],
+      ['How much does replacement window glass cost?', 'It depends on the unit size, glass specification (including safety or privacy glass), site access and whether a measuring visit is needed. Send photos, approximate dimensions and your postcode for a written quote; no fixed price is assumed.'],
+      ['Can you replace glass in a uPVC front or back door?', 'Where the door frame and glazing beads are suitable, we can fit a correctly specified replacement glass unit without replacing the whole door. Safety-glazing requirements depend on the installation.'],
       ['Where does safety glass have to be used?', 'In England, Approved Document K covers glass in doors and in any glass within 300 mm of a door, up to 1,500 mm above the floor. It is also needed in any glass within 800 mm of the floor.'],
       ['Can I swap clear glass for frosted?', 'Yes. We replace the sealed unit with obscure glass in the pattern you choose. The frame stays as it is.'],
       ['What is the difference between toughened and laminated glass?', 'Toughened glass breaks into small, blunt pieces. Laminated glass has a plastic layer inside that holds the pieces together when it breaks, which also makes it harder to get through.'],

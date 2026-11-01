@@ -170,3 +170,16 @@ test('product options and homepage finishes do not claim unverified popularity',
     assert.doesNotMatch(html, /<h2 class="h4">Popular options<\/h2>/, p.slug);
   }
 });
+
+test('glass-only replacement page targets a distinct repair intent without inventing a frame replacement', () => {
+  const glass = readFileSync(new URL('../dist/repairs/glass-and-panel-replacement/index.html', import.meta.url), 'utf8');
+  assert.match(glass, /Window glass replacement/i);
+  assert.match(glass, /Can you replace just the window glass without replacing the frame\?/);
+  assert.match(glass, /double-glazed sealed unit/i);
+  assert.match(glass, /\/repairs\/misted-double-glazing\//);
+  assert.match(glass, /\/book\/\?type=repair/);
+  assert.match(glass, /postcode/i);
+  const misted = readFileSync(new URL('../dist/repairs/misted-double-glazing/index.html', import.meta.url), 'utf8');
+  assert.match(misted, /sealed unit/i);
+  assert.match(misted, /\/guides\/misted-double-glazing-repair-or-replace\//);
+});
