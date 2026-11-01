@@ -196,3 +196,11 @@ test('real UK sliding-window and back-door buying questions have scoped answers'
   assert.match(backDoor, /written quote/i);
   assert.doesNotMatch(backDoor, /guaranteed installation slot/i);
 });
+
+test('misted-glazing guide distinguishes failed seals from broken glass with contextual service links', () => {
+  const html = readFileSync(new URL('../dist/guides/misted-double-glazing-repair-or-replace/index.html', import.meta.url), 'utf8');
+  assert.match(html, /Is the glass cracked rather than misted\?/);
+  assert.match(html, /href="\/repairs\/glass-and-panel-replacement\/"/);
+  assert.match(html, /href="\/repairs\/misted-double-glazing\/"/);
+  assert.match(html, /window glass-only and sealed-unit replacement service/);
+});
