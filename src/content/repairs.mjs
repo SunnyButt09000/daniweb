@@ -411,6 +411,9 @@ export const services = [
       ['Making good', 'The quotation identifies the agreed sealing, trims, cills, making good and waste disposal, so you can compare what each supplied-and-fitted proposal includes.'],
       ['Handover & certification', 'The installer explains operation and care. Before work is agreed, confirm which compliance documents are required in your UK nation, who provides them, the written guarantee and who handles aftercare.'],
     ],
+    booking: {"href":"/quote/","label":"Build an installation quote","ico":"square-pen"},
+    questions: [["Can you arrange supplied-and-fitted windows and doors for my postcode?","Tell us the postcode, number of openings and installation requirements. We check whether a suitable installer can attend, including possible travel from another area, before confirming survey or fitting availability and any separately applicable travel charges."],["What must a written double-glazing installation quote include?","Check the product specification, measured sizes, supply and fitting responsibilities, trims, making good, old-frame disposal, relevant certification arrangements and separate guarantee terms before committing."]],
+    relatedLinks: [["Survey and quote","/services/survey-and-quote/"],["UK replacement-window regulations","/guides/building-regulations-for-replacement-windows/"],["Composite front door options","/doors/composite-doors/"]],
     includes: ['Free window and door survey, subject to appointment availability', 'Old-frame removal and waste disposal arrangements', 'Floor and furniture protection responsibilities', 'Sealing, trims and making-good scope', 'Job-specific compliance arrangements and fees', 'Separate product and fitting guarantee terms'],
   },
   {
@@ -427,6 +430,9 @@ export const services = [
       ['Advice', 'We talk through styles, glass, colours and security, and any regulations that apply, such as escape windows, safety glass or trickle vents.'],
       ['Your quote', 'An itemised written quote follows, listing each window and door with its size, style, glass and hardware.'],
     ],
+    booking: {"href":"/book/?type=survey","label":"Request a free survey","ico":"calendar-days"},
+    questions: [["Is a window or door survey free?","The window and door survey itself is free, subject to postcode and appointment availability. Any separately applicable fitter travel costs must be disclosed before you agree to a visit."],["Will my online dimensions be used to manufacture the windows?","No. Measurements and photos shared initially are for an estimate. A final technical check confirms accurate manufacturing dimensions, suitable glazing and installation requirements before ordering."]],
+    relatedLinks: [["How to measure windows and doors for a quote","/guides/how-to-measure-windows-for-a-quote/"],["Double glazing installation process","/services/installation/"],["Replace broken glass without a new frame","/repairs/glass-and-panel-replacement/"]],
     includes: ['Measurements and technical checks required', 'Access and structural checks', 'Available product samples', 'An itemised written quote', 'Free survey; any separately applicable fitter travel costs disclosed in advance'],
   },
   {
@@ -442,6 +448,9 @@ export const services = [
       ['Adjust & lubricate', 'We adjust hinges and keeps, and lubricate locking points, rollers and friction hinges.'],
       ['Report', 'You get a short written report of anything that needs attention, with prices. Nothing extra is done without your agreement.'],
     ],
+    booking: {"href":"/book/?type=service","label":"Request a servicing visit","ico":"calendar-days"},
+    questions: [["Do I need a service or a specific repair?","For a general check of working windows and doors, request servicing. If a particular door does not lock, a window hinge has failed or water enters the frame, tell us the symptom; a targeted repair and compatible parts may be more suitable."],["Can servicing prevent every repair?","Regular adjustment, cleaning and lubrication can help identify wear, but it does not guarantee that sealed glass units, locks or hardware will not fail. We explain any additional work and charges before proceeding."]],
+    relatedLinks: [["Window and door maintenance guide","/guides/how-to-maintain-upvc-windows-and-doors/"],["Door lock and gearbox repairs","/repairs/locks-and-mechanisms/"],["Draught, seal and leak repairs","/repairs/draughts-and-leaks/"]],
     includes: ['Hinge and keep adjustment', 'Lubrication of locks, hinges and rollers', 'Drainage slots cleared', 'Seal and gasket checks', 'Written condition report'],
   },
   {
@@ -458,6 +467,9 @@ export const services = [
       ['Quote or fix', 'Small repairs can be done on the first visit, up to a limit you set. Larger work is quoted first.'],
       ['Report back', 'You get photos and a written summary of the work, ready for your records.'],
     ],
+    booking: {"href":"/book/?type=other","label":"Enquire about property repairs","ico":"calendar-days"},
+    questions: [["Can I ask about repairs for several rental properties?","Yes, describe the number of properties, postcodes and reported faults. We check access, service coverage, partner availability and the preferred approval process before confirming any jobs."],["Can you agree a maximum repair spend before visiting?","Tell us your authorisation limit and who can approve additional work. We can discuss how to quote larger repairs first and share clear work summaries; no unapproved work or visit is assumed."]],
+    relatedLinks: [["Glass and door panel replacement","/repairs/glass-and-panel-replacement/"],["Locks and mechanisms","/repairs/locks-and-mechanisms/"],["Window safety and security upgrades","/repairs/safety-and-security-upgrades/"]],
     includes: ['Tenant liaison', 'Photo reports', 'Itemised invoices', 'Restrictor and lock upgrades between tenancies'],
   },
 ];
