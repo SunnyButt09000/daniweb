@@ -331,3 +331,23 @@ test('French patio bifold and stable door pages answer distinct UK buyer intents
     assert.doesNotMatch(html, /guaranteed fitting date|guaranteed same-day|from £[0-9]/i);
   }
 });
+
+test('remaining window categories answer specific buyers and link to suitable repairs or guidance', () => {
+  const page = (slug) => readFileSync(new URL('../dist/windows/' + slug + '/index.html', import.meta.url), 'utf8');
+  const cases = [
+    ['casement-windows', 'How much do replacement uPVC casement windows cost fitted?', 'Can I replace just the glass in a casement window?', '/repairs/glass-and-panel-replacement/'],
+    ['flush-casement-windows', 'Are flush casement windows suitable for older UK houses?', 'What changes the cost of flush casement windows?', '/guides/building-regulations-for-replacement-windows/'],
+    ['tilt-and-turn-windows', 'What sizes can large tilt and turn windows be made in?', 'How much do tilt and turn windows cost supplied and fitted?', null],
+    ['sash-windows', 'What affects the price of replacement uPVC sliding sash windows?', 'Can I replace misted glass in my existing sash windows?', '/repairs/misted-double-glazing/'],
+    ['bay-and-bow-windows', 'How much does replacing a bay or bow window cost?', 'Can I keep the existing bay structure when replacing the windows?', null],
+    ['shaped-and-feature-windows', 'Can you make arched or bespoke shaped uPVC windows to measure?', 'Can broken glass be replaced in a shaped window without replacing the frame?', '/repairs/glass-and-panel-replacement/'],
+  ];
+  for (const [slug, q1, q2, linked] of cases) {
+    const html = page(slug);
+    assert.ok(html.includes(q1), 'Missing first FAQ for ' + slug);
+    assert.ok(html.includes(q2), 'Missing second FAQ for ' + slug);
+    if (linked) assert.ok(html.includes('href="' + linked + '"'), 'Missing contextual link for ' + slug);
+    assert.match(html, /postcode/i);
+    assert.doesNotMatch(html, /guaranteed installation date|from £[0-9]|guaranteed same-day/i);
+  }
+});
