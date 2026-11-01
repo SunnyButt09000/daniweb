@@ -1294,3 +1294,27 @@ a.ccard:hover { background: var(--white); }
 @media (prefers-reduced-motion: reduce) { .mtile { transition: none; } }
 .cfg__models { align-self: flex-start; font-size: 0.8125rem; font-weight: 600; color: var(--brass-ink); text-decoration: underline; text-underline-offset: 3px; }
 .cfg__models:hover { color: var(--ink); }
+
+/* ---------- Optional analytics consent: UK privacy-first ---------- */
+.footer-cookie-settings { background: none; border: 0; padding: 0; color: #9aa1a5; font: inherit; cursor: pointer; }
+.footer-cookie-settings:hover { color: var(--paper); text-decoration: underline; }
+.footer-cookie-settings:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+.vx-consent { position: fixed; z-index: 200; left: 50%; bottom: 18px; transform: translateX(-50%);
+  width: min(890px, calc(100% - 32px)); display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center;
+  gap: 24px; padding: 22px 26px; background: #f8f6f1; color: #23292d;
+  border: 1px solid #a9a5a0; border-radius: 10px; box-shadow: 0 14px 50px rgba(0,0,0,.23); }
+.vx-consent[hidden] { display: none; }
+.vx-consent h2 { font: 650 1.125rem var(--f-display, sans-serif); margin: 0 0 6px; color: #23292d; }
+.vx-consent p { font-size: .875rem; line-height: 1.55; margin: 0; }
+.vx-consent a { color: #304d60; text-decoration: underline; }
+.vx-consent__current { margin-top: 8px !important; font-weight: 600; }
+.vx-consent__actions { display: flex; flex-direction: column; gap: 8px; }
+.vx-consent__actions button { min-width: 150px; min-height: 44px; padding: 10px 12px; border-radius: 5px; border: 2px solid #23292d;
+  background: #23292d; color: #fff; font: 600 .875rem var(--f-display, sans-serif); cursor: pointer; }
+.vx-consent__actions button:hover { background: #3b454b; }
+.vx-consent__actions button:focus-visible { outline: 3px solid #c28c37; outline-offset: 2px; }
+@media (max-width: 680px) {
+  .vx-consent { bottom: calc(74px + env(safe-area-inset-bottom)); grid-template-columns: 1fr; gap: 14px; padding: 18px; }
+  .vx-consent__actions { flex-direction: row; }
+  .vx-consent__actions button { flex: 1 1 0; min-width: 0; }
+}
