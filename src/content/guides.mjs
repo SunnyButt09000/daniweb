@@ -134,6 +134,7 @@ export const guides = [
     metaDescription: 'Why double glazing mists up between the panes, why drill and dry rarely lasts, and when to replace only the sealed unit rather than the whole window.',
     summary: 'Misting between the panes means the seal has failed. Usually the fix is a new glass unit in your existing frame.',
     date: '2026-07-28',
+    updated: '2026-11-01',
     read: '3 min',
     tag: 'Repairs',
     body: `
@@ -147,6 +148,7 @@ export const guides = [
 <p>Over years of heating and cooling, the edge seal can break down. Damp air gets in, the desiccant fills up and condensation forms between the panes. Blocked drainage in the frame speeds this up, because the bottom edge of the unit ends up sitting in water.</p>
 <h2>Does it matter?</h2>
 <p>It spoils the view, and it will not get better on its own. Once the seal has gone, the unit has usually lost some or all of its argon, so it lets more heat through. Left for years, the inside of the glass can stain and stay cloudy for good.</p>
+<p><strong>Is the glass cracked rather than misted?</strong> That is a separate fault. If the window or door frame is sound, see our <a href="/repairs/glass-and-panel-replacement/">window glass-only and sealed-unit replacement service</a> for broken panes, replacement safety glass and compatible door glazing.</p>
 <h2>Your options</h2>
 <h3>Replace the sealed unit</h3>
 <p>A new unit is made to measure and fitted into your existing frame. This is the lasting repair. It is also a chance to upgrade to Low-E glass, argon and warm-edge spacers, or to change the glass, for example to obscure glass in a bathroom. If the pane is within 800 mm of the floor, or in or beside a door, the new unit should be safety glass.</p>
