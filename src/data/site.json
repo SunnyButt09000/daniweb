@@ -65,6 +65,9 @@
 
   "testimonials": [],
 
+  "businessIdentity": {
+    "googleMapsUrl": "https://maps.google.com/maps?cid=16239942576668854094"
+  },
   "social": {
     "facebook": "",
     "instagram": "",

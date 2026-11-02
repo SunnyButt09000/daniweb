@@ -75,6 +75,9 @@ for (const file of files) {
   check(page?.url === canonical[0] && page?.name === title[0] && page?.description === description[0], label('WebPage metadata mismatch'));
   check(website?.url === origin + '/', label('website URL mismatch'));
   check(business?.name === site.brand.name && business?.telephone === site.contact.phoneInternational && business?.email === site.contact.email, label('business identity mismatch'));
+  if (site.businessIdentity?.googleMapsUrl) {
+    check(business?.sameAs?.includes(site.businessIdentity.googleMapsUrl), label('verified Google Maps profile missing from business identity'));
+  }
   const expectedHours = site.hours.filter((h) => h.open).map((h) => [h.open, h.close === '24:00' ? '00:00' : h.close]);
   check(!business?.openingHoursSpecification, label('contact-only hours must not imply business attendance hours'));
   check(JSON.stringify(business?.contactPoint?.hoursAvailable?.map((h) => [h.opens, h.closes])) === JSON.stringify(expectedHours), label('schema contact hours differ from configured hours'));
