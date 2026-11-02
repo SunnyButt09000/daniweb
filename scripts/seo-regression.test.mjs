@@ -400,3 +400,16 @@ test('repair hub routes readers to distinct repair decision guide without unveri
   assert.doesNotMatch(html, /frames are cracked or badly discoloured/i);
   assert.match(html, /Cosmetic discolouration alone does not automatically require a new window/);
 });
+
+// A direct, account-verified Maps URI helps crawlers correlate our official website and the actual GBP.
+test('verified Google Maps identity appears in business structured data without exposing service-base details', () => {
+  const url = 'https://maps.google.com/maps?cid=16239942576668854094';
+  assert.equal(site.businessIdentity?.googleMapsUrl, url);
+  const business = businessSchema(site, data);
+  assert.ok(business.sameAs?.includes(url));
+  assert.equal(business.address, undefined);
+  assert.equal(business.aggregateRating, undefined);
+  const absent = structuredClone(site);
+  absent.businessIdentity.googleMapsUrl = '';
+  assert.ok(!businessSchema(absent, data).sameAs?.includes(url));
+});
