@@ -161,7 +161,7 @@ test('a short quote opens WhatsApp with the full schedule and drawings remain do
     assert.equal(href.pathname, '/447411496356');
     const text = href.searchParams.get('text');
     assert.match(text, /horizontal sliding window/i);
-    assert.match(text, /1200\s*×\s*1400/);
+    assert.match(text, /Size: 1200 W × 1400 H mm/);
     assert.match(text, /Postcode: M1 1AE/);
     assert.equal(await page.locator('#qb-sendbox').isVisible(), false);
     assert.match(await form.locator('.form-msg').innerText(), /Press Send there/);
