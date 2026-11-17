@@ -6,9 +6,10 @@ export const repairs = [
   {
     slug: 'misted-double-glazing',
     seoTitle: 'Misted double glazing repair',
+    heading: 'Misted double glazing repair',
     icon: 'droplets',
     name: 'Misted double glazing',
-    short: 'Fog or droplets trapped between the panes mean the seal has failed. We replace the glass unit and keep your frame.',
+    short: 'Fog trapped between the panes usually means the seal has failed. If the frame is sound, we can replace just the glass unit. Send a photo and your postcode to check repair availability.',
     metaDescription: 'Misted or blown double glazing? Compare replacing the sealed unit with a whole window. Send photos, sizes and your postcode to check repair availability.',
     keywords: [
       'misted', 'mist', 'foggy', 'fog', 'cloudy', 'steamed', 'condensation between', 'moisture inside', 'blown', 'failed unit', 'sealed unit', 'between the glass', 'between panes', 'hazy', 'water inside glass',
@@ -43,10 +44,10 @@ export const repairs = [
       'Wipe both sides of the glass. If the mist stays, it’s between the panes and the unit needs replacing.',
       'Condensation on the room side of the glass is not a failed unit. It comes from moisture in the room, so keep trickle vents open and use extractor fans.',
       'Condensation on the outside of the glass on a cold morning is normal. It shows the glass is keeping the heat in.',
-      'Send a photo of the misted pane with a rough width and height. That’s usually enough for us to give you a price.',
+      'For an estimate, send your postcode and a photo showing the whole frame and the misted pane. Add the number of affected panes and rough sizes if you can measure safely.',
     ],
     faqs: [
-      ['Do I need a new window for misted glass?', 'Almost never. If the frame opens, closes and locks properly, we only replace the glass unit. That costs a fraction of a new window.'],
+      ['Do I need a new window for misted glass?', 'If the frame, beading and drainage are sound, replacing just the sealed glass unit is often possible. We check compatibility and access before quoting.'],
       ['Can the moisture just be dried out?', 'Some firms drill the glass, dry out the unit and plug the holes. That doesn’t repair the broken edge seal or put back the insulating gas, so the mist often returns. We replace the unit instead.'],
       ['Will the new glass match my other windows?', 'We match the glass thickness, spacer colour, any obscure pattern and any Georgian bars. If you choose Low-E glass, it can look very slightly different from older clear glass when you compare them side by side.'],
     ],
@@ -54,6 +55,7 @@ export const repairs = [
   {
     slug: 'locks-and-mechanisms',
     seoTitle: 'uPVC door lock & mechanism repair',
+    heading: 'uPVC door lock & mechanism repair',
     icon: 'lock',
     name: 'Door locks & mechanisms',
     short: 'Handle won’t lift, key won’t turn or the door won’t lock. We repair gearboxes, multipoint locks and cylinders.',
