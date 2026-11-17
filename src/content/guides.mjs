@@ -8,7 +8,7 @@ export const guides = [
     metaDescription: 'How to measure windows and doors for a uPVC quote: which widths and heights to take, the photos to send, and how to enter sizes in our online quote builder.',
     summary: 'Two measurements per window, a few photos and a note of the room. That is enough for a useful estimate before we survey.',
     date: '2026-09-14',
-    updated: '2026-10-27',
+    updated: '2026-11-17',
     read: '4 min',
     tag: 'Getting a quote',
     body: `
@@ -29,6 +29,7 @@ export const guides = [
 <h2>4. Note how each one opens</h2>
 <ul><li>Which panes open, and which side they are hinged on, viewed from outside</li><li>Any change you want to the layout</li><li>Whether the window is in a bedroom or other habitable room upstairs. One opener may need to meet fire-escape sizes.</li><li>Whether the old windows have trickle vents (thin slots along the top of the frame). If they do, the new ones must have them too.</li></ul>
 <p>Our <a href="/guides/building-regulations-for-replacement-windows/">Building Regulations guide</a> explains the escape, ventilation and safety glass rules.</p>
+<p>For <a href="/windows/sliding-windows/">horizontal sliding windows</a>, note which pane should slide sideways and whether the other panes are fixed. This helps us check which layouts will suit the opening.</p>
 <h2>5. Take photos</h2>
 <ul><li>Each window or door from <strong>outside</strong>, square on, with the whole frame in shot</li><li>The same window from <strong>inside</strong>, showing the window board, blinds and any radiator underneath</li><li>For doors, a close-up of the lock edge and the threshold</li><li>For bays, one photo from a few steps back so we can see the angles</li></ul>
 <h2>6. Enter your sizes in the quote builder</h2>

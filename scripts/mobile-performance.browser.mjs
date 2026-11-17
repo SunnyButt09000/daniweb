@@ -71,6 +71,32 @@ test('reduced-motion visitors see the same critical copy without prolonged entra
   } finally { await context.close(); }
 });
 
+test('mobile visitors can open a postcode-first WhatsApp message without using the quote form', async () => {
+  const { context, page } = await visit(320, '/', 'reduce');
+  try {
+    const pages = [
+      ['/', '.hero__actions', 'windows, doors or a repair'],
+      ['/quote/', '.phero__actions', 'window or door estimate'],
+      ['/windows/sliding-windows/', '.phero__actions', 'horizontal sliding windows'],
+      ['/repairs/', '.phero__actions', 'window or door repair'],
+      ['/repairs/misted-double-glazing/', '.phero__actions', 'Repair type:'],
+    ];
+    for (const [pathname, actions, subject] of pages) {
+      assert.equal((await page.goto(origin + pathname)).status(), 200);
+      const links = page.locator(`${actions} a`);
+      const firstLink = links.first();
+      assert.ok(await firstLink.isVisible(), pathname);
+      const href = new URL(await firstLink.getAttribute('href'));
+      assert.equal(href.origin, 'https://wa.me');
+      assert.equal(href.pathname, '/447411496356');
+      assert.ok(href.searchParams.get('text').includes(subject), pathname);
+      assert.ok(href.searchParams.get('text').includes('My postcode:'), pathname);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, pathname);
+    }
+    assert.equal(await page.locator('.phero__actions a').nth(1).getAttribute('href'), '/book/?type=repair&repair=misted-double-glazing');
+  } finally { await context.close(); }
+});
+
 test('mobile navigation, chatbot, quote, booking and guide section links remain usable', async () => {
   const { context, page, errors } = await visit(390);
   try {
