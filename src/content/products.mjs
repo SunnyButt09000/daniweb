@@ -183,11 +183,12 @@ export const products = [
     name: 'Horizontal sliding windows',
     seoTitle: 'uPVC horizontal sliding windows in the UK',
     short: 'Sashes slide sideways, so nothing swings in or out. Useful by walkways and over worktops.',
-    metaDescription: 'uPVC horizontal sliding windows for walkways, balconies and kitchens. Sashes slide sideways, so nothing projects in or out. 2- and 3-pane layouts. Check survey availability and charges.',
+    metaDescription: 'Made-to-measure uPVC horizontal sliding windows with 2- and 3-pane layouts. Compare layouts and request a UK estimate by WhatsApp using your postcode and photos.',
     lead: 'A horizontal sliding window moves sideways on a track, so it takes up no space inside the room or outside the wall. That makes it useful beside walkways and balconies, over kitchen worktops, and anywhere a swinging sash would get in the way.',
     body: [
       'Sliders are less common in UK houses than casements, but they make sense in a few specific places. They are also easier for anyone who struggles to lean across a deep worktop and push a sash open.',
       'There are trade-offs. Only part of the window opens at once, so the ventilation and escape opening is smaller than the frame size suggests. Most sliders seal with brush pile rather than compression gaskets, so they are generally less airtight than casements or tilt & turns. If another style would suit the room better, we will say so at survey.',
+      'For an estimate, tell us your postcode, how many windows you need and whether you want supply only or fitting. Photos of the opening and rough frame sizes help if you have them. The <a href="/guides/how-to-measure-windows-for-a-quote/">measuring guide</a> shows which dimensions to take for an estimate.',
     ],
     features: [
       ['No projection', 'Nothing swings into the room or out over a path.'],
