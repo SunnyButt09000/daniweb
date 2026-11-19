@@ -45,7 +45,7 @@ export const syntheticLead = (body) => body && typeof body === 'object' && !Arra
 const accessPage = () => new Response(`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Veltrix staging access</title><h1>Private synthetic testing</h1><p>Use the staging access key stored privately by the operator. Do not enter customer information.</p><form method="post"><label>Staging access key <input type="password" name="key" required autocomplete="off"></label><button>Open staging</button></form></html>`, { headers: { 'content-type': 'text/html; charset=utf-8' } });
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (!stageConfigured(env, url)) return safe(new Response('Staging is not configured', { status: 503 }));
     if (url.pathname === '/staging-access') {
@@ -70,12 +70,12 @@ export default {
       return safe(Response.json({ ok: true, retryInvoked: true }));
     }
     if (url.pathname === '/api/leads') {
-      if (request.method !== 'POST') return safe(await leads.fetch(request, serviceEnv(env)));
+      if (request.method !== 'POST') return safe(await leads.fetch(request, serviceEnv(env), ctx));
       let raw, body;
       try { raw = await limitedBody(request); body = JSON.parse(raw); }
       catch (error) { return safe(Response.json({ ok: false, code: error?.code === 'too_large' ? 'too_large' : 'invalid_json' }, { status: error?.code === 'too_large' ? 413 : 400 })); }
       if (!syntheticLead(body)) return safe(Response.json({ ok: false, code: 'synthetic_only' }, { status: 422 }));
-      return safe(await leads.fetch(new Request(request, { body: raw }), serviceEnv(env)));
+      return safe(await leads.fetch(new Request(request, { body: raw }), serviceEnv(env), ctx));
     }
     if (!env.ASSETS?.fetch) return safe(forbidden());
     const response = await env.ASSETS.fetch(request);

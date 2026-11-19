@@ -125,7 +125,7 @@ async function sendNotification(env, entry) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname !== '/api/leads') return fail(404, 'not_found');
     if (request.method !== 'POST') return fail(405, 'method_not_allowed');
@@ -171,9 +171,13 @@ export default {
       return json({ ok: true, reference: saved.id, saved: true,
         notificationAccepted: saved.notify_state === 'accepted', reused: true }, 201);
     }
-    // D1 persisted the enquiry. Email acceptance is best-effort, not inbox delivery.
-    const notified = await sendNotification(env, { ...saved, id, created_at: created });
-    return json({ ok: true, reference: id, saved: true, notificationAccepted: notified }, 201);
+    // The receipt confirms the D1 save. Slow email must not delay that response.
+    // The persisted pending row and expiring lease let cron recover interrupted sends.
+    const notification = sendNotification(env, { ...saved, id, created_at: created });
+    let notificationAccepted = false;
+    if (ctx) ctx.waitUntil(notification);
+    else notificationAccepted = await notification;
+    return json({ ok: true, reference: id, saved: true, notificationAccepted }, 201);
   },
   async scheduled(_event, env) {
     if (!env?.LEADS_DB?.prepare) return;
