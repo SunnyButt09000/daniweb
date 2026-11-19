@@ -134,6 +134,82 @@ test('mobile navigation, chatbot, quote, booking and guide section links remain 
   } finally { await context.close(); }
 });
 
+test('a short quote opens WhatsApp with the full schedule and drawings remain downloadable', async () => {
+  const { context, page, errors } = await visit(390, '/quote/?item=sliding-windows', 'reduce');
+  try {
+    await page.evaluate(() => {
+      window.testWhatsAppLinks = [];
+      window.open = (url) => {
+        window.testWhatsAppLinks.push(url);
+        return { opener: null };
+      };
+    });
+    await page.locator('#cfg-w').fill('1200');
+    await page.locator('#cfg-h').fill('1400');
+    await page.locator('#cfg-add').click();
+    await page.locator('#ql-continue').click();
+    const form = page.locator('#quote-form');
+    await form.locator('[name="name"]').fill('Website test');
+    await form.locator('[name="phone"]').fill('07700900123');
+    await form.locator('[name="postcode"]').fill('M1 1AE');
+    await form.locator('[name="consent"]').check();
+    await form.getByRole('button', { name: 'Continue to WhatsApp' }).click();
+    const urls = await page.evaluate(() => window.testWhatsAppLinks);
+    assert.equal(urls.length, 1);
+    const href = new URL(urls[0]);
+    assert.equal(href.origin, 'https://wa.me');
+    assert.equal(href.pathname, '/447411496356');
+    const text = href.searchParams.get('text');
+    assert.match(text, /horizontal sliding window/i);
+    assert.match(text, /Size: 1200 W × 1400 H mm/);
+    assert.match(text, /Postcode: M1 1AE/);
+    assert.equal(await page.locator('#qb-sendbox').isVisible(), false);
+    assert.match(await form.locator('.form-msg').innerText(), /Press Send there/);
+
+    const saved = page.waitForEvent('download');
+    await form.getByRole('button', { name: 'Save drawings as PDF' }).click();
+    assert.match((await saved).suggestedFilename(), /\.pdf$/);
+
+    await form.locator('[name="message"]').fill('🪟'.repeat(320));
+    const longPdf = page.waitForEvent('download');
+    await form.getByRole('button', { name: 'Continue to WhatsApp' }).click();
+    assert.match((await longPdf).suggestedFilename(), /\.pdf$/);
+    await page.locator('#qb-sendbox [data-sb-open]').waitFor({ state: 'visible' });
+    assert.match(await page.locator('#qb-sendbox').innerText(), /PDF/);
+    assert.equal((await page.evaluate(() => window.testWhatsAppLinks)).length, 1);
+    assert.deepEqual(errors, []);
+  } finally { await context.close(); }
+});
+
+test('repair email starts a short enquiry with the correct service and no mandatory name or phone', async () => {
+  const { context, page, errors } = await visit(320, '/repairs/misted-double-glazing/', 'reduce');
+  try {
+    await page.locator('.cta-band').getByRole('link', { name: 'Enquire by email' }).click();
+    await page.waitForURL('**/contact/?topic=repair&repair=misted-double-glazing#send-enquiry');
+    const form = page.locator('#contact-form');
+    assert.equal(await form.locator('input[required]').count(), 0);
+    assert.equal(await form.locator('select[name="subject"]').inputValue(), 'A repair');
+    assert.ok(await form.getByRole('button', { name: 'Open email draft' }).isVisible());
+    await page.evaluate(() => {
+      window.open = (url) => {
+        window.testRepairDraft = url;
+        return { opener: null };
+      };
+    });
+    await form.locator('[name="postcode"]').fill('M1 1AE');
+    await form.locator('[name="message"]').fill('One misted pane');
+    await form.getByRole('button', { name: 'Open WhatsApp' }).click();
+    const href = new URL(await page.evaluate(() => window.testRepairDraft));
+    assert.equal(href.origin, 'https://wa.me');
+    const text = href.searchParams.get('text');
+    assert.match(text, /Repair type: Misted double glazing/);
+    assert.match(text, /One misted pane/);
+    assert.doesNotMatch(text, /Name:|Phone:/);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    assert.deepEqual(errors, []);
+  } finally { await context.close(); }
+});
+
 
 test('illustrative model-card labels stay inside narrow mobile cards', async () => {
   for (const pathname of ['/windows/casement-windows/', '/doors/upvc-doors/']) {

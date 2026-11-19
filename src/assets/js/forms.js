@@ -207,8 +207,8 @@
 
   const contactLines = (form) =>
     [
-      `Name: ${val(form, 'name')}`,
-      `Phone: ${val(form, 'phone')}`,
+      val(form, 'name') && `Name: ${val(form, 'name')}`,
+      val(form, 'phone') && `Phone: ${val(form, 'phone')}`,
       val(form, 'email') && `Email: ${val(form, 'email')}`,
       val(form, 'address') && `Address: ${val(form, 'address')}`,
       val(form, 'postcode') && `Postcode: ${fmtPostcode(val(form, 'postcode'))}`,
@@ -592,7 +592,7 @@
         if (it.note) lines.push(`Note: ${it.note}`);
       });
       if (val(form, 'message')) lines.push('', '*Notes*', val(form, 'message'));
-      lines.push('', '_Sizes are customer measurements, to be confirmed at survey._', 'Quote sheet and photos to follow in this chat.');
+      lines.push('', '_Sizes are customer measurements, to be confirmed at survey._');
       const full = lines.join('\n');
       if (encodeURIComponent(full).length <= 7000) return full;
       // very long schedules: one line per item so every item still fits in a single WhatsApp message
@@ -606,7 +606,7 @@
         ].filter(Boolean);
         return `${refs[i]} ${nameOf(it.type)}${modelOf(it) ? ` ${modelOf(it).c}` : ''}${it.room ? ` (${it.room})` : ''}: ${bits.join(' · ')}`;
       });
-      return [...head, ...rows, ...(val(form, 'message') ? ['', '*Notes*', val(form, 'message')] : []), '', '_Sizes are customer measurements, to be confirmed at survey._', 'Quote sheet with drawings and photos to follow in this chat.'].join('\n');
+      return [...head, ...rows, ...(val(form, 'message') ? ['', '*Notes*', val(form, 'message')] : []), '', '_Sizes are customer measurements, to be confirmed at survey._'].join('\n');
     }
 
     function ensureItems() {
@@ -938,6 +938,14 @@
 
     let via = 'whatsapp';
     let quoteSubmitting = false;
+    function openQuoteMessage(channel, text) {
+      window.VXAnalytics?.track('lead_handoff', { form_type: 'quote', contact_method: channel });
+      if (channel === 'email') openEmail('Quote request ' + ref, text.replace(/\*/g, ''));
+      else openWhatsApp(text);
+      const app = channel === 'email' ? 'Your email app' : 'WhatsApp';
+      showMsg(quoteForm, app + ' should open with request ' + ref + ' and your full list. Press Send there.', true);
+    }
+
     quoteForm.querySelectorAll('[data-send]').forEach((b) => b.addEventListener('click', () => (via = b.dataset.send)));
     quoteForm.addEventListener('input', (e) => { const x = e.target.closest('.is-invalid'); if (x) x.classList.remove('is-invalid'); });
     quoteForm.addEventListener('submit', async (e) => {
@@ -951,6 +959,7 @@
         return;
       }
       if (!ensureItems()) { showMsg(quoteForm, 'Please add at least one window or door to your schedule.'); return; }
+      if (sendBox) sendBox.hidden = true;
       quoteSubmitting = true;
       showMsg(quoteForm, '');
       if (via === 'website' && directLead) {
@@ -969,7 +978,15 @@
         }
         return;
       }
-      if (!directLead) postCopy('Quote request', quoteForm, compose(quoteForm));
+      const summary = compose(quoteForm);
+      if (!directLead) postCopy('Quote request', quoteForm, summary);
+      // Keep unusually long drafts on the existing PDF path so the app link stays short.
+      const draftBudget = via === 'email' ? 1500 : 3500;
+      if (!VX.drive && encodeURIComponent(summary).length <= draftBudget) {
+        quoteSubmitting = false;
+        openQuoteMessage(via, summary);
+        return;
+      }
       const btns = [...quoteForm.querySelectorAll('[data-send]')];
       const pressed = btns.find((b) => b.dataset.send === via)?.querySelector('span');
       const label = pressed?.textContent;
@@ -987,10 +1004,7 @@
         window.VXAnalytics?.track('quote_prepared', { form_type: 'quote' });
       } catch {
         // PDF could not be made on this device: fall back to the full text schedule
-        window.VXAnalytics?.track('lead_handoff', { form_type: 'quote', contact_method: via === 'email' ? 'email' : 'whatsapp' });
-        if (via === 'email') openEmail(`Quote request ${ref} — ${val(quoteForm, 'name')}`, compose(quoteForm));
-        else openWhatsApp(compose(quoteForm));
-        showMsg(quoteForm, `${via === 'email' ? 'Your email app' : 'WhatsApp'} should open with request ${ref} and your full list. Press send there.`, true);
+        openQuoteMessage(via, summary);
       } finally {
         btns.forEach((b) => (b.disabled = false));
         quoteSubmitting = false;
@@ -1095,12 +1109,21 @@
      ===================================================== */
   const contactForm = document.getElementById('contact-form');
   if (contactForm) {
+    const topic = params.get('topic');
+    const subject = contactForm.elements.subject;
+    const option = [...subject.options].find((item) => item.dataset.topic === topic);
+    if (option) subject.value = option.value;
+    const repairSlug = params.get('repair');
+    const repair = [...contactForm.querySelectorAll('[data-repair]')].find((item) => item.dataset.repair === repairSlug)?.textContent;
     wire(contactForm, {
       kind: 'Contact message',
-      subject: (f) => `${val(f, 'subject')} — ${val(f, 'name')}`,
+      subject: (form) => [val(form, 'subject'), val(form, 'name')].filter(Boolean).join(' — '),
       compose(form) {
-        return [`*Message — ${VX.brand} website*`, `Subject: ${val(form, 'subject')}`, '', ...contactLines(form), '', val(form, 'message')].join('\n').trim();
+        const details = contactLines(form);
+        if (repair && subject.selectedOptions[0]?.dataset.topic === 'repair') details.push('Repair type: ' + repair);
+        return ['Message from ' + VX.brand + ' website', 'Subject: ' + val(form, 'subject'), ...details, '', val(form, 'message')].join('\n');
       },
     });
+    contactForm.hidden = false;
   }
 })();
