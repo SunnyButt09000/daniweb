@@ -192,26 +192,43 @@ test('overlapping notification retries claim a pending lead only once', async ()
   } finally { x.db.close(); }
 });
 
-test('cron cannot send a second notification while the original request is sending', async () => {
+test('a slow email does not delay the receipt or let cron send a second notification', async () => {
   const x = staging();
   let release;
   const gate = new Promise(resolve => { release = resolve; });
   let started;
   const signal = new Promise(resolve => { started = resolve; });
   let calls = 0;
+  let timeout;
+  const background = [];
   try {
     passTurnstile();
     x.env.NOTIFY_OPS.send = async () => { calls++; started(); await gate; return { messageId: 'synthetic-accepted' }; };
-    const first = leads.fetch(request(input()), x.env);
+    const first = leads.fetch(request(input()), x.env, { waitUntil: promise => background.push(promise) });
     await signal;
-    const cron = leads.scheduled({}, x.env);
-    await new Promise(resolve => setTimeout(resolve, 10));
-    const observed = calls;
+    const response = await Promise.race([first, new Promise((_, reject) => {
+      timeout = setTimeout(() => reject(new Error('Receipt waited for email delivery')), 1000);
+    })]);
+    assert.equal(response.status, 201);
+    const receipt = await response.json();
+    assert.equal(receipt.saved, true);
+    assert.equal(receipt.notificationAccepted, false);
+    assert.equal(x.db.prepare('SELECT id FROM leads').get().id, receipt.reference);
+    assert.equal(background.length, 1);
+
+    const retry = await leads.fetch(request(input()), x.env, { waitUntil: promise => background.push(promise) });
+    assert.equal((await retry.json()).reference, receipt.reference);
+    await leads.scheduled({}, x.env);
+    assert.equal(calls, 1);
     release();
-    assert.equal((await first).status, 201);
-    await cron;
-    assert.equal(observed, 1);
-  } finally { release(); x.db.close(); }
+    await Promise.all(background);
+    assert.equal(x.db.prepare('SELECT notify_state FROM leads').get().notify_state, 'accepted');
+  } finally {
+    clearTimeout(timeout);
+    release();
+    await Promise.all(background);
+    x.db.close();
+  }
 });
 
 test('an interrupted notification lease expires and a later retry can recover', async () => {
