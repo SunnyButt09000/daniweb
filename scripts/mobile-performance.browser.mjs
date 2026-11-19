@@ -210,6 +210,58 @@ test('repair email starts a short enquiry with the correct service and no mandat
   } finally { await context.close(); }
 });
 
+test('a mobile repair visit can be requested with no date or assumed details', async () => {
+  const { context, page, errors } = await visit(320, '/repairs/misted-double-glazing/', 'reduce');
+  try {
+    await page.locator('.phero__actions').getByRole('link', { name: 'Request a repair visit' }).click();
+    await page.waitForURL('**/book/?type=repair&repair=misted-double-glazing');
+    const form = page.locator('#book-form');
+    assert.equal(await form.locator('[name="repair"]').inputValue(), 'misted-double-glazing');
+    await page.evaluate(() => {
+      window.testBookingDrafts = [];
+      window.open = (url) => {
+        window.testBookingDrafts.push(url);
+        return { opener: null };
+      };
+    });
+    await form.locator('[name="name"]').fill('Website test');
+    await form.locator('[name="phone"]').fill('07700900123');
+    await form.locator('[name="postcode"]').fill('M1 1AE');
+    await form.locator('[name="message"]').fill('One misted pane upstairs');
+    await form.locator('[name="consent"]').check();
+    const send = form.getByRole('button', { name: 'Request visit on WhatsApp' });
+    const getDrafts = () => page.evaluate(() => window.testBookingDrafts);
+    await send.click();
+    let drafts = await getDrafts();
+    assert.equal(drafts.length, 1);
+    const message = new URL(drafts[0]).searchParams.get('text');
+    assert.match(message, /Repair visit — Misted double glazing/);
+    assert.match(message, /Postcode: M1 1AE/);
+    assert.match(message, /One misted pane upstairs/);
+    assert.doesNotMatch(message, /Items:|Preferred:|I am the:|Morning/);
+    assert.match(await form.locator('.form-msg').innerText(), /press send/i);
+
+    const date = form.locator('[name="date"]');
+    await date.fill('2000-01-01');
+    await send.click();
+    assert.equal((await getDrafts()).length, 1);
+    assert.match(await form.locator('.form-msg').innerText(), /tomorrow onward/);
+
+    await date.fill(await date.getAttribute('min'));
+    await form.locator('[name="slot"]').selectOption({ index: 1 });
+    await form.locator('[name="count"]').selectOption('2–3');
+    await form.locator('[name="role"]').selectOption('Tenant');
+    await send.click();
+    drafts = await getDrafts();
+    assert.equal(drafts.length, 2);
+    const preferred = new URL(drafts[1]).searchParams.get('text');
+    assert.match(preferred, /Preferred: [^\n]+, Morning/);
+    assert.match(preferred, /Items: 2–3/);
+    assert.match(preferred, /I am the: Tenant/);
+    assert.deepEqual(errors, []);
+  } finally { await context.close(); }
+});
+
 
 test('illustrative model-card labels stay inside narrow mobile cards', async () => {
   for (const pathname of ['/windows/casement-windows/', '/doors/upvc-doors/']) {

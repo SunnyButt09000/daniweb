@@ -452,7 +452,7 @@ export const categories = {
   doors: {
     name: 'Doors',
     title: 'uPVC & composite doors',
-    metaDescription: 'uPVC and composite front doors, French doors, sliding patio doors, bi-folds and stable doors. Multipoint locks and anti-snap cylinders. Check survey availability and charges.',
+    metaDescription: 'Compare made-to-measure uPVC and composite front doors, French doors, patio doors and bifolds. Ask for a supply-only or fitted quote by postcode.',
     lead: 'Front and back doors, garden doors and stable doors, with multipoint locks, anti-snap cylinders and safety glass as standard.',
   },
 };
