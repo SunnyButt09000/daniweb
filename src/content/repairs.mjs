@@ -10,7 +10,8 @@ export const repairs = [
     icon: 'droplets',
     name: 'Misted double glazing',
     short: 'Fog trapped between the panes usually means the seal has failed. If the frame is sound, we can replace just the glass unit. Send a photo and your postcode to check repair availability.',
-    metaDescription: 'Misted or blown double glazing? Compare replacing the sealed unit with a whole window. Send photos, sizes and your postcode to check repair availability.',
+    metaDescription: 'Misted double glazing in Manchester? Keep the existing frame if it’s sound. Send photos and your postcode to check sealed-unit repair availability.',
+    enquiryFields: ['Number of misted panes', 'Approximate sizes (if known)', 'Ground floor or upstairs'],
     keywords: [
       'misted', 'mist', 'foggy', 'fog', 'cloudy', 'steamed', 'condensation between', 'moisture inside', 'blown', 'failed unit', 'sealed unit', 'between the glass', 'between panes', 'hazy', 'water inside glass',
       'misted up', 'misty', 'misting', 'misted window', 'misted glass', 'steaming up', 'blown unit', 'blown double glazing',
@@ -37,7 +38,8 @@ export const repairs = [
       'Optional upgrades include Low-E glass, argon fill, warm-edge spacers and toughened or laminated safety glass',
       'We take the old unit away with us',
     ],
-    visit: 'Made-to-measure glass may need separate measuring and fitting visits. Confirm the number, timing and any charges after the units and access have been assessed.',
+    visitLabel: 'Manchester repair enquiries',
+    visit: 'Send your postcode and photos of the full frame and the misted pane. Tell us which floor it is on. We check local availability and confirm any charges and whether measuring and fitting need separate visits before booking.',
     tips: [
       'Blown double glazing means a failed sealed unit, not necessarily a failed frame. Our <a href="/guides/misted-double-glazing-repair-or-replace/">repair-or-replace guide</a> explains the difference.',
       'A replacement double-glazed unit quote depends on size, glass specification and access. Send photos, approximate sizes and your postcode to check availability; <a href="/quote/?item=sealed-unit">start a glass-unit quote request</a>.',
@@ -59,7 +61,8 @@ export const repairs = [
     icon: 'lock',
     name: 'Door locks & mechanisms',
     short: 'Handle won’t lift, key won’t turn or the door won’t lock. We repair gearboxes, multipoint locks and cylinders.',
-    metaDescription: 'uPVC door lock repair for stiff keys, failed gearboxes and multipoint mechanisms. Understand lock faults versus door alignment, then request a repair quote.',
+    metaDescription: 'uPVC and composite door lock repair enquiries in Manchester. Send the fault and postcode to check availability for alignment, gearbox or multipoint repairs.',
+    enquiryFields: ['Door type (uPVC or composite)', 'Can the door close and lock safely?'],
     keywords: [
       'lock', 'locks', 'locking', 'key', 'cylinder', 'euro cylinder', 'multipoint', 'multi point', 'gearbox', 'mechanism', 'won\'t lock', 'wont lock', 'cant lock', 'door won\'t open', 'stuck', 'jammed', 'handle floppy', 'snap', 'anti snap', 'barrel',
       'door won\'t lock', 'door wont lock', 'can\'t lock door', 'lock broken', 'broken lock', 'lock stuck', 'lock jammed', 'lock mechanism', 'lock not working', 'door wont open', 'door stuck shut', 'door locked shut', 'locked out',
@@ -91,7 +94,8 @@ export const repairs = [
       'We adjust the keeps and hinges so the new lock works with light pressure on the handle',
       'Worn or broken door handles replaced at the same visit',
     ],
-    visit: 'Photos of the lock edge can help identify the mechanism. Visit timing depends on diagnosis, compatible parts and availability; confirm any return visit and charges before work.',
+    visitLabel: 'Manchester repair enquiries',
+    visit: 'Send your postcode and tell us if you can close and lock the door. If it opens normally, include a photo of the metal strip along the door edge. We check compatible parts, local availability and any visit charge before booking.',
     tips: [
       'A door that locks easily while open but catches when closed may need <a href="/repairs/door-alignment/">door alignment</a>, rather than a new lock. Do not force it shut.',
       'For a window handle or friction stay rather than a door mechanism, see <a href="/repairs/handles-and-hinges/">window handle and hinge repair</a>. Send photos and your postcode so parts and repair availability can be checked.',
