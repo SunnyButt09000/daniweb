@@ -52,7 +52,7 @@
       for (const name of ['date', 'date2']) {
         const input = form.elements[name];
         const date = input?.value || '';
-        if (!date) continue; // Required fields are handled above.
+        if (!date && !input?.validity?.badInput) continue;
         const formatValid = /^\d{4}-\d{2}-\d{2}$/.test(date);
         const parsed = formatValid ? new Date(date + 'T12:00:00Z') : null;
         const realDate = parsed && !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
@@ -1082,17 +1082,21 @@
       compose(form) {
         const type = form.querySelector('[name="type"]:checked')?.value || 'other';
         const rep = type === 'repair' && form.elements.repair.value ? form.elements.repair.selectedOptions[0].textContent : '';
+        const preferred = [niceDate(val(form, 'date')), val(form, 'slot')].filter(Boolean).join(', ');
+        const alternative = niceDate(val(form, 'date2'));
+        const count = val(form, 'count');
+        const role = val(form, 'role');
         return [
           `*Booking request — ${VX.brand} website*`,
           '',
           `Visit: ${typeLabels[type]}${rep ? ` — ${rep}` : ''}`,
           bookingSource ? `Enquiry page: ${bookingSource}` : null,
-          `Items: ${val(form, 'count')}`,
-          `Preferred: ${niceDate(val(form, 'date'))}, ${val(form, 'slot')}`,
-          val(form, 'date2') && `Alternative: ${niceDate(val(form, 'date2'))}`,
+          count ? `Items: ${count}` : null,
+          preferred ? `Preferred: ${preferred}` : null,
+          alternative ? `${preferred ? 'Alternative' : 'Preferred'} date: ${alternative}` : null,
           '',
           ...contactLines(form),
-          `I am the: ${val(form, 'role')}`,
+          role ? `I am the: ${role}` : null,
           val(form, 'message') && `\n*Details*\n${val(form, 'message')}`,
           type === 'repair' ? '\nI’ll attach photos of the problem.' : '',
         ]

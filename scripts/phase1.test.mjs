@@ -14,7 +14,8 @@ const site = JSON.parse(readFileSync(join(root, 'src/data/site.json'), 'utf8'));
 test('enquiry hours are not advertised as guaranteed installation appointments', () => {
   const book = read('book/index.html');
   assert.match(book, /Contact hours/);
-  assert.match(book, /preferred time.*not a confirmed appointment/i);
+  assert.match(book, /leave these blank if you’re flexible/i);
+  assert.match(book, /check your postcode, job and installer availability before confirming a visit/i);
   assert.match(read('llms.txt'), /Contact hours:/);
   const kb = JSON.parse(read('assets/data/kb.json'));
   assert.ok(kb.faqs.some((f) => /contact hours.*7am to midnight/i.test(f.a) && /availability/i.test(f.a)));
