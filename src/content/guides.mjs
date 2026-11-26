@@ -45,27 +45,42 @@ export const guides = [
   },
   {
     slug: 'window-energy-ratings-explained',
-    title: 'Window energy ratings and U-values, explained',
-    metaDescription: 'What U-values and Window Energy Ratings (WER) mean, what Part L asks of replacement windows, and how Low-E glass, argon and warm-edge spacers cut heat loss.',
+    title: 'Double glazing energy ratings and U-values, explained',
+    seoTitle: 'Double glazing ratings: WER and U-values explained',
+    metaDescription: 'Double glazing ratings explained: what U-values such as 1.4, 1.2 and 0.8 W/m²K and Window Energy Ratings (WER) mean, and how to compare window quotes fairly.',
     summary: 'U-value, WER, Low-E, argon, warm edge. What the labels on a window mean for your heating bills, and which figures to compare.',
     date: '2026-09-02',
-    read: '3 min',
+    updated: '2026-11-26',
+    read: '5 min',
     tag: 'Energy',
     body: `
-<p>Quotes for new windows usually give a U-value, an energy rating or both. This guide explains what each figure measures, what Building Regulations require, and how to compare one quote fairly with another.</p>
+<p>Quotes for double glazing usually give a U-value, a Window Energy Rating or both. This guide explains what each figure measures, what the common numbers such as 1.4, 1.2 and 0.8 mean, and how to compare one quote fairly with another. The legal requirements for replacement windows are covered in our separate <a href="/guides/building-regulations-for-replacement-windows/">double glazing regulations guide</a>.</p>
 <div class="callout"><strong>In short</strong>
 <ul><li><strong>U-value</strong> is the heat lost through the window. Lower is better.</li><li><strong>WER</strong> is a letter band for the whole window, with A++ at the top. Higher is better.</li><li>In England, replacement windows need <strong>1.4 W/m²K or better</strong>, or <strong>WER band B or above</strong>.</li><li>Compare whole-window figures, not glass-only figures.</li></ul></div>
 <h2>U-value: how much heat escapes</h2>
-<p>A U-value measures how much heat passes through a window, in watts per square metre for each degree of temperature difference (W/m²K). <strong>Lower is better.</strong> As a rough guide, old single glazing is around 5 and early double glazing around 2.8. A replacement window fitted today has to reach 1.4 or better.</p>
+<p>A U-value measures how much heat passes through a window, in watts per square metre for each degree of temperature difference (W/m²K). <strong>Lower is better.</strong> As a rough guide, old single glazing is around 5 and early double glazing around 2.8. A replacement window fitted in England today has to reach 1.4 or better.</p>
 <h3>Check which U-value you are given</h3>
 <p>A <strong>centre-pane</strong> figure (Ug) covers the glass only and usually looks better. The <strong>whole-window</strong> figure (Uw) includes the frame and the edge of the glass. Uw is the one the regulations use, so ask for it.</p>
+<h2>Double glazed window U-values compared</h2>
+<p>These are whole-window (Uw) figures. Use them to read a quote, not as a promise about any particular product: the figure for your window depends on the frame, glass, spacer and size.</p>
+<table class="compare"><thead><tr><th scope="col">Whole-window U-value</th><th scope="col">What it means</th></tr></thead><tbody>
+<tr><th scope="row">About 5 W/m²K</th><td>Typical of old single glazing</td></tr>
+<tr><th scope="row">About 2.8 W/m²K</th><td>Typical of early double glazing</td></tr>
+<tr><th scope="row">1.6 W/m²K</th><td>The limiting value for windows in <em>new</em> homes in England (Approved Document L). It is not good enough for a replacement window in an existing home.</td></tr>
+<tr><th scope="row">1.4 W/m²K</th><td>The minimum for a replacement window in an existing home in England, unless the window reaches WER band B instead</td></tr>
+<tr><th scope="row">1.2 W/m²K</th><td>Better than the replacement minimum. It is also the window value used for the reference “notional dwelling” in the current (2021) edition of England’s Approved Document L for new homes</td></tr>
+<tr><th scope="row">0.8 W/m²K</th><td>A very low figure, usually only reached with triple glazing or other high-performance units. Check it is a whole-window figure, not centre-pane</td></tr>
+</tbody></table>
+<p>A window that just meets 1.4 complies. Going lower cuts heat loss further, but the saving from each step gets smaller, so compare the extra cost with the rest of the specification.</p>
+<h3>What is an area-weighted U-value?</h3>
+<p>In Approved Document L, the limits for walls, roofs and floors are area-weighted averages across the element. Windows, roof windows, rooflights and doors are different: each unit is judged on its own figure. If a quote gives one average for several windows, ask for the whole-window U-value of each window.</p>
 <h2>Window Energy Rating (WER): the whole picture</h2>
 <p>A WER grades the complete window, frame and glass together, on a letter scale like the one on a fridge. It combines heat lost through the window, free heat gained from the sun and air leaking around the opening parts.</p>
-<p>That is why two windows with the same U-value can carry different ratings. Glass that lets in less sunlight gains less free heat, so it can score lower. Ratings are worked out for a standard window size, which makes WER a fair way to compare one product with another.</p>
-<h2>What Building Regulations require</h2>
-<p>In England, Approved Document L sets the limits for replacement windows and doors:</p>
+<p>That is why two windows with the same U-value can carry different ratings. Glass that lets in less sunlight gains less free heat, so it can score lower. Ratings are worked out for a standard window size (1.23 m wide by 1.48 m high in Approved Document L), which makes WER a fair way to compare one product with another.</p>
+<h2>The minimum ratings for replacement windows in England</h2>
+<p>In England, Approved Document L sets these limits for replacement windows and doors in existing homes:</p>
 <ul><li><strong>Windows:</strong> 1.4 W/m²K or better, or WER band B or above</li><li><strong>Doors more than 60% glazed:</strong> 1.4 W/m²K or better, or Door Set Energy Rating (DSER) band C or above</li><li><strong>Other doors:</strong> 1.4 W/m²K or better, or DSER band B or above</li></ul>
-<p>Wales, Scotland and Northern Ireland set their own figures. Our <a href="/guides/building-regulations-for-replacement-windows/">Building Regulations guide</a> covers ventilation, safety glass, escape and sign-off.</p>
+<p>The 2026 edition of Approved Document L, which takes effect on 24 March 2027 for most work, keeps the same figures for replacement windows and doors in existing homes. Wales, Scotland and Northern Ireland set their own figures. Source: <a href="https://www.gov.uk/government/publications/conservation-of-fuel-and-power-approved-document-l" target="_blank" rel="noopener">Approved Document L on GOV.UK</a>. Our <a href="/guides/building-regulations-for-replacement-windows/">double glazing regulations guide</a> covers ventilation, safety glass, escape and sign-off.</p>
 <h2>What makes a modern window efficient</h2>
 <ul>
 <li><strong>Low-E glass.</strong> A microscopically thin coating on the inner pane reflects heat back into the room while letting light through.</li>
@@ -82,20 +97,24 @@ export const guides = [
   },
   {
     slug: 'building-regulations-for-replacement-windows',
-    title: 'Replacement windows and Building Regulations: a homeowner’s guide',
-    seoTitle: 'Replacement windows: Building Regulations in England',
-    metaDescription: 'The Building Regulations for replacement windows and doors in England: Part L energy, Part F trickle vents, Part K safety glass, Part B escape, and sign-off.',
+    title: 'Double glazing regulations for replacement windows in England',
+    seoTitle: 'Double glazing regulations: Building Regulations for windows',
+    metaDescription: 'Double glazing regulations for replacement windows in England: Part L (1.4 W/m²K or WER B), safety glass, trickle vents, escape windows and FENSA sign-off.',
     summary: 'Energy, ventilation, safety glass and escape, plus the certificate your buyer’s solicitor will ask for when you sell.',
     date: '2026-08-20',
-    read: '4 min',
+    updated: '2026-11-26',
+    read: '6 min',
     tag: 'Regulations',
     body: `
-<p>Replacing a window or an external door counts as controlled work under the Building Regulations in England. Four sets of rules apply, and the job has to be certified. This guide covers each rule, who signs the work off, and when planning permission comes into it.</p>
+<p>Replacing a window or an external door counts as controlled work under the Building Regulations in England. These are the rules people usually mean by “double glazing regulations”. Four sets of rules apply, and the job has to be certified. This guide covers each rule, whether the rules have changed recently, and who signs the work off. Planning permission is a separate system, covered in our <a href="/guides/planning-permission-for-replacement-windows/">planning permission guide</a>.</p>
 <div class="callout"><strong>The rules at a glance</strong>
 <ul><li><strong>Part L, energy.</strong> Windows 1.4 W/m²K or better, or WER band B or above.</li><li><strong>Part F, ventilation.</strong> If the old windows had trickle vents, the new ones must too.</li><li><strong>Part K, safety glass.</strong> In low glazing, in doors and in glass beside doors.</li><li><strong>Part B, escape.</strong> A replacement must not make an escape window worse.</li><li><strong>Sign-off.</strong> A Competent Person Scheme certificate or a building control completion certificate.</li></ul></div>
 <h2>Part L: energy efficiency</h2>
-<ul><li><strong>Windows:</strong> a U-value of 1.4 W/m²K or better, or a Window Energy Rating of band B or above</li><li><strong>Doors more than 60% glazed:</strong> 1.4 W/m²K or better, or a Door Set Energy Rating (DSER) of band C or above</li><li><strong>Other doors:</strong> 1.4 W/m²K or better, or DSER band B or above</li></ul>
-<p>These are whole-window and whole-door figures, frame included. Our <a href="/guides/window-energy-ratings-explained/">energy ratings guide</a> explains U-values and WER.</p>
+<ul><li><strong>Windows:</strong> a U-value of 1.4 W/m²K or better, or a Window Energy Rating of band B or above</li><li><strong>Doors more than 60% glazed:</strong> 1.4 W/m²K or better, or a Door Set Energy Rating (DSER) of band C or above</li><li><strong>Other doors:</strong> 1.4 W/m²K or better, or DSER band B or above</li><li><strong>Rooflights:</strong> 2.2 W/m²K or better</li></ul>
+<p>These are whole-window and whole-door figures, frame included. The new units should also be draught-proofed and well fitted. Our <a href="/guides/window-energy-ratings-explained/">double glazing ratings guide</a> explains U-values, WER bands and figures such as 1.2 and 0.8.</p>
+<h2>Have the double glazing regulations changed?</h2>
+<p>The figures above come from the 2021 edition of Approved Document L, which came into force on 15 June 2022. It tightened the replacement-window figure from 1.6 W/m²K or WER band C to 1.4 W/m²K or WER band B.</p>
+<p>A 2026 edition has been published. It takes effect on 24 March 2027 for most work, with transitional arrangements set out in Circular Letter 01/2026. Its table for new and replacement windows and doors in existing homes keeps the same figures: 1.4 W/m²K or WER band B for windows. Most of its changes are aimed at new homes. Check the edition that applies on the date your work starts. Source: <a href="https://www.gov.uk/government/publications/conservation-of-fuel-and-power-approved-document-l" target="_blank" rel="noopener">Approved Document L on GOV.UK</a>.</p>
 <h2>Part F: ventilation</h2>
 <p>If the windows you are replacing have trickle vents, the new windows must have them too, and the room’s ventilation must be no worse than before.</p>
 <p>Replacement work must not reduce required ventilation. Background ventilators or another suitable provision may be needed even where the old windows had no vents. A survey must assess the existing ventilation and increased airtightness; a working mechanical system may affect the solution. Do not assume that having no old vents makes new ventilation optional.</p>
@@ -112,11 +131,11 @@ export const guides = [
 <ol><li><strong>Competent Person Scheme.</strong> An installer registered with a scheme such as FENSA or Certass can self-certify that the work complies. The scheme then sends you a certificate and notifies your local authority.</li><li><strong>Local authority building control.</strong> You or your installer apply to building control before work starts. They inspect the work and issue a completion certificate. There is a fee for this route.</li></ol>
 <p>Either way, <strong>keep your certificate</strong> with your house papers. Your buyer’s solicitor will ask for it when you sell.</p>
 <h3>Repairs are not controlled work</h3>
-<p>Replacing a misted sealed unit in an existing frame, a hinge or a lock is a repair, so no certificate is needed. Glass in a critical location should still be replaced with safety glass. See our <a href="/repairs/misted-double-glazing/">misted glass</a> and <a href="/repairs/handles-and-hinges/">handles and hinges</a> repair pages.</p>
+<p>Replacing a misted sealed unit in an existing frame, a hinge or a lock is a repair, so no certificate is needed. Approved Document L confirms that replacing only the glazing is not providing a new controlled fitting, so the energy limits above do not apply to it. Glass in a critical location should still be replaced with safety glass. See our <a href="/repairs/misted-double-glazing/">misted glass</a> and <a href="/repairs/handles-and-hinges/">handles and hinges</a> repair pages.</p>
 <h2>Planning permission in England</h2>
-<p>Replacing windows in a house with ones of similar appearance is normally permitted development, so no planning application is needed. You may need permission or consent for:</p>
+<p>Planning permission is a separate system from the Building Regulations: it controls how the building looks, not how the window performs. Replacing windows in a house with ones of similar appearance is normally permitted development, so no planning application is needed. You may need permission or consent for:</p>
 <ul><li>flats and maisonettes</li><li>listed buildings, which need listed building consent</li><li>homes in a conservation area covered by an Article 4 direction</li><li>windows that look substantially different from the existing ones</li></ul>
-<p>In a leasehold flat the windows may belong to the freeholder, so check your lease and get written consent before you order. If in doubt, ask your council’s planning department first.</p>
+<p>In a leasehold flat the windows may belong to the freeholder, so check your lease and get written consent before you order. If in doubt, ask your council’s planning department first. Our guide to <a href="/guides/planning-permission-for-replacement-windows/">planning permission for replacement windows and conservation areas</a> explains each case.</p>
 <h2 id="uk-nations">England, Wales, Scotland and Northern Ireland</h2>
 <p>This guide’s numbered Parts and figures describe England’s guidance, not one UK-wide approval system. Confirm the rules in force for your nation, property and work before ordering. An installer’s registration must cover the specific job; a scheme name on a website does not confirm membership.</p>
 <ul><li><strong>England:</strong> use the <a href="https://www.gov.uk/building-regulations-competent-person-schemes" target="_blank" rel="noopener">government’s competent person scheme guidance</a> or the appropriate building-control route.</li>
@@ -128,6 +147,46 @@ export const guides = [
 <h2>Questions to ask before you sign</h2>
 <ul><li>Is the installer registered with a Competent Person Scheme for this work? If not, who applies to building control and who pays the fee?</li><li>What are the U-value or WER figures for the windows quoted?</li><li>Which windows will be escape windows, and which will have safety glass?</li><li>Will trickle vents be fitted, and in which rooms?</li></ul>
 <div class="callout">The figures above come from the Approved Documents for England. Wales has its own Approved Documents, and Scotland and Northern Ireland have separate systems with similar aims. We confirm what applies to your property at survey. More answers in our <a href="/faq/#regulations">regulations FAQs</a>, or <a href="/quote/">start a quote</a>.</div>`,
+  },
+  {
+    slug: 'planning-permission-for-replacement-windows',
+    title: 'Do you need planning permission to replace windows?',
+    seoTitle: 'Planning permission to replace windows & conservation areas',
+    metaDescription: 'When replacing windows needs planning permission in England: permitted development, similar appearance, flats, listed buildings, conservation areas and Article 4.',
+    summary: 'Most like-for-like window replacements on a house in England do not need planning permission. Flats, listed buildings, Article 4 directions and a change in appearance can all change that.',
+    date: '2026-11-26',
+    read: '6 min',
+    tag: 'Planning',
+    body: `
+<p>Planning permission is about how a building looks and how it affects its surroundings. For most houses in England, replacing windows with ones that look similar does not need a planning application. There are important exceptions, and the rules in Wales, Scotland and Northern Ireland are set separately. This guide explains when permission or consent is needed, so you can check before you order.</p>
+<div class="callout"><strong>In short (England)</strong>
+<ul><li><strong>House, similar-looking windows:</strong> normally permitted development, so no application is needed.</li><li><strong>Flat or maisonette:</strong> householder permitted development rights do not apply. Check with the council, and with the freeholder if you are a leaseholder.</li><li><strong>Listed building:</strong> listed building consent is needed for works that affect its character, inside or out.</li><li><strong>Conservation area:</strong> check for an Article 4 direction, which can remove the right to replace windows without permission.</li><li><strong>Building Regulations</strong> still apply whatever the planning position.</li></ul></div>
+<h2>Planning permission and Building Regulations are different</h2>
+<p>People often mix the two up. <strong>Planning permission</strong> controls appearance and use: whether the new windows change how the building looks. <strong>Building Regulations</strong> control how the work performs: energy efficiency, safety glass, ventilation and fire escape. A replacement window can need one, both or neither of planning permission and listed building consent, but a whole replacement window in England is still controlled work under the Building Regulations and must be certified. Our <a href="/guides/building-regulations-for-replacement-windows/">double glazing regulations guide</a> covers that side.</p>
+<h2>Houses in England: permitted development and “similar appearance”</h2>
+<p>Householder permitted development rights let you make some changes to a house without applying for planning permission. One condition is that the materials used in exterior work must be of a similar appearance to those used on the existing house. The government’s technical guidance says it may be appropriate to replace existing windows with uPVC double glazing, provided the new windows give a similar visual appearance to those in the house.</p>
+<p>In practice, “similar appearance” is about how the windows look from outside: the frame colour and thickness, the pattern of opening and fixed panes, glazing bars, and the overall proportions. Swapping white casements for similar white casements is normally fine. Changing the style, for example replacing timber sashes with casements, or changing the size of the opening, is more likely to need permission. If you are unsure, ask the council before you order.</p>
+<p>A few other points from the official guidance:</p>
+<ul><li>A new upper-floor window in a <strong>side elevation</strong> must be obscure-glazed and either non-opening or opening only more than 1.7 m above the floor of the room.</li><li>A <strong>new bay window</strong> is treated as an extension, so it may need permission. Replacing the windows in an existing bay is a different matter from building a new one.</li><li>On some newer homes, a condition on the original planning permission removes some permitted development rights. Your council can tell you.</li></ul>
+<p>If you want written certainty that a project is lawful without a planning application, you can apply to your council for a Lawful Development Certificate.</p>
+<h2>Flats and maisonettes</h2>
+<p>Householder permitted development rights apply to houses, not flats. The government’s guidance says the rights do not apply to flats, and that planning permission should be sought in those cases. Whether a particular like-for-like replacement needs an application depends on whether it materially changes the building’s appearance, so ask the council planning department first.</p>
+<p>In a leasehold flat, the windows are often part of the building that the freeholder controls. Check your lease and get written consent from the freeholder or management company before you order. Blocks of flats can also have fire-safety requirements for windows, so check with the building’s managing agent.</p>
+<h2>Listed buildings</h2>
+<p>If the building is listed, you need listed building consent for works that affect its character as a building of special architectural or historic interest, inside or out. Replacing windows usually does. The Planning Portal warns that carrying out work that needs listed building consent without getting it first is a criminal offence.</p>
+<p>Consent for uPVC replacements in a listed building is rarely given. Repairing or restoring the existing timber windows, or fitting secondary glazing inside, is often the more realistic route. Speak to the council’s conservation officer before you go further. You can check whether a building is listed on the <a href="https://historicengland.org.uk/listing/the-list/" target="_blank" rel="noopener">National Heritage List for England</a>.</p>
+<h2>Conservation areas and Article 4 directions</h2>
+<p>A conservation area does not, on its own, remove the permitted development right to replace windows on a house in England. What often does is an <strong>Article 4 direction</strong>. Councils use these to withdraw specific permitted development rights in an area, and in conservation areas they are commonly used to control windows and doors, especially on elevations facing a road. Where a direction applies, you need to apply for planning permission.</p>
+<p>Many people search for “conservation area consent” for windows. In England that is not a separate consent for window replacement: where control is needed, it is through planning permission (because of an Article 4 direction, a change in appearance or a flat), or listed building consent for a listed building.</p>
+<p>To check, look on your council’s website for conservation area maps and Article 4 directions, or ask the planning or conservation team. If an application is needed, drawings, specifications and samples of the proposed windows help. Our <a href="/windows/flush-casement-windows/">flush casement windows</a> page explains why that style is often chosen to match traditional timber casements; the decision always rests with the planning authority.</p>
+<h2 id="uk-nations">Wales, Scotland and Northern Ireland</h2>
+<ul><li><strong>Wales:</strong> the Welsh Government says <a href="https://www.gov.wales/planning-permission-doors-and-windows" target="_blank" rel="noopener">planning permission is not normally required for repairing, fitting or replacing doors and windows</a>, but if the building is listed or in a conservation area you should consult your local planning authority.</li>
+<li><strong>Scotland:</strong> <a href="https://www.gov.scot/publications/circular-1-2024-householder-permitted-development-rights/pages/7/" target="_blank" rel="noopener">Planning Circular 1/2024</a> explains that like-for-like windows do not need planning permission, and that permitted development usually covers altering or replacing windows. In a conservation area, a replacement on the principal elevation, or on a side elevation facing a road, needs prior notification to the council if it is not substantially the same as the existing window. Listed buildings need listed building consent, and there are no such rights in a World Heritage Site.</li>
+<li><strong>Northern Ireland:</strong> permitted development rights are set by the Planning (General Permitted Development) Order (Northern Ireland) 2015 and are restricted for listed buildings and in conservation areas. <a href="https://www.nidirect.gov.uk/articles/planning-permission-when-to-apply" target="_blank" rel="noopener">nidirect</a> advises contacting your council planning office to check.</li></ul>
+<h2>How to check before you order</h2>
+<ol><li>Is the property a house, or a flat or maisonette?</li><li>Is it listed? Check the official list for your nation.</li><li>Is it in a conservation area, and is there an Article 4 direction covering windows?</li><li>Will the new windows look similar to the existing ones from outside: style, colour, glazing bars and opening pattern?</li><li>If you are a leaseholder, do you have the freeholder’s written consent?</li><li>Separately, how will the work meet the Building Regulations and who will certify it?</li></ol>
+<p>When you ask us for a quote, tell us if the property is listed, in a conservation area or a flat, so the specification can reflect it. We can supply drawings, specifications and colour samples to support an application, but planning and consent decisions rest with your local authority. Compare <a href="/windows/sash-windows/">sash</a>, <a href="/windows/flush-casement-windows/">flush casement</a> and <a href="/windows/casement-windows/">casement windows</a>, or <a href="/quote/">start a quote</a>.</p>
+<div class="callout">Sources: <a href="https://www.planningportal.co.uk/permission/common-projects/doors-and-windows/planning-permission" target="_blank" rel="noopener">Planning Portal: doors and windows</a>, <a href="https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance" target="_blank" rel="noopener">GOV.UK permitted development technical guidance</a> and <a href="https://www.planningportal.co.uk/permission/responsibilities/other-permissions-you-may-require/listed-buildings/" target="_blank" rel="noopener">Planning Portal: listed buildings</a>. This guide is general information, not legal advice; your council has the final say.</div>`,
   },
   {
     slug: 'misted-double-glazing-repair-or-replace',

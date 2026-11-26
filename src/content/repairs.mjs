@@ -56,12 +56,12 @@ export const repairs = [
   },
   {
     slug: 'locks-and-mechanisms',
-    seoTitle: 'uPVC door lock & mechanism repair',
-    heading: 'uPVC door lock & mechanism repair',
+    seoTitle: 'uPVC & composite door lock and mechanism repair',
+    heading: 'uPVC & composite door lock and mechanism repair',
     icon: 'lock',
     name: 'Door locks & mechanisms',
     short: 'Handle won’t lift, key won’t turn or the door won’t lock. We repair gearboxes, multipoint locks and cylinders.',
-    metaDescription: 'uPVC and composite door lock repair enquiries in Manchester. Send the fault and postcode to check availability for alignment, gearbox or multipoint repairs.',
+    metaDescription: 'Door lock repair and uPVC or composite door mechanism replacement, including Manchester enquiries. Send the fault and postcode to check gearbox and lock parts.',
     enquiryFields: ['Door type (uPVC or composite)', 'Can the door close and lock safely?'],
     keywords: [
       'lock', 'locks', 'locking', 'key', 'cylinder', 'euro cylinder', 'multipoint', 'multi point', 'gearbox', 'mechanism', 'won\'t lock', 'wont lock', 'cant lock', 'door won\'t open', 'stuck', 'jammed', 'handle floppy', 'snap', 'anti snap', 'barrel',
@@ -69,7 +69,7 @@ export const repairs = [
       'key won\'t turn', 'key wont turn', 'key stiff', 'stiff key', 'key stuck', 'key snapped', 'snapped key', 'key turns round', 'key spins',
       'handle won\'t lift', 'handle wont go up', 'handle stiff', 'stiff handle', 'handle drooping', 'handle hangs down', 'handle goes up but wont lock',
       'gear box', 'gearbox broken', 'broken gearbox', 'multi-point lock', 'multipoint lock', 'mulitpoint', 'multipoint mechanism', 'lock strip', 'hooks', 'lock barrel', 'barrell', 'cylender', 'cilinder', 'euro lock', 'lock change', 'change locks', 'lock replacement', 'lock snapping',
-      'upvc door lock', 'composite door lock',
+      'upvc door lock', 'composite door lock', 'door lock repair', 'door mechanism', 'door mechanism replacement', 'composite door mechanism', 'upvc door mechanism',
       'tala', 'tala kharab', 'tala toot gaya', 'tala nahi lagta', 'tala atak gaya', 'tala band nahi hota', 'chabi', 'chabi nahi ghoomti', 'chabi phans gayi', 'darwaza lock nahi hota', 'darwaza nahi khulta', 'darwaza band ho gaya',
     ],
     symptoms: [
@@ -108,7 +108,9 @@ export const repairs = [
     faqs: [
       ['Can a failed uPVC or composite door lock be repaired without replacing the whole door?', 'Often, yes. The fault might be door alignment, a euro cylinder, the centre gearbox or the multipoint strip. We identify the compatible parts and assess the frame before recommending a repair or a replacement.'],
       ['What should I send for a door-lock repair quote?', 'Send a photo of the door from inside and outside, a clear photo of the metal lock strip and any maker stamp, a short description of what happens when you lift the handle or turn the key, and your postcode. We confirm available parts, visit arrangements and charges before booking.'],
+      ['What does a composite or uPVC door mechanism replacement involve?', 'On most uPVC and composite doors the “mechanism” is the multipoint lock: a centre gearbox worked by the handle and key, joined by a long metal strip to hooks, rollers or bolts along the door edge. The strip is unscrewed from the door edge and either the gearbox or the complete multipoint lock is replaced with a compatible part. The new part must match the make, or be a suitable alternative with the right backset, handle-to-cylinder centres, faceplate and locking-point positions, so photos of the strip help.'],
       ['Can you just replace the gearbox?', 'Often, yes. If the hooks, rollers and rods are in good order, a new centre gearbox fixes the problem and costs less than a full multipoint lock.'],
+      ['What affects the cost of a door lock repair or mechanism replacement?', 'The main factors are whether only the cylinder or gearbox is needed or the whole multipoint lock, how easy a matching part is to get (older or discontinued locks can take longer to match), whether the door also needs realigning, whether it is stuck locked shut, and access and travel for your postcode. We confirm any visit charge and the repair price before booking.'],
       ['What cylinder should I have?', 'An anti-snap euro cylinder rated TS 007 3-star or SS 312 Diamond. Some insurers ask for one of these, so check your policy wording.'],
       ['Why does my key turn but the door doesn’t lock?', 'Usually the cam on the back of the cylinder or the gearbox inside the door has failed. A cylinder is a quick swap. A failed gearbox needs replacing as well. We check which it is before ordering parts.'],
     ],
